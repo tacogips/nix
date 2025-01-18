@@ -12,7 +12,7 @@
   outputs = { self, nixpkgs, home-manager, ... }:
     let
       system = "x86_64-linux";
-      taco = nixpkgs.legacyPackages.${system};
+      pkgs = nixpkgs.legacyPackages.${system};
     in
     {
       nixosConfigurations = {
@@ -41,7 +41,7 @@
               #};
 
               environment.systemPackages = with pkgs; [
-                nvim
+                neovim
                 git
                 curl
               ];
