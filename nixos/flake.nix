@@ -12,19 +12,15 @@
   outputs = { self, nixpkgs, home-manager, ... }:
     let
       system = "x86_64-linux";
-      pkgs = nixpkgs.legacyPackages.${system};
+      taco = nixpkgs.legacyPackages.${system};
     in
     {
       nixosConfigurations = {
         "taco-main" = nixpkgs.lib.nixosSystem {
           inherit system;
-	  specialArgs = {
-	  	configuraiton-nix = import ./configuration.nix;
-	  };
+
           modules = [
-	    ({configuraiton-nix ,...}:{
-              imports = [configuraiton-nix];
-	    })
+            ./taco-main/configuration.nix
 	    ./ssh.nix
 
             # 基本的なシステム設定
