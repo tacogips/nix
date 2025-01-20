@@ -45,6 +45,7 @@
                 neovim
                 git
                 curl
+		pciutils
               ];
 
               ## SSHの設定
@@ -54,23 +55,23 @@
               #  passwordAuthentication = false;
               #};
 
-	      hardware ={
-	        opengl = {
-		  enable = true;
-		  driSupport =true;
-		  driSupport32Bit = true;
-		};
+	      #hardware ={
+	      #  opengl = {
+	      #    enable = true;
+	      #    driSupport =true;
+	      #    driSupport32Bit = true;
+	      #  };
 
-		nvidia = {
-			modesetting.enable = true;
-			powerManagerment.enable =true;
-			open = false;
-			nvidiaSettings = true;
-			package = config.boot.kernelPackages.nvidiaPackages.stable;
+	      #  nvidia = {
+	      #  	modesetting.enable = true;
+	      #  	powerManagerment.enable =true;
+	      #  	open = false;
+	      #  	nvidiaSettings = true;
+	      #  	package = config.boot.kernelPackages.nvidiaPackages.stable;
 
-		};
-	      };
-	      services.xserver.videoDrivers = ["nvidia"];
+	      #  };
+	      #};
+	      #services.xserver.videoDrivers = ["nvidia"];
 
 
             }

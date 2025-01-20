@@ -7,7 +7,7 @@
   # Enable OpenGL
   hardware.opengl = {
     enable = true;
-    driSupport = true;
+#    driSupport = true;
     driSupport32Bit = true;
   };
 
@@ -30,6 +30,14 @@
 
     # Choose the driver version
     package = config.boot.kernelPackages.nvidiaPackages.stable;
+    #prime = {
+    #  intelBusId = "PCI:0:2:0";
+    #  nvidiaBusId = "PCI:1:0:0";
+    #  offload = {
+    #    enable = true;
+    #    enableOffloadCmd = true;
+    #  };
+    #};
   };
 }
 
