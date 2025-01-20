@@ -20,11 +20,10 @@
           inherit system;
 
           modules = [
-            ./taco-main/configuration.nix
-            ./taco-main/driver.nix
+            ./base/taco-main/configuration.nix
+            ./base/taco-main/driver.nix
 	    ./ssh.nix
 
-            # 基本的なシステム設定
             {
               ## ブートローダー
               #boot.loader.systemd-boot.enable = true;
@@ -42,7 +41,7 @@
               #};
 
 	      # https://wiki.nixos.org/wiki/Sway#Using_Home_Manager 
-	      security.polkit.enable = true;
+	      #security.polkit.enable = true;
 
               environment.systemPackages = with pkgs; [
                 neovim
@@ -52,6 +51,7 @@
     		slurp # screenshot functionality
     		wl-clipboard # wl-copy and wl-paste for copy/paste from stdin / stdout
     		mako # notification system developed by swaywm maintainer
+		kitty
               ];
 
               ## SSHの設定
@@ -62,10 +62,45 @@
               #};
 
   services.gnome.gnome-keyring.enable = true;
+
+
+services.greetd = {                                                      
+  enable = true;                                                         
+  #settings = {                                                           
+  #  default_session = {                                                  
+  #    command = "${pkgs.greetd.tuigreet}/bin/tuigreet --time --cmd Hyperland";
+  #    user = "taco";                                                  
+  #  };                                                                   
+  #};                                                                     
+settings = {
+   initial_session = {
+      command = "${pkgs.hyprland}/bin/Hyprland";
+      user = "taco";
+   };
+   default_session = {
+            command = "${pkgs.greetd.tuigreet}/bin/tuigreet --greeting 'Welcome to NixOS!' --asterisks --remember --remember-user-session --time --cmd ${pkgs.hyprland}/bin/Hyprland";
+            user = "greeter";
+   };
+
+};
+};
+
+
   programs.sway = {
     enable = true;
     wrapperFeatures.gtk = true;
   };
+#
+#  programs.river = {
+#    enable = true;
+#  xwayland.enable=true;
+#  };
+#
+          programs.hyprland = {
+            enable = true;
+            xwayland.enable = true;
+          };
+
 
             }
 

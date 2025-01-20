@@ -14,7 +14,8 @@
     bottom
     ripgrep
     just
-    #alacritty
+    alacritty
+    foot
 
 #    waybar
 #    wofi
@@ -75,19 +76,127 @@
 
   };
 
-  wayland.windowManager.sway = {
-    enable = true;
-    wrapperFeatures.gtk = true; # Fixes common issues with GTK 3 apps
-    config = rec {
-      #modifier = "Mod4";
-      # Use kitty as default terminal
-      terminal = "foot"; 
-      startup = [
-        # Launch Firefox on start
-        {command = "firefox";}
-      ];
+    wayland.windowManager.hyprland = {
+    enable =true;
+
+    extraConfig = ''
+      # モニター設定
+      monitor=,preferred,auto,1
+
+      # 基本的な設定
+      input {
+        kb_layout = us
+        follow_mouse = 1
+        touchpad {
+          natural_scroll = true
+        }
+      }
+
+      # 見た目の設定
+      general {
+        gaps_in = 5
+        gaps_out = 10
+        border_size = 2
+        col.active_border = rgba(33ccffee)
+        col.inactive_border = rgba(595959aa)
+        layout = dwindle
+      }
+
+      # デコレーション設定
+      decoration {
+        rounding = 10
+        blur = true
+        blur_size = 3
+        blur_passes = 1
+      }
+
+      # アニメーション設定
+      animations {
+        enabled = true
+        bezier = myBezier, 0.05, 0.9, 0.1, 1.05
+        animation = windows, 1, 7, myBezier
+        animation = windowsOut, 1, 7, default, popin 80%
+        animation = border, 1, 10, default
+        animation = fade, 1, 7, default
+        animation = workspaces, 1, 6, default
+      }
+
+      # キーバインド
+      bind = SUPER, Return, exec, foot
+      bind = SUPER, Q, killactive,
+      #bind = SUPER, M, exit,
+      bind = SUPER, E, exec, dolphin
+      bind = SUPER, V, togglefloating,
+      bind = SUPER, R, exec, wofi --show drun
+      bind = SUPER, P, pseudo,
+      bind = SUPER, J, togglesplit,
+
+      # ワークスペース切り替え
+      bind = SUPER, 1, workspace, 1
+      bind = SUPER, 2, workspace, 2
+      bind = SUPER, 3, workspace, 3
+      bind = SUPER, 4, workspace, 4
+      bind = SUPER, 5, workspace, 5
+
+      # ウィンドウをワークスペースに移動
+      bind = SUPER SHIFT, 1, movetoworkspace, 1
+      bind = SUPER SHIFT, 2, movetoworkspace, 2
+      bind = SUPER SHIFT, 3, movetoworkspace, 3
+      bind = SUPER SHIFT, 4, movetoworkspace, 4
+      bind = SUPER SHIFT, 5, movetoworkspace, 5
+
+      # 自動起動
+      #exec-once = waybar
+      #exec-once = hyprpaper
+    '';
+
+
+
     };
+
+
+  wayland.windowManager.river = {
+    enable = true;
+
+
+    settings = {
+  #    # デフォルトのアプリケーション
+      terminal = "${pkgs.foot}/bin/foot";
+
+  #    ## キーバインド
+  #    #bindings = {
+  #    #  "Super+Return" = "spawn ${pkgs.foot}/bin/foot";
+
+  #    #  # ワークスペース
+  #    #  "Super+1" = "workspace 1";
+  #    #  "Super+2" = "workspace 2";
+  #    #  "Super+3" = "workspace 3";
+  #    #  "Super+4" = "workspace 4";
+  #    #};
+
+  #    ## 外観設定
+  #    #background-color = "0x000000";
+  #    #border-width = 2;
+  #    #border-color-focused = "0x93a1a1";
+  #    #border-color-unfocused = "0x586e75";
+    };
+
+
   };
+
+  #wayland.windowManager.sway = {
+  #  enable = true;
+  #  wrapperFeatures.gtk = true; # Fixes common issues with GTK 3 apps
+  #  config = rec {
+  #    #modifier = "Mod4";
+  #    # Use kitty as default terminal
+  #    terminal = "foot"; 
+  #    startup = [
+  #      # Launch Firefox on start
+  #      {command = "firefox";}
+  #    ];
+  #  };
+  #};
 
                                                        
 
