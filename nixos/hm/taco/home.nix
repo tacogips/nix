@@ -16,11 +16,14 @@
     just
     alacritty
     foot
+    iosevka
 
 #    waybar
 #    wofi
 
   ];
+
+  fonts.fontconfig.enable = true;
   programs = {
         fish = {
 	enable = true;
