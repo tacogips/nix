@@ -80,7 +80,7 @@
             {
               home-manager.useGlobalPkgs = true;
               home-manager.useUserPackages = true;
-              home-manager.users.taco = import ./home-manager.nix;
+              home-manager.users.taco = import ./home-manager/taco/home.nix;
             }
           ];
         };
