@@ -81,7 +81,7 @@
 
     extraConfig = ''
       # モニター設定
-      monitor=,preferred,auto,1
+      #monitor=,preferred,auto,1
 
       # 基本的な設定
       input {
@@ -92,7 +92,6 @@
         }
       }
 
-      # 見た目の設定
       general {
         gaps_in = 5
         gaps_out = 10
@@ -102,23 +101,15 @@
         layout = dwindle
       }
 
-      # デコレーション設定
-      decoration {
-        rounding = 10
-        blur = true
-        blur_size = 3
-        blur_passes = 1
-      }
+      #decoration {
+      #  rounding = 10
+      #  blur = true
+      #  blur_size = 3
+      #  blur_passes = 1
+      #}
 
-      # アニメーション設定
       animations {
-        enabled = true
-        bezier = myBezier, 0.05, 0.9, 0.1, 1.05
-        animation = windows, 1, 7, myBezier
-        animation = windowsOut, 1, 7, default, popin 80%
-        animation = border, 1, 10, default
-        animation = fade, 1, 7, default
-        animation = workspaces, 1, 6, default
+        enabled = false
       }
 
       # キーバインド
@@ -146,7 +137,7 @@
       bind = SUPER SHIFT, 5, movetoworkspace, 5
 
       # 自動起動
-      #exec-once = waybar
+      exec-once = waybar
       #exec-once = hyprpaper
     '';
 
