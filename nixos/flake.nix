@@ -41,11 +41,17 @@
               #  extraGroups = [ "wheel" "networkmanager" ];
               #};
 
+	      # https://wiki.nixos.org/wiki/Sway#Using_Home_Manager 
+	      security.polkit.enable = true;
+
               environment.systemPackages = with pkgs; [
                 neovim
                 git
                 curl
-		pciutils
+		grim # screenshot functionality
+    		slurp # screenshot functionality
+    		wl-clipboard # wl-copy and wl-paste for copy/paste from stdin / stdout
+    		mako # notification system developed by swaywm maintainer
               ];
 
               ## SSHの設定
@@ -55,24 +61,10 @@
               #  passwordAuthentication = false;
               #};
 
-	      #hardware ={
-	      #  opengl = {
-	      #    enable = true;
-	      #    driSupport =true;
-	      #    driSupport32Bit = true;
-	      #  };
-
-	      #  nvidia = {
-	      #  	modesetting.enable = true;
-	      #  	powerManagerment.enable =true;
-	      #  	open = false;
-	      #  	nvidiaSettings = true;
-	      #  	package = config.boot.kernelPackages.nvidiaPackages.stable;
-
-	      #  };
-	      #};
-	      #services.xserver.videoDrivers = ["nvidia"];
-
+	  	programs.sway = {
+    		enable = true;
+    		wrapperFeatures.gtk = true;
+  		};	
 
             }
 
@@ -80,7 +72,7 @@
             {
               home-manager.useGlobalPkgs = true;
               home-manager.useUserPackages = true;
-              home-manager.users.taco = import ./home-manager/taco/home.nix;
+              home-manager.users.taco = import ./hm/taco/home.nix;
             }
           ];
         };

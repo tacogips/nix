@@ -1,9 +1,9 @@
 {config, pkgs, ...}:{
 
-  imports =
-    [ 
-      ./wm.nix
-    ];
+  #imports =
+  #  [ 
+  #    ./wm.nix
+  #  ];
 
   home.username = "taco";
   home.homeDirectory = "/home/taco";
@@ -11,12 +11,14 @@
 
   home.packages = with pkgs; [
     firefox
-    alacritty
-    neovim
-    git
     bottom
     ripgrep
     just
+    alacritty
+
+#    waybar
+#    wofi
+
   ];
   programs = {
   	# --- 
@@ -52,12 +54,38 @@
     };
   };
 
+  # 関連するサービスの設定
+    # status bar
+    waybar = {
+      enable = true;
+      settings = {
+        # waybarの設定をここに記述
+      };
+    };
+                                                       
+    mako = {
+      enable = true;
+      defaultTimeout = 5000;
+    };
 
 
 
 	#  -- let home manager manage itself
 	home-manager.enable =true;
+
   };
+
+                                                       
+
+  # 環境変数の設定
+  home.sessionVariables = {
+    XDG_CURRENT_DESKTOP = "river";
+    XDG_SESSION_TYPE = "wayland";
+    MOZ_ENABLE_WAYLAND = "1";
+  };
+
+
+
 
 
 }
