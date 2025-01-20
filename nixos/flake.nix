@@ -21,6 +21,7 @@
 
           modules = [
             ./taco-main/configuration.nix
+            ./taco-main/driver.nix
 	    ./ssh.nix
 
             # 基本的なシステム設定
@@ -52,6 +53,25 @@
               #  permitRootLogin = "no";
               #  passwordAuthentication = false;
               #};
+
+	      hardware ={
+	        opengl = {
+		  enable = true;
+		  driSupport =true;
+		  driSupport32Bit = true;
+		};
+
+		nvidia = {
+			modesetting.enable = true;
+			powerManagerment.enable =true;
+			open = false;
+			nvidiaSettings = true;
+			package = config.boot.kernelPackages.nvidiaPackages.stable;
+
+		};
+	      };
+	      services.xserver.videoDrivers = ["nvidia"];
+
 
             }
 
