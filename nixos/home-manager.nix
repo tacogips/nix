@@ -1,10 +1,17 @@
 {config, pkgs, ...}:{
+
+  imports =
+    [ 
+      ./wm.nix
+    ];
+
   home.username = "taco";
   home.homeDirectory = "/home/taco";
   home.stateVersion = "24.11"; 
 
   home.packages = with pkgs; [
     firefox
+    alacritty
     neovim
     git
     bottom
@@ -32,6 +39,20 @@
 	};
 
 	};
+
+  programs.alacritty = {
+    enable = true;
+    settings = {
+      window = {
+        padding = {
+          x = 10;
+          y = 10;
+        };
+      };
+    };
+  };
+
+
 
 
 	#  -- let home manager manage itself
