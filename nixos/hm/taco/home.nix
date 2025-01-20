@@ -14,7 +14,7 @@
     bottom
     ripgrep
     just
-    alacritty
+    #alacritty
 
 #    waybar
 #    wofi
@@ -42,17 +42,17 @@
 
 	};
 
-  alacritty = {
-    enable = true;
-    settings = {
-      window = {
-        padding = {
-          x = 10;
-          y = 10;
-        };
-      };
-    };
-  };
+  #alacritty = {
+  #  enable = true;
+  #  settings = {
+  #    window = {
+  #      padding = {
+  #        x = 10;
+  #        y = 10;
+  #      };
+  #    };
+  #  };
+  #};
 
   # 関連するサービスの設定
     # status bar
@@ -75,14 +75,28 @@
 
   };
 
+  wayland.windowManager.sway = {
+    enable = true;
+    wrapperFeatures.gtk = true; # Fixes common issues with GTK 3 apps
+    config = rec {
+      #modifier = "Mod4";
+      # Use kitty as default terminal
+      terminal = "foot"; 
+      startup = [
+        # Launch Firefox on start
+        {command = "firefox";}
+      ];
+    };
+  };
+
                                                        
 
   # 環境変数の設定
-  home.sessionVariables = {
-    XDG_CURRENT_DESKTOP = "river";
-    XDG_SESSION_TYPE = "wayland";
-    MOZ_ENABLE_WAYLAND = "1";
-  };
+  #home.sessionVariables = {
+  #  XDG_CURRENT_DESKTOP = "river";
+  #  XDG_SESSION_TYPE = "wayland";
+  #  MOZ_ENABLE_WAYLAND = "1";
+  #};
 
 
 
