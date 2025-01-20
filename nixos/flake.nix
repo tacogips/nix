@@ -35,10 +35,6 @@
               #  networkmanager.enable = true;
               #};
 
-              #users.users.taco = {
-              #  isNormalUser = true;
-              #  extraGroups = [ "wheel" "networkmanager" ];
-              #};
 
 	      # https://wiki.nixos.org/wiki/Sway#Using_Home_Manager 
 	      #security.polkit.enable = true;
@@ -51,7 +47,8 @@
     		slurp # screenshot functionality
     		wl-clipboard # wl-copy and wl-paste for copy/paste from stdin / stdout
     		mako # notification system developed by swaywm maintainer
-		kitty
+		fish
+		bash
               ];
 
               ## SSHの設定
@@ -86,10 +83,10 @@ settings = {
 };
 
 
-  programs.sway = {
-    enable = true;
-    wrapperFeatures.gtk = true;
-  };
+#  programs.sway = {
+#    enable = true;
+#    wrapperFeatures.gtk = true;
+#  };
 #
 #  programs.river = {
 #    enable = true;
@@ -100,6 +97,18 @@ settings = {
             enable = true;
             xwayland.enable = true;
           };
+
+
+programs.fish.enable = true;
+
+              #users.users.taco = {
+              #  isNormalUser = true;
+              #  extraGroups = [ "wheel" "networkmanager" ];
+              #};
+
+              users.users.taco = {
+	       shell = pkgs.fish;
+	      };
 
 
             }

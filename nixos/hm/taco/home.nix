@@ -22,6 +22,9 @@
 
   ];
   programs = {
+        fish = {
+	enable = true;
+	};
   	# --- 
 	ssh ={
 		enable =true;
