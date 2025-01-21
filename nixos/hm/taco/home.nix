@@ -4,6 +4,7 @@
   imports = [
     #./wm.nix
     ./waybar.nix
+    ./hyprland.nix
   ];
 
   i18n.inputMethod.enabled = "fcitx5";
@@ -25,7 +26,6 @@
 
   home.file.".config/zellij/config.kdl".source = ./zellij-config.kdl;
 
-
   home.packages = with pkgs; [
     firefox
     ripgrep
@@ -44,7 +44,7 @@
     bottom = {
       enable = true;
     };
-    
+
     neovim = {
       enable = true;
       defaultEditor = true;
@@ -71,7 +71,6 @@
       enable = true;
       enableFishIntegration = true;
     };
-
 
     # ---
     ssh = {
@@ -104,13 +103,13 @@
 
   };
 
-  wayland.windowManager.hyprland = {
-    enable = true;
+  #wayland.windowManager.hyprland = {
+  #  enable = true;
 
-    extraConfig = ''
-      ${builtins.readFile ./hyperland.conf}
-    '';
+  #  extraConfig = ''
+  #    ${builtins.readFile ./hyperland.conf}
+  #  '';
 
-  };
+  #};
 
 }
