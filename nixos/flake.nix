@@ -83,16 +83,6 @@ settings = {
 };
 
 
-#  programs.sway = {
-#    enable = true;
-#    wrapperFeatures.gtk = true;
-#  };
-#
-#  programs.river = {
-#    enable = true;
-#  xwayland.enable=true;
-#  };
-#
           programs.hyprland = {
             enable = true;
             xwayland.enable = true;

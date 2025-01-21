@@ -23,9 +23,8 @@
     GLFW_IM_MODULE = "ibus"; # IME support in kitty
   };
 
-  home.username = "taco";
-  home.homeDirectory = "/home/taco";
-  home.stateVersion = "24.11";
+  home.file.".config/zellij/config.kdl".source = ./zellij-config.kdl;
+
 
   home.packages = with pkgs; [
     firefox
@@ -38,29 +37,30 @@
 
   fonts.fontconfig.enable = true;
   programs = {
-    ghostty = {
+    foot = {
       enable = true;
     };
 
     bottom = {
       enable = true;
     };
+    
     neovim = {
       enable = true;
       defaultEditor = true;
       vimAlias = true;
     };
 
-    exa = {
+    eza = {
       enable = true;
-      enableAliases = true;
+      #enableAliases = true;
       git = true;
       icons = true;
     };
 
     skim = {
       enable = true;
-      enableFishIntegration = true;
+      enableFishIntegration = false;
     };
 
     fish = {
@@ -72,7 +72,6 @@
       enableFishIntegration = true;
     };
 
-    home.file.".config/zellij/config.kdl".source = ./zellij-config.kdl;
 
     # ---
     ssh = {

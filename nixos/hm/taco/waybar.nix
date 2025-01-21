@@ -86,12 +86,12 @@
         };
         cpu = {
           format = " {usage0}%/{usage1}%/{usage2}%/{usage3}%/{usage4}%/{usage5}%/{usage6}%/{usage7}%";
-          on-click = systemMonitor;
+          #on-click = systemMonitor;
         };
         memory = {
           format = " {used:0.1f}G/{total:0.1f}G ";
           interval = 5;
-          on-click = systemMonitor;
+          #on-click = systemMonitor;
         };
         backlight = {
           interval = 2;
@@ -154,7 +154,7 @@
         };
       };
     };
-    style = builtins.readFile ./waybar.css;
+    #style = builtins.readFile ./waybar.css;
   };
 
 }
