@@ -2,9 +2,9 @@
 {
 
   imports = [
-    #./wm.nix
     ./waybar.nix
     ./hyprland.nix
+    ./fish.nix
   ];
 
   i18n.inputMethod.enabled = "fcitx5";
@@ -32,7 +32,6 @@
     just
     iosevka
     nixfmt
-
   ];
 
   fonts.fontconfig.enable = true;
@@ -61,10 +60,6 @@
     skim = {
       enable = true;
       enableFishIntegration = false;
-    };
-
-    fish = {
-      enable = true;
     };
 
     zellij = {
