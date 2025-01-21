@@ -4,7 +4,7 @@
   imports = [
     ./fish
     ./foot
-    ./waybar.nix
+    ./waybar
     ./hyprland.nix
   ];
 
