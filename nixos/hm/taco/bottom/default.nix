@@ -1,0 +1,6 @@
+{ pkgs, ... }:
+{
+  bottom = {
+    enable = true;
+  };
+}

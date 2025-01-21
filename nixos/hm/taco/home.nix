@@ -2,10 +2,17 @@
 {
 
   imports = [
+    ./bottom
+    ./eza
     ./fish
     ./foot
+    ./fzf
+    ./git
+    ./hyprland
+    ./neovim
+    ./ssh
     ./waybar
-    ./hyprland.nix
+    ./zellij
   ];
 
   i18n.inputMethod.enabled = "fcitx5";
@@ -24,8 +31,6 @@
     XMODIFIERS = "@im=fcitx";
     GLFW_IM_MODULE = "ibus"; # IME support in kitty
   };
-
-  home.file.".config/zellij/config.kdl".source = ./zellij-config.kdl;
 
   #fonts.packages = with pkgs; [
   #  noto-fonts
@@ -46,47 +51,18 @@
     ripgrep
     just
     nixfmt-rfc-style
-    wl-clipboard # wl-copy and wl-paste for copy/paste from stdin / stdout
 
+    wl-clipboard # wl-copy and wl-paste for copy/paste from stdin / stdout
     noto-fonts
     noto-fonts-cjk-sans
     noto-fonts-emoji
     iosevka
     nerd-fonts.iosevka
-    nerd-fonts.iosevka-term
   ];
 
+  programs.home-manager.enable = true;
+
   programs = {
-    foot = {
-      enable = true;
-    };
-
-    bottom = {
-      enable = true;
-    };
-
-    neovim = {
-      enable = true;
-      defaultEditor = true;
-      vimAlias = true;
-    };
-
-    eza = {
-      enable = true;
-      #enableAliases = true;
-      git = true;
-      icons = true;
-    };
-
-    skim = {
-      enable = true;
-      enableFishIntegration = false;
-    };
-
-    zellij = {
-      enable = true;
-      enableFishIntegration = true;
-    };
 
     # ---
     ssh = {
@@ -97,23 +73,12 @@
         };
       };
     };
+
     # ---
-    git = {
-      enable = true;
-      userName = "tacogips";
-      userEmail = "me@tacogips.me";
-      extraConfig = {
-        core.editor = "nvim";
-        init.defaultBranch = "main";
-      };
-
-    };
-
     mako = {
       enable = true;
       defaultTimeout = 5000;
     };
-
     #  -- let home manager manage itself
     home-manager.enable = true;
 
