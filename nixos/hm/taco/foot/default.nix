@@ -5,7 +5,7 @@
     settings = {
 
       main = {
-        font = "iosevka:size=15";
+        font = "iosevka:size=10";
       };
     };
   };

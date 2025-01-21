@@ -6,7 +6,6 @@
     ./foot
     ./waybar.nix
     ./hyprland.nix
-    ./fish.nix
   ];
 
   i18n.inputMethod.enabled = "fcitx5";
