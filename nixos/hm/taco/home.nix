@@ -51,7 +51,7 @@
     noto-fonts
     noto-fonts-cjk-sans
     noto-fonts-emoji
-    (nerdfonts.override {
+    (nerd-fonts.override {
       fonts = [
         "Iosevka"
         "IosevkaTerm"
