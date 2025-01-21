@@ -27,15 +27,39 @@
 
   home.file.".config/zellij/config.kdl".source = ./zellij-config.kdl;
 
+  #fonts.packages = with pkgs; [
+  #  noto-fonts
+  #  noto-fonts-cjk-sans
+  #  noto-fonts-emoji
+  #  #liberation_ttf
+  #  fira-code
+  #  fira-code-symbols
+  #  #mplus-outline-fonts.githubRelease
+  #  #dina-font
+  #  #proggyfonts
+  #  iosevka
+  #];
+  fonts.fontconfig.enable = true;
+
   home.packages = with pkgs; [
     firefox
     ripgrep
     just
     nixfmt-rfc-style
     wl-clipboard # wl-copy and wl-paste for copy/paste from stdin / stdout
+
+    noto-fonts
+    noto-fonts-cjk-sans
+    noto-fonts-emoji
+    (pkgs.nerdfonts.override {
+      fonts = [
+        "IBMPlexMono"
+        "Iosevka"
+        "IosevkaTerm"
+      ];
+    })
   ];
 
-  fonts.fontconfig.enable = true;
   programs = {
     foot = {
       enable = true;

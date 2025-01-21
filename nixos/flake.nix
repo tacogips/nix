@@ -56,25 +56,14 @@
                 bash
               ];
 
+              fonts.fontDir.enable = true;
+
               ## SSHの設定
               #services.openssh = {
               #  enable = true;
               #  permitRootLogin = "no";
               #  passwordAuthentication = false;
               #};
-
-              fonts.packages = with pkgs; [
-                noto-fonts
-                noto-fonts-cjk-sans
-                noto-fonts-emoji
-                #liberation_ttf
-                fira-code
-                fira-code-symbols
-                #mplus-outline-fonts.githubRelease
-                #dina-font
-                #proggyfonts
-                iosevka
-              ];
 
               services.gnome.gnome-keyring.enable = true;
 
