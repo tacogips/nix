@@ -51,9 +51,8 @@
     noto-fonts
     noto-fonts-cjk-sans
     noto-fonts-emoji
-    (pkgs.nerdfonts.override {
+    (nerdfonts.override {
       fonts = [
-        "IBMPlexMono"
         "Iosevka"
         "IosevkaTerm"
       ];
