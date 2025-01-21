@@ -2,6 +2,20 @@
 {
   programs.waybar = {
     enable = true;
+    settings  ={
+      mainBar = {
+      	position = "bottom";
+	layer = "top";
+	height = 15;
+
+      	modules-left = ["hyprland/workspaces"];
+      	modules-right = ["temperature" "cpu" "memory" "disk" "clock"];
+      	"hyprland/workspaces" = {
+	  format = "{icon}";
+	};
+      };
+
+    };
     #settings = {
     #  "bar" = {
     #    output = [ "eDP-1" ];
