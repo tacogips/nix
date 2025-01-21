@@ -53,6 +53,7 @@
     noto-fonts-emoji
     iosevka
     nerd-fonts.iosevka
+    nerd-fonts.iosevka-term
   ];
 
   programs = {
