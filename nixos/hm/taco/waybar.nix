@@ -153,7 +153,7 @@
     #      spacing = 6;
     #    };
     #  };
-    };
+    #};
     #style = builtins.readFile ./waybar.css;
   };
 
