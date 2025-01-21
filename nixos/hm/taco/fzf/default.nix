@@ -1,6 +1,6 @@
 { pkgs, ... }:
 {
-  fzf = {
+  programs.fzf = {
     enable = true;
     enableFishIntegration = false;
   };

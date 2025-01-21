@@ -63,24 +63,12 @@
   programs.home-manager.enable = true;
 
   programs = {
-
-    # ---
-    ssh = {
-      enable = true;
-      matchBlocks = {
-        "github.com" = {
-          identityFile = "~/.ssh/id_ed25519_github";
-        };
-      };
-    };
-
     # ---
     mako = {
       enable = true;
       defaultTimeout = 5000;
     };
     #  -- let home manager manage itself
-    home-manager.enable = true;
 
   };
 

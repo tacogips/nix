@@ -1,6 +1,6 @@
 { pkgs, ... }:
 {
-  bottom = {
+  programs.bottom = {
     enable = true;
   };
 }
