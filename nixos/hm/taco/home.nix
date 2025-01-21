@@ -1,34 +1,27 @@
 { config, pkgs, ... }:
 {
 
-  imports =
-    [ 
-      #./wm.nix
-      ./waybar.nix
-    ];
+  imports = [
+    #./wm.nix
+    ./waybar.nix
+  ];
 
   i18n.inputMethod.enabled = "fcitx5";
   i18n.inputMethod.fcitx5.addons = [
-      pkgs.fcitx5-mozc
-      pkgs.fcitx5-gtk
-      pkgs.fcitx5-configtool
-    ];
-
+    pkgs.fcitx5-mozc
+    pkgs.fcitx5-gtk
+    pkgs.fcitx5-configtool
+  ];
 
   home.username = "taco";
   home.homeDirectory = "/home/taco";
-  home.stateVersion = "24.11"; 
+  home.stateVersion = "24.11";
   home.sessionVariables = {
     GTK_IM_MDOULE = "fcitx";
     QT_IM_MODULE = "fcitx";
     XMODIFIERS = "@im=fcitx";
     GLFW_IM_MODULE = "ibus"; # IME support in kitty
   };
-
-  #imports =
-  #  [
-  #    ./wm.nix
-  #  ];
 
   home.username = "taco";
   home.homeDirectory = "/home/taco";
@@ -40,9 +33,6 @@
     just
     iosevka
     nixfmt
-
-    #    waybar
-    #    wofi
 
   ];
 
@@ -61,8 +51,6 @@
       vimAlias = true;
     };
 
-                                                       
-						       
     exa = {
       enable = true;
       enableAliases = true;
@@ -105,15 +93,6 @@
         init.defaultBranch = "main";
       };
 
-    };
-
-    # 関連するサービスの設定
-    # status bar
-    waybar = {
-      enable = true;
-      settings = {
-        # waybarの設定をここに記述
-      };
     };
 
     mako = {

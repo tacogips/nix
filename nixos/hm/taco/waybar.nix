@@ -1,4 +1,5 @@
-{pkgs, ...}:{
+{ pkgs, ... }:
+{
   programs.waybar = {
     enable = true;
     settings = {
@@ -155,7 +156,5 @@
     };
     style = builtins.readFile ./waybar.css;
   };
-
-
 
 }
