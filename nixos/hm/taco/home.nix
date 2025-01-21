@@ -2,6 +2,8 @@
 {
 
   imports = [
+    ./fish
+    ./foot
     ./waybar.nix
     ./hyprland.nix
     ./fish.nix
@@ -30,8 +32,8 @@
     firefox
     ripgrep
     just
-    iosevka
-    nixfmt
+    nixfmt-rfc-style
+    wl-clipboard # wl-copy and wl-paste for copy/paste from stdin / stdout
   ];
 
   fonts.fontconfig.enable = true;

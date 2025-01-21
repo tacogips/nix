@@ -1,4 +1,5 @@
 {
+
   description = "nixos system";
 
   inputs = {
@@ -9,7 +10,13 @@
     };
   };
 
-  outputs = { self, nixpkgs, home-manager, ... }:
+  outputs =
+    {
+      self,
+      nixpkgs,
+      home-manager,
+      ...
+    }:
     let
       system = "x86_64-linux";
       pkgs = nixpkgs.legacyPackages.${system};
@@ -22,7 +29,7 @@
           modules = [
             ./base/taco-main/configuration.nix
             ./base/taco-main/driver.nix
-	    ./ssh.nix
+            ./ssh.nix
 
             {
               ## ブートローダー
@@ -35,20 +42,18 @@
               #  networkmanager.enable = true;
               #};
 
-
-	      # https://wiki.nixos.org/wiki/Sway#Using_Home_Manager 
-	      #security.polkit.enable = true;
+              # https://wiki.nixos.org/wiki/Sway#Using_Home_Manager
+              #security.polkit.enable = true;
 
               environment.systemPackages = with pkgs; [
                 neovim
                 git
                 curl
-		grim # screenshot functionality
-    		slurp # screenshot functionality
-    		wl-clipboard # wl-copy and wl-paste for copy/paste from stdin / stdout
-    		mako # notification system developed by swaywm maintainer
-		fish
-		bash
+                grim # screenshot functionality
+                slurp # screenshot functionality
+                mako # notification system developed by swaywm maintainer
+                fish
+                bash
               ];
 
               ## SSHの設定
@@ -58,38 +63,48 @@
               #  passwordAuthentication = false;
               #};
 
-  services.gnome.gnome-keyring.enable = true;
+              fonts.packages = with pkgs; [
+                noto-fonts
+                noto-fonts-cjk
+                noto-fonts-emoji
+                #liberation_ttf
+                fira-code
+                fira-code-symbols
+                #mplus-outline-fonts.githubRelease
+                #dina-font
+                #proggyfonts
+                iosevka
+              ];
 
+              services.gnome.gnome-keyring.enable = true;
 
-services.greetd = {                                                      
-  enable = true;                                                         
-  #settings = {                                                           
-  #  default_session = {                                                  
-  #    command = "${pkgs.greetd.tuigreet}/bin/tuigreet --time --cmd Hyperland";
-  #    user = "taco";                                                  
-  #  };                                                                   
-  #};                                                                     
-settings = {
-   initial_session = {
-      command = "${pkgs.hyprland}/bin/Hyprland";
-      user = "taco";
-   };
-   default_session = {
-            command = "${pkgs.greetd.tuigreet}/bin/tuigreet --greeting 'Welcome to NixOS!' --asterisks --remember --remember-user-session --time --cmd ${pkgs.hyprland}/bin/Hyprland";
-            user = "greeter";
-   };
+              services.greetd = {
+                enable = true;
+                #settings = {
+                #  default_session = {
+                #    command = "${pkgs.greetd.tuigreet}/bin/tuigreet --time --cmd Hyperland";
+                #    user = "taco";
+                #  };
+                #};
+                settings = {
+                  initial_session = {
+                    command = "${pkgs.hyprland}/bin/Hyprland";
+                    user = "taco";
+                  };
+                  default_session = {
+                    command = "${pkgs.greetd.tuigreet}/bin/tuigreet --greeting 'Welcome to NixOS!' --asterisks --remember --remember-user-session --time --cmd ${pkgs.hyprland}/bin/Hyprland";
+                    user = "greeter";
+                  };
 
-};
-};
+                };
+              };
 
+              programs.hyprland = {
+                enable = true;
+                xwayland.enable = true;
+              };
 
-          programs.hyprland = {
-            enable = true;
-            xwayland.enable = true;
-          };
-
-
-programs.fish.enable = true;
+              programs.fish.enable = true;
 
               #users.users.taco = {
               #  isNormalUser = true;
@@ -97,9 +112,8 @@ programs.fish.enable = true;
               #};
 
               users.users.taco = {
-	       shell = pkgs.fish;
-	      };
-
+                shell = pkgs.fish;
+              };
 
             }
 
