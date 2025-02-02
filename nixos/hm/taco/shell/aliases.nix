@@ -1,4 +1,4 @@
 {
-  ll = "la -al"
-  update-taco-main  = "sudo nixos-rebuild switch -flake ~/nix/nixos#taco-main"
+  ll = "ls -al";
+  update-taco-main  = "sudo nixos-rebuild switch --flake ~/nix/nixos#taco-main";
 }
