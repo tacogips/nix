@@ -58,12 +58,11 @@
 
               fonts.fontDir.enable = true;
 
-              ## SSHの設定
-              #services.openssh = {
-              #  enable = true;
-              #  permitRootLogin = "no";
-              #  passwordAuthentication = false;
-              #};
+              services.openssh = {
+                enable = true;
+                permitRootLogin = "no";
+                passwordAuthentication = false;
+              };
 
               services.gnome.gnome-keyring.enable = true;
 
@@ -104,8 +103,7 @@
               users.users.taco = {
                 shell = pkgs.fish;
 		openssh.authorizedKeys.keyFiles = [
-
-./ssh/authorized_keys_dev_machine
+			./ssh/authorized-keys-dev-machine
 		];
               };
 
