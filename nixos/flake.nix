@@ -29,7 +29,7 @@
           modules = [
             ./base/taco-main/configuration.nix
             ./base/taco-main/driver.nix
-            ./ssh.nix
+            ./ssh/ssh.nix
 
             {
               ## ブートローダー
@@ -67,6 +67,7 @@
 
               services.gnome.gnome-keyring.enable = true;
 
+	      # login manager
               services.greetd = {
                 enable = true;
                 #settings = {
@@ -102,6 +103,10 @@
 
               users.users.taco = {
                 shell = pkgs.fish;
+		openssh.authorizedKeys.keyFiles = [
+
+./ssh/authorized_keys_dev_machine
+		];
               };
 
             }
