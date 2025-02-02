@@ -4,7 +4,7 @@
   imports = [
     ./bottom
     ./eza
-    ./fish
+    ./shell
     ./foot
     ./fzf
     ./git
