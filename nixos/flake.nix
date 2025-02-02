@@ -8,6 +8,11 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    nixvim = {
+      url = "github:nix-community/nixvim";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
   };
 
   outputs =
@@ -15,6 +20,7 @@
       self,
       nixpkgs,
       home-manager,
+      nixvim,
       ...
     }:
     let
@@ -113,8 +119,14 @@
             {
               home-manager.useGlobalPkgs = true;
               home-manager.useUserPackages = true;
-              home-manager.users.taco = import ./hm/taco/home.nix;
-            }
+             home-manager.users.taco = {...}:{
+	     	imports= [
+
+		    nixvim.homeManagerModules.nixvim
+			./hm/taco/home.nix
+			];
+            	};
+	    }
           ];
         };
       };
