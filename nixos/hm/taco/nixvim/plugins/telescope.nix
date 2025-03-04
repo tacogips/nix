@@ -48,26 +48,80 @@
 
   };
 
-  #keymaps = [
-  #  {
-  #    mode = "n";
-  #    key = "f";
-  #    action.__raw = "require('hop').hint_char1({ current_line_only = true })";
-  #  }
-  #  {
-  #    mode = "n";
-  #    key = "r";
-  #    action.__raw = "require('hop').hint_char1({})";
-  #  }
-  #  {
-  #    mode = "v";
-  #    key = "f";
-  #    action.__raw = "require('hop').hint_char1({ current_line_only = true })";
-  #  }
-  #  {
-  #    mode = "v";
-  #    key = "r";
-  #    action.__raw = "require('hop').hint_char1({})";
-  #  }
-  #];
+  keymaps = [
+
+    {
+      mode = "n";
+      key = ",.";
+      action.__raw = "require'telescope.builtin'.git_status{}";
+    }
+
+    {
+      mode = "n";
+      key = ",c";
+      action.__raw = "require'telescope.builtin'.git_commits{}";
+    }
+
+    {
+      mode = "n";
+      key = ",,";
+      action = "<CMD>:Telescope oldfiles<CR>";
+    }
+
+    {
+      mode = "n";
+      key = ",b";
+      action.__raw = "require'telescope.builtin'.buffers{}";
+    }
+
+    {
+      mode = "n";
+      key = ",f";
+      action.__raw = "require'telescope.builtin'.git_files{}";
+    }
+
+    {
+      mode = "n";
+      key = ",g";
+      action.__raw = "require'telescope.builtin'.live_grep{}";
+    }
+
+    {
+      mode = "n";
+      key = ",l";
+      action.__raw = "require'telescope.builtin'.git_branches{}";
+    }
+
+    {
+      mode = "n";
+      key = ",m";
+      action.__raw = "require'telescope.builtin'.marks{}";
+    }
+
+    {
+      mode = "n";
+      key = ",h";
+      action.__raw = "require'telescope.builtin'.command_history{}";
+    }
+
+    {
+      mode = "n";
+      key = ",k";
+      action.__raw = "require'telescope.builtin'.keymaps{}";
+    }
+
+    {
+      mode = "n";
+      key = ",z";
+      action.__raw = "require'telescope.builtin'.lsp_references{}";
+    }
+
+    {
+      mode = "n";
+      key = ",x";
+      action.__raw = "require'telescope.builtin'.lsp_implementations{}";
+    }
+
+  ];
+
 }
