@@ -1,6 +1,9 @@
 { ... }:
+
 {
   imports = [
+    ./aerial.nix
+    ./telescope.nix
     ./hop.nix
     ./lsp.nix
     #    ./autopairs.nix
@@ -20,5 +23,6 @@
     #    ./todo.nix
     #    ./telescope.nix
     #    ./treesitter.nix
+
   ];
 }
