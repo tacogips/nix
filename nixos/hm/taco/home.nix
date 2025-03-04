@@ -9,7 +9,7 @@
     ./fzf
     ./git
     ./hyprland
-    ./neovim
+    ./nixvim
     ./ssh
     ./waybar
     ./zellij
