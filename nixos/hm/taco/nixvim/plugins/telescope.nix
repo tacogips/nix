@@ -6,10 +6,17 @@
     extensions = {
       fzf-native = {
         enable = true;
+        settings = {
+          override_generic_sorter = true;
+          override_file_sorter = true;
+          #case_mode = "smart_case";
+          case_mode = "ignore_case";
+        };
       };
       ui-select = {
         enable = true;
       };
+
     };
 
     settings = {
@@ -18,19 +25,26 @@
           "^.git/"
           "^.mypy_cache/"
           "^__pycache__/"
-          "^output/"
-          "^data/"
           "%.ipynb"
         ];
         set_env.COLORTERM = "truecolor";
 
+        #keymaps for telescope , not the global one
+        mappings = {
+
+          i = {
+            "<ESC>".__raw = "require('telescope.actions').close";
+            "<C-j>".__raw = "require('telescope.actions').move_selection_next";
+            "<C-k>".__raw = "require('telescope.actions').move_selection_previous";
+            "<TAB>".__raw = "require('telescope.actions').toggle_selection + require('telescope.actions').move_selection_next";
+            "<C-s>".__raw = "require('telescope.actions').send_selected_to_qflist";
+            "<C-q>".__raw = "require('telescope.actions').send_to_qflist";
+          };
+
+        };
+
       };
     };
-
-    #keymaps for telescope , not the global one
-    keymaps =
-      {
-      };
 
   };
 
