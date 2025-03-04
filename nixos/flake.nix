@@ -72,7 +72,7 @@
 
               services.gnome.gnome-keyring.enable = true;
 
-	      # login manager
+              # login manager
               services.greetd = {
                 enable = true;
                 #settings = {
@@ -108,9 +108,9 @@
 
               users.users.taco = {
                 shell = pkgs.fish;
-		openssh.authorizedKeys.keyFiles = [
-			./ssh/authorized-keys-dev-machine
-		];
+                openssh.authorizedKeys.keyFiles = [
+                  ./ssh/authorized-keys-dev-machine
+                ];
               };
 
             }
@@ -119,14 +119,16 @@
             {
               home-manager.useGlobalPkgs = true;
               home-manager.useUserPackages = true;
-             home-manager.users.taco = {...}:{
-	     	imports= [
+              home-manager.users.taco =
+                { ... }:
+                {
+                  imports = [
 
-		    nixvim.homeManagerModules.nixvim
-			./hm/taco/home.nix
-			];
-            	};
-	    }
+                    nixvim.homeManagerModules.nixvim
+                    ./hm/taco/home.nix
+                  ];
+                };
+            }
           ];
         };
       };
