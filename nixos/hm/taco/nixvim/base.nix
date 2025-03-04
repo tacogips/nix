@@ -40,12 +40,11 @@
     providers.wl-copy.enable = true;
   };
 
-  extraPlugins = [ pkgs.vimPlugins.iceberg ];
-
-  colorscheme = "iceberg";
-  #  colorschemes.tokyonight = {
-  #    enable = true;
-  #  };
+  #extraPlugins = [ pkgs.vimPlugins.iceberg ];
+  #colorscheme = "iceberg";
+  colorschemes.tokyonight = {
+    enable = true;
+  };
   #
   enable = true;
   vimdiffAlias = true;
