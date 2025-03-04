@@ -95,11 +95,12 @@
   #  };
   #
   ### TODO use jaction.__raw
-  #keymaps = [
-  #  {
-  #    mode = "n";
-  #    key = "f";
-  #    action = "<cmd>lua require('hop').hint_char1({ current_line_only = true })<CR>";
-  #  }
-  #];
+  keymaps = [
+    {
+      mode = "n";
+      key = "Q";
+      action = "<Nop>";
+
+    }
+  ];
 }

@@ -186,24 +186,18 @@
 
       lspBuf = {
         ".e" = {
-          #mode = "n"; TODO: FIGURE OUT HOW TO SET THIS
           action = "rename";
         };
         "<space>ca" = {
           action = "code_action";
-          desc = "LSP: [C]ode [A]ction";
         };
-        # Opens a popup that displays documentation about the word under your cursor
-        #  See `:help K` for why this keymap.
-        "K" = {
+        "<C-n>" = {
           action = "hover";
-          desc = "LSP: Hover Documentation";
         };
         # WARN: This is not Goto Definition, this is Goto Declaration.
         #  For example, in C this would take you to the header.
         "gD" = {
           action = "declaration";
-          desc = "LSP: [G]oto [D]eclaration";
         };
       };
     };
@@ -212,4 +206,13 @@
 
     '';
   };
+
+  keymaps = [
+    {
+      mode = "n";
+      key = ".\\";
+      action = "<CMD>LspRestart<CR>";
+    }
+  ];
+
 }
