@@ -15,7 +15,22 @@
     enable = true;
   };
 
-  plugins.codeium-nvim = {
+  plugins.copilot-lua = {
+    enable = true;
+    settings = {
+      panel = {
+        enable = true;
+      };
+
+      suggestion = {
+
+        enable = true;
+      };
+
+    };
+  };
+
+  plugins.copilot-cmp = {
     enable = true;
   };
 
@@ -42,7 +57,7 @@
 
         { name = "crates"; }
         { name = "path"; }
-        { name = "codeium"; }
+        { name = "copilot"; }
         { name = "buffer"; }
       ];
 
