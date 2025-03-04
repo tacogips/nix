@@ -47,5 +47,7 @@
       magic = true;
     };
 
+    #extraConfigLua = builtins.readFile ./init.lua;
+
   };
 }

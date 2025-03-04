@@ -2,6 +2,7 @@
 {
   imports = [
     ./hop.nix
+    ./lsp.nix
     #    ./autopairs.nix
     #    ./autotag.nix
     #    ./blankline.nix
