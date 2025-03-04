@@ -2,17 +2,12 @@
 
 {
   programs.nixvim = {
+    enable = true;
     imports = [
-      ./base-config.nix
+      ./base.nix
       ./plugins
     ];
 
-    colorschemes.tokyonight = {
-      enable = true;
-    };
-
-    enable = true;
-    vimdiffAlias = true;
   };
 
 }
