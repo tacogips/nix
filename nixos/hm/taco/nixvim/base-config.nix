@@ -1,8 +1,8 @@
 { pkgs, ... }:
 {
-  colorschemes.iceberg = {
-    enable = true;
-  };
+  #colorschemes.iceberg = {
+  #  enable = true;
+  #};
   config = {
 
     globals = {
@@ -47,27 +47,5 @@
       magic = true;
     };
 
-    abbrevs = {
-      todo = "TODO";
-    };
-
-    #    shada = {
-    #      '! = true;
-    #      "'" = 2000;
-    #      "< = 50;
-    #      "f = true;
-    #    };
-    #
-    #    #syntax = {
-    #    #  enable = true;
-    #    #};
-    #
-    #    #autoCmd = [
-    #    #  {
-    #    #    event = ["BufWritePre"];
-    #    #    pattern = ["*"];
-    #    #    command = ":%s/\\s\\+$//ge";
-    #    #  }
-    #    #];
   };
 }

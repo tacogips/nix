@@ -9,6 +9,10 @@
       ./plugins
     ];
 
+    colorschemes.tokyonight = {
+      enable = true;
+    };
+
     enable = true;
 
     vimdiffAlias = true;
