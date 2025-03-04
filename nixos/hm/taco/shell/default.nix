@@ -1,9 +1,12 @@
 { pkgs, ... }:
-let 
+let
   aliases = import ./aliases.nix;
-in {
+  abbrs = import ./abbrs.nix;
+in
+{
   programs.fish = {
     enable = true;
     shellAliases = aliases;
+    shellAbbrs = abbrs;
   };
 }

@@ -13,6 +13,8 @@
     ./ssh
     ./waybar
     ./zellij
+    ./fd
+    ./ripgrep
   ];
 
   i18n.inputMethod.enabled = "fcitx5";
@@ -30,6 +32,11 @@
     QT_IM_MODULE = "fcitx";
     XMODIFIERS = "@im=fcitx";
     GLFW_IM_MODULE = "ibus"; # IME support in kitty
+
+    XDG_CACHE_HOME = "$HOME/.cache";
+    XDG_CONFIG_HOME = "$HOME/.config";
+    XDG_DATA_HOME = "$HOME/.local/share";
+    XDG_BIN_HOME = "$HOME/.local/bin";
   };
 
   #fonts.packages = with pkgs; [
@@ -48,7 +55,6 @@
 
   home.packages = with pkgs; [
     firefox
-    ripgrep
     just
     nixfmt-rfc-style
 
@@ -58,6 +64,8 @@
     noto-fonts-emoji
     iosevka
     nerd-fonts.iosevka
+    tokei
+    dust
   ];
 
   programs.home-manager.enable = true;
