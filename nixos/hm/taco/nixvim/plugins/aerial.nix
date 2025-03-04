@@ -5,8 +5,12 @@
   plugins.aerial = {
     enable = true;
     #keymaps for telescope , not the global one
-    keymaps = {
-      "?" = "actions.show_help";
+
+    settings = {
+      close_on_select = false;
+      keymaps = {
+        "?" = "actions.show_help";
+      };
     };
 
   };
