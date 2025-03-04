@@ -13,27 +13,22 @@
     {
       mode = "n";
       key = "f";
-      action = "require('hop').hint_char1({ current_line_only = true })";
-      lua = true;
+      action = "<cmd>lua require('hop').hint_char1({ current_line_only = true })<CR>";
     }
     {
       mode = "n";
       key = "r";
-      action = "require('hop').hint_char1({})";
-      lua = true;
+      action = "<cmd>lua require('hop').hint_char1({})<CR>";
     }
     {
       mode = "v";
       key = "f";
-      action = "require('hop').hint_char1({ current_line_only = true })";
-      lua = true;
+      action = "<cmd>lua require('hop').hint_char1({ current_line_only = true })<CR>";
     }
     {
       mode = "v";
       key = "r";
-      action = "require('hop').hint_char1({})";
-      lua = true;
+      action = "<cmd>lua require('hop').hint_char1({})<CR>";
     }
   ];
-
 }
