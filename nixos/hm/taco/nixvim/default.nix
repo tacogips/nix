@@ -1,18 +1,18 @@
 { pkgs, lib, ... }:
 
 {
+
   programs.nixvim = {
+
+    imports = [
+      ./base-config.nix
+      ./plugins
+    ];
+
     enable = true;
-    colorschemes.tokyonight = {
-      enable = true;
-      settings.style = "night";
-    };
 
     vimdiffAlias = true;
-  };
 
-  environment.shellAliases = {
-    vim = "nvim";
   };
 
 }

@@ -7,4 +7,6 @@
 
   gac = "git add .; git commit -am";
 
+  vim = "nvim";
+
 }
