@@ -2,9 +2,9 @@
 {
   programs.fd = {
     enable = true;
+    extraOptions = [
+      "--no-ignore"
+    ];
   };
-  extraOptions = [
-    "--no-ignore"
-  ];
 
 }
