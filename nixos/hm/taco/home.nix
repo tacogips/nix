@@ -15,6 +15,7 @@
     ./zellij
     ./fd
     ./ripgrep
+    ./mako
   ];
 
   i18n.inputMethod.enabled = "fcitx5";
@@ -55,7 +56,7 @@
 
   home.packages = with pkgs; [
     firefox
-    just
+    go-task
     nixfmt-rfc-style
 
     wl-clipboard # wl-copy and wl-paste for copy/paste from stdin / stdout
@@ -69,16 +70,6 @@
   ];
 
   programs.home-manager.enable = true;
-
-  programs = {
-    # ---
-    mako = {
-      enable = true;
-      defaultTimeout = 5000;
-    };
-    #  -- let home manager manage itself
-
-  };
 
   #wayland.windowManager.hyprland = {
   #  enable = true;
