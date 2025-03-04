@@ -6,6 +6,7 @@
     ./telescope.nix
     ./hop.nix
     ./lsp.nix
+    ./cmp.nix
     #    ./autopairs.nix
     #    ./autotag.nix
     #    ./blankline.nix
@@ -14,7 +15,6 @@
     #    ./gitsigns.nix
     #    ./harpoon.nix
     #    ./lsp.nix
-    #    ./nvim-cmp.nix
     #    ./oil.nix
     #    ./rainbow-delimiters.nix
     #    ./smart-splits.nix
