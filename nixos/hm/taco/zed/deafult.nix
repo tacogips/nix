@@ -5,7 +5,7 @@
     enable = true;
     #
     extraPackages = with pkgs; [
-      nixfmt # Nix言語のフォーマッター
+      nixfmt
     ];
 
     userSettings = {
@@ -116,10 +116,6 @@
       {
         context = "Editor";
         bindings = {
-          "k j" = [
-            "workspace::SendKeystrokes"
-            "escape"
-          ];
           "space n" = "editor::GoToDiagnostic";
           "space p" = "editor::GoToPrevDiagnostic";
           ". a" = "editor::ToggleCodeActions";
