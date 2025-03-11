@@ -92,7 +92,7 @@
         context = "Workspace";
         bindings = {
           "ctrl-p" = null;
-          "alt-t" = "terminal_panel::ToggleFocus";
+          "alt-m" = "terminal_panel::ToggleFocus";
           "ctrl-shift-t" = "outline_panel::ToggleFocus";
           "ctrl-shift-a" = "assistant::ToggleFocus";
           ". y" = "workspace::OpenInTerminal";
@@ -143,7 +143,7 @@
           "ctrl-w" = "pane::CloseActiveItem";
           "alt-j" = "workspace::ActivatePaneLeft";
           "alt-l" = "workspace::ActivatePaneRight";
-          "alt-m" = "pane::SplitVertical";
+          "alt-t" = "pane::SplitVertical";
         };
       }
       {
@@ -229,7 +229,7 @@
       {
         context = "Terminal";
         bindings = {
-          "alt-m" = "workspace::NewTerminal";
+          "alt-t" = "workspace::NewTerminal";
           "ctrl-w" = "pane::CloseActiveItem";
         };
       }
