@@ -16,6 +16,7 @@
     ./ripgrep
     ./mako
     ./zoxide
+    ./lazygit
   ];
 
   i18n.inputMethod.enabled = "fcitx5";
