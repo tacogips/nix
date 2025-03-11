@@ -17,6 +17,7 @@
     ./mako
     ./zoxide
     ./lazygit
+    ./zed
   ];
 
   i18n.inputMethod.enabled = "fcitx5";
