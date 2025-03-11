@@ -98,8 +98,8 @@
           ". y" = "workspace::OpenInTerminal";
           "alt-o" = "projects::OpenRecent";
           "alt-r" = "diagnostics::Deploy";
-
           "alt-g" = "workspace::ToggleZoom";
+          "alt-e" = "project_panel::ToggleFocus";
         };
       }
       {
