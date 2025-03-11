@@ -7,6 +7,6 @@
 
   gac = "git add .; git commit -am";
 
-  vim = "nvim";
+  lg = "lazygit";
 
 }
