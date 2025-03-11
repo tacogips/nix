@@ -1,7 +1,6 @@
 { pkgs, ... }:
 
 {
-  # Zed Editorの設定
   programs.zed-editor = {
     enable = true;
     #
@@ -9,7 +8,6 @@
       nixfmt # Nix言語のフォーマッター
     ];
 
-    # Zedエディタの設定を移行
     userSettings = {
       # Assistantの設定
       assistant = {
@@ -24,7 +22,6 @@
         diagnostics = false;
       };
 
-      # 基本設定
       format_on_save = "on";
       vim_mode = true;
       ui_font_size = 16;
@@ -36,7 +33,6 @@
         dark = "One Dark";
       };
 
-      # アクティブペインの設定
       active_pane_modifiers = {
         magnification = 5;
         border_size = 2.0;
@@ -84,26 +80,26 @@
       };
     };
 
-    # 拡張機能のリスト
     extensions = [
       "html"
       "nix"
       "lua"
     ];
 
-    # キーマップ設定
     userKeymaps = [
       {
         context = "Workspace";
         bindings = {
           "ctrl-p" = null;
-          "ctrl-shift-g" = "terminal_panel::ToggleFocus";
+          "alt-m" = "terminal_panel::ToggleFocus";
           "ctrl-shift-t" = "outline_panel::ToggleFocus";
           "ctrl-shift-a" = "assistant::ToggleFocus";
           ". y" = "workspace::OpenInTerminal";
           "alt-o" = "projects::OpenRecent";
           "alt-t" = null;
           "alt-r" = "diagnostics::Deploy";
+
+          "alt-g" = "workspace::ToggleZoom";
         };
       }
       {
@@ -152,7 +148,6 @@
           "alt-j" = "workspace::ActivatePaneLeft";
           "alt-l" = "workspace::ActivatePaneRight";
           "alt-t" = "pane::SplitVertical";
-          "alt-m" = "vim::MaximizePane";
         };
       }
       {
