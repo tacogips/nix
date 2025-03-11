@@ -2,6 +2,7 @@
 {
 
   imports = [
+    ./alacritty
     ./bottom
     ./eza
     ./shell
@@ -9,13 +10,12 @@
     ./fzf
     ./git
     ./hyprland
-    ./nixvim
     ./ssh
     ./waybar
-    ./zellij
     ./fd
     ./ripgrep
     ./mako
+    ./zoxide
   ];
 
   i18n.inputMethod.enabled = "fcitx5";

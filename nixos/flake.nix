@@ -1,6 +1,6 @@
 {
 
-  description = "nixos system";
+    description = "nixos system";
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-unstable";
@@ -52,7 +52,7 @@
               #security.polkit.enable = true;
 
               environment.systemPackages = with pkgs; [
-                neovim
+                vim
                 git
                 curl
                 grim # screenshot functionality
