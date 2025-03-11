@@ -6,6 +6,7 @@
     #
     extraPackages = with pkgs; [
       nixfmt
+      nil
     ];
 
     userSettings = {
@@ -34,7 +35,7 @@
       };
 
       active_pane_modifiers = {
-        magnification = 5;
+        magnification = 1.5;
         border_size = 2.0;
         inactive_opacity = 0.3;
       };
@@ -91,12 +92,11 @@
         context = "Workspace";
         bindings = {
           "ctrl-p" = null;
-          "alt-m" = "terminal_panel::ToggleFocus";
+          "alt-t" = "terminal_panel::ToggleFocus";
           "ctrl-shift-t" = "outline_panel::ToggleFocus";
           "ctrl-shift-a" = "assistant::ToggleFocus";
           ". y" = "workspace::OpenInTerminal";
           "alt-o" = "projects::OpenRecent";
-          "alt-t" = null;
           "alt-r" = "diagnostics::Deploy";
 
           "alt-g" = "workspace::ToggleZoom";
@@ -143,7 +143,7 @@
           "ctrl-w" = "pane::CloseActiveItem";
           "alt-j" = "workspace::ActivatePaneLeft";
           "alt-l" = "workspace::ActivatePaneRight";
-          "alt-t" = "pane::SplitVertical";
+          "alt-m" = "pane::SplitVertical";
         };
       }
       {
@@ -229,7 +229,7 @@
       {
         context = "Terminal";
         bindings = {
-          "alt-t" = "workspace::NewTerminal";
+          "alt-m" = "workspace::NewTerminal";
           "ctrl-w" = "pane::CloseActiveItem";
         };
       }
