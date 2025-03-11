@@ -95,112 +95,81 @@
     {
       mode = "n";
       key = "bp";
-      action = "bprevious<CR>";
+      action = "<cmd>bprevious<CR>";
     }
 
     {
       mode = "n";
       key = "bn";
-      action = ":bnext<CR>";
+      action = "<cmd>bnext<CR>";
     }
 
     {
       mode = "n";
       key = "<Space>.";
-      action = "<C-u>so $MYVIMRC<CR>";
+      action = "<cmd><C-u>so $MYVIMRC<CR>";
     }
 
     {
       mode = "n";
       key = ",w";
-      action = "write<CR>";
+      action = "<cmd>write<CR>";
     }
     #
     {
       mode = "n";
       key = "<Space>w";
-      action = ":write<CR>";
+      action = "<cmd>write<CR>";
     }
     #
     {
       mode = "n";
       key = ".y";
-      action = "<C-u>!pwd | wl-copy<CR>";
+      action = "<cmd><C-u>!pwd | wl-copy<CR>";
     }
 
-    #{
-    #  mode = "n";
-    #  key = "<Space><Space>";
-    #  action = "i <Esc><Right>";
-    #}
-    #
-    #{
-    #  mode = "n";
-    #  key = "<Space>j";
-    #  action = "i<CR><ESC>";
-    #}
-    #
-    #{
-    #  mode = "n";
-    #  key = "<Space>x";
-    #  action = "xi<Space><ESC>";
-    #}
-    #
-    #{
-    #  mode = "n";
-    #  key = "<Space>n";
-    #  action = ":bn!<CR>";
-    #}
-    #
-    #{
-    #  mode = "n";
-    #  key = "<Space>b";
-    #  action = ":bp!<CR>";
-    #}
-    #
-    #{
-    #  mode = "n";
-    #  key = "<Space>o";
-    #  action = ":on!<CR>";
-    #}
-    #
-    #{
-    #  mode = "n";
-    #  key = "<Space>q";
-    #  action = ":q!<CR>";
-    #}
-    #
-    #{
-    #  mode = "n";
-    #  key = "<Space>1";
-    #  action = ":qa!<CR>";
-    #}
+    {
+      mode = "n";
+      key = "<Space>n";
+      action = "<cmd>bn!<CR>";
+    }
 
-    #
-    #{
-    #  mode = "n";
-    #  key = ",e";
-    #  action = ":e! %<CR>";
-    #}
-    #
-    #{
-    #  mode = "n";
-    #  key = ",y";
-    #  action = ":tabo<CR>";
-    #}
-    #
-    #{
-    #  mode = "n";
-    #  key = "<C-l>";
-    #  action = "<C-w>l";
-    #}
-    #
-    #{
-    #  mode = "n";
-    #  key = "<C-h>";
-    #  action = "<C-w>h";
-    #}
-    #
+    {
+      mode = "n";
+      key = "<Space>b";
+      action = "<cmd>bp!<CR>";
+    }
+
+    {
+      mode = "n";
+      key = "<Space>o";
+      action = "<cmd>on!<CR>";
+    }
+
+    {
+      mode = "n";
+      key = "<Space>q";
+      action = "<cmd>q!<CR>";
+    }
+
+    {
+      mode = "n";
+      key = ",e";
+      action = "<cmd>e! %<CR>";
+    }
+
+    {
+      mode = "n";
+      key = "<C-l>";
+      action = "<C-w>l";
+    }
+
+    {
+      mode = "n";
+      key = "<C-h>";
+      action = "<C-w>h";
+    }
+
     {
       mode = "n";
       key = "<C-k>";
