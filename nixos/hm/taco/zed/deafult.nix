@@ -3,7 +3,7 @@
 {
   programs.zed-editor = {
     enable = true;
-    #
+
     extraPackages = with pkgs; [
       nixfmt
       nil
@@ -93,13 +93,14 @@
         bindings = {
           "ctrl-p" = null;
           "alt-m" = "terminal_panel::ToggleFocus";
-          "ctrl-shift-t" = "outline_panel::ToggleFocus";
-          "ctrl-shift-a" = "assistant::ToggleFocus";
+          "alt-t" = "outline_panel::ToggleFocus";
+          "alt-a" = "assistant::ToggleFocus";
           ". y" = "workspace::OpenInTerminal";
           "alt-o" = "projects::OpenRecent";
           "alt-r" = "diagnostics::Deploy";
           "alt-g" = "workspace::ToggleZoom";
           "alt-e" = "project_panel::ToggleFocus";
+          "alt-j" = "pane::RevealInProjectPanel";
         };
       }
       {
@@ -107,26 +108,6 @@
         bindings = {
           "ctrl-t" = "assistant::NewContext";
           ", f" = "assistant::DeployHistory";
-        };
-      }
-      {
-        context = "Pane";
-        bindings = { };
-      }
-      {
-        context = "Editor";
-        bindings = {
-          "space n" = "editor::GoToDiagnostic";
-          "space p" = "editor::GoToPrevDiagnostic";
-          ". a" = "editor::ToggleCodeActions";
-          "ctrl-k" = "assistant::InlineAssist";
-          "ctrl-a" = "editor::ShowCompletions";
-        };
-      }
-      {
-        context = "Editor && (showing_code_actions || showing_completions)";
-        bindings = {
-          "ctrl-p" = "editor::ContextMenuPrev";
         };
       }
       {
@@ -143,12 +124,8 @@
           "ctrl-w" = "pane::CloseActiveItem";
           "alt-j" = "workspace::ActivatePaneLeft";
           "alt-l" = "workspace::ActivatePaneRight";
-          "alt-t" = "pane::SplitVertical";
+          "alt-ctrl-t" = "pane::SplitVertical";
         };
-      }
-      {
-        context = "ProjectPanel";
-        bindings = { };
       }
       {
         context = "ProjectPanel && not_editing";
@@ -157,7 +134,9 @@
           "%" = "project_panel::NewFile";
           "r" = "project_panel::NewSearchInDirectory";
           "/" = "file_finder::Toggle";
+          "d" = "project_panel::NewDirectory";
           "shift-d" = "project_panel::RemoveFromProject";
+          "ctrl-shift-delete" = ["project_panel::Delete", { skip_prompt = true; }];
           "enter" = "project_panel::OpenPermanent";
           "escape" = "project_panel::ToggleFocus";
           "h" = "project_panel::CollapseSelectedEntry";
@@ -184,16 +163,34 @@
         };
       }
       {
+        context = "Editor";
+        bindings = {
+          "ctrl-k" = "assistant::InlineAssist";
+          "ctrl-a" = "editor::ShowCompletions";
+        };
+      }
+      {
+        context = "Editor && (showing_code_actions || showing_completions)";
+        bindings = {
+          "ctrl-p" = "editor::ContextMenuPrev";
+        };
+      }
+      {
         context = "vim_mode == normal";
         bindings = {
           "space w" = "workspace::Save";
-          "space q" = [
-            "pane::CloseActiveItem"
-            { close_pinned = false; }
-          ];
+          "space q" = ["pane::CloseActiveItem", { close_pinned = false; }];
+          ", a" = "editor::ToggleCodeActions";
+          ", e" = "editor::Rename";
           ", ," = "file_finder::Toggle";
-          ", g" = "pane::DeploySearch";
+          ", r" = "pane::DeploySearch";
           "r" = "vim::Search";
+          ", n" = "editor::GoToDiagnostic";
+          ", p" = "editor::GoToPrevDiagnostic";
+          ", y" = "editor::GoToTypeDefinition";
+          ", z" = "editor::FindAllReferences";
+          ", x" = "editor::GoToImplementation";
+          ", t" = "editor::Hover";
         };
       }
       {
@@ -206,6 +203,7 @@
         context = "ProjectSearchBar";
         bindings = {
           "shift-f" = "search::FocusSearch";
+          "ctrl-f" = "project_search::ToggleFilters";
         };
       }
       {
@@ -229,12 +227,11 @@
       {
         context = "Terminal";
         bindings = {
-          "alt-t" = "workspace::NewTerminal";
+          "alt-ctrl-t" = "workspace::NewTerminal";
           "ctrl-w" = "pane::CloseActiveItem";
+          "alt-s" = "terminal::ToggleViMode";
         };
       }
     ];
-
   };
-
 }
