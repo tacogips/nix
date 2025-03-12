@@ -6,8 +6,11 @@
     userName = "tacogips";
     userEmail = "me@tacogips.me";
     extraConfig = {
-      core.editor = "nvim";
+      core.editor = "zeditor";
       init.defaultBranch = "main";
+    };
+    delta = {
+      enable = true;
     };
   };
 
