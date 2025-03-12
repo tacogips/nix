@@ -18,6 +18,7 @@
     ./zoxide
     ./lazygit
     ./zed
+    ./fish
   ];
 
   i18n.inputMethod.enabled = "fcitx5";
