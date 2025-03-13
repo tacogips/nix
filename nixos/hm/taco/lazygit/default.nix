@@ -37,15 +37,19 @@
         allBranchesLogCmd = "git log --graph --all --color=always --abbrev-commit --decorate --date=relative  --pretty=medium";
       };
       update = {
-        method = "prompt";
+        #method = "prompt";
+        method = "never";
         days = 14;
       };
       refresher = {
         refreshInterval = 10;
         fetchInterval = 60;
       };
-      reporting = "undetermined";
+      #reporting = "undetermined";
+      reporting = "off";
       startupPopupVersion = 1;
+      disableStartupPopups = true;
+      promptToReturnFromSubprocess = false;
     };
   };
 
