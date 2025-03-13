@@ -136,7 +136,10 @@
           "/" = "file_finder::Toggle";
           "d" = "project_panel::NewDirectory";
           "shift-d" = "project_panel::RemoveFromProject";
-          "ctrl-shift-delete" = ["project_panel::Delete", { skip_prompt = true; }];
+          "ctrl-shift-delete" = {
+            command = "project_panel::Delete";
+            options.skip_prompt = true;
+          };
           "enter" = "project_panel::OpenPermanent";
           "escape" = "project_panel::ToggleFocus";
           "h" = "project_panel::CollapseSelectedEntry";
@@ -179,7 +182,10 @@
         context = "vim_mode == normal";
         bindings = {
           "space w" = "workspace::Save";
-          "space q" = ["pane::CloseActiveItem", { close_pinned = false; }];
+          "space q" = {
+            command = "pane::CloseActiveItem";
+            options.close_pinned = false;
+          };
           ", a" = "editor::ToggleCodeActions";
           ", e" = "editor::Rename";
           ", ," = "file_finder::Toggle";
