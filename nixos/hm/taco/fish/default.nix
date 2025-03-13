@@ -48,7 +48,7 @@ in
 
       set -g fish_escape_delay_ms 10
 
-      if test -f "/cred/fish/private.fish"
+      if test -f "$HOME/.private/fish/private.fish"
             source $credentials_file
       end
 
