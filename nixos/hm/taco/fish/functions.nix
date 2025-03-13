@@ -10,7 +10,7 @@
   ff = ''
     set dest (${pkgs.fd}/bin/fd --color=never $argv[1] | ${pkgs.fzf}/bin/fzf +m --query "$LBUFFER" --prompt="find > ")
     if test -n "$dest"
-        ${pkgs.zeditor}/bin/zeditor "$dest"
+        ${pkgs.zed-editor}/bin/zed-editor "$dest"
     end
   '';
 
@@ -19,7 +19,7 @@
     if test -n "$dest"
         set line_number (echo $dest | cut -d: -f2)
         set file_path (echo $dest | cut -d: -f1)
-        ${pkgs.zeditor}/bin/zeditor +$line_number $file_path
+        ${pkgs.zed-editor}/bin/zed-editor +$line_number $file_path
     end
   '';
 
