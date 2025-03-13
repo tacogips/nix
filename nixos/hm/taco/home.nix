@@ -14,7 +14,7 @@
     ./lazygit
     ./mako
     ./ripgrep
-    ./shell
+    ./fish
     ./ssh
     ./waybar
     ./yazi

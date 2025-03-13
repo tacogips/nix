@@ -1,5 +1,7 @@
 { pkgs, ... }:
 let
+
+  fishFunctions = import ./functions.nix { inherit pkgs; };
   aliases = import ./aliases.nix;
   abbrs = import ./abbrs.nix;
 in
@@ -7,10 +9,12 @@ in
   programs.fish = {
     enable = true;
     shellAliases = aliases;
+
     shellAbbrs = abbrs;
 
-    interactiveShellInit = ''
+    functions = fishFunctions;
 
+    interactiveShellInit = ''
 
       set fish_cursor_default block
       set fish_cursor_insert line
@@ -44,12 +48,18 @@ in
 
       set -g fish_escape_delay_ms 10
 
-      # Load credentials if the file exists
-      set -l credentials_file "$HOME/.config/fish/credentials_private.fish"
-      if test -f $credentials_file
+      if test -f "/cred/fish/private.fish"
             source $credentials_file
       end
-    '';
 
+      if test -f "$HOME/.config/fish/export.fish"
+           source $export_file
+      end
+    '';
   };
+
+  home.file.".config/fish/export.fish" = {
+    source = ./export.fish;
+  };
+
 }

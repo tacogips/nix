@@ -19,6 +19,5 @@
   cb = "cargo check";
 
   z = "zeditor";
-  y = "yazi";
 
 }
