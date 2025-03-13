@@ -39,7 +39,7 @@
       };
 
       font = {
-        size = 16.0;
+        size = 13.0;
 
         bold = {
           family = "iosevka";

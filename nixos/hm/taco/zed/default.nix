@@ -25,8 +25,8 @@
 
       format_on_save = "on";
       vim_mode = true;
-      ui_font_size = 16;
-      buffer_font_size = 16;
+      ui_font_size = 13;
+      buffer_font_size = 13;
 
       theme = {
         mode = "system";
