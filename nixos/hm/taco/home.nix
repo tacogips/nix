@@ -6,7 +6,6 @@
     ./bottom
     ./eza
     ./fd
-    ./fish
     ./foot
     ./fuzzel
     ./fzf
