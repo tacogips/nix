@@ -3,6 +3,7 @@
 {
   programs.lazygit = {
     enable = true;
+
     settings = {
       gui = {
         scrollHeight = 10;
@@ -37,16 +38,14 @@
         allBranchesLogCmd = "git log --graph --all --color=always --abbrev-commit --decorate --date=relative  --pretty=medium";
       };
       update = {
-        #method = "prompt";
-        method = "never";
+        method = "never"; # コメントを外してシンプルに
         days = 14;
       };
       refresher = {
         refreshInterval = 10;
         fetchInterval = 60;
       };
-      #reporting = "undetermined";
-      reporting = "off";
+      reporting = "off"; # コメントを外してシンプルに
       startupPopupVersion = 1;
       disableStartupPopups = true;
       promptToReturnFromSubprocess = false;
