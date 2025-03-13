@@ -10,15 +10,19 @@ in
     shellAbbrs = abbrs;
 
     interactiveShellInit = ''
-      fish_vi_key_bindings
+
 
       set fish_cursor_default block
       set fish_cursor_insert line
       set fish_cursor_visual underscore
       set fish_cursor_replace_one underscore
 
-      bind -M insert ctrl-p up-or-search
-      bind -M insert ctrl-n down-or-search
+      function fish_user_key_bindings
+          # Execute this once per mode that emacs bindings should be used in
+          fish_default_key_bindings -M insert
+          fish_vi_key_bindings --no-erase insert
+      end
+
 
       function fish_mode_prompt
         switch $fish_bind_mode
