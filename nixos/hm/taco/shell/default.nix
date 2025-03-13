@@ -17,8 +17,6 @@ in
       set fish_cursor_visual underscore
       set fish_cursor_replace_one underscore
 
-      bind -M normal \cp up-or-search
-      bind -M normal \cn down-or-search
       bind -M insert \cp up-or-search
       bind -M insert \cn down-or-search
 
