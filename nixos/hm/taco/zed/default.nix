@@ -25,8 +25,8 @@
 
       format_on_save = "on";
       vim_mode = true;
-      ui_font_size = 13;
-      buffer_font_size = 13;
+      ui_font_size = 12;
+      buffer_font_size = 12;
 
       theme = {
         mode = "system";
@@ -92,6 +92,7 @@
         context = "Workspace";
         bindings = {
           "ctrl-p" = null;
+          "ctrl-n" = null;
           "alt-m" = "terminal_panel::ToggleFocus";
           "alt-t" = "outline_panel::ToggleFocus";
           "alt-a" = "assistant::ToggleFocus";
