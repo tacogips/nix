@@ -8,7 +8,7 @@
     ./fd
     ./fish
     ./foot
-    ./fuzzle
+    ./fuzzel
     ./fzf
     ./git
     ./hyprland
