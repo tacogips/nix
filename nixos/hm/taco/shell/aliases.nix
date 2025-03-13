@@ -8,5 +8,7 @@
   gac = "git add .; git commit -am";
 
   lg = "lazygit";
+  cat = "bat";
+  gs = "git status";
 
 }

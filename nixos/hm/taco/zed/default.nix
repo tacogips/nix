@@ -136,7 +136,7 @@
           "/" = "file_finder::Toggle";
           "d" = "project_panel::NewDirectory";
           "shift-d" = "project_panel::RemoveFromProject";
-          "ctrl-shift-delete" = {
+          "ctrl-shift-d" = {
             command = "project_panel::Delete";
             options.skip_prompt = true;
           };

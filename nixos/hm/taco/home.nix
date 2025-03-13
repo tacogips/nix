@@ -21,6 +21,7 @@
     ./yazi
     ./zed
     ./zoxide
+    ./bat
   ];
 
   i18n.inputMethod.enabled = "fcitx5";
