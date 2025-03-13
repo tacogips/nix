@@ -106,7 +106,7 @@
       {
         context = "AssistantPanel";
         bindings = {
-          "ctrl-t" = "assistant::NewContext";
+          "ctrl-t" = "assistant::NewChat";
           ", f" = "assistant::DeployHistory";
         };
       }
@@ -136,10 +136,7 @@
           "/" = "file_finder::Toggle";
           "d" = "project_panel::NewDirectory";
           "shift-d" = "project_panel::RemoveFromProject";
-          "ctrl-shift-d" = {
-            command = "project_panel::Delete";
-            options.skip_prompt = true;
-          };
+          "ctrl-shift-d" = "project_panel::Delete";
           "enter" = "project_panel::OpenPermanent";
           "escape" = "project_panel::ToggleFocus";
           "h" = "project_panel::CollapseSelectedEntry";
@@ -182,10 +179,7 @@
         context = "vim_mode == normal";
         bindings = {
           "space w" = "workspace::Save";
-          "space q" = {
-            command = "pane::CloseActiveItem";
-            options.close_pinned = false;
-          };
+          "space q" = "pane::CloseActiveItem";
           ", a" = "editor::ToggleCodeActions";
           ", e" = "editor::Rename";
           ", ," = "file_finder::Toggle";
