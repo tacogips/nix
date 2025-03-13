@@ -5,20 +5,22 @@
     ./alacritty
     ./bottom
     ./eza
-    ./shell
+    ./fd
+    ./fish
     ./foot
+    ./fuzzle
     ./fzf
     ./git
     ./hyprland
+    ./lazygit
+    ./mako
+    ./ripgrep
+    ./shell
     ./ssh
     ./waybar
-    ./fd
-    ./ripgrep
-    ./mako
-    ./zoxide
-    ./lazygit
+    ./yazi
     ./zed
-    ./fish
+    ./zoxide
   ];
 
   i18n.inputMethod.enabled = "fcitx5";

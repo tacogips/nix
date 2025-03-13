@@ -11,6 +11,7 @@
     shellAbbrs = {
       z = "zeditor";
       lg = "lazygit";
+      y = "yazi";
     };
 
     interactiveShellInit = ''
@@ -40,6 +41,12 @@
       end
 
       set -g fish_escape_delay_ms 10
+
+      # Load credentials if the file exists
+      set -l credentials_file "$HOME/.config/fish/credentials_private.fish"
+      if test -f $credentials_file
+            source $credentials_file
+      end
     '';
 
   };
