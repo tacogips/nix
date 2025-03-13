@@ -1,15 +1,11 @@
 {
 
-    description = "nixos system";
+  description = "nixos system";
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-unstable";
     home-manager = {
       url = "github:nix-community/home-manager";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-    nixvim = {
-      url = "github:nix-community/nixvim";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
@@ -20,7 +16,6 @@
       self,
       nixpkgs,
       home-manager,
-      nixvim,
       ...
     }:
     let
@@ -123,8 +118,6 @@
                 { ... }:
                 {
                   imports = [
-
-                    nixvim.homeManagerModules.nixvim
                     ./hm/taco/home.nix
                   ];
                 };
