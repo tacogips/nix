@@ -42,6 +42,17 @@
         #  };
         #}
 
+        #{
+        #  name = "browser";
+        #  application = {
+        #    not = "dev.zed.Zed";
+        #  };
+        #  remap = {
+        #    #"C-j" = "F6";
+        #    "C-a" = "home";
+        #  };
+        #}
+
       ];
     };
   };
