@@ -43,9 +43,13 @@
   home.username = "taco";
   home.homeDirectory = "/home/taco";
   home.stateVersion = "24.11";
+
+  home.sessionPath = [
+    "${pkgs.fcitx5-mozc}/lib/mozc"
+  ];
   home.sessionVariables = {
     EDITOR = "${pkgs.zed-editor}/bin/zeditor";
-    GTK_IM_MDOULE = "fcitx";
+    GTK_IM_MODULE = "fcitx";
     QT_IM_MODULE = "fcitx";
     XMODIFIERS = "@im=fcitx";
     GLFW_IM_MODULE = "ibus"; # IME support in kitty
