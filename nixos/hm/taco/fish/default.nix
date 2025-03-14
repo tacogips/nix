@@ -16,6 +16,8 @@ in
 
     interactiveShellInit = ''
 
+
+
       set fish_cursor_default block
       set fish_cursor_insert line
       set fish_cursor_visual underscore

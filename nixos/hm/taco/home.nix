@@ -33,20 +33,19 @@
     ./xremap
   ];
 
-  i18n.inputMethod.enabled = "fcitx5";
-  i18n.inputMethod.fcitx5.addons = [
-    pkgs.fcitx5-mozc
-    pkgs.fcitx5-gtk
-    pkgs.fcitx5-configtool
-  ];
+  i18n.inputMethod = {
+    enabled = "fcitx5";
+    fcitx5.addons = [
+      pkgs.fcitx5-mozc
+      pkgs.fcitx5-gtk
+      pkgs.fcitx5-configtool
+    ];
+  };
 
   home.username = "taco";
   home.homeDirectory = "/home/taco";
   home.stateVersion = "24.11";
 
-  home.sessionPath = [
-    "${pkgs.fcitx5-mozc}/lib/mozc"
-  ];
   home.sessionVariables = {
     EDITOR = "${pkgs.zed-editor}/bin/zeditor";
     GTK_IM_MODULE = "fcitx";
@@ -80,9 +79,7 @@
   };
 
   home.packages = with pkgs; [
-    firefox
     go-task
-    nixfmt-rfc-style
 
     wl-clipboard # wl-copy and wl-paste for copy/paste from stdin / stdout
     noto-fonts
@@ -92,6 +89,9 @@
     nerd-fonts.iosevka
     tokei
     dust
+
+    nixfmt-rfc-style
+    nixd
   ];
 
   programs.home-manager.enable = true;
