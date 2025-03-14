@@ -31,6 +31,20 @@
             };
           };
         }
+
+        {
+          name = "browser";
+          application = {
+            only = [
+              "firefox"
+              "brave-browser"
+            ];
+          };
+          remap = {
+            "C-j" = "F6";
+          };
+        }
+
       ];
     };
   };
