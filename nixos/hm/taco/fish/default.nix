@@ -52,18 +52,26 @@ in
 
       set -g fish_escape_delay_ms 10
 
+      set -l credential_file = "$HOME/.private/fish/private.fish"
       if test -f "$HOME/.private/fish/private.fish"
-            source $credentials_file
+            source $credential_file
       end
 
-      if test -f "$HOME/.config/fish/export.fish"
-           source $export_file
+      set -l exports_file = "$HOME/.config/fish/exports.fish"
+      if test -f $exports_file
+           source $exports_file
       end
     '';
   };
 
-  home.file.".config/fish/export.fish" = {
-    source = ./export.fish;
+  home.file.".config/fish/exports.fish" = {
+    source = ./exports.fish;
+  };
+
+  home.file.".private/fish/private.example.fish" = {
+    text = ''
+      PRIVATE_KEY=xxxx
+    '';
   };
 
 }

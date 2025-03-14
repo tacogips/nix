@@ -85,6 +85,7 @@
       "html"
       "nix"
       "lua"
+      "fish"
     ];
 
     userKeymaps = [
