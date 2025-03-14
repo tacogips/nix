@@ -2,17 +2,35 @@
 {
   programs.waybar = {
     enable = true;
-    settings  ={
+    settings = {
       mainBar = {
-      	position = "bottom";
-	layer = "top";
-	height = 15;
+        position = "bottom";
+        layer = "top";
+        height = 15;
 
-      	modules-left = ["hyprland/workspaces"];
-      	modules-right = ["temperature" "cpu" "memory" "disk" "clock"];
-      	"hyprland/workspaces" = {
-	  format = "{icon}";
-	};
+        modules-left = [ "hyprland/workspaces" ];
+        modules-right = [
+          "temperature"
+          "cpu"
+          "memory"
+          "disk"
+          "custom/fcitx5"
+          "network"
+          "clock"
+        ];
+        "hyprland/workspaces" = {
+          format = "{icon}";
+        };
+
+        "custom/fcitx5" = {
+          format = " {}"; # You can use a different icon if preferred
+          exec = "${pkgs.fcitx5}/bin/fcitx5-remote -n";
+          interval = 1;
+          return-type = "json";
+          on-click = "${pkgs.fcitx5}/bin/fcitx5-configtool";
+          tooltip = false;
+          signal = 1;
+        };
       };
 
     };
