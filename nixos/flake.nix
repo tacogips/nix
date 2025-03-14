@@ -17,6 +17,7 @@
       self,
       nixpkgs,
       home-manager,
+      xremap-flake,
       ...
     }:
     let
@@ -124,6 +125,9 @@
             {
               home-manager.useGlobalPkgs = true;
               home-manager.useUserPackages = true;
+              home-manager.extraSpecialArgs = {
+                inherit xremap-flake;
+              }; # inputs を渡す
               home-manager.users.taco =
                 { ... }:
                 {

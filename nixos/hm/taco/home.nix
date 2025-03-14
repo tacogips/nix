@@ -2,6 +2,7 @@
   config,
   pkgs,
   inputs,
+  xremap-flake,
   ...
 }:
 
@@ -28,7 +29,7 @@
     ./zoxide
     ./bat
     ./brave
-    inputs.self.inputs.xremap-flake.homeManagerModules.default
+    xremap-flake.homeManagerModules.default
   ];
 
   services.xremap = {
