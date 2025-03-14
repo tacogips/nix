@@ -30,36 +30,10 @@
     ./bat
     ./brave
     xremap-flake.homeManagerModules.default
+    ./xremap
   ];
 
-  services.xremap = {
-    enable = true;
-    withHypr = true;
-    # Modmap for single key rebinds
-    config = {
-      keypress_delay_ms = 10;
-      modmap = [
-        {
-          name = "Global";
-          remap = {
-            "CapsLock" = "Esc";
-          };
-        }
-      ];
-
-      # Keymap for key combo rebinds
-      keymap = [
-        {
-          name = "Example ctrl-u > pageup rebind";
-          remap = {
-            "C-u" = "PAGEUP";
-          };
-        }
-      ];
-    };
-  };
-
-  i18n.inputMethod.enabled = "fcitx5";
+  i18n.inputMethod.enabled = "fcitjx5";
   i18n.inputMethod.fcitx5.addons = [
     pkgs.fcitx5-mozc
     pkgs.fcitx5-gtk

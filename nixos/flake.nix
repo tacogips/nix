@@ -112,9 +112,11 @@
               #  extraGroups = [ "wheel" "networkmanager" ];
               #};
 
+              # for xremap
               boot.kernelModules = [
                 "uinput"
               ];
+              # for xremap
               services.udev.extraRules = ''
                 KERNEL=="uinput",GROUP="input", TAG+="uaccess"
               '';
