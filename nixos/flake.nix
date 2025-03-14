@@ -112,8 +112,20 @@
               #  extraGroups = [ "wheel" "networkmanager" ];
               #};
 
+              boot.kernelModules = [
+                "uinput"
+              ];
+              services.udev.extraRules = ''
+                KERNEL=="uinput",GROUP="input", TAG+="uaccess"
+              '';
               users.users.taco = {
                 shell = pkgs.fish;
+
+                extraGroups = [
+                  "wheel"
+                  "networkmanager"
+                  "input"
+                ];
                 openssh.authorizedKeys.keyFiles = [
                   ./ssh/authorized-keys-dev-machine
                 ];

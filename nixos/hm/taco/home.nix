@@ -36,24 +36,27 @@
     enable = true;
     withHypr = true;
     # Modmap for single key rebinds
-    config.modmap = [
-      {
-        name = "Global";
-        remap = {
-          "CapsLock" = "Esc";
-        };
-      }
-    ];
+    config = {
+      keypress_delay_ms = 10;
+      modmap = [
+        {
+          name = "Global";
+          remap = {
+            "CapsLock" = "Esc";
+          };
+        }
+      ];
 
-    # Keymap for key combo rebinds
-    config.keymap = [
-      {
-        name = "Example ctrl-u > pageup rebind";
-        remap = {
-          "C-u" = "PAGEUP";
-        };
-      }
-    ];
+      # Keymap for key combo rebinds
+      keymap = [
+        {
+          name = "Example ctrl-u > pageup rebind";
+          remap = {
+            "C-u" = "PAGEUP";
+          };
+        }
+      ];
+    };
   };
 
   i18n.inputMethod.enabled = "fcitx5";
