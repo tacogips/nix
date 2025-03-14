@@ -33,6 +33,8 @@
   ];
 
   services.xremap = {
+    enable = true;
+    withHypr = true;
     # Modmap for single key rebinds
     config.modmap = [
       {
