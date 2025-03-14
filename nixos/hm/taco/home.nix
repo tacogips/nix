@@ -1,4 +1,5 @@
 { config, pkgs, ... }:
+
 {
 
   imports = [
@@ -21,6 +22,7 @@
     ./zed
     ./zoxide
     ./bat
+    ./brave
   ];
 
   i18n.inputMethod.enabled = "fcitx5";
