@@ -46,6 +46,13 @@
               # https://wiki.nixos.org/wiki/Sway#Using_Home_Manager
               #security.polkit.enable = true;
 
+              nix.gc = {
+                automatic = true;
+                dates = "weekly";
+                options = "--delete-older-than 30d";
+              };
+              nix.settings.auto-optimise-store = true;
+
               environment.systemPackages = with pkgs; [
                 vim
                 git
