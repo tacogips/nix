@@ -64,7 +64,9 @@
                 bash
               ];
 
-              fonts.fontDir.enable = true;
+              fonts = {
+                fontDir.enable = true;
+              };
 
               services.openssh = {
                 enable = true;

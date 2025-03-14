@@ -45,6 +45,8 @@
     XDG_CONFIG_HOME = "$HOME/.config";
     XDG_DATA_HOME = "$HOME/.local/share";
     XDG_BIN_HOME = "$HOME/.local/bin";
+    NIXOS_OZONE_WL = "1";
+    ELECTRON_OZONE_PLATFORM_HINT = "wayland";
   };
 
   #fonts.packages = with pkgs; [
@@ -59,7 +61,10 @@
   #  #proggyfonts
   #  iosevka
   #];
-  fonts.fontconfig.enable = true;
+  fonts = {
+    fontconfig.enable = true;
+    #antialias = true;
+  };
 
   home.packages = with pkgs; [
     firefox

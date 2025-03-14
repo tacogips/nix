@@ -96,7 +96,6 @@
           "alt-m" = "terminal_panel::ToggleFocus";
           "alt-t" = "outline_panel::ToggleFocus";
           "alt-a" = "assistant::ToggleFocus";
-          ". y" = "workspace::OpenInTerminal";
           "alt-o" = "projects::OpenRecent";
           "alt-r" = "diagnostics::Deploy";
           "alt-g" = "workspace::ToggleZoom";
@@ -131,6 +130,7 @@
       {
         context = "ProjectPanel && not_editing";
         bindings = {
+          ". y" = "workspace::OpenInTerminal";
           ":" = "command_palette::Toggle";
           "%" = "project_panel::NewFile";
           "r" = "project_panel::NewSearchInDirectory";
@@ -179,6 +179,7 @@
       {
         context = "vim_mode == normal";
         bindings = {
+          ". y" = "workspace::OpenInTerminal";
           "space w" = "workspace::Save";
           "space q" = "pane::CloseActiveItem";
           ", a" = "editor::ToggleCodeActions";
