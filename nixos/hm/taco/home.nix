@@ -1,4 +1,9 @@
-{ config, pkgs, ... }:
+{
+  config,
+  pkgs,
+  inputs,
+  ...
+}:
 
 {
 
@@ -23,7 +28,30 @@
     ./zoxide
     ./bat
     ./brave
+    inputs.self.inputs.xremap-flake.homeManagerModules.default
   ];
+
+  services.xremap = {
+    # Modmap for single key rebinds
+    config.modmap = [
+      {
+        name = "Global";
+        remap = {
+          "CapsLock" = "Esc";
+        };
+      }
+    ];
+
+    # Keymap for key combo rebinds
+    config.keymap = [
+      {
+        name = "Example ctrl-u > pageup rebind";
+        remap = {
+          "C-u" = "PAGEUP";
+        };
+      }
+    ];
+  };
 
   i18n.inputMethod.enabled = "fcitx5";
   i18n.inputMethod.fcitx5.addons = [
