@@ -29,16 +29,16 @@
     if test -s "$tmp"
         set cwd (cat -- "$tmp")
         if test -n "$cwd" -a "$cwd" != "$PWD"
-            ${pkgs.zoxide}/bin/zoxide "$cwd"
+            cd "$cwd"
         end
     end
     rm -f -- "$tmp"
   '';
 
   fd = ''
-    set selected_dir (${pkgs.zoxide}/bin/zoxide query --list --score | ${pkgs.fzf}/bin/fzf --height 40% --layout reverse --info inline --border --preview "${pkgs.eza}/bin/eza --all --group-directories-first --header --long --no-user --no-permissions --color=always {2}" --no-sort | ${pkgs.gawk}/bin/awk '{print $2}')
+    set -l selected_dir (${pkgs.zoxide}/bin/zoxide query --list --score | ${pkgs.fzf}/bin/fzf --height 40% --layout reverse --info inline --border --preview "${pkgs.eza}/bin/eza --all --group-directories-first --header --long --no-user --no-permissions --color=always {2}" --no-sort | ${pkgs.gawk}/bin/awk '{print $2}')
     if test -n "$selected_dir"
-        ${pkgs.zoxide}/bin/zoxide $selected_dir
+        cd $selected_dir
     end
   '';
 }

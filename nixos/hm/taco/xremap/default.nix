@@ -22,6 +22,7 @@
           remap = {
             "C-m" = "enter";
             "C-h" = "backspace";
+            "C-a" = "home";
             #"C-n" = {
             #  with_mark = "down";
             #};
@@ -56,5 +57,4 @@
       ];
     };
   };
-
 }
