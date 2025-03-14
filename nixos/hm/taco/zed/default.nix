@@ -27,6 +27,7 @@
       vim_mode = true;
       ui_font_size = 12;
       buffer_font_size = 12;
+      font_famity = "iosevka";
 
       theme = {
         mode = "system";
@@ -143,7 +144,7 @@
           "escape" = "project_panel::ToggleFocus";
           "h" = "project_panel::CollapseSelectedEntry";
           "j" = "menu::SelectNext";
-          "k" = "menu::SelectPrev";
+          "k" = "menu::SelectPrevious";
           "l" = "project_panel::ExpandSelectedEntry";
           "o" = "project_panel::OpenPermanent";
           "y" = "workspace::CopyPath";
@@ -174,7 +175,7 @@
       {
         context = "Editor && (showing_code_actions || showing_completions)";
         bindings = {
-          "ctrl-p" = "editor::ContextMenuPrev";
+          "ctrl-p" = "editor::ContextMenuPrevious";
         };
       }
       {
@@ -189,7 +190,7 @@
           ", r" = "pane::DeploySearch";
           "r" = "vim::Search";
           ", n" = "editor::GoToDiagnostic";
-          ", p" = "editor::GoToPrevDiagnostic";
+          ", p" = "editor::GoToPreviousDiagnostic";
           ", y" = "editor::GoToTypeDefinition";
           ", z" = "editor::FindAllReferences";
           ", x" = "editor::GoToImplementation";
