@@ -36,6 +36,7 @@
   home.homeDirectory = "/home/taco";
   home.stateVersion = "24.11";
   home.sessionVariables = {
+    EDITOR = "${pkgs.zed-editor}/bin/zeditor";
     GTK_IM_MDOULE = "fcitx";
     QT_IM_MODULE = "fcitx";
     XMODIFIERS = "@im=fcitx";
