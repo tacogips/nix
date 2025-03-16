@@ -64,40 +64,18 @@
     # vulkan and nvidia
     VK_ICD_FILENAMES = "/run/opengl-driver/share/vulkan/icd.d/nvidia_icd.json";
     VK_LAYER_PATH = "/run/opengl-driver/share/vulkan/explicit_layer.d";
-    XDG_SESSION_TYPE = "wayland";
-    GBM_BACKEND = "nvidia-drm";
+#    XDG_SESSION_TYPE = "wayland";
+#    GBM_BACKEND = "nvidia-drm";
 
     # enable these and zeditor wont start
     #__GLX_VENDOR_LIBRARY_NAME = "nvidia";
 
   };
 
-  #fonts.packages = with pkgs; [
-  #  noto-fonts
-  #  noto-fonts-cjk-sans
-  #  noto-fonts-emoji
-  #  #liberation_ttf
-  #  fira-code
-  #  fira-code-symbols
-  #  #mplus-outline-fonts.githubRelease
-  #  #dina-font
-  #  #proggyfonts
-  #  iosevka
-  #];
-  fonts = {
-    fontconfig.enable = true;
-    #antialias = true;
-  };
-
   home.packages = with pkgs; [
     go-task
 
     wl-clipboard # wl-copy and wl-paste for copy/paste from stdin / stdout
-    noto-fonts
-    noto-fonts-cjk-sans
-    noto-fonts-emoji
-    iosevka
-    nerd-fonts.iosevka
     tokei
     dust
 
@@ -105,6 +83,19 @@
     nixd
     qt6.qtwayland # needed for mozc to run  QT_QPA_PLATFORM, wayland
   ];
+
+  fonts = {
+    fontconfig.enable = true;
+    #packages = with pkgs; [
+    #  noto-fonts
+    #  noto-fonts-cjk-sans
+    #  noto-fonts-cjk-serif
+    #  noto-fonts-emoji
+    #  iosevka
+    #  nerd-fonts.iosevka
+
+    #];
+  };
 
   programs.home-manager.enable = true;
 
