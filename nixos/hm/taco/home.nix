@@ -31,6 +31,7 @@
     ./brave
     xremap-flake.homeManagerModules.default
     ./xremap
+    ./syncthing
   ];
 
   i18n.inputMethod = {

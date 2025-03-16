@@ -169,7 +169,7 @@
         context = "Editor";
         bindings = {
           "ctrl-k" = "assistant::InlineAssist";
-          "ctrl-a" = "editor::ShowCompletions";
+          "ctrl-shift-i" = "editor::ShowCompletions";
         };
       }
       {

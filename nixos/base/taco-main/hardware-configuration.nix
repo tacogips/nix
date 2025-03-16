@@ -45,6 +45,14 @@
     ];
   };
 
+  system.activationScripts.setDiskPermissions = {
+    text = ''
+      chown $(id -u taco):$(id -g taco) /d
+      chmod 755 /d
+    '';
+    deps = [ ];
+  };
+
   swapDevices = [ ];
 
   # Enables DHCP on each ethernet and wireless interface. In case of scripted networking
