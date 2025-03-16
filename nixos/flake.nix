@@ -88,7 +88,7 @@
                       "Noto Color Emoji"
                     ];
                     monospace = [
-                      "JetBrainsMono Nerd Font"
+                      "Iosevka Nerd Fon"
                       "Noto Color Emoji"
                     ];
                     emoji = [ "Noto Color Emoji" ];
@@ -166,6 +166,7 @@
             {
               home-manager.useGlobalPkgs = true;
               home-manager.useUserPackages = true;
+              home-manager.backupFileExtension = "backup";
               home-manager.extraSpecialArgs = {
                 inherit xremap-flake;
               }; # inputs を渡す

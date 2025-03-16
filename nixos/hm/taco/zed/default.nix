@@ -26,8 +26,15 @@
       format_on_save = "on";
       vim_mode = true;
       ui_font_size = 12;
+
       buffer_font_size = 12;
-      font_famity = "iosevka";
+      buffer_font_family = "Iosevka";
+      #buffer_font_family = "Noto Sans";
+
+      terminal = {
+        font_family = "Iosevka";
+        font_size = 12;
+      };
 
       theme = {
         mode = "system";
