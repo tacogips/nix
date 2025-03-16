@@ -43,17 +43,13 @@
       # グローバルオプション
       options = {
         localAnnounceEnabled = true;
-        globalAnnounceEnabled = true;
-        relaysEnabled = true;
-        # ネットワーク帯域制限（オプション）
-        # maxRecvKbps = 5000;
-        # maxSendKbps = 500;
-        # LAN内でも帯域制限を適用するか
+        globalAnnounceEnabled = false;
+        relaysEnabled = false;
         limitBandwidthInLan = false;
-        # 並行処理するフォルダの最大数
         maxFolderConcurrency = 10;
-        # 匿名の使用状況レポートの設定: 0=未選択, -1=拒否, 1以上=承認
         urAccepted = -1;
+        natEnabled = false;
+        upnpNeabled = false;
       };
 
       gui = {
