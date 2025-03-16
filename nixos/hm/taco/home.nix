@@ -62,13 +62,13 @@
     ELECTRON_OZONE_PLATFORM_HINT = "wayland";
 
     # vulkan and nvidia
-    VK_ICD_FILENAMES = "/run/opengl-driver/share/vulkan/icd.d/nvidia_icd.json";
+    VK_ICD_FILENAMES = "/run/opengl-driver/share/vulkan/icd.d/nvidia_icd.x86_64.json";
     VK_LAYER_PATH = "/run/opengl-driver/share/vulkan/explicit_layer.d";
     XDG_SESSION_TYPE = "wayland";
     GBM_BACKEND = "nvidia-drm";
 
     # enable these and zeditor wont start
-    #__GLX_VENDOR_LIBRARY_NAME = "nvidia";
+    __GLX_VENDOR_LIBRARY_NAME = "nvidia";
 
   };
 
