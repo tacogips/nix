@@ -6,7 +6,7 @@
 }:
 
 {
-  # 基本的なSyncthing設定
+
   services.syncthing = {
     enable = true;
 
@@ -20,8 +20,8 @@
     # password file
     # passwordFile = "/path/to/password/file";
 
-    overrideDevices = true;
-    overrideFolders = true;
+    overrideDevices = false;
+    overrideFolders = false;
 
     # SOCKSプロキシ等の設定（オプション）
     # allProxy = "socks5://192.168.1.100:1080";
@@ -59,58 +59,32 @@
       };
 
       devices = {
-        #"laptop" = {
-        #  id = "ABCDEFG-HIJKLMN-OPQRSTU-VWXYZAB-CDEFGHI-JKLMNOP-QRSTUV-WXYZ123"; # 実際のデバイスIDに置き換え
-        #  # 接続先アドレス設定（オプション、自動検出もできる）
-        #  # addresses = [ "tcp://192.168.1.10:22000" "dynamic" ];
-        #  introducer = false; # このデバイスをイントロデューサーとして使用するか
-        #  autoAcceptFolders = false; # このデバイスから共有されるフォルダを自動的に受け入れるか
-        #};
-        #"desktop" = {
-        #  id = "ZYXWVUT-SRQPONM-LKJIHGF-EDCBAZY-XWVUTSR-QPONMLK-JIHGFE-DCBA987"; # 実際のデバイスIDに置き換え
-        #  # addresses = [ "dynamic" ];
+        #"galaxy10" = {
+        #  id = "xxxxxxx";
+        #  introducer = false;
+        #  autoAcceptFolders = true;
         #};
       };
 
       folders = {
-        #zz"documents" = {
-        #zz  enable = true; # このマシンでこのフォルダを有効にするか
-        #zz  path = "~/Documents/Sync"; # フォルダのパス
-        #zz  id = "documents"; # フォルダID（すべてのデバイスで共通）
-        #zz  label = "ドキュメント"; # 表示名
-        #zz  type = "sendreceive"; # sendreceive, sendonly, receiveonly, receiveencrypted
-        #zz  # このフォルダを共有するデバイス（devices内のIDと一致する必要あり）
-        #zz  devices = [ "laptop" "desktop" ];
-        #zz  # ファイル変更監視設定
-        #zz  fsWatcherEnabled = true;
-        #zz  # ファイルのパーミッション設定を同期するか
-        #zz  ignorePerms = false;
-        #zz  # 親ディレクトリから所有権をコピーするか
-        #zz  copyOwnershipFromParent = false;
 
-        #zz  # バージョン管理設定（オプション）
-        #zz  versioning = {
-        #zz    type = "simple"; # simple, trashcan, staggered, external
-        #zz    params.keep = "5"; # 保持するバージョン数
-        #zz  };
+        #"obsidian" = {
+        #  enable = true;
+        #  path = "~/vault/obsidian";
+        #  id = "xxxxxxx";
+        #  label = "obsdian_vault";
+        #  type = "sendreceive";
+        #  devices = [ "galaxy10" ];
+        #  fsWatcherEnabled = true;
+        #  ignorePerms = false;
+        #  copyOwnershipFromParent = false;
 
-        #zz  # フォルダスキャン設定
-        #zz  rescanIntervalS = 3600; # 1時間ごとにスキャン
-        #zz},
-        #zz"photos" = {
-        #zz  enable = true;
-        #zz  path = "~/Pictures/SyncPhotos";
-        #zz  id = "photos";
-        #zz  label = "写真";
-        #zz  type = "sendreceive";
-        #zz  devices = [ "laptop" ];
+        #  ## バージョン管理設定（オプション）
+        #  #versioning = {
+        #  #  type = "simple"; # simple, trashcan, staggered, external
+        #  #  params.keep = "5"; # 保持するバージョン数
+        #};
 
-        #zz  # ゴミ箱方式のバージョン管理
-        #zz  versioning = {
-        #zz    type = "trashcan";
-        #zz    params.cleanoutDays = "30"; # 30日後に削除
-        #zz  };
-        #zz}
       };
     };
   };
