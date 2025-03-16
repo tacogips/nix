@@ -66,7 +66,9 @@
     VK_LAYER_PATH = "/run/opengl-driver/share/vulkan/explicit_layer.d";
     XDG_SESSION_TYPE = "wayland";
     GBM_BACKEND = "nvidia-drm";
-    __GLX_VENDOR_LIBRARY_NAME = "nvidia";
+
+    # enable these and zeditor wont start
+    #__GLX_VENDOR_LIBRARY_NAME = "nvidia";
 
   };
 
