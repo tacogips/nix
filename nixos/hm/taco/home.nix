@@ -60,6 +60,14 @@
     XDG_BIN_HOME = "$HOME/.local/bin";
     NIXOS_OZONE_WL = "1";
     ELECTRON_OZONE_PLATFORM_HINT = "wayland";
+
+    # vulkan and nvidia
+    VK_ICD_FILENAMES = "/run/opengl-driver/share/vulkan/icd.d/nvidia_icd.json";
+    VK_LAYER_PATH = "/run/opengl-driver/share/vulkan/explicit_layer.d";
+    XDG_SESSION_TYPE = "wayland";
+    GBM_BACKEND = "nvidia-drm";
+    __GLX_VENDOR_LIBRARY_NAME = "nvidia";
+
   };
 
   #fonts.packages = with pkgs; [
