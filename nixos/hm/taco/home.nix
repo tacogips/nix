@@ -92,6 +92,7 @@
 
     nixfmt-rfc-style
     nixd
+    qt6.qtwayland # needed for mozc to run  QT_QPA_PLATFORM, wayland
   ];
 
   programs.home-manager.enable = true;
