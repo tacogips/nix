@@ -10,6 +10,11 @@
     };
     xremap-flake.url = "github:xremap/nix-flake";
 
+    fenix = {
+      url = "github:nix-community/fenix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
   };
 
   outputs =
@@ -18,6 +23,7 @@
       nixpkgs,
       home-manager,
       xremap-flake,
+      fenix,
       ...
     }:
     let
@@ -202,7 +208,7 @@
               #  )
               #];
               home-manager.extraSpecialArgs = {
-                inherit xremap-flake;
+                inherit xremap-flake fenix;
               }; # inputs を渡す
               home-manager.users.taco =
                 { ... }:

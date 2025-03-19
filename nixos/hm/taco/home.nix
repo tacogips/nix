@@ -35,6 +35,7 @@
     ./podman
     ./kanshi
     ./xdgdesktops
+    ./langs.nix
   ];
 
   i18n.inputMethod = {
@@ -104,6 +105,8 @@
     podman-compose
     podman-tui
     lazydocker
+
+    gh
   ];
 
   #  home.file.".config/zoomus.conf" = {
