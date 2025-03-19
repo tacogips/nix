@@ -35,7 +35,7 @@
     ./podman
     ./kanshi
     ./xdgdesktops
-    ./devlangs.nix
+    ./langs
   ];
 
   i18n.inputMethod = {
