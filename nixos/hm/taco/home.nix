@@ -109,6 +109,7 @@
 
     gh
     gnumake
+    mpv
   ];
 
   #  home.file.".config/zoomus.conf" = {
