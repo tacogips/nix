@@ -86,7 +86,10 @@
     qt6.qtwayland # needed for mozc to run  QT_QPA_PLATFORM, wayland
 
     slack
-    zoom
+    obsidian
+
+    # using web client
+    zoom-us
   ];
 
   fonts = {
