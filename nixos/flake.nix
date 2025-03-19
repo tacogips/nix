@@ -61,6 +61,14 @@
                 options = "--delete-older-than 30d";
               };
               nix.settings.auto-optimise-store = true;
+              nix.settings.trusted-users = [ "taco" ];
+
+              virtualisation.podman = {
+                enable = true;
+                dockerCompat = true;
+                defaultNetwork.settings.dns_enabled = true;
+              };
+              security.unprivilegedUsernsClone = true; # ユーザー名前空間を有効化
 
               environment.systemPackages = with pkgs; [
                 vim
@@ -162,6 +170,7 @@
                   "wheel"
                   "networkmanager"
                   "input"
+                  "podman"
                 ];
                 openssh.authorizedKeys.keyFiles = [
                   ./ssh/authorized-keys-dev-machine

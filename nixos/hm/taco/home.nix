@@ -32,6 +32,7 @@
     xremap-flake.homeManagerModules.default
     ./xremap
     ./syncthing
+    ./podman
   ];
 
   i18n.inputMethod = {
@@ -89,8 +90,11 @@
     slack
     obsidian
 
-    # using web client
-    zoom-us
+    # using zoom web client for now
+    #zoom-us
+    podman-compose
+    podman-tui
+    lazydocker
   ];
 
   home.file.".config/zoomus.conf" = {
