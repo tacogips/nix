@@ -109,7 +109,7 @@
 
     gh
     gnumake
-    mpv
+    mpv # movie player
   ];
 
   #  home.file.".config/zoomus.conf" = {
