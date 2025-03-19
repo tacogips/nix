@@ -33,10 +33,10 @@
     xremap-flake.homeManagerModules.default
     ./xremap
     ./syncthing
-    ./podman
     ./kanshi
     ./xdgdesktops
     ./langs
+    #    ./podman
   ];
 
   i18n.inputMethod = {
@@ -103,8 +103,9 @@
 
     # using zoom web client for now
     #zoom-us
-    podman-compose
-    podman-tui
+    #podman-compose
+    #podman-tui
+    docker-compose
     lazydocker
 
     gh

@@ -70,12 +70,38 @@
               # not needed for rootless
               #nix.settings.trusted-users = [ "taco" ];
 
-              virtualisation.podman = {
-                enable = true;
-                dockerCompat = true;
-                defaultNetwork.settings.dns_enabled = true;
+              # podman compose not support environemnt secrets for now
+              #virtualisation.podman = {
+              #  enable = true;
+              #  dockerCompat = true;
+              #  defaultNetwork.settings.dns_enabled = true;
+              #};
+
+              virtualisation.docker = {
+                enable = false;
+                rootless = {
+                  enable = true;
+                  setSocketVariable = true; # setting DOCKER_HOST
+                  daemon.settings = {
+                    # 必要に応じてdaemon設定を追加
+                  };
+
+                  #daemon.settings = {
+                  #  # NVIDIAランタイムの明示的な設定
+                  #  "runtimes" = {
+                  #    "nvidia" = {
+                  #      "path" = "${pkgs.nvidia-docker}/bin/nvidia-container-runtime";
+                  #      "runtimeArgs" = [];
+                  #    };
+                  #  };
+                  #  # 必要に応じてデフォルトランタイムをnvidiaに設定
+                  #  # "default-runtime" = "nvidia";
+                  #};
+
+                };
               };
-              security.unprivilegedUsernsClone = true; # ユーザー名前空間を有効化
+
+              security.unprivilegedUsernsClone = true; # for rootless mode
 
               environment.systemPackages = with pkgs; [
                 vim
