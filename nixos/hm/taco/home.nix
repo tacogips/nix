@@ -60,12 +60,13 @@
     XDG_BIN_HOME = "$HOME/.local/bin";
     NIXOS_OZONE_WL = "1";
     ELECTRON_OZONE_PLATFORM_HINT = "wayland";
+    QT_QPA_PLATFORM = "wayland";
 
     # vulkan and nvidia
     VK_ICD_FILENAMES = "/run/opengl-driver/share/vulkan/icd.d/nvidia_icd.x86_64.json";
     VK_LAYER_PATH = "/run/opengl-driver/share/vulkan/explicit_layer.d";
-#    XDG_SESSION_TYPE = "wayland";
-#    GBM_BACKEND = "nvidia-drm";
+    #    XDG_SESSION_TYPE = "wayland";
+    #    GBM_BACKEND = "nvidia-drm";
 
     # enable these and zeditor wont start
     __GLX_VENDOR_LIBRARY_NAME = "nvidia";
@@ -80,8 +81,12 @@
     dust
 
     nixfmt-rfc-style
-    nixd
+    nixd # nix lsp
+
     qt6.qtwayland # needed for mozc to run  QT_QPA_PLATFORM, wayland
+
+    slack
+    zoom
   ];
 
   fonts = {
