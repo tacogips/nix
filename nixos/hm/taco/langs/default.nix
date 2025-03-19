@@ -25,12 +25,6 @@
         pip
         black
         flake8
-        ipython
-        mypy
-        pylint
-        pytest
-        setuptools
-        wheel
       ]
     ))
 
@@ -52,9 +46,9 @@
     CARGO_HOME = "${config.home.homeDirectory}/.cargo";
     RUSTUP_HOME = "${config.home.homeDirectory}/.rustup";
 
-    # Go
-    GOPATH = "${config.home.homeDirectory}/go";
-    GOBIN = "${config.home.homeDirectory}/go/bin";
+    ## Go
+    #GOPATH = "${config.home.homeDirectory}/go";
+    #GOBIN = "${config.home.homeDirectory}/go/bin";
 
     # Add the bins to PATH
     PATH = "${config.home.homeDirectory}/go/bin:${config.home.homeDirectory}/.cargo/bin:$PATH";
