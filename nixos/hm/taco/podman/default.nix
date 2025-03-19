@@ -8,8 +8,6 @@
 {
   services.podman = {
     enable = true;
-    # rootlessのPodmanを有効化
-    enableNvidia = true; # NVIDIAサポートを有効化（必要な場合）
 
     # 例: Podmanのコンテナ定義
     containers = {
@@ -25,9 +23,6 @@
         labels = {
           "app" = "example";
         };
-        extraOptions = [
-          "--network=host" # 必要に応じて
-        ];
       };
     };
 

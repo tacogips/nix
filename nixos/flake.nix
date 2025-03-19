@@ -61,7 +61,8 @@
                 options = "--delete-older-than 30d";
               };
               nix.settings.auto-optimise-store = true;
-              nix.settings.trusted-users = [ "taco" ];
+              # not needed for rootless
+              #nix.settings.trusted-users = [ "taco" ];
 
               virtualisation.podman = {
                 enable = true;
