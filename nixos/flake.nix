@@ -86,38 +86,40 @@
                   daemon.settings = {
 
                     # deal with error setting rlimit type 8: operation not permitted
-                    "default-ulimits" = {
-                      "memlock" = {
-                        "name" = "memlock";
-                        "hard" = -1;
-                        "soft" = -1;
-                      };
+                    #"default-ulimits" = {
+                    #  "memlock" = {
+                    #    "name" = "memlock";
+                    #    "hard" = -1;
+                    #    "soft" = -1;
+                    #  };
 
-                      #daemon.settings = {
-                      #  # NVIDIAランタイムの明示的な設定
-                      #  "runtimes" = {
-                      #    "nvidia" = {
-                      #      "path" = "${pkgs.nvidia-docker}/bin/nvidia-container-runtime";
-                      #      "runtimeArgs" = [];
-                      #    };
-                      #  };
-                      #  # 必要に応じてデフォルトランタイムをnvidiaに設定
-                      #  # "default-runtime" = "nvidia";
-                      #};
+                    #  #daemon.settings = {
+                    #  #  # NVIDIAランタイムの明示的な設定
+                    #  #  "runtimes" = {
+                    #  #    "nvidia" = {
+                    #  #      "path" = "${pkgs.nvidia-docker}/bin/nvidia-container-runtime";
+                    #  #      "runtimeArgs" = [];
+                    #  #    };
+                    #  #  };
+                    #  #  # 必要に応じてデフォルトランタイムをnvidiaに設定
+                    #  #  # "default-runtime" = "nvidia";
+                    #  #};
 
-                    };
+                    #};
                   };
                 };
               };
+
+              # deal with container error. setting rlimit type 8: operation not permitted
               security.pam.loginLimits = [
                 {
-                  domain = "taco";
+                  domain = "@wheel";
                   type = "soft";
                   item = "memlock";
-                  value = "unlimited"; # 無制限に設定
+                  value = "unlimited";
                 }
                 {
-                  domain = "taco";
+                  domain = "@wheel";
                   type = "hard";
                   item = "memlock";
                   value = "unlimited";
@@ -196,17 +198,14 @@
                 };
               };
 
-              programs.hyprland = {
-                enable = true;
-                xwayland.enable = true;
+              programs = {
+                hyprland = {
+                  enable = true;
+                  xwayland.enable = true;
+                };
+
+                fish.enable = true;
               };
-
-              programs.fish.enable = true;
-
-              #users.users.taco = {
-              #  isNormalUser = true;
-              #  extraGroups = [ "wheel" "networkmanager" ];
-              #};
 
               # for xremap
               boot.kernelModules = [
@@ -223,7 +222,6 @@
                   "wheel"
                   "networkmanager"
                   "input"
-                  "podman"
                 ];
                 openssh.authorizedKeys.keyFiles = [
                   ./ssh/authorized-keys-dev-machine
