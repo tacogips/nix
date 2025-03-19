@@ -168,6 +168,17 @@
                 ];
               };
 
+              # enable screen sharing
+              xdg.portal = {
+                enable = true;
+                extraPortals = [
+                  pkgs.xdg-desktop-portal-hyprland
+                ];
+                config.hyprland = {
+                  "org.freedesktop.impl.portal.ScreenCast" = "hyprland";
+                };
+              };
+
             }
 
             home-manager.nixosModules.home-manager
@@ -175,6 +186,13 @@
               home-manager.useGlobalPkgs = true;
               home-manager.useUserPackages = true;
               home-manager.backupFileExtension = "backup";
+              #home-manager.sharedModules = [
+              #  (
+              #    { config, ... }:
+              #    {
+              #    }
+              #  )
+              #];
               home-manager.extraSpecialArgs = {
                 inherit xremap-flake;
               }; # inputs を渡す

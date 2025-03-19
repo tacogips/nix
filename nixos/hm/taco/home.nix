@@ -65,7 +65,7 @@
     # vulkan and nvidia
     VK_ICD_FILENAMES = "/run/opengl-driver/share/vulkan/icd.d/nvidia_icd.x86_64.json";
     VK_LAYER_PATH = "/run/opengl-driver/share/vulkan/explicit_layer.d";
-    #    XDG_SESSION_TYPE = "wayland";
+    XDG_SESSION_TYPE = "wayland";
     #    GBM_BACKEND = "nvidia-drm";
 
     # enable these and zeditor wont start
@@ -91,6 +91,13 @@
     # using web client
     zoom-us
   ];
+
+  home.file.".config/zoomus.conf" = {
+    text = ''
+      enableWaylandShare=true
+      xwayland=true
+    '';
+  };
 
   fonts = {
     fontconfig.enable = true;
