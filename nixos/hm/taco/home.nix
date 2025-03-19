@@ -34,6 +34,7 @@
     ./syncthing
     ./podman
     ./kanshi
+    ./xdgdesktops
   ];
 
   i18n.inputMethod = {
