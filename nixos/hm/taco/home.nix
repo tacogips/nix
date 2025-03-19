@@ -81,6 +81,7 @@
     wl-clipboard # wl-copy and wl-paste for copy/paste from stdin / stdout
     tokei
     dust
+    jq
 
     nixfmt-rfc-style
     nixd # nix lsp
@@ -89,6 +90,10 @@
 
     slack
     obsidian
+
+    grim # screenshot functionality
+    slurp # screenshot functionality (select mouse region)
+    wf-recorder # capture video
 
     # using zoom web client for now
     #zoom-us

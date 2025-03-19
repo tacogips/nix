@@ -75,9 +75,6 @@
                 vim
                 git
                 curl
-                grim # screenshot functionality
-                slurp # screenshot functionality
-                mako # notification system developed by swaywm maintainer
                 fish
                 bash
               ];
