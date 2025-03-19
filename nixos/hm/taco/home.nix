@@ -128,18 +128,6 @@
 
   programs.home-manager.enable = true;
 
-  xdg.mimeApps = {
-    enable = true;
-    defaultApplications = {
-      "image/jpeg" = "feh.desktop";
-      "image/png" = "feh.desktop";
-      "image/gif" = "feh.desktop";
-      "image/bmp" = "feh.desktop";
-      "image/tiff" = "feh.desktop";
-      # 必要に応じて他の画像形式も追加
-    };
-  };
-
   #wayland.windowManager.hyprland = {
   #  enable = true;
 

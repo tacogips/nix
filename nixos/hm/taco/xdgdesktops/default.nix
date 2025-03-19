@@ -3,12 +3,17 @@
 {
   # .desktop エントリの作成
   xdg.desktopEntries = {
-    # アプリケーション名（ファイル名になります: my-custom-app.desktop）
-    open_lawgue = {
-      name = "My Custom Application";
-      comment = "open browser";
-      exec = "${pkgs.brave}/bin/brave %u"; # 実行するコマンド
-      #icon = "path-to-icon-or-icon-name"; # アイコン
+    bookmark1 = {
+      name = "bookmark1";
+      comment = "open bookmark with browser";
+      exec = "${pkgs.writeShellScriptBin "open-url-from-file1" ''
+        #!/bin/sh
+        URL_FILE_PATH=~/.private/bookmarks/1.txt
+        URL=$(${pkgs.coreutils}/bin/cat $URL_FILE_PATH)
+
+        ${pkgs.brave}/bin/brave "$URL"
+      ''}/bin/open-url-from-file1 ";
+      icon = "brave";
       terminal = false;
       categories = [
         "Development"
@@ -16,7 +21,43 @@
       ];
     };
 
-    ## 別の例：スクリプトを実行する.desktopファイル
+    bookmark2 = {
+      name = "bookmark2";
+      comment = "open bookmark with browser2";
+      exec = "${pkgs.writeShellScriptBin "open-url-from-file" ''
+        #!/bin/sh
+        URL_FILE_PATH=~/.private/bookmarks/2.txt
+        URL=$(${pkgs.coreutils}/bin/cat $URL_FILE_PATH)
+
+        ${pkgs.brave}/bin/brave "$URL"
+      ''}/bin/open-url-from-file2 ";
+      icon = "brave";
+      terminal = false;
+      categories = [
+        "Development"
+        "Utility"
+      ];
+    };
+
+    bookmark3 = {
+      name = "bookmark3";
+      comment = "open bookmark with browser";
+      exec = "${pkgs.writeShellScriptBin "open-url-from-file3" ''
+        #!/bin/sh
+        URL_FILE_PATH=~/.private/bookmarks/3.txt
+        URL=$(${pkgs.coreutils}/bin/cat $URL_FILE_PATH)
+
+        ${pkgs.brave}/bin/brave "$URL"
+      ''}/bin/open-url-from-file3 ";
+      icon = "brave";
+      terminal = false;
+      categories = [
+        "Development"
+        "Utility"
+      ];
+    };
+
+    ## run s
     #my-script = {
     #  name = "My Script";
     #  genericName = "Utility Script";
@@ -33,5 +74,19 @@
     #    "System"
     #  ];
     #};
+
   };
+
+  xdg.mimeApps = {
+    enable = true;
+    defaultApplications = {
+      "image/jpeg" = "feh.desktop";
+      "image/png" = "feh.desktop";
+      "image/gif" = "feh.desktop";
+      "image/bmp" = "feh.desktop";
+      "image/tiff" = "feh.desktop";
+      # 必要に応じて他の画像形式も追加
+    };
+  };
+
 }
