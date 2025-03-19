@@ -94,6 +94,8 @@
       "nix"
       "lua"
       "fish"
+      "make"
+      "git-firefly"
     ];
 
     userKeymaps = [

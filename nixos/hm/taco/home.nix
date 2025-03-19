@@ -107,6 +107,7 @@
     lazydocker
 
     gh
+    gnumake
   ];
 
   #  home.file.".config/zoomus.conf" = {
