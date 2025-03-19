@@ -12,6 +12,7 @@
     ./alacritty
     ./bottom
     ./eza
+    ./direnv
     ./fd
     ./foot
     ./fuzzel
