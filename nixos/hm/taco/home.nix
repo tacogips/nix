@@ -94,6 +94,7 @@
     grim # screenshot functionality
     slurp # screenshot functionality (select mouse region)
     wf-recorder # capture video
+    feh
 
     # using zoom web client for now
     #zoom-us
@@ -102,12 +103,12 @@
     lazydocker
   ];
 
-  home.file.".config/zoomus.conf" = {
-    text = ''
-      enableWaylandShare=true
-      xwayland=true
-    '';
-  };
+  #  home.file.".config/zoomus.conf" = {
+  #    text = ''
+  #      enableWaylandShare=true
+  #      xwayland=true
+  #    '';
+  #  };
 
   fonts = {
     fontconfig.enable = true;
@@ -123,6 +124,18 @@
   };
 
   programs.home-manager.enable = true;
+
+  xdg.mimeApps = {
+    enable = true;
+    defaultApplications = {
+      "image/jpeg" = "feh.desktop";
+      "image/png" = "feh.desktop";
+      "image/gif" = "feh.desktop";
+      "image/bmp" = "feh.desktop";
+      "image/tiff" = "feh.desktop";
+      # 必要に応じて他の画像形式も追加
+    };
+  };
 
   #wayland.windowManager.hyprland = {
   #  enable = true;

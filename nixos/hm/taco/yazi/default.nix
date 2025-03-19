@@ -73,41 +73,6 @@
     #};
 
     settings = {
-      #log = {
-      #  enabled = false;
-      #};
-
-      #manager = {
-      #  show_hidden = true;
-      #  sort_by = "mtime";
-      #  sort_dir_first = true;
-      #  sort_reverse = false;
-      #  linemode = "size";
-      #  show_symlink = true;
-      #};
-
-      #preview = {
-      #  max_width = 1920;
-      #  max_height = 1080;
-      #  cache_dir = "/tmp/yazi";
-      #};
-
-      open = {
-        rules = [
-          {
-            name = "*.jpg";
-            use = "default";
-          }
-          {
-            name = "*.png";
-            use = "default";
-          }
-          {
-            name = "*.pdf";
-            use = "zathura";
-          }
-        ];
-      };
     };
 
     #theme = {
