@@ -56,4 +56,10 @@
     wl-copy < $img_path
   '';
 
+  capture_sel_video = ''
+    set -l timestamp (date +%Y-%m-%d-%H%M%S)
+    set -l video_path  ~/Pictures/capture_sel_video_$timestamp.mp4
+    ${pkgs.wf-recorder}/bin/wf-recorder -g "$(${pkgs.slurp}/bin/slurp)" -f $video_path
+  '';
+
 }
