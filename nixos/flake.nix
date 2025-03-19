@@ -82,24 +82,47 @@
                 rootless = {
                   enable = true;
                   setSocketVariable = true; # setting DOCKER_HOST
+
                   daemon.settings = {
-                    # 必要に応じてdaemon設定を追加
+
+                    # deal with error setting rlimit type 8: operation not permitted
+                    "default-ulimits" = {
+                      "memlock" = {
+                        "name" = "memlock";
+                        "hard" = -1;
+                        "soft" = -1;
+                      };
+
+                      #daemon.settings = {
+                      #  # NVIDIAランタイムの明示的な設定
+                      #  "runtimes" = {
+                      #    "nvidia" = {
+                      #      "path" = "${pkgs.nvidia-docker}/bin/nvidia-container-runtime";
+                      #      "runtimeArgs" = [];
+                      #    };
+                      #  };
+                      #  # 必要に応じてデフォルトランタイムをnvidiaに設定
+                      #  # "default-runtime" = "nvidia";
+                      #};
+
+                    };
                   };
-
-                  #daemon.settings = {
-                  #  # NVIDIAランタイムの明示的な設定
-                  #  "runtimes" = {
-                  #    "nvidia" = {
-                  #      "path" = "${pkgs.nvidia-docker}/bin/nvidia-container-runtime";
-                  #      "runtimeArgs" = [];
-                  #    };
-                  #  };
-                  #  # 必要に応じてデフォルトランタイムをnvidiaに設定
-                  #  # "default-runtime" = "nvidia";
-                  #};
-
                 };
               };
+              security.pam.loginLimits = [
+                {
+                  domain = "taco";
+                  type = "soft";
+                  item = "memlock";
+                  value = "unlimited"; # 無制限に設定
+                }
+                {
+                  domain = "taco";
+                  type = "hard";
+                  item = "memlock";
+                  value = "unlimited";
+                }
+              ];
 
               security.unprivilegedUsernsClone = true; # for rootless mode
 
