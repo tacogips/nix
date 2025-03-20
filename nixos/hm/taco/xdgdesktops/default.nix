@@ -51,7 +51,12 @@ let
 in
 {
   # .desktop エントリの作成
-  xdg.desktopEntries = bookmarkEntries;
+  xdg.desktopEntries = bookmarkEntries // {
+    nemo = {
+      name = "Nemo";
+      exec = "${pkgs.nemo-with-extensions}/bin/nemo";
+    };
+  };
   ## run s
   #my-script = {
   #  name = "My Script";
@@ -78,7 +83,8 @@ in
       "image/gif" = "feh.desktop";
       "image/bmp" = "feh.desktop";
       "image/tiff" = "feh.desktop";
-      # 必要に応じて他の画像形式も追加
+      "inode/directory" = [ "nemo.desktop" ];
+      "application/x-gnome-saved-search" = [ "nemo.desktop" ];
     };
   };
 
