@@ -142,6 +142,7 @@
         context = "ProjectPanel && not_editing";
         bindings = {
           ". y" = "workspace::OpenInTerminal";
+          ", r" = "pane::DeploySearch";
           ":" = "command_palette::Toggle";
           "%" = "project_panel::NewFile";
           "r" = "project_panel::NewSearchInDirectory";
