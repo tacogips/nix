@@ -91,6 +91,7 @@
 
     extensions = [
       "html"
+      "toml"
       "nix"
       "lua"
       "fish"
