@@ -22,7 +22,7 @@ let
   #  };
   #}
 
-  bookmarkCount = 10;
+  bookmarkCount = 20;
 
   mkBookmarkEntry = num: {
     name = "bookmark${toString num}";
