@@ -84,10 +84,10 @@
                   setSocketVariable = true; # setting DOCKER_HOST
 
                   daemon.settings = {
-                    #dns = [
-                    #  "8.8.8.8"
-                    #  "8.8.4.4"
-                    #];
+                    dns = [
+                      "8.8.8.8"
+                      "8.8.4.4"
+                    ];
 
                     # deal with error setting rlimit type 8: operation not permitted
                     #"default-ulimits" = {
