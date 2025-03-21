@@ -62,7 +62,7 @@
     ${pkgs.wf-recorder}/bin/wf-recorder -g "$(${pkgs.slurp}/bin/slurp)" -f $video_path
   '';
 
-  bookmarks = ''
+  bkms = ''
     set -l home_dir $HOME
     set -l bookmark_dir $home_dir/.private/bookmarks
     if test -d $bookmark_dir
