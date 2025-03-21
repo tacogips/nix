@@ -84,6 +84,10 @@
                   setSocketVariable = true; # setting DOCKER_HOST
 
                   daemon.settings = {
+                    #dns = [
+                    #  "8.8.8.8"
+                    #  "8.8.4.4"
+                    #];
 
                     # deal with error setting rlimit type 8: operation not permitted
                     #"default-ulimits" = {
@@ -93,19 +97,14 @@
                     #    "soft" = -1;
                     #  };
 
-                    #  #daemon.settings = {
-                    #  #  # NVIDIAランタイムの明示的な設定
-                    #  #  "runtimes" = {
-                    #  #    "nvidia" = {
-                    #  #      "path" = "${pkgs.nvidia-docker}/bin/nvidia-container-runtime";
-                    #  #      "runtimeArgs" = [];
-                    #  #    };
-                    #  #  };
-                    #  #  # 必要に応じてデフォルトランタイムをnvidiaに設定
-                    #  #  # "default-runtime" = "nvidia";
-                    #  #};
+                    "runtimes" = {
+                      "nvidia" = {
+                        "path" = "${pkgs.nvidia-docker}/bin/nvidia-container-runtime";
+                        "runtimeArgs" = [ ];
+                      };
+                    };
+                    "default-runtime" = "nvidia";
 
-                    #};
                   };
                 };
               };
