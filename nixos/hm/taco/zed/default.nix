@@ -134,7 +134,7 @@
         context = "GitPanel || ProjectPanel || CollabPanel || OutlinePanel || ChatPanel || VimControl || EmptyPane || SharedScreen || MarkdownPreview || KeyContextView";
         bindings = {
           "ctrl-w" = "pane::CloseActiveItem";
-          "alt-h" = "workspace::ActivatePaneLeft";
+          "alt-j" = "workspace::ActivatePaneLeft";
           "alt-l" = "workspace::ActivatePaneRight";
           "alt-ctrl-t" = "pane::SplitVertical";
         };
