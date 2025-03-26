@@ -10,6 +10,7 @@
   gac = "git add .; git commit -am";
 
   lg = "lazygit";
+  ldc = "lazydocker";
   cat = "bat";
   gs = "git status";
 
