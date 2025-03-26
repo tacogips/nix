@@ -9,6 +9,8 @@
 
   gac = "git add .; git commit -am";
 
+  dc = "docker compose";
+
   lg = "lazygit";
   ldc = "lazydocker";
   cat = "bat";
