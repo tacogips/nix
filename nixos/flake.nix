@@ -86,6 +86,8 @@
 
                   daemon.settings = {
                     dns = [
+
+                      "1.1.1.1"
                       "8.8.8.8"
                       "8.8.4.4"
                     ];
@@ -109,6 +111,8 @@
                   };
                 };
               };
+              ## TODO(tacogips) debuggin docker dns error
+              #services.resolved.enable = true;
 
               # deal with container error. setting rlimit type 8: operation not permitted
               security.pam.loginLimits = [

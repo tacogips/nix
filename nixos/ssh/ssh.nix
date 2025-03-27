@@ -11,6 +11,7 @@
     allowedUDPPorts = [
       21027
       22000
+      53 # for docker?
     ];
   };
 

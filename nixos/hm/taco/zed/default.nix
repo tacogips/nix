@@ -22,7 +22,7 @@
       telemetry = {
         diagnostics = false;
       };
-
+lli
       format_on_save = "on";
       vim_mode = true;
       ui_font_size = 12;
@@ -97,6 +97,7 @@
       "fish"
       "make"
       "git-firefly"
+      "ruff"
     ];
 
     userKeymaps = [
