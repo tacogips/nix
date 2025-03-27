@@ -33,6 +33,7 @@
         system = "${system}";
         config = {
           allowUnfree = true;
+          cudaSupport = true;
         };
       };
 
@@ -133,13 +134,29 @@
                 curl
                 fish
                 bash
-                cudaPackages_12.cudatoolkit
-                cudaPackages_12.cudnn
+                stdenv.cc.cc.lib
+
+                cudatoolkit
+                cudaPackages.cudnn
+                cudaPackages.cuda_cudart
+                cudaPackages.cuda_cupti
+                cudaPackages.cuda_nvrtc
+                cudaPackages.cuda_nvtx
+
               ];
 
               environment.variables = {
-                CUDA_PATH = "${pkgs.cudaPackages_12.cudatoolkit}";
-                LD_LIBRARY_PATH = "${pkgs.cudaPackages_12.cudatoolkit}/lib:${pkgs.cudaPackages_12.cudnn}/lib";
+                CUDA_PATH = "${pkgs.cudatoolkit}";
+                CUDA_HOME = "${pkgs.cudatoolkit}";
+                EXTRA_LDFLAGS = "-L${pkgs.cudatoolkit}/lib/stubs";
+                LD_LIBRARY_PATH = pkgs.lib.makeLibraryPath [
+                  pkgs.cudatoolkit
+                  pkgs.cudaPackages.cudnn
+                  pkgs.cudaPackages.cuda_cudart
+                  pkgs.linuxPackages.nvidia_x11
+                  pkgs.stdenv.cc.cc.lib
+                ];
+
               };
 
               fonts = {

@@ -25,7 +25,7 @@
 
       # Use the open source version of the kernel module
       # Only available on driver 515.43.04+
-      open = false;
+      open = true;
 
       # Enable the nvidia settings menu
       nvidiaSettings = true;
