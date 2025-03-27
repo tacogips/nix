@@ -133,7 +133,14 @@
                 curl
                 fish
                 bash
+                cudaPackages_12.cudatoolkit
+                cudaPackages_12.cudnn
               ];
+
+              environment.variables = {
+                CUDA_PATH = "${pkgs.cudaPackages_12.cudatoolkit}";
+                LD_LIBRARY_PATH = "${pkgs.cudaPackages_12.cudatoolkit}/lib:${pkgs.cudaPackages_12.cudnn}/lib";
+              };
 
               fonts = {
                 fontDir.enable = true;
