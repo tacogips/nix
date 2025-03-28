@@ -113,6 +113,7 @@
     mpv # movie player
     # gui file manager.see xdgdesktops also
     nemo-with-extensions
+
   ];
 
   #  home.file.".config/zoomus.conf" = {

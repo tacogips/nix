@@ -37,6 +37,9 @@
     # Zig compiler and language server
     zig
     zls
+    ruff
+
+    package-version-server # used in zed
 
   ];
 

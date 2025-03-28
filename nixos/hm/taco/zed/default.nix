@@ -22,7 +22,7 @@
       telemetry = {
         diagnostics = false;
       };
-lli
+
       format_on_save = "on";
       vim_mode = true;
       ui_font_size = 12;
@@ -77,6 +77,46 @@ lli
             };
           };
         };
+
+        "YAML" = {
+          format_on_save = "off";
+        };
+        "Python" = {
+          language_servers = [
+            "pyright"
+            #"ruff"
+          ];
+          format_on_save = "on";
+          formatter = [
+            #{
+            #  external = {
+            #    command = "ruff";
+            #    arguments = [
+            #      "check"
+            #      "--exit-zero"
+            #      "--fix"
+            #      "--stdin-filename"
+            #      "{buffer_path}"
+            #      "-"
+            #    ];
+            #  };
+            #}
+
+            {
+              external = {
+                command = "ruff";
+                arguments = [
+                  "format"
+                  "--stdin-filename"
+                  "{buffer_path}"
+                  "-"
+                ];
+              };
+            }
+
+          ];
+        };
+
       };
 
       vim = {
@@ -97,7 +137,6 @@ lli
       "fish"
       "make"
       "git-firefly"
-      "ruff"
     ];
 
     userKeymaps = [
@@ -182,6 +221,7 @@ lli
         bindings = {
           "ctrl-k" = "assistant::InlineAssist";
           "ctrl-shift-i" = "editor::ShowCompletions";
+          "ctrl-shift-g" = "editor::Format";
         };
       }
       {

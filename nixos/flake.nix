@@ -85,12 +85,25 @@
                   setSocketVariable = true; # setting DOCKER_HOST
 
                   daemon.settings = {
+
+                    debug = true;
                     dns = [
 
                       "1.1.1.1"
                       "8.8.8.8"
                       "8.8.4.4"
                     ];
+
+                    # debugging =============================================
+
+                    #"userland-proxy" = true;
+                    #"iptables" = false; # rootlessモードではiptablesを使わない
+
+                    #"cgroup-parent" = "user.slice";
+                    #"ip-forward" = false;
+                    #"ip-masq" = false;
+
+                    # debugging =============================================
 
                     # deal with error setting rlimit type 8: operation not permitted
                     #"default-ulimits" = {
@@ -111,8 +124,16 @@
                   };
                 };
               };
-              ## TODO(tacogips) debuggin docker dns error
-              #services.resolved.enable = true;
+
+              services.resolved = {
+                enable = true;
+                fallbackDns = [
+                  "8.8.8.8"
+                  "8.8.4.4"
+                ];
+                llmnr = "false";
+                dnssec = "false";
+              };
 
               # deal with container error. setting rlimit type 8: operation not permitted
               security.pam.loginLimits = [
@@ -133,6 +154,7 @@
               security.unprivilegedUsernsClone = true; # for rootless mode
 
               environment.systemPackages = with pkgs; [
+
                 vim
                 git
                 curl
