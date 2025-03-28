@@ -14,8 +14,6 @@
       enable32Bit = true;
     };
 
-    nvidia-container-toolkit.enable = true;
-
     nvidia = {
       # Modesetting is required for most Wayland compositors
       modesetting.enable = true;

@@ -5,7 +5,7 @@
     enable = true;
 
     extraPackages = with pkgs; [
-      nixfmt
+      nixfmt-rfc-style
       nil
     ];
 

@@ -79,60 +79,77 @@
               #};
 
               virtualisation.docker = {
-                enable = false;
+                #enable = true;
+                #rootless = {
+                #  enable = true;
+                #  setSocketVariable = true; # setting DOCKER_HOST
+
+                #  daemon.settings = {
+
+                #    debug = true;
+                #    dns = [
+
+                #      "1.1.1.1"
+                #      "8.8.8.8"
+                #      "8.8.4.4"
+                #    ];
+
+                #    # debugging =============================================
+
+                #    #"userland-proxy" = true;
+                #    #"iptables" = false; # rootlessモードではiptablesを使わない
+
+                #    #"cgroup-parent" = "user.slice";
+                #    #"ip-forward" = false;
+                #    #"ip-masq" = false;
+
+                #    # debugging =============================================
+
+                #    # deal with error setting rlimit type 8: operation not permitted
+                #    #"default-ulimits" = {
+                #    #  "memlock" = {
+                #    #    "name" = "memlock";
+                #    #    "hard" = -1;
+                #    #    "soft" = -1;
+                #    #  };
+
+                #    "runtimes" = {
+                #      "nvidia" = {
+                #        "path" = "${pkgs.nvidia-docker}/bin/nvidia-container-runtime";
+                #        "runtimeArgs" = [ ];
+                #      };
+                #    };
+                #    "default-runtime" = "nvidia";
+
+                #  };
+                #};
+
+                enable = true;
                 rootless = {
-                  enable = true;
-                  setSocketVariable = true; # setting DOCKER_HOST
-
-                  daemon.settings = {
-
-                    debug = true;
-                    dns = [
-
-                      "1.1.1.1"
-                      "8.8.8.8"
-                      "8.8.4.4"
-                    ];
-
-                    # debugging =============================================
-
-                    #"userland-proxy" = true;
-                    #"iptables" = false; # rootlessモードではiptablesを使わない
-
-                    #"cgroup-parent" = "user.slice";
-                    #"ip-forward" = false;
-                    #"ip-masq" = false;
-
-                    # debugging =============================================
-
-                    # deal with error setting rlimit type 8: operation not permitted
-                    #"default-ulimits" = {
-                    #  "memlock" = {
-                    #    "name" = "memlock";
-                    #    "hard" = -1;
-                    #    "soft" = -1;
-                    #  };
-
-                    "runtimes" = {
-                      "nvidia" = {
-                        "path" = "${pkgs.nvidia-docker}/bin/nvidia-container-runtime";
-                        "runtimeArgs" = [ ];
-                      };
-                    };
-                    "default-runtime" = "nvidia";
-
-                  };
+                  enable = false;
+                  setSocketVariable = false;
                 };
+                #daemon.settings = {
+                #  debug = true;
+                #  dns = [
+                #    "1.1.1.1"
+                #    "8.8.8.8"
+                #    "8.8.4.4"
+                #  ];
+
+                #  "runtimes" = {
+                #    "nvidia" = {
+                #      "path" = "${pkgs.nvidia-docker}/bin/nvidia-container-runtime";
+                #      "runtimeArgs" = [ ];
+                #    };
+                #  };
+                #  "default-runtime" = "nvidia";
+                #};
               };
 
-              services.resolved = {
+              hardware.nvidia-container-toolkit = {
                 enable = true;
-                fallbackDns = [
-                  "8.8.8.8"
-                  "8.8.4.4"
-                ];
-                llmnr = "false";
-                dnssec = "false";
+                package = pkgs.nvidia-container-toolkit;
               };
 
               # deal with container error. setting rlimit type 8: operation not permitted
@@ -150,8 +167,6 @@
                   value = "unlimited";
                 }
               ];
-
-              security.unprivilegedUsernsClone = true; # for rootless mode
 
               environment.systemPackages = with pkgs; [
 
@@ -271,6 +286,7 @@
                   "wheel"
                   "networkmanager"
                   "input"
+                  "docker"
                 ];
                 openssh.authorizedKeys.keyFiles = [
                   ./ssh/authorized-keys-dev-machine
