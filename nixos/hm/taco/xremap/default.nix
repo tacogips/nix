@@ -1,7 +1,7 @@
 { pkgs, ... }:
 {
 
-  # the application can get with `hyprctl client`
+  # the application can get with `hyprctl clients`
   services.xremap = {
     enable = true;
     withHypr = true;
@@ -22,7 +22,7 @@
           remap = {
             "C-m" = "enter";
             "C-h" = "backspace";
-            "C-a" = "home";
+            # C-a" = "home";
             #"C-n" = {
             #  with_mark = "down";
             #};
@@ -30,8 +30,47 @@
             #"C-p" = {
             #  with_mark = "up";
             #};
+
+            #"C-a" = {
+            #  with_mark = "home";
+            #};
+            #"C-e" = {
+            #  with_mark = "end";
+            #};
+            #"C-k" = [
+            #  "Shift-end"
+            #  "C-x"
+            #  { set_mark = false; }
+            #];
+
           };
         }
+
+        #{
+        #  name = "browser";
+        #  application = {
+        #    only = "brave-browser";
+        #  };
+        #  remap = {
+        #    "C-a" = {
+        #      with_mark = "home";
+        #    };
+        #    "C-e" = {
+        #      with_mark = "end";
+        #    };
+
+        #    "C-p" = {
+        #      with_mark = "up";
+        #    };
+        #    "C-n" = {
+        #      with_mark = "down";
+        #    };
+
+        #    "C-k" = [
+        #
+        #      "Shift-end" "C-x" { set_mark = false; } ];
+        #  };
+        #}
 
         #{
         #  name = "browser";
