@@ -27,12 +27,23 @@
   boot.kernelModules = [ "kvm-intel" ];
   boot.extraModulePackages = [ ];
 
+  # 2TB
   fileSystems."/" = {
     device = "/dev/disk/by-uuid/d832cb75-eb49-459d-bac0-2db431bff344";
     fsType = "ext4";
   };
+
+  # 2TB
+  # additional /dev/nvme0n1
   fileSystems."/d" = {
     device = "/dev/disk/by-uuid/f5387897-4ad1-4bb0-ab0f-38024c69e652";
+    fsType = "ext4";
+  };
+
+  # 4TB
+  # additional /dev/nvme2n1p1
+  fileSystems."/g" = {
+    device = "/dev/disk/by-uuid/396d04e2-550c-4328-a819-3a11aa50608f";
     fsType = "ext4";
   };
 

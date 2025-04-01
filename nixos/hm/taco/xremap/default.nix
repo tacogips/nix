@@ -67,8 +67,11 @@
         #    };
 
         #    "C-k" = [
-        #
-        #      "Shift-end" "C-x" { set_mark = false; } ];
+
+        #      "Shift-end"
+        #      "C-x"
+        #      { set_mark = false; }
+        #    ];
         #  };
         #}
 
