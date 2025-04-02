@@ -60,6 +60,10 @@
     text = ''
       chown $(id -u taco):$(id -g taco) /d
       chmod 755 /d
+
+      chown $(id -u taco):$(id -g taco) /g
+      chmod 755 /g
+
     '';
     deps = [ ];
   };
