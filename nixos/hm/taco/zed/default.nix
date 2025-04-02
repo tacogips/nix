@@ -253,6 +253,7 @@
         bindings = {
           "ctrl-i" = "editor::Tab";
           "ctrl-shift-j" = "editor::ShowCompletions";
+          "ctrl-shift-y" = "editor::ShowEditPrediction";
         };
       }
       {
