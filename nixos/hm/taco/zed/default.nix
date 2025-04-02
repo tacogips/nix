@@ -219,8 +219,7 @@
       {
         context = "Editor";
         bindings = {
-          "ctrl-shift-a" = "assistant::InlineAssist";
-          "ctrl-shift-i" = "editor::ShowCompletions";
+          "ctrl-shift-l" = "assistant::InlineAssist";
           "ctrl-shift-g" = "editor::Format";
         };
       }
@@ -253,6 +252,7 @@
         context = "vim_mode == insert";
         bindings = {
           "ctrl-i" = "editor::Tab";
+          "ctrl-shift-j" = "editor::ShowCompletions";
         };
       }
       {
