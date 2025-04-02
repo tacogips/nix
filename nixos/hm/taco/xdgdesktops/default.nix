@@ -31,9 +31,9 @@ let
       #!/bin/sh
       URL_FILE_PATH=~/.private/bookmarks/${toString num}.txt
       URL=$(${pkgs.coreutils}/bin/cat $URL_FILE_PATH)
-      ${pkgs.brave}/bin/brave "$URL"
+      ${pkgs.firefox}/bin/firefox "$URL"
     ''}/bin/open-url-from-file${toString num}";
-    icon = "brave";
+    icon = "firefox";
     terminal = false;
     categories = [
       "Development"

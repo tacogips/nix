@@ -219,7 +219,7 @@
       {
         context = "Editor";
         bindings = {
-          "ctrl-k" = "assistant::InlineAssist";
+          "ctrl-shift-a" = "assistant::InlineAssist";
           "ctrl-shift-i" = "editor::ShowCompletions";
           "ctrl-shift-g" = "editor::Format";
         };

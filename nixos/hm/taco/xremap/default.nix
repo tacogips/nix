@@ -31,25 +31,30 @@
             #  with_mark = "up";
             #};
 
-            #"C-a" = {
-            #  with_mark = "home";
-            #};
-            #"C-e" = {
-            #  with_mark = "end";
-            #};
-            #"C-k" = [
-            #  "Shift-end"
-            #  "C-x"
-            #  { set_mark = false; }
-            #];
+            "C-a" = {
+              with_mark = "home";
+            };
+            "C-e" = {
+              with_mark = "end";
+            };
+            "C-k" = [
+              "Shift-end"
+              "C-x"
+              { set_mark = false; }
+            ];
 
           };
         }
 
         #{
-        #  name = "browser";
-        #  application = {
-        #    only = "brave-browser";
+        #  name = "browser"; application = {
+        #    #    only = "brave-browser";
+        #    #only = [
+        #    #  "firefox"
+        #    #  "Mozilla Firefox"
+        #    #];
+
+        #    only = "firefox";
         #  };
         #  remap = {
         #    "C-a" = {

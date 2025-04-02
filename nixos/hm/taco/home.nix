@@ -68,6 +68,7 @@
     ELECTRON_OZONE_PLATFORM_HINT = "wayland";
     QT_QPA_PLATFORM = "wayland";
     SDL_VIDEODRIVER = "wayland";
+    #    MOZ_ENABLE_WAYLAND = 1;
 
     # vulkan and nvidia
     VK_ICD_FILENAMES = "/run/opengl-driver/share/vulkan/icd.d/nvidia_icd.x86_64.json";
@@ -81,6 +82,7 @@
   };
 
   home.packages = with pkgs; [
+    firefox
     go-task
 
     wl-clipboard # wl-copy and wl-paste for copy/paste from stdin / stdout
