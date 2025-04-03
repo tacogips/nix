@@ -311,7 +311,7 @@
             {
               home-manager.useGlobalPkgs = true;
               home-manager.useUserPackages = true;
-              home-manager.backupFileExtension = "backup";
+              home-manager.backupFileExtension = "hm_backup";
               #home-manager.sharedModules = [
               #  (
               #    { config, ... }:
