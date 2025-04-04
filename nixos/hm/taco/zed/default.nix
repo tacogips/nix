@@ -152,7 +152,7 @@
           "alt-r" = "diagnostics::Deploy";
           "alt-g" = "workspace::ToggleZoom";
           "alt-e" = "project_panel::ToggleFocus";
-          "alt-j" = "pane::RevealInProjectPanel";
+          "alt-w" = "pane::RevealInProjectPanel";
         };
       }
       {
