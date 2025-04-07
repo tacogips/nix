@@ -184,6 +184,10 @@
                 cudaPackages.cuda_nvrtc
                 cudaPackages.cuda_nvtx
 
+                (pkgs.ollama.override {
+                  acceleration = "cuda";
+                })
+
               ];
 
               environment.variables = {
@@ -239,6 +243,12 @@
               };
 
               services.gnome.gnome-keyring.enable = true;
+
+              # web ui for llama
+              #services.open-webui = {
+              #  enable = true;
+              #  environment.OLLAMA_API_BASE_URL = "http://localhost:11434";
+              #};
 
               # login manager
               services.greetd = {
