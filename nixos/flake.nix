@@ -168,6 +168,11 @@
                 }
               ];
 
+              # for fan control
+              hardware.i2c = {
+                enable = true;
+              };
+
               environment.systemPackages = with pkgs; [
 
                 vim
@@ -187,6 +192,8 @@
                 (pkgs.ollama.override {
                   acceleration = "cuda";
                 })
+
+                lm_sensors
 
               ];
 
@@ -301,6 +308,7 @@
                   "networkmanager"
                   "input"
                   "docker"
+                  "i2c"
                 ];
                 openssh.authorizedKeys.keyFiles = [
                   ./ssh/authorized-keys-dev-machine
