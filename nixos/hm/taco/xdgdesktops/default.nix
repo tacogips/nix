@@ -85,6 +85,8 @@ in
       "image/tiff" = "feh.desktop";
       "inode/directory" = [ "nemo.desktop" ];
       "application/x-gnome-saved-search" = [ "nemo.desktop" ];
+      "text/html" = "firefox.desktop";
+      "application/pdf" = "firefox.desktop";
     };
   };
 

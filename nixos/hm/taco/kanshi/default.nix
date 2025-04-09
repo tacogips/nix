@@ -4,6 +4,7 @@
   services.kanshi = {
     enable = true;
 
+    # hyprctl monitors
     profiles = {
       dualmonitor = {
         outputs = [

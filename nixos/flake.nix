@@ -279,6 +279,10 @@
                 };
 
                 fish.enable = true;
+
+                coolercontrol = {
+                  enable = true;
+                };
               };
 
               # for xremap

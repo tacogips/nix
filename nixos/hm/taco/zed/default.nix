@@ -189,7 +189,7 @@
           "r" = "project_panel::NewSearchInDirectory";
           "/" = "file_finder::Toggle";
           "d" = "project_panel::NewDirectory";
-          "shift-d" = "project_panel::RemoveFromProject";
+          #"shift-d" = "project_panel::RemoveFromProject";
           "ctrl-shift-d" = "project_panel::Delete";
           "enter" = "project_panel::OpenPermanent";
           "escape" = "project_panel::ToggleFocus";
