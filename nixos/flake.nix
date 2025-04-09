@@ -292,9 +292,9 @@
                 };
               };
 
-              # for xremap
               boot.kernelModules = [
-                "uinput"
+                "uinput" # for xremap
+                "nct6775" # Nuvoton NCT6798D Super IO sensor.fan control
               ];
               # for xremap
               services.udev.extraRules = ''
