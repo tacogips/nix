@@ -87,6 +87,11 @@ in
       "application/x-gnome-saved-search" = [ "nemo.desktop" ];
       "text/html" = "firefox.desktop";
       "application/pdf" = "firefox.desktop";
+      "application/xhtml+xml" = "firefox.desktop";
+      "text/xml" = "firefox.desktop";
+      "x-scheme-handler/ftp" = "firefox.desktop";
+      "x-scheme-handler/http" = "firefox.desktop";
+      "x-scheme-handler/https" = "firefox.desktop";
     };
   };
 
