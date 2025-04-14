@@ -16,8 +16,10 @@
   cat = "bat";
   gs = "git status";
 
-  gps = "git push origin ";
-  gpl = "git pull origin ";
+  gps = "git push origin";
+  gpl = "git pull origin";
+  gch = "git chekout";
+  ghb = "gh browse";
   htop = "btm";
 
   cc = "cargo check";
