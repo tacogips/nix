@@ -186,8 +186,9 @@
           ", r" = "pane::DeploySearch";
           ":" = "command_palette::Toggle";
           "%" = "project_panel::NewFile";
-          "r" = "project_panel::NewSearchInDirectory";
-          "/" = "file_finder::Toggle";
+          "/" = "project_panel::NewSearchInDirectory";
+          #"/" = "file_finder::Toggle";
+          ", ," = "file_finder::Toggle";
           "d" = "project_panel::NewDirectory";
           #"shift-d" = "project_panel::RemoveFromProject";
           "ctrl-shift-d" = "project_panel::Delete";
