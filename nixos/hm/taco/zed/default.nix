@@ -234,6 +234,7 @@
         bindings = {
           ". y" = "workspace::OpenInTerminal";
           "space w" = "workspace::Save";
+          "space e" = "editor::ReloadFile";
           "space q" = "pane::CloseActiveItem";
           ", a" = "editor::ToggleCodeActions";
           ", e" = "editor::Rename";
