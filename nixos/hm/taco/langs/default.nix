@@ -25,6 +25,7 @@
         pip
         black
         flake8
+        uv
       ]
     ))
 
