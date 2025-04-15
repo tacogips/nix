@@ -192,11 +192,22 @@
           "alt-w" = "pane::RevealInProjectPanel";
         };
       }
+
       {
-        context = "AssistantPanel";
+
+        context = "AgentPanel";
         bindings = {
-          "ctrl-t" = "assistant::NewChat";
-          ", f" = "assistant::DeployHistory";
+          "ctrl-shift-t" = "agent::NewPromptEditor";
+          "ctrl-t" = "agent::NewThread";
+          ", f" = "agent::OpenHistory";
+          ":" = "command_palette::Toggle";
+          "escape" = "pane::GoBack";
+          #"ctrl-i" = "agent::ToggleProfileSelector";
+          #"ctrl-alt-/" = "assistant::ToggleModelSelector";
+          #"ctrl-shift-a" = "agent::ToggleContextPicker";
+          #"ctrl-e" = "agent::ChatMode";
+          #"ctrl-alt-e" = "agent::RemoveAllContext";
+
         };
       }
       {
@@ -258,6 +269,7 @@
         context = "Editor";
         bindings = {
           "ctrl-shift-l" = "assistant::InlineAssist";
+
           "ctrl-shift-g" = "editor::Format";
         };
       }

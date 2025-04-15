@@ -181,6 +181,7 @@
                 fish
                 bash
                 gcc # needed for rust
+                clang # needed for rust
                 stdenv.cc.cc.lib
 
                 cudatoolkit
