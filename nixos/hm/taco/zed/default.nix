@@ -127,6 +127,36 @@
         highlight_on_yank_duration = 200;
         custom_digraphs = { };
       };
+
+      edit_predictions = {
+        # A list of globs representing files that edit predictions should be disabled for.
+        # There's a sensible default list of globs already included.
+        # Any addition to this list will be merged with the default list.
+        # Globs are matched relative to the worktree root,
+        # except when starting with a slash (/) or equivalent in Windows.
+        disabled_globs = [
+          "**/.env*"
+          "**/*.pem"
+          "**/*.key"
+          "**/*.cert"
+          "**/*.crt"
+          "**/.dev.vars"
+          "**/secrets.yml"
+          "**/secrets*"
+          "**/*.private*"
+        ];
+        # When to show edit predictions previews in buffer.
+        # This setting takes two possible values:
+        # 1. Display predictions inline when there are no language server completions available.
+        #     mode = "eager"
+        # 2. Display predictions inline only when holding a modifier key (alt by default).
+        #     mode = "subtle"
+        mode = "eager";
+        # Whether edit predictions are enabled in the assistant panel.
+        # This setting has no effect if globally disabled.
+        enabled_in_assistant = true;
+      };
+
     };
 
     extensions = [
@@ -235,6 +265,7 @@
         bindings = {
           ". y" = "workspace::OpenInTerminal";
           "space w" = "workspace::Save";
+          "space t" = "workspace::Reload";
           "space e" = "editor::ReloadFile";
           "space q" = "pane::CloseActiveItem";
           ", a" = "editor::ToggleCodeActions";
