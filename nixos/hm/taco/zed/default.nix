@@ -19,6 +19,14 @@
         version = "2";
       };
 
+      context_servers = {
+        "mcp-server-brave-search" = {
+          settings = {
+            brave_api_key = "BSAI-M6-uhodVR_zJpENhEutANZQoHg";
+          };
+        };
+      };
+
       telemetry = {
         diagnostics = false;
       };
@@ -145,15 +153,7 @@
           "**/secrets*"
           "**/*.private*"
         ];
-        # When to show edit predictions previews in buffer.
-        # This setting takes two possible values:
-        # 1. Display predictions inline when there are no language server completions available.
-        #     mode = "eager"
-        # 2. Display predictions inline only when holding a modifier key (alt by default).
-        #     mode = "subtle"
         mode = "eager";
-        # Whether edit predictions are enabled in the assistant panel.
-        # This setting has no effect if globally disabled.
         enabled_in_assistant = true;
       };
 
@@ -167,6 +167,7 @@
       "fish"
       "make"
       "git-firefly"
+      "mcp-server-exa-search"
     ];
 
     userKeymaps = [

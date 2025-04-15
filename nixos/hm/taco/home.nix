@@ -36,6 +36,7 @@
     ./kanshi
     ./xdgdesktops
     ./langs
+    ./node
     #    ./podman
   ];
 
