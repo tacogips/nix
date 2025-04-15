@@ -152,7 +152,7 @@
                 package = pkgs.nvidia-container-toolkit;
               };
 
-              # deal with container error. setting rlimit type 8: operation not permitted
+              # deal with container error. setting rlimit type 8: operation not permitted for rootlessdocker
               security.pam.loginLimits = [
                 {
                   domain = "@wheel";
@@ -180,6 +180,7 @@
                 curl
                 fish
                 bash
+                gcc # needed for rust
                 stdenv.cc.cc.lib
 
                 cudatoolkit
