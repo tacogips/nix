@@ -25,6 +25,12 @@
             brave_api_key = "BSAI-M6-uhodVR_zJpENhEutANZQoHg";
           };
         };
+        "postgres-context-server" = {
+          settings = {
+            database_url = "postgresql://myuser:mypassword@localhost:5432/mydatabase";
+          };
+        };
+
       };
 
       telemetry = {

@@ -2,10 +2,8 @@
 
 {
   home.packages = with pkgs; [
-    nodejs_20
-    nodePackages.npm
-    nodePackages.pnpm
-    nodePackages.yarn
+    # npx error?
+    #nodejs_22
   ];
 
   ## Configure npm with defaults
