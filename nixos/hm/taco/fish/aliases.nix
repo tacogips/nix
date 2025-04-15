@@ -18,7 +18,7 @@
 
   gps = "git push origin";
   gpl = "git pull origin";
-  gch = "git chekout";
+  gch = "git checkout";
   ghb = "gh browse";
   htop = "btm";
 
