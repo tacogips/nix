@@ -28,6 +28,8 @@
   z = "zeditor";
   f = "${pkgs.fd}/bin/fd";
 
+  da = "direnv allow";
+
   mozc_config = "${pkgs.mozc}/lib/mozc/mozc_tool --mode=config_dialog";
 
   pyac = "source ./venv/bin/activate.fish";
