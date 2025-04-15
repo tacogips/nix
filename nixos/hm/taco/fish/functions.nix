@@ -23,6 +23,10 @@
     end
   '';
 
+  rgl = ''
+    rg --json $argv | delta
+  '';
+
   y = ''
     set -l tmp (mktemp -t "yazi-cwd.XXXXXX")
     ${pkgs.yazi}/bin/yazi $argv --cwd-file="$tmp"
