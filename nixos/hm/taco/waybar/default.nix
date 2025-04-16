@@ -16,6 +16,11 @@
         height = 15;
 
         modules-left = [ "hyprland/workspaces" ];
+
+        modules-center = [
+          "hyprland/window"
+          "clock"
+        ];
         modules-right = [
           "custom/cpu-temp"
           "custom/cpu-load"
@@ -25,10 +30,15 @@
           "custom/disk-g"
           "custom/fcitx5"
           "network"
-          "clock"
         ];
         "hyprland/workspaces" = {
           format = "{icon}";
+        };
+
+        "hyprland/window" = {
+          format = "{}";
+          max-length = 50;
+          separate-outputs = true;
         };
 
         "custom/cpu-temp" = {
