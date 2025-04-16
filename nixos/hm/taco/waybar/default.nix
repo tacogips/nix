@@ -1,7 +1,14 @@
 { pkgs, ... }:
 {
+  # Ensure required dependencies for CoolerControl scripts
+  home.packages = with pkgs; [
+    curl
+    jq
+  ];
+
   programs.waybar = {
     enable = true;
+    style = builtins.readFile ./waybar.css;
     settings = {
       mainBar = {
         position = "bottom";
@@ -10,6 +17,8 @@
 
         modules-left = [ "hyprland/workspaces" ];
         modules-right = [
+          "custom/cpu-temp"
+          "custom/cpu-load"
           "temperature"
           "cpu"
           "memory"
@@ -20,6 +29,22 @@
         ];
         "hyprland/workspaces" = {
           format = "{icon}";
+        };
+
+        "custom/cpu-temp" = {
+          format = "󰔏 {}";
+          exec = "${pkgs.bash}/bin/bash ${./scripts/coolercontrol-temp.sh}";
+          return-type = "json";
+          interval = 3;
+          tooltip = true;
+        };
+
+        "custom/cpu-load" = {
+          format = "󰻠 {}";
+          exec = "${pkgs.bash}/bin/bash ${./scripts/coolercontrol-load.sh}";
+          return-type = "json";
+          interval = 3;
+          tooltip = true;
         };
 
         "custom/fcitx5" = {
