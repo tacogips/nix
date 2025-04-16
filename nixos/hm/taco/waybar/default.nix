@@ -77,6 +77,12 @@
           return-type = "json";
           interval = 30;
         };
+
+        "memory" = {
+          format = "mem: {used:0.1f}GB/{total:0.1f}GB";
+          interval = 5;
+          tooltip = true;
+        };
       };
 
     };
