@@ -195,12 +195,25 @@
 
       {
 
+        context = "AgentPanel && not_editing";
+        bindings = {
+          ":" = "command_palette::Toggle";
+          #"ctrl-i" = "agent::ToggleProfileSelector";
+          #"ctrl-alt-/" = "assistant::ToggleModelSelector";
+          #"ctrl-shift-a" = "agent::ToggleContextPicker";
+          #"ctrl-e" = "agent::ChatMode";
+          #"ctrl-alt-e" = "agent::RemoveAllContext";
+
+        };
+      }
+
+      {
+
         context = "AgentPanel";
         bindings = {
           "alt-ctrl-t" = "agent::NewPromptEditor";
           "ctrl-t" = "agent::NewThread";
           ", f" = "agent::OpenHistory";
-          ":" = "command_palette::Toggle";
           "escape" = "pane::GoBack";
           #"ctrl-i" = "agent::ToggleProfileSelector";
           #"ctrl-alt-/" = "assistant::ToggleModelSelector";

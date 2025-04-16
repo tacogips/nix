@@ -9,56 +9,35 @@
 # CoolerControl API URL (default port is 11987)
 API_URL="http://localhost:11987/api"
 
-# Get CPU load from system
-get_load_from_system() {
-    # Get CPU usage from top
-    local load
-    load=$(top -bn1 | grep "Cpu(s)" | sed "s/.*, *\([0-9.]*\)%* id.*/\1/" | awk '{print 100 - $1}')
-    echo "$load"
-}
-
-# Function to get CPU load
+# Function to get CPU load from Cooler Control API
 get_cpu_load() {
-    # Try to get load data from CoolerControl API
-    local load_data
-    local api_available=false
-    local cpu_load
+    # Get status data from CoolerControl API
+    api_data=$(curl -s -X POST "${API_URL}/status" -H "Content-Type: application/json" -d '{}')
     
-    # Check if CoolerControl API is responsive
-    if curl -s -f "${API_URL}/status" >/dev/null 2>&1; then
-        api_available=true
-        load_data=$(curl -s "${API_URL}/status/load")
-        
-        # Debug: log API response
-        if [[ -n "$DEBUG" ]]; then
-            echo "API Response: $load_data" >&2
-        fi
+    # Debug: log API response
+    if [[ -n "$DEBUG" ]]; then
+        echo "API Response: $api_data" >&2
     fi
     
-    # If API is available and returned valid data
-    if [ "$api_available" = true ] && [ -n "$load_data" ] && [ "$load_data" != "{}" ]; then
-        # Check if the response is valid JSON
-        if echo "$load_data" | jq . >/dev/null 2>&1; then
-            # Try to get CPU load from API
-            if echo "$load_data" | jq -e '.cpu_load' >/dev/null 2>&1; then
-                cpu_load=$(echo "$load_data" | jq -r '.cpu_load // empty')
-            fi
-            
-            # Try alternative API formats if needed
-            if [ -z "$cpu_load" ] && echo "$load_data" | jq -e '.devices' >/dev/null 2>&1; then
-                # Get the CPU load from the first device
-                cpu_load=$(echo "$load_data" | jq -r '.devices[0].load // empty')
-            fi
+    # Check if we got valid JSON
+    if echo "$api_data" | jq . >/dev/null 2>&1; then
+        # Try to get CPU load from CPU device channel named 'CPU Load'
+        cpu_load=$(echo "$api_data" | jq -r '.devices[] | select(.type=="CPU") | .status_history[0].channels[] | select(.name=="CPU Load") | .duty' 2>/dev/null)
+        
+        # If no CPU load found, try to get GPU load as fallback
+        if [ -z "$cpu_load" ] || [ "$cpu_load" == "null" ]; then
+            cpu_load=$(echo "$api_data" | jq -r '.devices[] | select(.type=="GPU") | .status_history[0].channels[] | select(.name=="GPU Load") | .duty' 2>/dev/null)
         fi
     fi
     
     # If we couldn't get load from API, fall back to system info
-    if [ -z "$cpu_load" ]; then
-        cpu_load=$(get_load_from_system)
+    if [ -z "$cpu_load" ] || [ "$cpu_load" == "null" ]; then
+        # Fallback to system load using top
+        cpu_load=$(top -bn1 | grep "Cpu(s)" | sed "s/.*, *\([0-9.]*\)%* id.*/\1/" | awk '{print 100 - $1}')
     fi
     
     # Format the output
-    if [ -n "$cpu_load" ]; then
+    if [ -n "$cpu_load" ] && [ "$cpu_load" != "null" ]; then
         # Round to integer
         cpu_load=$(printf "%.0f" "$cpu_load" 2>/dev/null || echo "$cpu_load")
         echo "{ \"text\": \"$cpu_load%\", \"tooltip\": \"CPU Load: $cpu_load%\" }"
