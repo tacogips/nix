@@ -26,8 +26,8 @@
         ];
 
         "clock" = {
-          format = "{:%Y-%m-%d | %H:%M:%S}";
-          tooltip-format = "{:%Y-%m-%d | %H:%M:%S}";
+          format = "{:%Y-%m-%d (%a) | %H:%M:%S}";
+          tooltip-format = "{:%Y-%m-%d (%a) | %H:%M:%S}";
           interval = 1;
           tooltip = true;
         };
