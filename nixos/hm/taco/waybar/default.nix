@@ -21,7 +21,7 @@
           "custom/cpu-load"
           "cpu"
           "memory"
-          "disk"
+          "custom/disk-root"
           "custom/disk-d"
           "custom/disk-g"
           "custom/fcitx5"
@@ -58,24 +58,22 @@
           signal = 1;
         };
 
-        "disk" = {
-          format = "/ {used_gb}/{total_gb}GB";
-          path = "/";
+        "custom/disk-root" = {
+          format = "/ {}";
+          exec = "${pkgs.bash}/bin/bash ${./scripts/disk-usage.sh} /";
+          return-type = "json";
           interval = 30;
-          format-used-gb = "{used;gib;1}";
-          format-total-gb = "{total;gib;1}";
-          tooltip-format = "/ {used} used out of {total} ({percentage_used}%)";
         };
 
         "custom/disk-d" = {
-          format = "/d {}"; 
+          format = "/d {}";
           exec = "${pkgs.bash}/bin/bash ${./scripts/disk-usage.sh} /d";
           return-type = "json";
           interval = 30;
         };
 
         "custom/disk-g" = {
-          format = "/g {}"; 
+          format = "/g {}";
           exec = "${pkgs.bash}/bin/bash ${./scripts/disk-usage.sh} /g";
           return-type = "json";
           interval = 30;
