@@ -8,7 +8,7 @@
 [[ -n "$DEBUG" ]] && set -eux
 
 # CoolerControl API URL (default port is 11987)
-API_URL="http://localhost:11987/api"
+API_URL="http://localhost:11987"
 
 # Function to get highest CPU temperature from Cooler Control API
 get_highest_cpu_temp() {
@@ -21,11 +21,11 @@ get_highest_cpu_temp() {
     fi
 
     local cpu_temp=""
-
     # Check if we got valid JSON
     if echo "$api_data" | jq . >/dev/null 2>&1; then
         # Get all CPU temperatures and find the highest
         cpu_temp=$(echo "$api_data" | jq -r '.devices[] | select(.type=="CPU") | .status_history[0].temps[].temp' 2>/dev/null | sort -rn | head -1)
+
 
         # If no CPU temp found, try Hwmon devices
         if [ -z "$cpu_temp" ] || [ "$cpu_temp" == "null" ]; then
@@ -38,6 +38,7 @@ get_highest_cpu_temp() {
     if [ -z "$cpu_temp" ] || [ "$cpu_temp" == "null" ]; then
         # Get all CPU temperatures from sensors and find the highest
         cpu_temp=$(sensors 2>/dev/null | grep -E 'Core|Tctl|Package id' | awk '{print $2}' | tr -d "+u00b0C" | tr -d ":" | sort -rn | head -1)
+
     fi
 
     # Format the output

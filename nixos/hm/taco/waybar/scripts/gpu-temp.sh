@@ -7,7 +7,7 @@
 [[ -n "$DEBUG" ]] && set -eux
 
 # CoolerControl API URL (default port is 11987)
-API_URL="http://localhost:11987/api"
+API_URL="http://localhost:11987"
 
 # Function to get GPU temperature from Cooler Control API
 get_gpu_temp() {
@@ -25,7 +25,7 @@ get_gpu_temp() {
     if echo "$api_data" | jq . >/dev/null 2>&1; then
         # Get GPU temperature
         gpu_temp=$(echo "$api_data" | jq -r '.devices[] | select(.type=="GPU") | .status_history[0].temps[].temp' 2>/dev/null | sort -rn | head -1)
-        
+
         # If no GPU temp found, try to find GPU temp from Hwmon devices
         if [ -z "$gpu_temp" ] || [ "$gpu_temp" == "null" ]; then
             # Try to find GPU from Hwmon devices
