@@ -31,7 +31,10 @@ window#waybar {
 #network,
 #custom-cpu-temp,
 #custom-cpu-load,
-#custom-fcitx5 {
+#custom-fcitx5,
+#custom-disk-root,
+#custom-disk-d,
+#custom-disk-g {
     padding: 0 10px;
     margin: 0 4px;
     background-color: #313244;
@@ -50,7 +53,7 @@ window#waybar {
     color: #a6e3a1;
 }
 
-#disk {
+#custom-disk-root {
     color: #cba6f7;
 }
 
