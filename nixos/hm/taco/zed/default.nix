@@ -12,22 +12,74 @@
     userSettings = {
       # Assistantの設定
       assistant = {
+        version = "2";
+        enabled = true;
+        button = true;
+        dock = "right";
+        default_width = 640;
+        default_height = 320;
         default_model = {
+          #provider = "zed.dev";
           provider = "anthropic";
           model = "claude-3-7-sonnet-latest";
         };
-        version = "2";
+        editor_model = {
+          #provider = "zed.dev";
+          provider = "anthropic";
+          model = "claude-3-7-sonnet-latest";
+        };
+        always_allow_tool_actions = true;
+        default_profile = "write";
+        profiles = {
+          ask = {
+            name = "Ask";
+            tools = {
+              diagnostics = true;
+              fetch = true;
+              list_directory = false;
+              now = true;
+              path_search = true;
+              read_file = true;
+              regex_search = true;
+              thinking = true;
+            };
+          };
+          write = {
+            name = "Write";
+            enable_all_context_servers = true;
+            tools = {
+              bash = true;
+              batch_tool = true;
+              code_symbols = true;
+              copy_path = false;
+              create_file = true;
+              delete_path = false;
+              diagnostics = true;
+              find_replace_file = true;
+              fetch = true;
+              list_directory = false;
+              move_path = false;
+              now = true;
+              path_search = true;
+              read_file = true;
+              regex_search = true;
+              symbol_info = true;
+              thinking = true;
+            };
+          };
+        };
+        # Where to show notifications when an agent has either completed
+        # its response, or else needs confirmation before it can run a
+        # tool action.
+        # "primary_screen" - Show the notification only on your primary screen (default)
+        # "all_screens" - Show these notifications on all screens
+        # "never" - Never show these notifications
+        notify_when_agent_waiting = "primary_screen";
       };
-
       context_servers = {
         "mcp-server-brave-search" = {
           settings = {
             brave_api_key = "BSAI-M6-uhodVR_zJpENhEutANZQoHg";
-          };
-        };
-        "postgres-context-server" = {
-          settings = {
-            database_url = "postgresql://myuser:mypassword@localhost:5432/mydatabase";
           };
         };
 
