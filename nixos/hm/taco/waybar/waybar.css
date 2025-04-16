@@ -50,19 +50,15 @@ window#waybar {
     color: #a6e3a1;
 }
 
-#disk, #disk.root, #disk.d, #disk.g {
+#disk {
     color: #cba6f7;
 }
 
-#disk.root {
-    color: #cba6f7;
-}
-
-#disk.d {
+#custom-disk-d {
     color: #b4befe;
 }
 
-#disk.g {
+#custom-disk-g {
     color: #f5c2e7;
 }
 
