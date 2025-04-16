@@ -19,7 +19,6 @@
         modules-right = [
           "custom/cpu-temp"
           "custom/cpu-load"
-          "cpu"
           "memory"
           "custom/disk-root"
           "custom/disk-d"
