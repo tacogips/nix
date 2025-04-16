@@ -24,6 +24,12 @@
           "hyprland/window"
           "clock"
         ];
+
+        "clock" = {
+          format = "{:%Y-%m-%d %H:%M:%S}";
+          tooltip-format = "{:%Y-%m-%d | %H:%M:%S}";
+          interval = 1;
+        };
         modules-right = [
           "custom/cpu-temp"
           "custom/cpu-load"
