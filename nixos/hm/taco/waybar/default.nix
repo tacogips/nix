@@ -49,10 +49,10 @@
         };
 
         "custom/fcitx5" = {
-          format = "A/あ"; # You can use a different icon if preferred
+          format = "{}"; # You can use a different icon if preferred
           exec = "${pkgs.fcitx5}/bin/fcitx5-remote -n";
           interval = 1;
-          return-type = "json";
+          return-type = "text";
           on-click = "${pkgs.fcitx5}/bin/fcitx5-configtool";
           tooltip = false;
           signal = 1;
