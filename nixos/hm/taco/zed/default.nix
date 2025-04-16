@@ -197,7 +197,7 @@
 
         context = "AgentPanel";
         bindings = {
-          "ctrl-shift-t" = "agent::NewPromptEditor";
+          "alt-ctrl-t" = "agent::NewPromptEditor";
           "ctrl-t" = "agent::NewThread";
           ", f" = "agent::OpenHistory";
           ":" = "command_palette::Toggle";
