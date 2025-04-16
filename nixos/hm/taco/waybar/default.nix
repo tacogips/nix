@@ -15,7 +15,10 @@
         layer = "top";
         height = 15;
 
-        modules-left = [ "hyprland/workspaces" ];
+        modules-left = [
+          "hyprland/workspaces"
+          "custom/fcitx5"
+        ];
 
         modules-center = [
           "hyprland/window"
@@ -28,7 +31,6 @@
           "custom/disk-root"
           "custom/disk-d"
           "custom/disk-g"
-          "custom/fcitx5"
           "network"
         ];
         "hyprland/workspaces" = {
