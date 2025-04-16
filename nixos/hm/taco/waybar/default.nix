@@ -32,6 +32,7 @@
         };
         modules-right = [
           "custom/cpu-temp"
+          "custom/gpu-temp"
           "custom/cpu-load"
           "memory"
           "custom/disk-root"
@@ -52,6 +53,14 @@
         "custom/cpu-temp" = {
           format = "󰔏 {}";
           exec = "${pkgs.bash}/bin/bash ${./scripts/coolercontrol-temp.sh}";
+          return-type = "json";
+          interval = 3;
+          tooltip = true;
+        };
+
+        "custom/gpu-temp" = {
+          format = "󰢮 {}";
+          exec = "${pkgs.bash}/bin/bash ${./scripts/gpu-temp.sh}";
           return-type = "json";
           interval = 3;
           tooltip = true;
