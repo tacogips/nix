@@ -74,7 +74,10 @@ window#waybar {
 }
 
 #clock {
-    color: #f9e2af;
+    color: #ffd700; /* より鮮やかな黄色 */
+    font-size: 16px; /* フォントサイズを大きく */
+    font-weight: bold; /* 太字に */
+    border-left: 3px solid #ffd700; /* 左側に境界線を追加 */
 }
 
 #network {

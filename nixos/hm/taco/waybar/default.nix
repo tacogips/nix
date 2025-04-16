@@ -26,9 +26,10 @@
         ];
 
         "clock" = {
-          format = "{:%Y-%m-%d %H:%M:%S}";
+          format = "{:%Y-%m-%d | %H:%M:%S}";
           tooltip-format = "{:%Y-%m-%d | %H:%M:%S}";
           interval = 1;
+          tooltip = true;
         };
         modules-right = [
           "custom/cpu-temp"
