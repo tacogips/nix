@@ -50,8 +50,20 @@ window#waybar {
     color: #a6e3a1;
 }
 
-#disk {
+#disk, #disk.root, #disk.d, #disk.g {
     color: #cba6f7;
+}
+
+#disk.root {
+    color: #cba6f7;
+}
+
+#disk.d {
+    color: #b4befe;
+}
+
+#disk.g {
+    color: #f5c2e7;
 }
 
 #custom-cpu-temp {
