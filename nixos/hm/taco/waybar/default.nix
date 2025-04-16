@@ -51,7 +51,7 @@
         };
 
         "custom/cpu-temp" = {
-          format = "󰔏 {}";
+          format = "cpu:{}";
           exec = "${pkgs.bash}/bin/bash ${./scripts/coolercontrol-temp.sh}";
           return-type = "json";
           interval = 3;
@@ -59,7 +59,7 @@
         };
 
         "custom/gpu-temp" = {
-          format = "󰢮 {}";
+          format = "gpu:{}";
           exec = "${pkgs.bash}/bin/bash ${./scripts/gpu-temp.sh}";
           return-type = "json";
           interval = 3;
