@@ -41,7 +41,7 @@
         };
 
         "custom/cpu-load" = {
-          format = "󰻠 {}";
+          format = "cpu: {}";
           exec = "${pkgs.bash}/bin/bash ${./scripts/coolercontrol-load.sh}";
           return-type = "json";
           interval = 3;
@@ -57,7 +57,7 @@
           tooltip = false;
           signal = 1;
         };
-        
+
         "disk#root" = {
           format = "/ {used_gb}/{total_gb}GB";
           path = "/";
@@ -66,7 +66,7 @@
           format-total-gb = "{total;gib;1}";
           tooltip-format = "/ {used} used out of {total} ({percentage_used}%)";
         };
-        
+
         "disk#d" = {
           format = "/d {used_gb}/{total_gb}GB";
           path = "/d";
@@ -75,7 +75,7 @@
           format-total-gb = "{total;gib;1}";
           tooltip-format = "/d {used} used out of {total} ({percentage_used}%)";
         };
-        
+
         "disk#g" = {
           format = "/g {used_gb}/{total_gb}GB";
           path = "/g";
