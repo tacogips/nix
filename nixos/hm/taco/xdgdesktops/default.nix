@@ -1,6 +1,27 @@
 { config, pkgs, ... }:
 
 let
+  # We'll still import fish functions for reference, but create simplified bash versions
+  fishFunctions = import ../fish/functions.nix { inherit pkgs; };
+  
+  # Create specific bash implementations for screenshot functions
+  # These call fish with a specific function name rather than trying to inline the function content
+  screenshotScripts = {
+    capture_sel = pkgs.writeShellScriptBin "capture_sel" ''
+      #!/bin/sh
+      ${pkgs.fish}/bin/fish -c "capture_sel"
+    '';
+    
+    capture_sel_video = pkgs.writeShellScriptBin "capture_sel_video" ''
+      #!/bin/sh
+      ${pkgs.fish}/bin/fish -c "capture_sel_video"
+    '';
+    
+    capture_active = pkgs.writeShellScriptBin "capture_active" ''
+      #!/bin/sh
+      ${pkgs.fish}/bin/fish -c "capture_active"
+    '';
+  };
 
   #xdg.desktopEntries = {
   #  bookmark1 = {
@@ -59,13 +80,7 @@ in
     capture_sel = {
       name = "Screen Area Screenshot";
       comment = "Capture a selected area of the screen";
-      exec = "${pkgs.writeShellScriptBin "capture_sel" ''
-        #!/bin/sh
-        timestamp=$(date +%Y-%m-%d-%H%M%S)
-        img_path=~/Pictures/capture_sel_$timestamp.png
-        ${pkgs.slurp}/bin/slurp | ${pkgs.grim}/bin/grim -g - $img_path
-        ${pkgs.wl-clipboard}/bin/wl-copy < $img_path
-      ''}/bin/capture_sel";
+      exec = "${screenshotScripts.capture_sel}/bin/capture_sel";
       icon = "applets-screenshooter";
       terminal = false;
       categories = [
@@ -77,12 +92,7 @@ in
     capture_sel_video = {
       name = "Screen Area Video";
       comment = "Capture a video of a selected area of the screen";
-      exec = "${pkgs.writeShellScriptBin "capture_sel_video" ''
-        #!/bin/sh
-        timestamp=$(date +%Y-%m-%d-%H%M%S)
-        video_path=~/Pictures/capture_sel_video_$timestamp.mp4
-        ${pkgs.wf-recorder}/bin/wf-recorder -g "$(${pkgs.slurp}/bin/slurp)" -f $video_path
-      ''}/bin/capture_sel_video";
+      exec = "${screenshotScripts.capture_sel_video}/bin/capture_sel_video";
       icon = "camera-video";
       terminal = false;
       categories = [
@@ -95,13 +105,7 @@ in
     capture_active = {
       name = "Active Window Screenshot";
       comment = "Capture the currently active window";
-      exec = "${pkgs.writeShellScriptBin "capture_active" ''
-        #!/bin/sh
-        timestamp=$(date +%Y-%m-%d-%H%M%S)
-        img_path=~/Pictures/capture_active_$timestamp.png
-        ${pkgs.hyprland}/bin/hyprctl -j activewindow | ${pkgs.jq}/bin/jq -r '"\(.at[0]),\(.at[1]) \(.size[0])x\(.size[1])"' | ${pkgs.grim}/bin/grim -g - $img_path
-        ${pkgs.wl-clipboard}/bin/wl-copy < $img_path
-      ''}/bin/capture_active";
+      exec = "${screenshotScripts.capture_active}/bin/capture_active";
       icon = "applets-screenshooter";
       terminal = false;
       categories = [
