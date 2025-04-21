@@ -85,6 +85,7 @@
   home.packages = with pkgs; [
     firefox
     go-task
+    kubectl
 
     networkmanagerapplet # nm-connection-editor
 
@@ -92,6 +93,7 @@
     tokei
     dust
     jq
+    claude-code
 
     nixfmt-rfc-style
     nixd # nix lsp
