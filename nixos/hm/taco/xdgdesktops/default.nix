@@ -23,26 +23,6 @@ let
     '';
   };
 
-  #xdg.desktopEntries = {
-  #  bookmark1 = {
-  #    name = "bookmark1";
-  #    comment = "open bookmark with browser";
-  #    exec = "${pkgs.writeShellScriptBin "open-url-from-file1" ''
-  #      #!/bin/sh
-  #      URL_FILE_PATH=~/.private/bookmarks/1.txt
-  #      URL=$(${pkgs.coreutils}/bin/cat $URL_FILE_PATH)
-  #
-  #      ${pkgs.brave}/bin/brave "$URL"
-  #    ''}/bin/open-url-from-file1 ";
-  #    icon = "brave";
-  #    terminal = false;
-  #    categories = [
-  #      "Development"
-  #      "Utility"
-  #    ];
-  #  };
-  #}
-
   bookmarkCount = 20;
 
   mkBookmarkEntry = num: {
