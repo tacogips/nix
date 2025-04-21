@@ -3,7 +3,7 @@
 let
   # We'll still import fish functions for reference, but create simplified bash versions
   fishFunctions = import ../fish/functions.nix { inherit pkgs; };
-  
+
   # Create specific bash implementations for screenshot functions
   # These call fish with a specific function name rather than trying to inline the function content
   screenshotScripts = {
@@ -11,12 +11,12 @@ let
       #!/bin/sh
       ${pkgs.fish}/bin/fish -c "capture_sel"
     '';
-    
+
     capture_sel_video = pkgs.writeShellScriptBin "capture_sel_video" ''
       #!/bin/sh
       ${pkgs.fish}/bin/fish -c "capture_sel_video"
     '';
-    
+
     capture_active = pkgs.writeShellScriptBin "capture_active" ''
       #!/bin/sh
       ${pkgs.fish}/bin/fish -c "capture_active"
@@ -78,7 +78,7 @@ in
       exec = "${pkgs.nemo-with-extensions}/bin/nemo";
     };
     capture_sel = {
-      name = "Screen Area Screenshot";
+      name = "capture_sel: Screen Area Screenshot";
       comment = "Capture a selected area of the screen";
       exec = "${screenshotScripts.capture_sel}/bin/capture_sel";
       icon = "applets-screenshooter";
@@ -90,7 +90,7 @@ in
       ];
     };
     capture_sel_video = {
-      name = "Screen Area Video";
+      name = "capture_sel_video: Screen Area Video";
       comment = "Capture a video of a selected area of the screen";
       exec = "${screenshotScripts.capture_sel_video}/bin/capture_sel_video";
       icon = "camera-video";
@@ -103,7 +103,7 @@ in
       ];
     };
     capture_active = {
-      name = "Active Window Screenshot";
+      name = "capture_active: Active Window Screenshot";
       comment = "Capture the currently active window";
       exec = "${screenshotScripts.capture_active}/bin/capture_active";
       icon = "applets-screenshooter";
