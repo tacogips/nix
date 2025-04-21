@@ -44,16 +44,7 @@ let
   # Format of bookmark_list.txt should be one bookmark name per line, e.g.:
   #
   # github_tacogips
-  # github_jlsi
   # notion_notes
-  # gdocs_spreadsheet
-  # localhost_4001
-  # github_lawgue_backend
-  # slack_docs
-  # lawgue_dev
-  # gcalendar
-  # grafana_lawgue
-  # aws_console
   # gmail
   #
   # Each bookmark name will correspond to a file at ~/.private/bookmarks/{name}.txt
