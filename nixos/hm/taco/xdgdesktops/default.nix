@@ -40,55 +40,19 @@ let
     ];
   };
 
-  # Read bookmark names from .config/bookmark_list.txt if it exists, otherwise use default empty list
-  # Format of bookmark_list.txt should be one bookmark name per line, e.g.:
-  #
-  # github_tacogips
-  # notion_notes
-  # gmail
-  #
-  # Each bookmark name will correspond to a file at ~/.private/bookmarks/{name}.txt
-  # containing just the URL for that bookmark.
-  #
-  # For example:
-  # ~/.private/bookmarks/github_tacogips.txt contains: https://github.com/tacogips
-  # ~/.private/bookmarks/gmail.txt contains: https://mail.google.com/mail/u/0/#inbox
-  bookmarkNames =
-    let
-      bookmarkFile = "${config.home.homeDirectory}/.config/bookmark_list.txt";
-      fileExists = builtins.pathExists bookmarkFile;
-    in
-    if fileExists then pkgs.lib.splitString "\n" (builtins.readFile bookmarkFile) else [ ];
-
-  # Filter out empty lines
-  filteredBookmarkNames = builtins.filter (name: name != "") bookmarkNames;
-
+  # Import bookmarkNames from separate file
+  bookmarks = import ./bookmarks.nix;
+  bookmarkNames = bookmarks.bookmarkNames;
   # Create bookmark entries from the names in the file
   bookmarkEntries = builtins.listToAttrs (
     map (name: {
       name = "bookmark_${name}";
       value = mkBookmarkEntry name;
-    }) filteredBookmarkNames
+    }) bookmarkNames
   );
 
 in
 {
-  # Create the bookmark_list.txt file
-  home.file.".config/bookmark_list.txt".text = ''
-    github_tacogips
-    work_notion
-    work_spreadsheet
-    work_github
-    work_github_backend
-    work_slack
-    work_slack_report
-    work_grafana
-    work_aws_console
-    gcalendar
-    gmail
-    localhost_4001
-  '';
-
   # .desktop エントリの作成
   xdg.desktopEntries = bookmarkEntries // {
     nemo = {
