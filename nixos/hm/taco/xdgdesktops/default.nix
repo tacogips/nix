@@ -23,17 +23,15 @@ let
     '';
   };
 
-  bookmarkCount = 20;
-
-  mkBookmarkEntry = num: {
-    name = "bookmark${toString num}";
-    comment = "Open bookmark ${toString num} with browser";
-    exec = "${pkgs.writeShellScriptBin "open-url-from-file${toString num}" ''
+  mkBookmarkEntry = bookmark_name: {
+    name = "bookmark_${bookmark_name}";
+    comment = "Open bookmark ${bookmark_name} with browser";
+    exec = "${pkgs.writeShellScriptBin "open-url-from-file-${bookmark_name}" ''
       #!/bin/sh
-      URL_FILE_PATH=~/.private/bookmarks/${toString num}.txt
+      URL_FILE_PATH=~/.private/bookmarks/${bookmark_name}.txt
       URL=$(${pkgs.coreutils}/bin/cat $URL_FILE_PATH)
       ${pkgs.firefox}/bin/firefox "$URL"
-    ''}/bin/open-url-from-file${toString num}";
+    ''}/bin/open-url-from-file-${bookmark_name}";
     icon = "firefox";
     terminal = false;
     categories = [
@@ -41,16 +39,65 @@ let
       "Utility"
     ];
   };
-  range = builtins.genList (x: x + 1) bookmarkCount;
+
+  # Read bookmark names from .config/bookmark_list.txt if it exists, otherwise use default empty list
+  # Format of bookmark_list.txt should be one bookmark name per line, e.g.:
+  #
+  # github_tacogips
+  # github_jlsi
+  # notion_notes
+  # gdocs_spreadsheet
+  # localhost_4001
+  # github_lawgue_backend
+  # slack_docs
+  # lawgue_dev
+  # gcalendar
+  # grafana_lawgue
+  # aws_console
+  # gmail
+  #
+  # Each bookmark name will correspond to a file at ~/.private/bookmarks/{name}.txt
+  # containing just the URL for that bookmark.
+  #
+  # For example:
+  # ~/.private/bookmarks/github_tacogips.txt contains: https://github.com/tacogips
+  # ~/.private/bookmarks/gmail.txt contains: https://mail.google.com/mail/u/0/#inbox
+  bookmarkNames =
+    let
+      bookmarkFile = "${config.home.homeDirectory}/.config/bookmark_list.txt";
+      fileExists = builtins.pathExists bookmarkFile;
+    in
+    if fileExists then pkgs.lib.splitString "\n" (builtins.readFile bookmarkFile) else [ ];
+
+  # Filter out empty lines
+  filteredBookmarkNames = builtins.filter (name: name != "") bookmarkNames;
+
+  # Create bookmark entries from the names in the file
   bookmarkEntries = builtins.listToAttrs (
-    map (num: {
-      name = "bookmark${toString num}";
-      value = mkBookmarkEntry num;
-    }) range
+    map (name: {
+      name = "bookmark_${name}";
+      value = mkBookmarkEntry name;
+    }) filteredBookmarkNames
   );
 
 in
 {
+  # Create the bookmark_list.txt file
+  home.file.".config/bookmark_list.txt".text = ''
+    github_tacogips
+    work_notion
+    work_spreadsheet
+    work_github
+    work_github_backend
+    work_slack
+    work_slack_report
+    work_grafana
+    work_aws_console
+    gcalendar
+    gmail
+    localhost_4001
+  '';
+
   # .desktop エントリの作成
   xdg.desktopEntries = bookmarkEntries // {
     nemo = {

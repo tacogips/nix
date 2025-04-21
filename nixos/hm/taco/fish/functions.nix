@@ -85,7 +85,7 @@
   '';
 
   hs = ''
-    set -l cmd (history | ${pkgs.coreutils}/bin/sort | ${pkgs.coreutils}/bin/uniq | ${pkgs.fzf}/bin/fzf --height 40% --layout reverse --info inline --border)
+    set -l cmd (history | ${pkgs.fzf}/bin/fzf --height 40% --layout reverse --info inline --border --tac)
     if test -n "$cmd"
       commandline -r $cmd
       commandline -f execute
