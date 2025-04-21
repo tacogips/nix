@@ -56,6 +56,60 @@ in
       name = "Nemo";
       exec = "${pkgs.nemo-with-extensions}/bin/nemo";
     };
+    capture_sel = {
+      name = "Screen Area Screenshot";
+      comment = "Capture a selected area of the screen";
+      exec = "${pkgs.writeShellScriptBin "capture_sel" ''
+        #!/bin/sh
+        timestamp=$(date +%Y-%m-%d-%H%M%S)
+        img_path=~/Pictures/capture_sel_$timestamp.png
+        ${pkgs.slurp}/bin/slurp | ${pkgs.grim}/bin/grim -g - $img_path
+        ${pkgs.wl-clipboard}/bin/wl-copy < $img_path
+      ''}/bin/capture_sel";
+      icon = "applets-screenshooter";
+      terminal = false;
+      categories = [
+        "Utility"
+        "Graphics"
+        "X-Screenshot"
+      ];
+    };
+    capture_sel_video = {
+      name = "Screen Area Video";
+      comment = "Capture a video of a selected area of the screen";
+      exec = "${pkgs.writeShellScriptBin "capture_sel_video" ''
+        #!/bin/sh
+        timestamp=$(date +%Y-%m-%d-%H%M%S)
+        video_path=~/Pictures/capture_sel_video_$timestamp.mp4
+        ${pkgs.wf-recorder}/bin/wf-recorder -g "$(${pkgs.slurp}/bin/slurp)" -f $video_path
+      ''}/bin/capture_sel_video";
+      icon = "camera-video";
+      terminal = false;
+      categories = [
+        "Utility"
+        "AudioVideo"
+        "Video"
+        "X-Screencast"
+      ];
+    };
+    capture_active = {
+      name = "Active Window Screenshot";
+      comment = "Capture the currently active window";
+      exec = "${pkgs.writeShellScriptBin "capture_active" ''
+        #!/bin/sh
+        timestamp=$(date +%Y-%m-%d-%H%M%S)
+        img_path=~/Pictures/capture_active_$timestamp.png
+        ${pkgs.hyprland}/bin/hyprctl -j activewindow | ${pkgs.jq}/bin/jq -r '"\(.at[0]),\(.at[1]) \(.size[0])x\(.size[1])"' | ${pkgs.grim}/bin/grim -g - $img_path
+        ${pkgs.wl-clipboard}/bin/wl-copy < $img_path
+      ''}/bin/capture_active";
+      icon = "applets-screenshooter";
+      terminal = false;
+      categories = [
+        "Utility"
+        "Graphics"
+        "X-Screenshot"
+      ];
+    };
   };
   ## run s
   #my-script = {
