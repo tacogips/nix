@@ -9,6 +9,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     xremap-flake.url = "github:xremap/nix-flake";
+    cratedocs-mcp.url = "github:tacogips/cratedocs-mcp";
 
     fenix = {
       url = "github:nix-community/fenix";
@@ -23,6 +24,7 @@
       nixpkgs,
       home-manager,
       xremap-flake,
+      cratedocs-mcp,
       fenix,
       ...
     }:
@@ -36,6 +38,8 @@
           cudaSupport = true;
         };
       };
+
+      cratedocs-mcp-pkg = cratedocs-mcp.packages.${system}.default;
 
     in
     {
@@ -344,8 +348,12 @@
               #  )
               #];
               home-manager.extraSpecialArgs = {
-                inherit xremap-flake fenix;
-              }; # inputs を渡す
+                inherit
+                  xremap-flake
+                  fenix
+                  cratedocs-mcp-pkg
+                  ;
+              };
               home-manager.users.taco =
                 { ... }:
                 {

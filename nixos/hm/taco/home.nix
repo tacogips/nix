@@ -3,6 +3,7 @@
   pkgs,
   inputs,
   xremap-flake,
+  cratedocs-mcp-pkg,
   ...
 }:
 
@@ -82,46 +83,52 @@
 
   };
 
-  home.packages = with pkgs; [
-    firefox
-    go-task
-    kubectl
+  home.packages =
+    with pkgs;
+    [
+      firefox
+      go-task
+      kubectl
 
-    networkmanagerapplet # nm-connection-editor
+      networkmanagerapplet # nm-connection-editor
 
-    wl-clipboard # wl-copy and wl-paste for copy/paste from stdin / stdout
-    tokei
-    dust
-    jq
-    claude-code
+      wl-clipboard # wl-copy and wl-paste for copy/paste from stdin / stdout
+      tokei
+      dust
+      jq
+      claude-code
 
-    nixfmt-rfc-style
-    nixd # nix lsp
+      nixfmt-rfc-style
+      nixd # nix lsp
 
-    qt6.qtwayland # needed for mozc to run  QT_QPA_PLATFORM, wayland
+      qt6.qtwayland # needed for mozc to run  QT_QPA_PLATFORM, wayland
 
-    slack
-    obsidian
+      slack
+      obsidian
 
-    grim # screenshot functionality
-    slurp # screenshot functionality (select mouse region)
-    wf-recorder # capture video
-    feh
+      grim # screenshot functionality
+      slurp # screenshot functionality (select mouse region)
+      wf-recorder # capture video
+      feh
 
-    # using zoom web client for now
-    #zoom-us
-    #podman-compose
-    #podman-tui
-    docker-compose
-    lazydocker
+      # using zoom web client for now
+      #zoom-us
+      #podman-compose
+      #podman-tui
+      docker-compose
+      lazydocker
 
-    gh
-    gnumake
-    mpv # movie player
-    # gui file manager.see xdgdesktops also
-    nemo-with-extensions
+      gh
+      gnumake
+      mpv # movie player
+      # gui file manager.see xdgdesktops also
+      nemo-with-extensions
 
-  ];
+    ]
+    ++ [
+
+      cratedocs-mcp-pkg
+    ];
 
   #  home.file.".config/zoomus.conf" = {
   #    text = ''
