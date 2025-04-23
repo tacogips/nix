@@ -384,15 +384,17 @@
         context = "ProjectSearchBar";
         bindings = {
           "ctrl-shift-f" = "search::FocusSearch";
+          "ctrl-r" = "search::ToggleReplace";
           "ctrl-f" = "project_search::ToggleFilters";
+          "ctrl-x" = "search::ToggleRegex";
         };
       }
       {
         context = "ProjectSearchView";
         bindings = {
           "escape" = "project_search::ToggleFocus";
-          "ctrl-shift-r" = "search::ToggleReplace";
-          "ctrl-shift-x" = "search::ToggleRegex";
+          "ctrl-r" = "search::ToggleReplace";
+          "ctrl-x" = "search::ToggleRegex";
         };
       }
       {
@@ -400,8 +402,8 @@
         bindings = {
           "escape" = "buffer_search::Dismiss";
           "tab" = "buffer_search::FocusEditor";
-          "ctrl-shift-r" = "search::ToggleReplace";
-          "ctrl-shift-l" = "search::ToggleSelection";
+          "ctrl-r" = "search::ToggleReplace";
+          "ctrl-l" = "search::ToggleSelection";
         };
       }
       {
