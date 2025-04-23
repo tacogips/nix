@@ -12,6 +12,7 @@
   imports = [
     ./alacritty
     ./bottom
+    ./claude
     ./eza
     ./direnv
     ./fd
