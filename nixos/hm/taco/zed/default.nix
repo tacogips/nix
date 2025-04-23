@@ -83,6 +83,13 @@
           };
         };
 
+        "cratedocs-mcp" = {
+          "command" = {
+            "path" = "cratedocs-mcp";
+            "args" = [ "stdio" ];
+            "env" = { };
+          };
+        };
       };
 
       telemetry = {
