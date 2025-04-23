@@ -59,11 +59,11 @@
         "nixpkgs": "nixpkgs"
       },
       "locked": {
-        "lastModified": 1745371995,
-        "narHash": "sha256-pfTAoy7D5vYozo+ubkem2QCO5Pm+AjSoeESS/LnEJCE=",
+        "lastModified": 1745376928,
+        "narHash": "sha256-c/f7XygKV9xYzNxALPrlTVM6StscfEcIeCvrLALcRNA=",
         "owner": "tacogips",
         "repo": "cratedocs-mcp",
-        "rev": "9b7ec3ca876d1a90d8989d863b9f1d481ed9898b",
+        "rev": "94baaab414570cc0cad161061cebd51b8fe6847b",
         "type": "github"
       },
       "original": {

@@ -19,5 +19,6 @@
     "gcalendar"
     "gmail"
     "localhost_4001"
+    "mcp_inspector"
   ];
 }
