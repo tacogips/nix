@@ -43,42 +43,30 @@
         };
       };
 
-      # Create fixed versions of the packages to avoid library collisions
-      cratedocs-mcp-pkg = cratedocs-mcp.packages.${system}.default;
+      # Import our library collision fix function
+      fixLibraryCollision = import ./lib/fixLibraryCollision.nix { inherit pkgs; };
       
-      # Create a fixed version of bravesearch-mcp using symlinkJoin
-      bravesearch-mcp-pkg = pkgs.symlinkJoin {
-        name = "bravesearch-mcp-fixed";
-        paths = [ bravesearch-mcp.packages.${system}.default ];
-        
-        # Define a post-install hook for this package
-        postBuild = ''
-          # Remove the conflicting library
-          rm -f $out/lib/libhtml2md.so
-          
-          # Create a symlink to the library from cratedocs-mcp
-          if [ -d $out/lib ]; then
-            ln -sf ${cratedocs-mcp-pkg}/lib/libhtml2md.so $out/lib/
-          fi
-        '';
-      };
+      # Get the original packages
+      cratedocs-mcp-orig = cratedocs-mcp.packages.${system}.default;
+      bravesearch-mcp-orig = bravesearch-mcp.packages.${system}.default;
+      hn-mcp-orig = hn-mcp.packages.${system}.default;
       
-      # Create a fixed version of hn-mcp using symlinkJoin instead
-      hn-mcp-pkg = pkgs.symlinkJoin {
-        name = "hn-mcp-fixed";
-        paths = [ hn-mcp.packages.${system}.default ];
-        
-        # Define a post-install hook for this package
-        postBuild = ''
-          # Remove the conflicting library
-          rm -f $out/lib/libhtml2md.so
-          
-          # Create a symlink to the library from cratedocs-mcp
-          if [ -d $out/lib ]; then
-            ln -sf ${cratedocs-mcp-pkg}/lib/libhtml2md.so $out/lib/
-          fi
-        '';
-      };
+      # Use the original cratedocs-mcp as the source of the shared library
+      cratedocs-mcp-pkg = cratedocs-mcp-orig;
+      
+      # Fix collisions in other packages by creating fixed versions with library specifications
+      # This approach allows different library mappings for each package if needed
+      bravesearch-mcp-pkg = fixLibraryCollision bravesearch-mcp-orig [
+        { lib = "libhtml2md.so"; source = cratedocs-mcp-pkg; }
+        # Example of how to add more libraries with different sources:
+        # { lib = "libfoo.so"; source = someOtherPackage; }
+      ];
+      
+      hn-mcp-pkg = fixLibraryCollision hn-mcp-orig [
+        { lib = "libhtml2md.so"; source = cratedocs-mcp-pkg; }
+        # Each package can have its own set of library mappings
+        # { lib = "libbar.so"; source = anotherSourcePackage; }
+      ];
 
     in
     {
