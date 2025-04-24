@@ -10,6 +10,8 @@
     };
     xremap-flake.url = "github:xremap/nix-flake";
     cratedocs-mcp.url = "github:tacogips/cratedocs-mcp";
+    bravesearch-mcp.url = "github:tacogips/bravesearch-mcp";
+    hn-mcp.url = "github:tacogips/hn-mcp";
 
     fenix = {
       url = "github:nix-community/fenix";
@@ -25,6 +27,8 @@
       home-manager,
       xremap-flake,
       cratedocs-mcp,
+      bravesearch-mcp,
+      hn-mcp,
       fenix,
       ...
     }:
@@ -39,7 +43,42 @@
         };
       };
 
+      # Create fixed versions of the packages to avoid library collisions
       cratedocs-mcp-pkg = cratedocs-mcp.packages.${system}.default;
+      
+      # Create a fixed version of bravesearch-mcp using symlinkJoin
+      bravesearch-mcp-pkg = pkgs.symlinkJoin {
+        name = "bravesearch-mcp-fixed";
+        paths = [ bravesearch-mcp.packages.${system}.default ];
+        
+        # Define a post-install hook for this package
+        postBuild = ''
+          # Remove the conflicting library
+          rm -f $out/lib/libhtml2md.so
+          
+          # Create a symlink to the library from cratedocs-mcp
+          if [ -d $out/lib ]; then
+            ln -sf ${cratedocs-mcp-pkg}/lib/libhtml2md.so $out/lib/
+          fi
+        '';
+      };
+      
+      # Create a fixed version of hn-mcp using symlinkJoin instead
+      hn-mcp-pkg = pkgs.symlinkJoin {
+        name = "hn-mcp-fixed";
+        paths = [ hn-mcp.packages.${system}.default ];
+        
+        # Define a post-install hook for this package
+        postBuild = ''
+          # Remove the conflicting library
+          rm -f $out/lib/libhtml2md.so
+          
+          # Create a symlink to the library from cratedocs-mcp
+          if [ -d $out/lib ]; then
+            ln -sf ${cratedocs-mcp-pkg}/lib/libhtml2md.so $out/lib/
+          fi
+        '';
+      };
 
     in
     {
@@ -257,6 +296,10 @@
 
               services.gnome.gnome-keyring.enable = true;
 
+              networking.extraHosts = ''
+                127.0.0.1 mongo1 mongo2 mongo3
+              '';
+
               # web ui for llama
               #services.open-webui = {
               #  enable = true;
@@ -352,6 +395,8 @@
                   xremap-flake
                   fenix
                   cratedocs-mcp-pkg
+                  bravesearch-mcp-pkg
+                  hn-mcp-pkg
                   ;
               };
               home-manager.users.taco =

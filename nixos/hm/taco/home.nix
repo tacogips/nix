@@ -4,6 +4,8 @@
   inputs,
   xremap-flake,
   cratedocs-mcp-pkg,
+  bravesearch-mcp-pkg,
+  hn-mcp-pkg,
   ...
 }:
 
@@ -129,6 +131,8 @@
     ++ [
 
       cratedocs-mcp-pkg
+      bravesearch-mcp-pkg
+      hn-mcp-pkg
     ];
 
   #  home.file.".config/zoomus.conf" = {

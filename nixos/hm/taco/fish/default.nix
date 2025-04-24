@@ -70,11 +70,4 @@ in
     '';
   };
 
-  #xdg desktop for fuzzel
-  home.file.".private/bookmarks/1.txt" = {
-    text = ''
-      https://github.com/tacogips
-    '';
-  };
-
 }

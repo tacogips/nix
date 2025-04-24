@@ -222,6 +222,16 @@
         enabled_in_assistant = true;
       };
 
+      #lsp = {
+      #  "rust-analyzer" = {
+      #    # These initialization options are merged into Zed's defaults
+      #    initialization_options = {
+      #      check = {
+      #        command = "check"; # rust-analyzer.check.command (default: "check")
+      #      };
+      #    };
+      #  };
+      #};
     };
 
     extensions = [
