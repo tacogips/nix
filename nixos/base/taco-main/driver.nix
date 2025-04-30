@@ -29,7 +29,10 @@
       nvidiaSettings = true;
 
       # Choose the driver version
-      package = config.boot.kernelPackages.nvidiaPackages.beta;
+      # Changed from beta to stable to fix driver/library version mismatch
+      # Error: "Failed to initialize NVML: Driver/library version mismatch
+      # NVML library version: 570.144"
+      package = config.boot.kernelPackages.nvidiaPackages.stable;
       #prime = {
       #  intelBusId = "PCI:0:2:0";
       #  nvidiaBusId = "PCI:1:0:0";
