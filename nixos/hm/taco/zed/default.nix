@@ -280,7 +280,7 @@
 
         context = "AgentPanel";
         bindings = {
-          "alt-ctrl-t" = "agent::NewPromptEditor";
+          "alt-ctrl-t" = "agent::NewTextThread";
           "ctrl-t" = "agent::NewThread";
           ", f" = "agent::OpenHistory";
           "escape" = "pane::GoBack";
