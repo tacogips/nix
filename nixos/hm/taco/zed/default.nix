@@ -51,13 +51,13 @@
               bash = true;
               batch_tool = true;
               code_symbols = true;
-              copy_path = false;
+              copy_path = true;
               create_file = true;
               delete_path = false;
               diagnostics = true;
               find_replace_file = true;
               fetch = true;
-              list_directory = false;
+              list_directory = true;
               move_path = false;
               now = true;
               path_search = true;
