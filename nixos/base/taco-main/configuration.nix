@@ -75,6 +75,20 @@
     # If you want to use JACK applications, uncomment this
     #jack.enable = true;
 
+    # Set Webcam C270 as the default microphone
+    extraConfig.pipewire = {
+      "context.modules" = [{
+        name = "libpipewire-module-metadata";
+        args = {
+          "metadata.name" = "default-restore";
+          "metadata.values" = [{
+            key = "default.audio.source";
+            value = ''{ "name": "alsa_input.usb-Logitech_Webcam_C270-00.analog-mono" }''; 
+          }];
+        };
+      }];
+    };
+
     # use the example session manager (no others are packaged yet so this is enabled by default,
     # no need to redefine it in your config for now)
     #media-session.enable = true;
