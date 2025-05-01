@@ -253,12 +253,13 @@
           "ctrl-n" = null;
           "alt-m" = "terminal_panel::ToggleFocus";
           "alt-t" = "outline_panel::ToggleFocus";
+          "alt-s" = "git_panel::ToggleFocus";
           "alt-a" = "assistant::ToggleFocus";
+          "alt-w" = "pane::RevealInProjectPanel";
           "alt-o" = "projects::OpenRecent";
           "alt-r" = "diagnostics::Deploy";
           "alt-g" = "workspace::ToggleZoom";
           "alt-e" = "project_panel::ToggleFocus";
-          "alt-w" = "pane::RevealInProjectPanel";
         };
       }
 
@@ -351,8 +352,7 @@
         context = "Editor";
         bindings = {
           "ctrl-shift-l" = "assistant::InlineAssist";
-
-          "ctrl-shift-g" = "editor::Format";
+          "ctrl-shift-i" = "editor::Format";
         };
       }
       {
