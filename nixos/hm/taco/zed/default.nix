@@ -351,7 +351,7 @@
       {
         context = "Editor";
         bindings = {
-          "ctrl-shift-l" = "assistant::InlineAssist";
+          "ctrl-shift-j" = "assistant::InlineAssist";
           "ctrl-shift-i" = "editor::Format";
         };
       }
