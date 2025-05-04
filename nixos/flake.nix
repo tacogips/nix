@@ -75,296 +75,83 @@
           inherit system;
 
           modules = [
+            # Base configuration
             ./base/taco-main/configuration.nix
             ./base/taco-main/driver.nix
             ./ssh/ssh.nix
+            
+            # Service configurations
             ./services/tailscale.nix
+            ./services/docker.nix
+            ./services/openssh.nix
+            ./services/gnome-keyring.nix
+            ./services/greetd.nix
+            ./services/xdg-portal.nix
+            
+            # Hardware configurations
+            ./hardware/fan-control.nix
+            ./hardware/cuda.nix
+            
+            # Program configurations
+            ./programs/hyprland.nix
+            
+            # System configurations
+            ./configuration/fonts.nix
+            ./configuration/users.nix
+            ./configuration/networking.nix
+            ./configuration/nix-settings.nix
+            ./configuration/system-packages.nix
+            ./configuration/kernel-modules.nix
 
             {
-              ## ブートローダー
+              # Any remaining configuration that hasn't been moved into separate files
+              
+              ## ブートローダー (commented out)
               #boot.loader.systemd-boot.enable = true;
               #boot.loader.efi.canTouchEfiVariables = true;
 
-              ## ネットワーク設定
+              ## ネットワーク設定 (commented out)
               #networking = {
               #  hostName = "hostname";
               #  networkmanager.enable = true;
               #};
 
-              # https://wiki.nixos.org/wiki/Sway#Using_Home_Manager
+              # https://wiki.nixos.org/wiki/Sway#Using_Home_Manager (commented out)
               #security.polkit.enable = true;
-
-              nix.gc = {
-                automatic = true;
-                dates = "weekly";
-                options = "--delete-older-than 30d";
-              };
-              nix.settings.auto-optimise-store = true;
-              # not needed for rootless
+              
+              # not needed for rootless (commented out)
               #nix.settings.trusted-users = [ "taco" ];
 
-              # podman compose not support environemnt secrets for now
+              # podman compose (commented out)
               #virtualisation.podman = {
               #  enable = true;
               #  dockerCompat = true;
               #  defaultNetwork.settings.dns_enabled = true;
               #};
-
-              virtualisation.docker = {
-                #enable = true;
-                #rootless = {
-                #  enable = true;
-                #  setSocketVariable = true; # setting DOCKER_HOST
-
-                #  daemon.settings = {
-
-                #    debug = true;
-                #    dns = [
-
-                #      "1.1.1.1"
-                #      "8.8.8.8"
-                #      "8.8.4.4"
-                #    ];
-
-                #    # debugging =============================================
-
-                #    #"userland-proxy" = true;
-                #    #"iptables" = false; # rootlessモードではiptablesを使わない
-
-                #    #"cgroup-parent" = "user.slice";
-                #    #"ip-forward" = false;
-                #    #"ip-masq" = false;
-
-                #    # debugging =============================================
-
-                #    # deal with error setting rlimit type 8: operation not permitted
-                #    #"default-ulimits" = {
-                #    #  "memlock" = {
-                #    #    "name" = "memlock";
-                #    #    "hard" = -1;
-                #    #    "soft" = -1;
-                #    #  };
-
-                #    "runtimes" = {
-                #      "nvidia" = {
-                #        "path" = "${pkgs.nvidia-docker}/bin/nvidia-container-runtime";
-                #        "runtimeArgs" = [ ];
-                #      };
-                #    };
-                #    "default-runtime" = "nvidia";
-
-                #  };
-                #};
-
-                enable = true;
-                rootless = {
-                  enable = false;
-                  setSocketVariable = false;
-                };
-                #daemon.settings = {
-                #  debug = true;
-                #  dns = [
-                #    "1.1.1.1"
-                #    "8.8.8.8"
-                #    "8.8.4.4"
-                #  ];
-
-                #  "runtimes" = {
-                #    "nvidia" = {
-                #      "path" = "${pkgs.nvidia-docker}/bin/nvidia-container-runtime";
-                #      "runtimeArgs" = [ ];
-                #    };
-                #  };
-                #  "default-runtime" = "nvidia";
-                #};
-              };
-
-              hardware.nvidia-container-toolkit = {
-                enable = true;
-                package = pkgs.nvidia-container-toolkit;
-              };
-
-              # deal with container error. setting rlimit type 8: operation not permitted for rootlessdocker
-              security.pam.loginLimits = [
-                {
-                  domain = "@wheel";
-                  type = "soft";
-                  item = "memlock";
-                  value = "unlimited";
-                }
-                {
-                  domain = "@wheel";
-                  type = "hard";
-                  item = "memlock";
-                  value = "unlimited";
-                }
-              ];
-
-              # for fan control
-              hardware.i2c = {
-                enable = true;
-              };
-
-              environment.systemPackages = with pkgs; [
-
-                vim
-                git
-                curl
-                fish
-                bash
-                gcc # needed for rust
-                clang # needed for rust
-                stdenv.cc.cc.lib
-
-                cudatoolkit
-                cudaPackages.cudnn
-                cudaPackages.cuda_cudart
-                cudaPackages.cuda_cupti
-                cudaPackages.cuda_nvrtc
-                cudaPackages.cuda_nvtx
-
-                (pkgs.ollama.override {
-                  acceleration = "cuda";
-                })
-
-                lm_sensors
-
-              ];
-
-              environment.variables = {
-                CUDA_PATH = "${pkgs.cudatoolkit}";
-                CUDA_HOME = "${pkgs.cudatoolkit}";
-                EXTRA_LDFLAGS = "-L${pkgs.cudatoolkit}/lib/stubs";
-                LD_LIBRARY_PATH = pkgs.lib.makeLibraryPath [
-                  pkgs.cudatoolkit
-                  pkgs.cudaPackages.cudnn
-                  pkgs.cudaPackages.cuda_cudart
-                  pkgs.linuxPackages.nvidia_x11
-                  pkgs.stdenv.cc.cc.lib
-                ];
-
-              };
-
-              fonts = {
-                fontDir.enable = true;
-
-                packages = with pkgs; [
-                  noto-fonts
-                  noto-fonts-cjk-sans
-                  noto-fonts-cjk-serif
-                  noto-fonts-emoji
-                  iosevka
-                  helvetica-neue-lt-std
-                  nerd-fonts.iosevka
-                ];
-                fontconfig = {
-                  defaultFonts = {
-                    serif = [
-                      "Noto Serif CJK JP"
-                      "Noto Color Emoji"
-                    ];
-                    sansSerif = [
-                      "Noto Sans CJK JP"
-                      "Noto Color Emoji"
-                    ];
-                    monospace = [
-                      "Iosevka Nerd Fon"
-                      "Noto Color Emoji"
-                    ];
-                    emoji = [ "Noto Color Emoji" ];
-                  };
-                };
-
-              };
-
-              services.openssh = {
-                enable = true;
-                permitRootLogin = "no";
-                passwordAuthentication = false;
-              };
-
-              services.gnome.gnome-keyring.enable = true;
-
-              networking.extraHosts = ''
-                127.0.0.1 mongo1 mongo2 mongo3
-              '';
-
-              # web ui for llama
+              
+              # Commented out docker configuration
+              #daemon.settings = {
+              #  debug = true;
+              #  dns = [
+              #    "1.1.1.1"
+              #    "8.8.8.8"
+              #    "8.8.4.4"
+              #  ];
+              #
+              #  "runtimes" = {
+              #    "nvidia" = {
+              #      "path" = "${pkgs.nvidia-docker}/bin/nvidia-container-runtime";
+              #      "runtimeArgs" = [ ];
+              #    };
+              #  };
+              #  "default-runtime" = "nvidia";
+              #};
+              
+              # web ui for llama (commented out)
               #services.open-webui = {
               #  enable = true;
               #  environment.OLLAMA_API_BASE_URL = "http://localhost:11434";
               #};
-
-              # login manager
-              services.greetd = {
-                enable = true;
-                #settings = {
-                #  default_session = {
-                #    command = "${pkgs.greetd.tuigreet}/bin/tuigreet --time --cmd Hyperland";
-                #    user = "taco";
-                #  };
-                #};
-                settings = {
-                  initial_session = {
-                    command = "${pkgs.hyprland}/bin/Hyprland";
-                    user = "taco";
-                  };
-                  default_session = {
-                    command = "${pkgs.greetd.tuigreet}/bin/tuigreet --greeting 'Welcome to NixOS!' --asterisks --remember --remember-user-session --time --cmd ${pkgs.hyprland}/bin/Hyprland";
-                    user = "greeter";
-                  };
-
-                };
-              };
-
-              programs = {
-                hyprland = {
-                  enable = true;
-                  xwayland.enable = true;
-                };
-
-                fish.enable = true;
-
-                coolercontrol = {
-                  enable = true;
-                };
-              };
-
-              boot.kernelModules = [
-                "uinput" # for xremap
-                "nct6775" # Nuvoton NCT6798D Super IO sensor.fan control
-              ];
-              # for xremap
-              services.udev.extraRules = ''
-                KERNEL=="uinput",GROUP="input", TAG+="uaccess"
-              '';
-              users.users.taco = {
-                shell = pkgs.fish;
-
-                extraGroups = [
-                  "wheel"
-                  "networkmanager"
-                  "input"
-                  "docker"
-                  "i2c"
-                ];
-                openssh.authorizedKeys.keyFiles = [
-                  ./ssh/authorized-keys-dev-machine
-                ];
-              };
-
-              # enable screen sharing
-              xdg.portal = {
-                enable = true;
-                extraPortals = [
-                  pkgs.xdg-desktop-portal-hyprland
-                  pkgs.xdg-desktop-portal-gtk
-                ];
-                config.hyprland = {
-                  "org.freedesktop.impl.portal.ScreenCast" = "hyprland";
-                };
-              };
-
             }
 
             home-manager.nixosModules.home-manager
