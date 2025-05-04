@@ -78,6 +78,7 @@
             ./base/taco-main/configuration.nix
             ./base/taco-main/driver.nix
             ./ssh/ssh.nix
+            ./services/tailscale.nix
 
             {
               ## ブートローダー
