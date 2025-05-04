@@ -1,11 +1,9 @@
 { config, pkgs, ... }:
 
 {
-  # NVIDIA drivers are unfree
-  nixpkgs.config.allowUnfree = true;
-
   # Load nvidia driver for Xorg and Wayland
   services.xserver.videoDrivers = [ "nvidia" ];
+  
   # Enable OpenGL
   hardware = {
     graphics = {

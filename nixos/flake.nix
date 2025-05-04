@@ -77,7 +77,6 @@
           modules = [
             # Base configuration
             ./base/taco-main/configuration.nix
-            ./base/taco-main/driver.nix
             ./ssh/ssh.nix
             
             # Service configurations
@@ -92,6 +91,7 @@
             ./hardware/fan-control.nix
             ./hardware/cuda.nix
             ./hardware/storage.nix
+            ./hardware/nvidia.nix
             
             # Program configurations
             ./programs/hyprland.nix
