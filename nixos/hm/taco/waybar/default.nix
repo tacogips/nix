@@ -41,6 +41,15 @@
           "custom/disk-g"
           "network"
         ];
+        
+        "network" = {
+          format-wifi = "{essid} ({signalStrength}%) 󰖩";
+          format-ethernet = "󰈀 {ipaddr}";
+          format-disconnected = "Disconnected 󰖪";
+          tooltip-format-wifi = "{essid} | Signal: {signalStrength}% | {ipaddr}";
+          tooltip-format-ethernet = "{ifname} | {ipaddr}";
+          interval = 5;
+        };
         "hyprland/workspaces" = {
           format = "{icon}";
         };

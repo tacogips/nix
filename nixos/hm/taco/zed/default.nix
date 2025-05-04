@@ -281,6 +281,8 @@
 
         context = "AgentPanel";
         bindings = {
+
+          "ctrl-enter" = "assistant::Assist";
           "alt-ctrl-t" = "agent::NewTextThread";
           "ctrl-t" = "agent::NewThread";
           ", f" = "agent::OpenHistory";
