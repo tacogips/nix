@@ -77,12 +77,6 @@
         notify_when_agent_waiting = "primary_screen";
       };
       context_servers = {
-        "mcp-server-brave-search" = {
-          settings = {
-            brave_api_key = "BSAI-M6-uhodVR_zJpENhEutANZQoHg";
-          };
-        };
-
         "cratedocs-mcp" = {
           "command" = {
             "path" = "cratedocs-mcp";
@@ -90,6 +84,15 @@
             "env" = { };
           };
         };
+
+        "bravesearch-mcp" = {
+          "command" = {
+            "path" = "bravesearch-mcp";
+            "args" = [ "stdio" ];
+            "env" = { };
+          };
+        };
+
       };
 
       telemetry = {
@@ -243,6 +246,8 @@
       "make"
       "git-firefly"
       "mcp-server-exa-search"
+      "graphql"
+      "dockerfile"
     ];
 
     userKeymaps = [
