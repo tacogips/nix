@@ -11,16 +11,4 @@
 
   # Add the tailscale package to the system environment
   environment.systemPackages = with pkgs; [ tailscale ];
-
-  # Optional: Configure networking for Tailscale
-  networking.firewall = {
-    # Enable the firewall
-    enable = true;
-    
-    # Tailscale-specific settings
-    trustedInterfaces = [ "tailscale0" ];
-    
-    # Allow TCP & UDP traffic on Tailscale's port
-    allowedUDPPorts = [ config.services.tailscale.port ];
-  };
 }
