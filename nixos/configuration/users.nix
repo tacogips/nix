@@ -9,6 +9,7 @@
       "wheel"
       "networkmanager"
       "docker"
+      "tailscale"
       # "input" and "i2c" groups are added in their respective service modules
     ];
     openssh.authorizedKeys.keyFiles = [
