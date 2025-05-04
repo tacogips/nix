@@ -91,6 +91,7 @@
             # Hardware configurations
             ./hardware/fan-control.nix
             ./hardware/cuda.nix
+            ./hardware/storage.nix
             
             # Program configurations
             ./programs/hyprland.nix
