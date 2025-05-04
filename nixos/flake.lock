@@ -44,11 +44,11 @@
         "nixpkgs": "nixpkgs"
       },
       "locked": {
-        "lastModified": 1745495087,
-        "narHash": "sha256-YlsyHigtjrIgFuqsMoABV0WghNpIfNErgmkeTyE8kmU=",
+        "lastModified": 1746376828,
+        "narHash": "sha256-6EpgZFUK1ZzXaZM6MVCrsHndJJD6yp7UyzNTb3ixZkI=",
         "owner": "tacogips",
         "repo": "bravesearch-mcp",
-        "rev": "488e025a93d939cd35e56b9b785f6fe3b622b392",
+        "rev": "10dc3103b9fc9e79e23c3137e00a246ded4059e8",
         "type": "github"
       },
       "original": {
@@ -79,11 +79,11 @@
         "nixpkgs": "nixpkgs_2"
       },
       "locked": {
-        "lastModified": 1745393862,
-        "narHash": "sha256-NLWRyQSBn5O5pKMYAjPIw6dvD+0VEXHwLLV5TQBB/9I=",
+        "lastModified": 1746379357,
+        "narHash": "sha256-4KuFKiQe22OOESjiHnluyBqR5vnXIjT+NZ7rf6Obl68=",
         "owner": "tacogips",
         "repo": "cratedocs-mcp",
-        "rev": "78ba576385a9a2e3b752097982cefe56cf7af88b",
+        "rev": "f3df5aa6b2d55214b8b0b444eef0b0cc24cc461d",
         "type": "github"
       },
       "original": {
@@ -315,11 +315,11 @@
         "nixpkgs": "nixpkgs_3"
       },
       "locked": {
-        "lastModified": 1745495062,
-        "narHash": "sha256-KAHOT2/Jgpw7WipjjSsvui6Nf9nZbZlb8tixpvWzLKU=",
+        "lastModified": 1746377274,
+        "narHash": "sha256-Td09n1xqKQlFomUq+ODMIAKgZNBxMUlF1JAxqxu7d2w=",
         "owner": "tacogips",
         "repo": "hn-mcp",
-        "rev": "9304de7696c6b3c9cff517e155c43ad5ca0eb362",
+        "rev": "bc26776a32f7750ed0495ee5727b6cbda9f7d08a",
         "type": "github"
       },
       "original": {
