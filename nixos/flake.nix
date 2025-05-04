@@ -80,7 +80,7 @@
             ./ssh/ssh.nix
             
             # Service configurations
-            (import ./services/tailscale.nix { permitCertUid = "taco"; })
+            ./services/tailscale.nix
             ./services/docker.nix
             ./services/openssh.nix
             ./services/gnome-keyring.nix
@@ -103,6 +103,7 @@
             ./configuration/nix-settings.nix
             ./configuration/system-packages.nix
             ./configuration/kernel-modules.nix
+            ./configuration/tailscale.nix
 
             {
               # Any remaining configuration that hasn't been moved into separate files
