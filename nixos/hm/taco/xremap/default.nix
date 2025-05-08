@@ -30,7 +30,9 @@
             #"C-p" = {
             #  with_mark = "up";
             #};
-
+            "C-f" = {
+              with_mark = "right";
+            };
             "C-a" = {
               with_mark = "home";
             };

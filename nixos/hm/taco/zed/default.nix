@@ -205,6 +205,7 @@
       };
 
       edit_predictions = {
+
         # A list of globs representing files that edit predictions should be disabled for.
         # There's a sensible default list of globs already included.
         # Any addition to this list will be merged with the default list.
