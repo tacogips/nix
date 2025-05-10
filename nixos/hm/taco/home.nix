@@ -130,6 +130,7 @@
     ]
     ++ [
 
+      # ---- mcps -------------------------------
       cratedocs-mcp-pkg
       bravesearch-mcp-pkg
       hn-mcp-pkg
