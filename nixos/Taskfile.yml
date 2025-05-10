@@ -1,0 +1,16 @@
+version: '3'
+
+tasks:
+  update:
+    desc: Update all Nix flake dependencies
+    cmds:
+      - nix flake update
+      
+  update-input:
+    desc: Update a specific Nix flake input
+    vars:
+      package: '{{.package}}'
+    cmds:
+      - nix flake lock --update-input {{.package}}
+    requires:
+      vars: [package]
