@@ -226,16 +226,23 @@
         enabled_in_assistant = true;
       };
 
-      #lsp = {
-      #  "rust-analyzer" = {
-      #    # These initialization options are merged into Zed's defaults
-      #    initialization_options = {
-      #      check = {
-      #        command = "check"; # rust-analyzer.check.command (default: "check")
-      #      };
-      #    };
-      #  };
-      #};
+      lsp = {
+        rust-analyzer = {
+          check = {
+            # set different director to prevent confliction cargo chech and rust-analyzer
+            extraArgs = [
+              "--target-dir"
+              "target/ra"
+            ];
+          };
+
+          initialization_options = {
+            check = {
+              command = "check";
+            };
+          };
+        };
+      };
     };
 
     extensions = [
