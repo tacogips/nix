@@ -27,6 +27,9 @@ in
       bind -M insert ctrl-p up-or-search
       bind -M insert ctrl-n down-or-search
 
+      bind -M insert ctrl-o accept-autosuggestion
+
+
 
       function fish_mode_prompt
         switch $fish_bind_mode
