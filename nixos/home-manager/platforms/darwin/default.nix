@@ -9,7 +9,11 @@
     ../../taco # Import shared configurations
   ];
   
-  # Any macOS-specific settings can go here
+  # Darwin-specific user settings (commented out until Darwin is set up)
+  # home.username = "taco";
+  # home.homeDirectory = "/Users/taco"; # macOS uses /Users instead of /home
+  
+  # Any other macOS-specific settings can go here
   # These will only be applied when imported from the Darwin configuration
   
   # TODO: Add Darwin-specific configurations when needed
