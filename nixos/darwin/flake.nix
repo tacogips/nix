@@ -25,15 +25,7 @@
     pkgs = import nixpkgs {
       inherit system;
       config = { allowUnfree = true; };
-      overlays = [
-        # Add NUR overlay
-        (final: prev: {
-          nur = import nur {
-            nurpkgs = prev;
-            pkgs = prev;
-          };
-        })
-      ];
+      overlays = [];
     };
   in
   {
@@ -113,7 +105,7 @@
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
             home-manager.backupFileExtension = "backup";  # Automatically backup existing files
-            home-manager.users.taco = { lib, ... }: with lib; {
+            home-manager.users.taco = { lib, pkgs, ... }: with lib; {
               home.username = mkForce "taco";
               home.homeDirectory = mkForce "/Users/taco";
               home.stateVersion = mkForce "24.11";
@@ -122,7 +114,7 @@
               # Including fish and adapting for macOS
               imports = [
                 ../shared-home-manager/taco/fish
-                ./home-manager # Import Darwin-specific configurations
+                ./home-manager/default.nix # Import Darwin-specific configurations
               ] ++ (builtins.map (module: ../shared-home-manager/taco/${module}) [
                 "bat"
                 "bottom"

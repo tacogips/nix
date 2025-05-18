@@ -45,4 +45,32 @@
       };
     };
   };
+
+  # Create a separate key binding configuration section to fix Ctrl+H
+  programs.alacritty.settings.keyboard.bindings = lib.mkForce [
+    {
+      # Fix for Ctrl+H not working as backspace
+      key = "H";
+      mods = "Control";
+      chars = "\\x08";
+    }
+    {
+      # Increase font size
+      action = "IncreaseFontSize";
+      key = "Plus";
+      mods = "Control";
+    }
+    {
+      # Decrease font size
+      action = "DecreaseFontSize";
+      key = "Minus";
+      mods = "Control";
+    }
+    {
+      # Toggle ViMode
+      key = "S";
+      mods = "Alt";
+      action = "ToggleViMode";
+    }
+  ];
 }
