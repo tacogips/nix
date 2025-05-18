@@ -130,7 +130,7 @@
                 { ... }:
                 {
                   imports = [
-                    ./hm/taco/home.nix
+                    ../home-manager/platforms/linux
                   ];
                 };
             }
