@@ -35,7 +35,10 @@
 
 ### Rebuilding the System
 - After making changes, rebuild with: `nixos-rebuild switch --flake .#taco-main`
-- Run from the `nixos/linux` directory
+  - Run from the `nixos/linux` directory
+- For macOS/Darwin systems, use: `darwin-rebuild switch --flake .#taco-mac`
+  - Run from the `nixos/darwin` directory
+  - May require sudo: `sudo ./result/sw/bin/darwin-rebuild switch --flake .#taco-mac`
 
 ### Diagnostics
 - Common deprecation warnings can be safely ignored for now
@@ -56,3 +59,38 @@
 ### Documentation
 - Update README files when changing directory structures
 - Document platform-specific requirements or dependencies
+
+## Darwin (macOS) Configuration
+
+### Flake Structure
+- Darwin flakes follow the same general structure as Linux flakes
+- Use `darwin.lib.darwinSystem` instead of `nixpkgs.lib.nixosSystem`
+- Darwin configurations use different module options than NixOS
+
+### Home Manager Integration
+- Use `home-manager.darwinModules.home-manager` for macOS
+- When importing shared modules, be aware of potential conflicts:
+  - Use `lib.mkForce` to override conflicting definitions like `home.username` and `home.homeDirectory`
+  - Example: `home.homeDirectory = mkForce "/Users/username";`
+
+### Common Darwin-Specific Options
+- System defaults are set via `system.defaults.NSGlobalDomain`
+- Set the primary user with `system.primaryUser = "username";`
+- Enable shells with `programs.fish.enable = true;`
+- Set default shell in `users.users.username.shell = pkgs.fish;`
+
+### Migration Notes for Darwin
+- Font configuration has changed:
+  - Old: `fonts.fontDir.enable = true;`
+  - New: `fonts.packages = with pkgs; [ font1 font2 ];`
+- Nix daemon configuration has changed:
+  - Old: `services.nix-daemon.enable = true;`
+  - New: `nix.enable = true;`
+- NerdFonts structure has updated:
+  - Old: `nerdfonts.override { fonts = [ "JetBrainsMono" ]; }`
+  - New: `nerd-fonts.jetbrains-mono`
+
+### Applying Darwin Configuration
+- Build first: `nix build .#darwinConfigurations.taco-mac.system`
+- Apply: `./result/sw/bin/darwin-rebuild switch --flake .#taco-mac`
+- Sudo may be required for the first application

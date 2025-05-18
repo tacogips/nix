@@ -1,3 +1,5 @@
 **/*.private
 **/*.secure
 **/llm-log
+
+**/.claude/settings.local.json

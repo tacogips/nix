@@ -27,9 +27,6 @@
         modules = [
           # Basic Darwin configuration
           {
-            # Set primary user for system defaults
-            system.primaryUser = "taco";
-            
             # Set hostname
             system.defaults.NSGlobalDomain = {
               AppleKeyboardUIMode = 3;
@@ -42,18 +39,16 @@
             system.stateVersion = 4;
             
             # Nix configuration
-            nix = {
-              enable = true;
-              settings = {
-                experimental-features = [ "nix-command" "flakes" ];
-                trusted-users = [ "@admin" ];
-              };
+            nix.settings = {
+              experimental-features = [ "nix-command" "flakes" ];
+              trusted-users = [ "@admin" ];
             };
             
-            # Configure fonts (using updated option names)
-            fonts.packages = with pkgs; [
+            # Configure fonts
+            fonts.fontDir.enable = true;
+            fonts.fonts = with pkgs; [
               jetbrains-mono
-              nerd-fonts.jetbrains-mono
+              (nerdfonts.override { fonts = [ "JetBrainsMono" ]; })
             ];
             
             # Allow unfree packages
@@ -66,6 +61,9 @@
               curl
               wget
             ];
+            
+            # Enable services
+            services.nix-daemon.enable = true;
             
             # Enable shells
             programs.zsh.enable = true;
@@ -82,10 +80,10 @@
           {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
-            home-manager.users.taco = { lib, ... }: with lib; {
-              home.username = mkForce "taco";
-              home.homeDirectory = mkForce "/Users/taco";
-              home.stateVersion = mkForce "24.11";
+            home-manager.users.taco = { 
+              home.username = "taco";
+              home.homeDirectory = "/Users/taco";
+              home.stateVersion = "24.11";
               
               # Basic Home Manager configuration
               programs.home-manager.enable = true;
