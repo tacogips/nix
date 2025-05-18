@@ -128,25 +128,38 @@
               programs.fish = {
                 # Basic settings inherited from the shared module
                 
-                # Override Linux-specific aliases
-                shellAliases = lib.mkForce (import ../shared-home-manager/taco/fish/aliases.nix { inherit pkgs; } // {
-                  # Remove Linux-specific aliases
-                  "update-taco-main" = null; # Remove Linux rebuild command
-                  "ppp" = null; # Remove wl-copy command
-                  "cdp" = null; # Remove wl-paste command
-                  "mozc_config" = null; # Remove Linux-specific tool
-                  
-                  # Add Darwin-specific aliases
-                  "update-taco-mac" = "darwin-rebuild switch --flake ~/nix/nixos/darwin#taco-mac";
-                  # Add any other macOS-specific aliases here
-                });
+                # Override Linux-specific aliases with Darwin-specific ones
+                shellAliases = lib.mkForce (
+                  let 
+                    linuxAliases = import ../shared-home-manager/taco/fish/aliases.nix { inherit pkgs; };
+                    # Filter out Linux-specific aliases
+                    filteredAliases = builtins.removeAttrs linuxAliases [
+                      "update-taco-main"
+                      "ppp" 
+                      "cdp"
+                      "mozc_config"
+                    ];
+                  in
+                    # Add Darwin-specific aliases
+                    filteredAliases // {
+                      "update-taco-mac" = "darwin-rebuild switch --flake ~/nix/nixos/darwin#taco-mac";
+                      # Add any other macOS-specific aliases here
+                    }
+                );
                 
-                # Override Linux-specific functions
-                functions = lib.mkForce (removeAttrs (import ../shared-home-manager/taco/fish/functions.nix { inherit pkgs; }) [
-                  "capture_active"  # Remove Hyprland-specific functions
-                  "capture_sel"     # Remove Wayland-specific functions
-                  "capture_sel_video" # Remove Wayland-specific functions
-                ]);
+                # Override Linux-specific functions with Darwin-compatible ones
+                functions = lib.mkForce (
+                  let 
+                    allFunctions = import ../shared-home-manager/taco/fish/functions.nix { inherit pkgs; };
+                    # Filter out Linux-specific functions
+                    darwinFunctions = builtins.removeAttrs allFunctions [
+                      "capture_active"  # Remove Hyprland-specific functions
+                      "capture_sel"     # Remove Wayland-specific functions
+                      "capture_sel_video" # Remove Wayland-specific functions
+                    ];
+                  in
+                  darwinFunctions
+                );
               };
               
               # Additional Darwin-specific settings or packages
