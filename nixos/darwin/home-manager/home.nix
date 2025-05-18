@@ -12,8 +12,8 @@
   # Add any Darwin-specific packages or configurations below
   # Homebrew is configured at the system level
   
-  # Example: Additional macOS-specific packages
+  # Additional macOS-specific packages
   home.packages = with pkgs; [
-    # Add macOS-specific packages here
+    firefox # Add Firefox to the home packages
   ];
 }

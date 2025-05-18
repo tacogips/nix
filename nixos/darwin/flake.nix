@@ -13,17 +13,34 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    
+    nur = {
+      url = "github:nix-community/NUR";
+    };
   };
 
-  outputs = { self, nixpkgs, darwin, home-manager, ... }:
+  outputs = { self, nixpkgs, darwin, home-manager, nur, ... }:
   let
     system = "aarch64-darwin"; # For Apple Silicon Macs
-    pkgs = nixpkgs.legacyPackages.${system};
+    pkgs = import nixpkgs {
+      inherit system;
+      config = { allowUnfree = true; };
+      overlays = [
+        # Add NUR overlay
+        (final: prev: {
+          nur = import nur {
+            nurpkgs = prev;
+            pkgs = prev;
+          };
+        })
+      ];
+    };
   in
   {
     darwinConfigurations = {
       "taco-mac" = darwin.lib.darwinSystem {
         inherit system;
+        specialArgs = { inherit pkgs; };
         modules = [
           # Basic Darwin configuration
           {
