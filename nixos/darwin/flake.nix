@@ -87,6 +87,7 @@
           {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
+            home-manager.backupFileExtension = "backup";  # Automatically backup existing files
             home-manager.users.taco = { lib, ... }: with lib; {
               home.username = mkForce "taco";
               home.homeDirectory = mkForce "/Users/taco";
