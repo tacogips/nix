@@ -39,7 +39,7 @@
               imports = [ ./home-manager ];
               home.username = "taco";
               home.homeDirectory = "/Users/taco";
-              home.stateVersion = "23.11";
+              home.stateVersion = "24.11";
             };
           }
         ];

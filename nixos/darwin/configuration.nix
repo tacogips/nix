@@ -64,5 +64,5 @@
   };
 
   # Used for backwards compatibility, please read the changelog before changing
-  system.stateVersion = 4;
+  system.stateVersion = 4;  # Darwin state versions continue to use single numbers
 }
