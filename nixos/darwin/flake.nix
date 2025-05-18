@@ -35,7 +35,13 @@
           {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
-            home-manager.users.taco = import ./home-manager;
+            home-manager.extraSpecialArgs = { inherit system; };
+            home-manager.users.taco = { config, pkgs, ... }: {
+              imports = [ ./home-manager/home.nix ];
+              home.username = "taco";
+              home.homeDirectory = "/Users/taco";
+              home.stateVersion = "24.11";
+            };
           }
         ];
       };

@@ -2,9 +2,7 @@
 
 {
   # Darwin-specific Home Manager configurations
-  home.username = "taco";
-  home.homeDirectory = "/Users/taco";
-  home.stateVersion = "24.11";
+  # These settings are now defined in the flake.nix to avoid conflicts
   
   # Import shared user configurations
   imports = [
