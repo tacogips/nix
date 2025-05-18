@@ -41,6 +41,9 @@
             # System settings
             system.stateVersion = 4;
             
+            # Set nixbld group ID to match actual value
+            ids.gids.nixbld = 350;
+            
             # Nix configuration
             nix = {
               enable = true;
