@@ -1,16 +1,15 @@
 # Home Manager Configuration
 
-This directory contains Home Manager configurations that can be shared between different platforms (Linux, macOS/Darwin).
+This directory contains only shared, platform-independent Home Manager configurations that can be used by both Linux and macOS/Darwin.
 
 ## Directory Structure
 
 - `/home-manager/taco/`: Contains shared, platform-independent configuration modules for the user "taco"
-- `/home-manager/platforms/linux/`: Linux-specific configuration
-  - `home.nix`: Main configuration file for Linux
-  - `default.nix`: Entry point that imports both Linux-specific and shared configurations
-- `/home-manager/platforms/darwin/`: macOS/Darwin-specific configuration
-  - Will follow similar structure to the Linux configuration
 - `/home-manager/default.nix`: Root entry point (doesn't directly import anything)
+
+The platform-specific configurations are located in their respective OS directories:
+- `/linux/home-manager/`: Linux-specific Home Manager configuration
+- `/darwin/home-manager/`: Darwin-specific Home Manager configuration
 
 ## Usage
 
@@ -21,7 +20,7 @@ In your Linux NixOS configuration, import the Linux-specific Home Manager config
 ```nix
 home-manager.users.taco = { ... }: {
   imports = [
-    ../home-manager/platforms/linux
+    ./home-manager
   ];
 };
 ```
@@ -33,16 +32,17 @@ In your Darwin configuration, import the Darwin-specific Home Manager configurat
 ```nix
 home-manager.users.taco = { ... }: {
   imports = [
-    ../home-manager/platforms/darwin
+    ./home-manager
   ];
 };
 ```
 
 ## Configuration Organization
 
-- **Platform-Independent Configs**: Add to `taco/` directory modules
+- **Platform-Independent Configs**: Add to `home-manager/taco/` directory modules
   - Examples: git, fish, bat, ssh configurations that work on any platform
-- **Platform-Specific Configs**: Add to respective platform directories
-  - Examples: Wayland, Hyprland (Linux-specific) or macOS-specific settings
+- **Platform-Specific Configs**: Add to the respective OS directories
+  - Linux-specific configs: `linux/home-manager/`
+  - Darwin-specific configs: `darwin/home-manager/`
 
-This separation makes it easy to maintain consistent configurations across platforms while allowing for platform-specific customizations.
+This separation makes it easy to maintain consistent configurations across platforms while allowing for platform-specific customizations in their appropriate locations.
