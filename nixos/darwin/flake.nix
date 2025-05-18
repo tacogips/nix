@@ -57,6 +57,7 @@
             fonts.packages = with pkgs; [
               jetbrains-mono
               nerd-fonts.jetbrains-mono
+              iosevka # Add iosevka font for Alacritty
             ];
             
             # Allow unfree packages
@@ -104,8 +105,8 @@
               # Including fish and adapting for macOS
               imports = [
                 ../shared-home-manager/taco/fish
+                ./home-manager # Import Darwin-specific configurations
               ] ++ (builtins.map (module: ../shared-home-manager/taco/${module}) [
-                "alacritty"
                 "bat"
                 "bottom"
                 "claude"
