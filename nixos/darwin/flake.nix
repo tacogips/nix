@@ -35,12 +35,7 @@
           {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
-            home-manager.users.taco = { ... }: {
-              imports = [ ./home-manager ];
-              home.username = "taco";
-              home.homeDirectory = "/Users/taco";
-              home.stateVersion = "24.11";
-            };
+            home-manager.users.taco = import ./home-manager;
           }
         ];
       };

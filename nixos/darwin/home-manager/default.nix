@@ -12,6 +12,7 @@
   # Darwin-specific user settings
   home.username = "taco";
   home.homeDirectory = "/Users/taco"; # macOS uses /Users instead of /home
+  home.stateVersion = "24.11";
   
   # Any other macOS-specific settings can go here
   # These will only be applied when imported from the Darwin configuration
