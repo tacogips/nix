@@ -130,8 +130,8 @@
               
               # Override any shared settings that need customization for macOS
               programs.git = {
-                userName = "tacogips";
-                userEmail = "me@example.com";  # Replace with your email
+                userName = mkForce "tacogips";
+                userEmail = mkForce "me@example.com";  # Replace with your email
               };
             };
           }
