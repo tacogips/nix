@@ -16,9 +16,6 @@
       NSAutomaticSpellingCorrectionEnabled = false;
       _HIHideMenuBar = false;
     };
-    
-    # Enable auto-upgrade
-    stateVersion = 4;
   };
   
   # Nix configuration
