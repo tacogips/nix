@@ -68,6 +68,8 @@
               vim
               curl
               wget
+              alacritty
+              zed
             ];
             
             # Enable shells
@@ -89,6 +91,12 @@
               home.username = mkForce "taco";
               home.homeDirectory = mkForce "/Users/taco";
               home.stateVersion = mkForce "24.11";
+              
+              # Import shared home-manager modules
+              imports = [
+                ../home-manager/taco/alacritty
+                ../home-manager/taco/zed
+              ];
               
               # Basic Home Manager configuration
               programs.home-manager.enable = true;
