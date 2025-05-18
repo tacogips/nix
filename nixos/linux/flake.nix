@@ -130,7 +130,7 @@
                 { ... }:
                 {
                   imports = [
-                    ../home-manager/taco
+                    ./home-manager
                   ];
                 };
             }

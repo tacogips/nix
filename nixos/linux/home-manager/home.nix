@@ -12,36 +12,21 @@
 {
 
   imports = [
-    ./alacritty
-    ./bottom
-    ./claude
-    ./eza
-    ./direnv
-    ./fd
-    ./foot
-    ./fuzzel
-    ./fzf
-    ./git
-    ./hyprland
-    ./lazygit
-    ./mako
-    ./ripgrep
-    ./fish
-    ./ssh
-    ./waybar
-    ./yazi
-    ./zed
-    ./zoxide
-    ./bat
-    ./brave
+    # Linux-specific modules from the shared directory
+    ../../home-manager/taco/foot
+    ../../home-manager/taco/fuzzel
+    ../../home-manager/taco/hyprland
+    ../../home-manager/taco/mako
+    ../../home-manager/taco/waybar
+    ../../home-manager/taco/brave
     xremap-flake.homeManagerModules.default
-    ./xremap
-    ./syncthing
-    ./kanshi
-    ./xdgdesktops
-    ./langs
-    ./node
-    #    ./podman
+    ../../home-manager/taco/xremap
+    ../../home-manager/taco/syncthing
+    ../../home-manager/taco/kanshi
+    ../../home-manager/taco/xdgdesktops
+    ../../home-manager/taco/langs
+    ../../home-manager/taco/node
+    #../../home-manager/taco/podman
   ];
 
   i18n.inputMethod = {
@@ -53,9 +38,7 @@
     ];
   };
 
-  home.username = "taco";
-  home.homeDirectory = "/home/taco";
-  home.stateVersion = "24.11";
+  # User settings moved to default.nix
 
   home.sessionVariables = {
     EDITOR = "${pkgs.zed-editor}/bin/zeditor";
