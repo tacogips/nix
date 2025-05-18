@@ -24,4 +24,9 @@
   
   # Common configuration for all platforms
   programs.home-manager.enable = true;
+  
+  # Common required settings
+  home.username = "taco";
+  home.homeDirectory = "/home/taco"; # This might need to be overridden for macOS
+  home.stateVersion = "24.11";
 }
