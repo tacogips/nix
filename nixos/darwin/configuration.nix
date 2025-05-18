@@ -18,6 +18,9 @@
     };
   };
   
+  # Enable Touch ID for sudo authentication
+  security.pam.enableSudoTouchIdAuth = true;
+  
   # Nix configuration
   nix.settings = {
     experimental-features = [ "nix-command" "flakes" ];
