@@ -1,4 +1,3 @@
 #!/usr/bin/env bash
 
-nixos-generate-config --dir ~/nix/nixos/taco-main
-
+nixos-generate-config --dir ~/nix/nixos/linux/taco-main
