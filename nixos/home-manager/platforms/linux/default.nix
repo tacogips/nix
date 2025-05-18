@@ -4,7 +4,8 @@
   # Linux-specific Home Manager configurations
   
   imports = [
-    ../../taco
+    ./home.nix
+    ../../taco # Import shared configurations
   ];
   
   # Any Linux-specific settings can go here

@@ -4,16 +4,19 @@ This directory contains Home Manager configurations that can be shared between d
 
 ## Directory Structure
 
-- `/home-manager/taco/`: Contains all the actual configuration modules for the user "taco"
-- `/home-manager/platforms/linux/`: Platform-specific entry point for Linux systems
-- `/home-manager/platforms/darwin/`: Platform-specific entry point for macOS/Darwin systems
-- `/home-manager/default.nix`: Main entry point that can be used to import all configurations
+- `/home-manager/taco/`: Contains shared, platform-independent configuration modules for the user "taco"
+- `/home-manager/platforms/linux/`: Linux-specific configuration
+  - `home.nix`: Main configuration file for Linux
+  - `default.nix`: Entry point that imports both Linux-specific and shared configurations
+- `/home-manager/platforms/darwin/`: macOS/Darwin-specific configuration
+  - Will follow similar structure to the Linux configuration
+- `/home-manager/default.nix`: Root entry point (doesn't directly import anything)
 
 ## Usage
 
 ### For Linux
 
-In your Linux NixOS configuration, you can import the Linux-specific Home Manager configuration:
+In your Linux NixOS configuration, import the Linux-specific Home Manager configuration:
 
 ```nix
 home-manager.users.taco = { ... }: {
@@ -25,7 +28,7 @@ home-manager.users.taco = { ... }: {
 
 ### For Darwin
 
-In your Darwin configuration, you can import the Darwin-specific Home Manager configuration:
+In your Darwin configuration, import the Darwin-specific Home Manager configuration:
 
 ```nix
 home-manager.users.taco = { ... }: {
@@ -35,8 +38,11 @@ home-manager.users.taco = { ... }: {
 };
 ```
 
-## Adding Shared Configuration
+## Configuration Organization
 
-Configuration that should be shared between all platforms should be added to the appropriate module in the `taco/` directory.
+- **Platform-Independent Configs**: Add to `taco/` directory modules
+  - Examples: git, fish, bat, ssh configurations that work on any platform
+- **Platform-Specific Configs**: Add to respective platform directories
+  - Examples: Wayland, Hyprland (Linux-specific) or macOS-specific settings
 
-Platform-specific configurations can be added to the respective platform directory.
+This separation makes it easy to maintain consistent configurations across platforms while allowing for platform-specific customizations.
