@@ -69,7 +69,11 @@ in
 
   home.file.".private/fish/private.example.fish" = {
     text = ''
-      set -x PRIVATE_KEY xxxx
+      set -x ANTHROPIC_API_KEY xxxx
+      set -x EXA_API_KEY  xxxx
+      set -x GEMINI_API_KEY xxxx
+      set -x BRAVE_API_KEY  xxxx
+      set -x OPENAI_API_KEY xxxxx
     '';
   };
 
