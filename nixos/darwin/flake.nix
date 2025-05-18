@@ -44,13 +44,13 @@
             # Set nixbld group ID to match actual value
             ids.gids.nixbld = 350;
             
-            # Nix configuration
-            nix = {
-              enable = true;
-              settings = {
-                experimental-features = [ "nix-command" "flakes" ];
-                trusted-users = [ "@admin" ];
-              };
+            # Disable nix-darwin management of Nix installation
+            nix.enable = false;
+            
+            # Nix settings (still applied even with nix.enable = false)
+            nix.settings = {
+              experimental-features = [ "nix-command" "flakes" ];
+              trusted-users = [ "@admin" ];
             };
             
             # Configure fonts (using updated option names)
