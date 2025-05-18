@@ -94,3 +94,80 @@
 - Build first: `nix build .#darwinConfigurations.taco-mac.system`
 - Apply: `./result/sw/bin/darwin-rebuild switch --flake .#taco-mac`
 - Sudo may be required for the first application
+
+## Developer Notes
+
+### Adding New Home Manager Packages
+
+#### For Cross-Platform Packages
+
+1. Create a new module in the shared directory:
+   ```
+   mkdir -p nixos/home-manager/taco/new-package
+   touch nixos/home-manager/taco/new-package/default.nix
+   ```
+
+2. Write your configuration in `default.nix`:
+   ```nix
+   { config, pkgs, ... }:
+   
+   {
+     programs.new-package = {
+       enable = true;
+       # Add package-specific configuration
+     };
+   }
+   ```
+
+3. Add the module to the shared imports in `nixos/home-manager/taco/default.nix`:
+   ```nix
+   imports = [
+     # Existing imports...
+     ./new-package
+   ];
+   ```
+
+4. The package will automatically be available on both Linux and Darwin systems that import the shared modules.
+
+#### For Platform-Specific Packages
+
+1. For Linux-only packages, create a module in:
+   ```
+   nixos/linux/home-manager/specific-package/default.nix
+   ```
+
+2. For Darwin-only packages, create a module in:
+   ```
+   nixos/darwin/home-manager/specific-package/default.nix
+   ```
+
+3. Import the platform-specific module in the respective platform's configuration.
+
+#### Handling Configuration Conflicts
+
+When a shared module has settings that conflict with platform-specific needs:
+
+1. Use `lib.mkForce` to override conflicting settings:
+   ```nix
+   programs.git = {
+     userName = lib.mkForce "platform-specific-username";
+     userEmail = lib.mkForce "platform-specific@email.com";
+   };
+   ```
+
+2. For more complex overrides, consider creating platform-specific extensions of shared modules.
+
+#### Testing New Packages
+
+1. Add the package to the appropriate configuration
+2. Commit the changes (flakes only track files in git)
+3. Run platform-specific rebuild command:
+   - Linux: `nixos-rebuild switch --flake .#taco-main`
+   - Darwin: `darwin-rebuild switch --flake .#taco-mac`
+
+#### Tips for Package Compatibility
+
+- Check package availability on both platforms using `nix search nixpkgs#package-name`
+- Some packages may need different configuration options on different platforms
+- When evaluating fails, try applying configuration with `--show-trace` flag for more detailed error information
+- Use the Home Manager manual to check for platform-specific options and limitations
