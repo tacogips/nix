@@ -60,6 +60,11 @@
   # Create /etc/zshrc that loads the nix-darwin environment
   programs.zsh.enable = true;
   programs.fish.enable = true;
+  
+  # Set fish as default shell
+  users.users.taco = {
+    shell = pkgs.fish;
+  };
 
   # Used for backwards compatibility, please read the changelog before changing
   system.stateVersion = 4;
