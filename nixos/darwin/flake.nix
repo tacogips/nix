@@ -104,7 +104,8 @@
                 ../home-manager/taco/fd
                 ../home-manager/taco/fzf
                 ../home-manager/taco/git
-                ../home-manager/taco/k9s
+                # Removing k9s as it has some configuration issues
+                # ../home-manager/taco/k9s
                 ../home-manager/taco/lazygit
                 ../home-manager/taco/ripgrep
                 ../home-manager/taco/ssh
