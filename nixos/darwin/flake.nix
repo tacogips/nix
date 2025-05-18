@@ -1,5 +1,5 @@
 {
-  description = "Darwin system flake";
+  description = "Darwin minimal system flake";
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
@@ -15,11 +15,9 @@
     };
   };
 
-  outputs = { self, nixpkgs, darwin, home-manager, ... }@inputs:
+  outputs = { self, nixpkgs, darwin, home-manager, ... }:
   let
     system = "aarch64-darwin"; # For Apple Silicon Macs
-    # system = "x86_64-darwin"; # Uncomment for Intel Macs
-    
     pkgs = nixpkgs.legacyPackages.${system};
   in
   {
@@ -27,20 +25,83 @@
       "taco-mac" = darwin.lib.darwinSystem {
         inherit system;
         modules = [
-          # Darwin configuration
-          ./configuration.nix
+          # Basic Darwin configuration
+          {
+            # Set hostname
+            system.defaults.NSGlobalDomain = {
+              AppleKeyboardUIMode = 3;
+              ApplePressAndHoldEnabled = false;
+              InitialKeyRepeat = 20;
+              KeyRepeat = 1;
+            };
+            
+            # System settings
+            system.stateVersion = 4;
+            
+            # Nix configuration
+            nix.settings = {
+              experimental-features = [ "nix-command" "flakes" ];
+              trusted-users = [ "@admin" ];
+            };
+            
+            # Configure fonts
+            fonts.fontDir.enable = true;
+            fonts.fonts = with pkgs; [
+              jetbrains-mono
+              (nerdfonts.override { fonts = [ "JetBrainsMono" ]; })
+            ];
+            
+            # Allow unfree packages
+            nixpkgs.config.allowUnfree = true;
+            
+            # Install basic system packages
+            environment.systemPackages = with pkgs; [
+              git
+              vim
+              curl
+              wget
+            ];
+            
+            # Enable services
+            services.nix-daemon.enable = true;
+            
+            # Enable shells
+            programs.zsh.enable = true;
+            programs.fish.enable = true;
+            
+            # Set fish as default shell
+            users.users.taco = {
+              shell = pkgs.fish;
+            };
+          }
           
           # Home Manager configuration
           home-manager.darwinModules.home-manager
           {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
-            home-manager.extraSpecialArgs = { inherit system; };
-            home-manager.users.taco = { config, pkgs, ... }: {
-              imports = [ ./home-manager/home.nix ];
+            home-manager.users.taco = { 
               home.username = "taco";
               home.homeDirectory = "/Users/taco";
               home.stateVersion = "24.11";
+              
+              # Basic Home Manager configuration
+              programs.home-manager.enable = true;
+              
+              # Install basic user packages
+              home.packages = with pkgs; [
+                ripgrep
+                fd
+                bat
+                eza
+              ];
+              
+              # Configure Git
+              programs.git = {
+                enable = true;
+                userName = "tacogips";
+                userEmail = "me@example.com";  # Replace with your email
+              };
             };
           }
         ];
