@@ -61,6 +61,9 @@
   programs.zsh.enable = true;
   programs.fish.enable = true;
   
+  # Add fish to available shells
+  environment.shells = [ pkgs.fish ];
+  
   # Set fish as default shell
   users.users.taco = {
     shell = pkgs.fish;
