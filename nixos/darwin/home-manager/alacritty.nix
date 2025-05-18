@@ -44,9 +44,9 @@
         option_as_alt = "Both"; # Use Option as Alt key
       };
       
-      # Set fish as the default shell - use absolute path to fish
+      # Set fish as the default shell - use Nix store path
       shell = {
-        program = "/run/current-system/sw/bin/fish";
+        program = "${pkgs.fish}/bin/fish";
         args = ["-l"];
       };
     };

@@ -61,8 +61,24 @@
   programs.zsh.enable = true;
   programs.fish.enable = true;
   
-  # Add fish to available shells
+  # Add fish to available shells and /etc/shells
   environment.shells = [ pkgs.fish ];
+  
+  # Add shell to /etc/shells
+  environment.etc."shells".text = ''
+    # List of acceptable shells for chpass(1).
+    # Ftpd will not allow users to connect who are not using
+    # one of these shells.
+    
+    /bin/bash
+    /bin/csh
+    /bin/dash
+    /bin/ksh
+    /bin/sh
+    /bin/tcsh
+    /bin/zsh
+    ${pkgs.fish}/bin/fish
+  '';
   
   # Set fish as default shell
   users.users.taco = {
