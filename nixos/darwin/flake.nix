@@ -92,26 +92,18 @@
               home.homeDirectory = mkForce "/Users/taco";
               home.stateVersion = mkForce "24.11";
               
-              # Import shared home-manager modules
+              # Import all shared platform-independent home-manager modules
               imports = [
-                ../home-manager/taco/alacritty
-                ../home-manager/taco/zed
+                ../home-manager/taco
               ];
               
-              # Basic Home Manager configuration
-              programs.home-manager.enable = true;
-              
-              # Install basic user packages
+              # Additional Darwin-specific settings or packages
               home.packages = with pkgs; [
-                ripgrep
-                fd
-                bat
-                eza
+                # Add any macOS-specific packages here
               ];
               
-              # Configure Git
+              # Override any shared settings that need customization for macOS
               programs.git = {
-                enable = true;
                 userName = "tacogips";
                 userEmail = "me@example.com";  # Replace with your email
               };
