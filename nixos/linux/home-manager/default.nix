@@ -5,7 +5,7 @@
   
   imports = [
     ./home.nix
-    ../../home-manager/taco # Import shared configurations
+    ../../shared-home-manager/taco # Import shared configurations
   ];
   
   # Linux-specific user settings

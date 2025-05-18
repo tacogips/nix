@@ -6,18 +6,18 @@
 - `nixos/` - Root directory
   - `linux/` - Linux-specific system configuration
   - `darwin/` - macOS-specific system configuration
-  - `home-manager/` - Shared, platform-independent Home Manager modules
+  - `shared-home-manager/` - Shared, platform-independent Home Manager modules
 
 ### Platform-Specific vs. Shared Configuration
-- Keep platform-independent configurations in `nixos/home-manager/`
+- Keep platform-independent configurations in `nixos/shared-home-manager/`
 - Store platform-specific configurations in their respective OS directories:
   - Linux-specific: `nixos/linux/home-manager/`
   - Darwin-specific: `nixos/darwin/home-manager/`
 
 ### Home Manager Structure
-- `nixos/home-manager/taco/` - Contains shared user modules that work across platforms
+- `nixos/shared-home-manager/taco/` - Contains shared user modules that work across platforms
 - `nixos/linux/home-manager/` - Linux-specific Home Manager configuration
-  - Imports shared modules from `nixos/home-manager/taco/`
+  - Imports shared modules from `nixos/shared-home-manager/taco/`
   - Contains Linux-specific settings and imports
 - `nixos/darwin/home-manager/` - Darwin-specific Home Manager configuration
 
@@ -103,8 +103,8 @@
 
 1. Create a new module in the shared directory:
    ```
-   mkdir -p nixos/home-manager/taco/new-package
-   touch nixos/home-manager/taco/new-package/default.nix
+   mkdir -p nixos/shared-home-manager/taco/new-package
+   touch nixos/shared-home-manager/taco/new-package/default.nix
    ```
 
 2. Write your configuration in `default.nix`:
@@ -119,7 +119,7 @@
    }
    ```
 
-3. Add the module to the shared imports in `nixos/home-manager/taco/default.nix`:
+3. Add the module to the shared imports in `nixos/shared-home-manager/taco/default.nix`:
    ```nix
    imports = [
      # Existing imports...

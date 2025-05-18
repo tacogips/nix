@@ -80,6 +80,13 @@
             users.users.taco = {
               shell = pkgs.fish;
             };
+            
+            # Add activation script to set shell for the user
+            system.activationScripts.postActivation.text = ''
+              # Set fish shell for current user
+              echo "Setting fish as default shell for user taco..."
+              sudo chsh -s ${pkgs.fish}/bin/fish taco
+            '';
           }
           
           # Home Manager configuration
@@ -93,35 +100,53 @@
               home.homeDirectory = mkForce "/Users/taco";
               home.stateVersion = mkForce "24.11";
               
-              # Import specific shared platform-independent home-manager modules
-              # Avoiding the default.nix to have more control over imports
+              # Import shared platform-independent home-manager modules
+              # Including fish and adapting for macOS
               imports = [
-                ../home-manager/taco/alacritty
-                ../home-manager/taco/bat
-                ../home-manager/taco/bottom
-                ../home-manager/taco/claude
-                ../home-manager/taco/direnv
-                ../home-manager/taco/eza
-                ../home-manager/taco/fd
-                ../home-manager/taco/fzf
-                ../home-manager/taco/git
-                # Removing k9s as it has some configuration issues
-                # ../home-manager/taco/k9s
-                ../home-manager/taco/lazygit
-                ../home-manager/taco/ripgrep
-                ../home-manager/taco/ssh
-                ../home-manager/taco/yazi
-                ../home-manager/taco/zed
-                ../home-manager/taco/zellij
-                ../home-manager/taco/zoxide
-              ];
+                ../shared-home-manager/taco/fish
+              ] ++ (builtins.map (module: ../shared-home-manager/taco/${module}) [
+                "alacritty"
+                "bat"
+                "bottom"
+                "claude"
+                "direnv"
+                "eza"
+                "fd"
+                "fzf"
+                "git"
+                # "k9s" # Removed due to compatibility issues
+                "lazygit"
+                "ripgrep"
+                "ssh"
+                "yazi"
+                "zed"
+                "zellij"
+                "zoxide"
+              ]);
               
-              # Configure fish (simplified version without XDG paths that are Linux-specific)
+              # Override fish configuration for macOS compatibility
               programs.fish = {
-                enable = true;
+                # Basic settings inherited from the shared module
                 
-                # The shell configuration will be more basic for macOS
-                # If you want full fish config, we'll need to adapt it for macOS
+                # Override Linux-specific aliases
+                shellAliases = lib.mkForce (import ../shared-home-manager/taco/fish/aliases.nix { inherit pkgs; } // {
+                  # Remove Linux-specific aliases
+                  "update-taco-main" = null; # Remove Linux rebuild command
+                  "ppp" = null; # Remove wl-copy command
+                  "cdp" = null; # Remove wl-paste command
+                  "mozc_config" = null; # Remove Linux-specific tool
+                  
+                  # Add Darwin-specific aliases
+                  "update-taco-mac" = "darwin-rebuild switch --flake ~/nix/nixos/darwin#taco-mac";
+                  # Add any other macOS-specific aliases here
+                });
+                
+                # Override Linux-specific functions
+                functions = lib.mkForce (removeAttrs (import ../shared-home-manager/taco/fish/functions.nix { inherit pkgs; }) [
+                  "capture_active"  # Remove Hyprland-specific functions
+                  "capture_sel"     # Remove Wayland-specific functions
+                  "capture_sel_video" # Remove Wayland-specific functions
+                ]);
               };
               
               # Additional Darwin-specific settings or packages
