@@ -92,10 +92,35 @@
               home.homeDirectory = mkForce "/Users/taco";
               home.stateVersion = mkForce "24.11";
               
-              # Import all shared platform-independent home-manager modules
+              # Import specific shared platform-independent home-manager modules
+              # Avoiding the default.nix to have more control over imports
               imports = [
-                ../home-manager/taco
+                ../home-manager/taco/alacritty
+                ../home-manager/taco/bat
+                ../home-manager/taco/bottom
+                ../home-manager/taco/claude
+                ../home-manager/taco/direnv
+                ../home-manager/taco/eza
+                ../home-manager/taco/fd
+                ../home-manager/taco/fzf
+                ../home-manager/taco/git
+                ../home-manager/taco/k9s
+                ../home-manager/taco/lazygit
+                ../home-manager/taco/ripgrep
+                ../home-manager/taco/ssh
+                ../home-manager/taco/yazi
+                ../home-manager/taco/zed
+                ../home-manager/taco/zellij
+                ../home-manager/taco/zoxide
               ];
+              
+              # Configure fish (simplified version without XDG paths that are Linux-specific)
+              programs.fish = {
+                enable = true;
+                
+                # The shell configuration will be more basic for macOS
+                # If you want full fish config, we'll need to adapt it for macOS
+              };
               
               # Additional Darwin-specific settings or packages
               home.packages = with pkgs; [
