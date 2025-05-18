@@ -2,20 +2,7 @@
 
 {
   # Darwin-specific Home Manager configurations
-  
   imports = [
-    # NOTE: Create a home.nix file here when you start to configure Darwin
-    # ./home.nix
-    ../../home-manager/taco # Import shared configurations
+    ./home.nix # Import Darwin-specific home settings
   ];
-  
-  # Darwin-specific user settings
-  home.username = "taco";
-  home.homeDirectory = "/Users/taco"; # macOS uses /Users instead of /home
-  home.stateVersion = "24.11";
-  
-  # Any other macOS-specific settings can go here
-  # These will only be applied when imported from the Darwin configuration
-  
-  # TODO: Add Darwin-specific configurations when needed
 }
