@@ -6,7 +6,7 @@
   
   # Import shared user configurations
   imports = [
-    ../../home-manager/taco
+    # This is now handled in the flake.nix to avoid duplication
   ];
   
   # Add any Darwin-specific packages or configurations below
