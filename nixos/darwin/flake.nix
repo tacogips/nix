@@ -130,7 +130,6 @@
                 "ssh"
                 "yazi"
                 "zed"
-                "zellij"
                 "zoxide"
               ]);
               
