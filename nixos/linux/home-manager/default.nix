@@ -5,6 +5,7 @@
   
   imports = [
     ./home.nix
+    ./fish # Import Linux-specific fish functions
     ../../shared-home-manager/taco # Import shared configurations
   ];
   
