@@ -12,21 +12,21 @@
 {
 
   imports = [
-    # Linux-specific modules from the shared directory
-    ../../shared-home-manager/taco/foot
-    ../../shared-home-manager/taco/fuzzel
-    ../../shared-home-manager/taco/hyprland
-    ../../shared-home-manager/taco/mako
-    ../../shared-home-manager/taco/waybar
-    ../../shared-home-manager/taco/brave
+    # Moved Linux-specific modules from shared to linux/home-manager
+    ./foot
+    ./fuzzel
+    ./hyprland
+    ./mako
+    ./waybar
+    ./brave
     xremap-flake.homeManagerModules.default
-    ../../shared-home-manager/taco/xremap
-    ../../shared-home-manager/taco/syncthing
-    ../../shared-home-manager/taco/kanshi
-    ../../shared-home-manager/taco/xdgdesktops
-    ../../shared-home-manager/taco/langs
-    ../../shared-home-manager/taco/node
-    #../../shared-home-manager/taco/podman
+    ./xremap
+    ./syncthing
+    ./kanshi
+    ./xdgdesktops
+    ./langs
+    ./node
+    #./podman
   ];
 
   i18n.inputMethod = {

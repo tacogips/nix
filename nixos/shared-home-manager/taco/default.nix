@@ -19,6 +19,8 @@
     ./zed
     ./zoxide
     ./bat
+    ./fzf
+    ./zellij
     # Other platform-independent modules can be added here
   ];
   
