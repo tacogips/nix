@@ -70,6 +70,10 @@
         # Performance settings
         "browser.cache.disk.enable" = true;
         "browser.cache.memory.enable" = true;
+        
+        # Keyboard shortcuts customization
+        # Make Ctrl+N open a new tab instead of a new window
+        "browser.tabs.newTabShortcut" = true;
       };
     };
   };
