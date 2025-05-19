@@ -92,4 +92,16 @@
     end
   '';
 
+  nix_diff = ''
+    set -l nonce "nix_diff_"(openssl rand -hex 4)
+    mkdir -p /tmp/$nonce/
+    echo "Comparing Nix store references..."
+    echo "Creating current system reference list..."
+    ${pkgs.nix}/bin/nix-store --query --references /run/current-system | sort > /tmp/$nonce/current-nix.txt
+    echo "Creating previous system reference list..."
+    ${pkgs.nix}/bin/nix-store --query --references /run/booted-system | sort > /tmp/$nonce/previous-nix.txt
+    echo "Comparing differences with delta..."
+    ${pkgs.delta}/bin/delta /tmp/$nonce/previous-nix.txt /tmp/$nonce/current-nix.txt
+  '';
+
 }
