@@ -19,6 +19,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    # Firefox extensions repository from NUR
+    firefox-addons = {
+      url = "gitlab:rycee/nur-expressions?dir=pkgs/firefox-addons";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
@@ -31,6 +36,7 @@
       bravesearch-mcp,
       hn-mcp,
       fenix,
+      firefox-addons,
       ...
     }:
     let
@@ -124,6 +130,7 @@
                   cratedocs-mcp-pkg
                   bravesearch-mcp-pkg
                   hn-mcp-pkg
+                  firefox-addons
                   ;
               };
               home-manager.users.taco =

@@ -1,15 +1,37 @@
-{ config, pkgs, lib, ... }:
+{ config, pkgs, lib, firefox-addons, ... }:
+
+# Note: We're using explicit parameters (firefox-addons) rather than accessing via inputs.firefox-addons.
+# This is a deliberate choice for clarity and maintainability, making dependencies explicit.
+# While we could have used the inputs approach (inputs.firefox-addons.packages.${pkgs.system}),
+# the explicit parameter approach is more maintainable and clearer about dependencies.
 
 {
   # Linux-specific Firefox configuration
   programs.firefox = {
     enable = true;
     
+    # Firefox policies for basic settings
+    policies = {
+      DisableTelemetry = true;
+      DisableFirefoxStudies = true;
+      DontCheckDefaultBrowser = true;
+    };
+    
     # Basic Firefox settings for Linux
     profiles.default = {
       id = 0;
       name = "default";
       isDefault = true;
+      
+      # Configure Firefox extensions from NUR
+      extensions = with firefox-addons.packages.${pkgs.system}; [
+        # Add desired extensions - uncomment or add as needed
+        ublock-origin
+        # darkreader
+        # bitwarden
+        # privacy-badger
+        # add more extensions as needed
+      ];
       
       # Force settings created in this configuration
       settings = {
@@ -32,8 +54,6 @@
         "browser.cache.disk.enable" = true;
         "browser.cache.memory.enable" = true;
       };
-      
-      # Extensions will be added later once NUR is configured
     };
   };
 }
