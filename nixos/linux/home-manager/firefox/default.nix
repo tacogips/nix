@@ -10,11 +10,20 @@
   programs.firefox = {
     enable = true;
     
-    # Firefox policies for basic settings
+    # Firefox policies for basic settings and extensions not in NUR
     policies = {
       DisableTelemetry = true;
       DisableFirefoxStudies = true;
       DontCheckDefaultBrowser = true;
+      
+      # Extensions not available in NUR repository
+      ExtensionSettings = {
+        # Pontem Aptos Wallet
+        "pontem-aptos-wallet@pontem.network" = {
+          install_url = "https://addons.mozilla.org/firefox/downloads/latest/pontem-aptos-wallet/latest.xpi";
+          installation_mode = "normal_installed";
+        };
+      };
     };
     
     # Basic Firefox settings for Linux
@@ -24,14 +33,22 @@
       isDefault = true;
       
       # Configure Firefox extensions from NUR
-      extensions = with firefox-addons.packages.${pkgs.system}; [
-        # Add desired extensions - uncomment or add as needed
-        ublock-origin
-        # darkreader
-        # bitwarden
-        # privacy-badger
-        # add more extensions as needed
+      extensions.packages = with firefox-addons.packages.${pkgs.system}; [
+        # Privacy and security
+        ghostery
+        # Password management
+        bitwarden
+        # Keyboard navigation
+        vimium
+        # Crypto wallets
+        metamask
+        # Note taking & web clipping
+        web-clipper-obsidian
+        # Add more extensions as needed
       ];
+      
+      # Additional extensions can be added either through NUR packages above
+      # or through Firefox policies for extensions not available in NUR
       
       # Force settings created in this configuration
       settings = {
