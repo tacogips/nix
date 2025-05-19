@@ -93,15 +93,16 @@
   '';
 
   nix_diff = ''
-    set -l nonce "nix_diff_"(openssl rand -hex 4)
-    mkdir -p /tmp/$nonce/
+    set -l temp_dir (${pkgs.coreutils}/bin/mktemp -d -t "nix_diff_XXXXXX")
     echo "Comparing Nix store references..."
     echo "Creating current system reference list..."
-    ${pkgs.nix}/bin/nix-store --query --references /run/current-system | sort > /tmp/$nonce/current-nix.txt
+    ${pkgs.nix}/bin/nix-store --query --references /run/current-system | ${pkgs.coreutils}/bin/sort > $temp_dir/current-nix.txt
     echo "Creating previous system reference list..."
-    ${pkgs.nix}/bin/nix-store --query --references /run/booted-system | sort > /tmp/$nonce/previous-nix.txt
+    ${pkgs.nix}/bin/nix-store --query --references /run/booted-system | ${pkgs.coreutils}/bin/sort > $temp_dir/previous-nix.txt
     echo "Comparing differences with delta..."
-    ${pkgs.delta}/bin/delta /tmp/$nonce/previous-nix.txt /tmp/$nonce/current-nix.txt
+    ${pkgs.delta}/bin/delta $temp_dir/previous-nix.txt $temp_dir/current-nix.txt
+    # Clean up the temporary directory
+    ${pkgs.coreutils}/bin/rm -rf $temp_dir
   '';
 
 }

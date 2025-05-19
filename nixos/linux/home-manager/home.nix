@@ -13,7 +13,6 @@
 
   imports = [
     # Moved Linux-specific modules from shared to linux/home-manager
-    ./foot
     ./fuzzel
     ./hyprland
     ./mako
@@ -109,6 +108,9 @@
       mpv # movie player
       # gui file manager.see xdgdesktops also
       nemo-with-extensions
+      
+      # Ensure coreutils is available for the nix_diff function
+      coreutils
 
     ]
     ++ [
