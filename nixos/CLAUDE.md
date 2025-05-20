@@ -34,7 +34,7 @@
 - When in doubt, use `../` to navigate from the current flake directory
 
 ### Rebuilding the System
-- After making changes, rebuild with: `nixos-rebuild switch --flake .#taco-main`
+- After making changes, rebuild with: `nixos-rebuild switch --flake .#nix-dev-machine`
   - Run from the `nixos/linux` directory
 - For macOS/Darwin systems, use: `darwin-rebuild switch --flake .#taco-mac`
   - Run from the `nixos/darwin` directory
@@ -162,7 +162,7 @@ When a shared module has settings that conflict with platform-specific needs:
 1. Add the package to the appropriate configuration
 2. Commit the changes (flakes only track files in git)
 3. Run platform-specific rebuild command:
-   - Linux: `nixos-rebuild switch --flake .#taco-main`
+   - Linux: `nixos-rebuild switch --flake .#nix-dev-machine`
    - Darwin: `darwin-rebuild switch --flake .#taco-mac`
 
 #### Tips for Package Compatibility

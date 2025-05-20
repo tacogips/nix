@@ -84,12 +84,12 @@
     in
     {
       nixosConfigurations = {
-        "taco-main" = nixpkgs.lib.nixosSystem {
+        "nix-dev-machine" = nixpkgs.lib.nixosSystem {
           inherit system;
 
           modules = [
             # Base configuration
-            ./base/taco-main/configuration.nix
+            ./device/nix-dev-machine/configuration.nix
             ./ssh/ssh.nix
 
             # Service configurations

@@ -23,13 +23,13 @@
             "C-m" = "enter";
             "C-h" = "backspace";
             # C-a" = "home";
-            "C-n" = {
-              with_mark = "pagedown";
-            };
+            #"C-n" = {
+            #  with_mark = "pagedown";
+            #};
 
-            "C-p" = {
-              with_mark = "pageup";
-            };
+            #"C-p" = {
+            #  with_mark = "pageup";
+            #};
             "C-f" = {
               with_mark = "right";
             };

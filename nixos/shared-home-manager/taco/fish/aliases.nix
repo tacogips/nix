@@ -2,7 +2,7 @@
 
 {
   ll = "ls -al";
-  update-taco-main = "sudo nixos-rebuild switch --flake ~/nix/nixos/linux#taco-main";
+  nix-swhich-nix-dev-machine = "sudo nixos-rebuild switch --flake ~/nix/nixos/linux#nix-dev-machine";
   ppp = "pwd | wl-copy";
   cdp = "cd (wl-paste -n)";
   fa = "fd -H";
