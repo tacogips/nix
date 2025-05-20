@@ -1,9 +1,30 @@
-{ config, pkgs, lib, ... }:
+{ config, pkgs, lib, firefox-addons, ... }:
+
+# Note: We're using explicit parameters (firefox-addons) rather than accessing via inputs.firefox-addons.
+# This is a deliberate choice for clarity and maintainability, making dependencies explicit.
+# While we could have used the inputs approach (inputs.firefox-addons.packages.${pkgs.system}),
+# the explicit parameter approach is more maintainable and clearer about dependencies.
 
 {
   # Darwin-specific Firefox configuration
   programs.firefox = {
     enable = true;
+    
+    # Firefox policies for basic settings and extensions not in NUR
+    policies = {
+      DisableTelemetry = true;
+      DisableFirefoxStudies = true;
+      DontCheckDefaultBrowser = true;
+      
+      # Extensions not available in NUR repository
+      ExtensionSettings = {
+        # Pontem Aptos Wallet
+        "pontem-aptos-wallet@pontem.network" = {
+          install_url = "https://addons.mozilla.org/firefox/downloads/latest/pontem-aptos-wallet/latest.xpi";
+          installation_mode = "normal_installed";
+        };
+      };
+    };
     
     # Basic Firefox settings for macOS
     profiles.default = {
@@ -36,7 +57,20 @@
         "browser.cache.memory.enable" = true;
       };
       
-      # Extensions will be added later once NUR is configured
+      # Configure Firefox extensions from NUR
+      extensions.packages = with firefox-addons.packages.${pkgs.system}; [
+        # Privacy and security
+        ghostery
+        # Password management
+        bitwarden
+        # Keyboard navigation
+        vimium
+        # Crypto wallets
+        metamask
+        # Note taking & web clipping
+        web-clipper-obsidian
+        # Add more extensions as needed
+      ];
     };
   };
 }

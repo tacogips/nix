@@ -14,6 +14,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    # Firefox extensions repository from NUR
+    firefox-addons = {
+      url = "gitlab:rycee/nur-expressions?dir=pkgs/firefox-addons";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
@@ -22,6 +27,7 @@
       nixpkgs,
       darwin,
       home-manager,
+      firefox-addons,
       ...
     }:
     let
@@ -114,6 +120,9 @@
               home-manager.useGlobalPkgs = true;
               home-manager.useUserPackages = true;
               home-manager.backupFileExtension = "backup"; # Automatically backup existing files
+              home-manager.extraSpecialArgs = {
+                inherit firefox-addons;
+              };
               home-manager.users.taco =
                 { lib, pkgs, ... }:
                 with lib;
