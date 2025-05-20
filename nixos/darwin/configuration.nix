@@ -19,7 +19,12 @@
   };
   
   # Enable Touch ID for sudo authentication
-  security.pam.enableSudoTouchIdAuth = true;
+  security.pam.sudo = {
+    # This enables the new implementation of Touch ID for sudo
+    enableTouchId = true;
+    # Optional: If you use tmux, you might want to enable this for proper Touch ID support
+    # enablePamReattach = true;
+  };
   
   # Nix configuration
   nix.settings = {
@@ -28,11 +33,13 @@
   };
   
   # Configure fonts
-  fonts.fontDir.enable = true;
-  fonts.fonts = with pkgs; [
-    jetbrains-mono
-    (nerdfonts.override { fonts = [ "JetBrainsMono" ]; })
-  ];
+  fonts = {
+    fontDir.enable = true;
+    packages = with pkgs; [
+      jetbrains-mono
+      nerd-fonts.jetbrains-mono # Updated syntax for nerd-fonts
+    ];
+  };
 
   # Enable homebrew
   homebrew = {
@@ -55,7 +62,7 @@
   ];
 
   # Auto upgrade nix package and the daemon service
-  services.nix-daemon.enable = true;
+  nix.enable = true; # This replaces services.nix-daemon.enable which is deprecated
 
   # Create /etc/zshrc that loads the nix-darwin environment
   programs.zsh.enable = true;
