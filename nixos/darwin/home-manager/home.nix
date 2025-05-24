@@ -34,7 +34,6 @@
   # Darwin-specific packages
   home.packages = with pkgs; [
     # macOS-specific tools
-    firefox
     gh          # GitHub CLI
     gnumake
     jq

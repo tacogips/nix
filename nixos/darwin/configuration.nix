@@ -53,7 +53,6 @@
     onActivation.cleanup = "zap";
     taps = [];
     casks = [
-      "firefox"
     ];
   };
 
