@@ -19,11 +19,11 @@
   };
   
   # Enable Touch ID for sudo authentication
-  security.pam.sudo = {
-    # This enables the new implementation of Touch ID for sudo
-    enableTouchId = true;
-    # Optional: If you use tmux, you might want to enable this for proper Touch ID support
-    # enablePamReattach = true;
+  security.pam.services.sudo_local = {
+    # This enables Touch ID for sudo using the new sudo_local file
+    touchIdAuth = true;
+    # Enable pam_reattach for proper Touch ID support in tmux/screen
+    pamReattach = true;
   };
   
   # Preserve HOME environment variable when using sudo
