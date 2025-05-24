@@ -4,13 +4,6 @@ let
   # Import shared functions
   sharedFunctions = import ../../../shared-home-manager/taco/fish/functions.nix { inherit pkgs; };
   
-  # Filter out Linux-specific functions
-  filteredFunctions = builtins.removeAttrs sharedFunctions [
-    "capture_active" # Remove Hyprland-specific functions
-    "capture_sel" # Remove Wayland-specific functions
-    "capture_sel_video" # Remove Wayland-specific functions
-  ];
-  
   # Darwin-specific functions
   darwinFunctions = {
     # Screenshot function for macOS
@@ -43,5 +36,5 @@ let
   };
 
 in
-  # Merge filtered shared functions with Darwin-specific ones
-  filteredFunctions // darwinFunctions
+  # Merge shared functions with Darwin-specific ones
+  sharedFunctions // darwinFunctions
