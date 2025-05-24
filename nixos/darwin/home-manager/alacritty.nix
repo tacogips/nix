@@ -52,7 +52,7 @@
     };
   };
 
-  # Add custom key bindings while preserving defaults
   # Use default Alacritty key bindings to preserve Ctrl-H, Ctrl-A, etc.
-  # Font size can be controlled with Cmd+Plus/Minus on macOS
+  # Font size can be controlled with Cmd+Plus/Minus on macOS by default
+  # Vi mode can be toggled with default Alacritty shortcuts if needed
 }
