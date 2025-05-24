@@ -19,4 +19,18 @@
     set -l video_path  ~/Pictures/capture_sel_video_$timestamp.mp4
     ${pkgs.wf-recorder}/bin/wf-recorder -g "$(${pkgs.slurp}/bin/slurp)" -f $video_path
   '';
+  
+  # NixOS-specific function to compare current and booted system packages
+  nix_diff = ''
+    set -l temp_dir (${pkgs.coreutils}/bin/mktemp -d -t "nix_diff_XXXXXX")
+    echo "Comparing Nix store references..."
+    echo "Creating current system reference list..."
+    ${pkgs.nix}/bin/nix-store --query --references /run/current-system | ${pkgs.coreutils}/bin/sort > $temp_dir/current-nix.txt
+    echo "Creating previous system reference list..."
+    ${pkgs.nix}/bin/nix-store --query --references /run/booted-system | ${pkgs.coreutils}/bin/sort > $temp_dir/previous-nix.txt
+    echo "Comparing differences with delta..."
+    ${pkgs.delta}/bin/delta $temp_dir/previous-nix.txt $temp_dir/current-nix.txt
+    # Clean up the temporary directory
+    ${pkgs.coreutils}/bin/rm -rf $temp_dir
+  '';
 }
