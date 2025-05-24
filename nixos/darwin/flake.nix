@@ -123,89 +123,11 @@
               home-manager.extraSpecialArgs = {
                 inherit firefox-addons;
               };
-              home-manager.users.taco =
-                { lib, pkgs, ... }:
-                with lib;
-                {
-                  home.username = mkForce "taco";
-                  home.homeDirectory = mkForce "/Users/taco";
-                  home.stateVersion = mkForce "24.11";
-
-                  # Import shared platform-independent home-manager modules
-                  # Including fish and adapting for macOS
-                  imports =
-                    [
-                      ../shared-home-manager/taco/fish
-                      ./home-manager/default.nix # Import Darwin-specific configurations
-                    ]
-                    ++ (builtins.map (module: ../shared-home-manager/taco/${module}) [
-                      "bat"
-                      "bottom"
-                      "claude"
-                      "direnv"
-                      "eza"
-                      "fd"
-                      "fzf"
-                      "git"
-                      # "k9s" # Removed due to compatibility issues
-                      "lazygit"
-                      "ripgrep"
-                      "ssh"
-                      "yazi"
-                      "zed"
-                      "zoxide"
-                    ]);
-
-                  # Override fish configuration for macOS compatibility
-                  programs.fish = {
-                    # Basic settings inherited from the shared module
-
-                    # Override Linux-specific aliases with Darwin-specific ones
-                    shellAliases = lib.mkForce (
-                      let
-                        linuxAliases = import ../shared-home-manager/taco/fish/aliases.nix { inherit pkgs; };
-                        # Filter out Linux-specific aliases
-                        filteredAliases = builtins.removeAttrs linuxAliases [
-                          "update-taco-main"
-                          "ppp"
-                          "cdp"
-                          "mozc_config"
-                        ];
-                      in
-                      # Add Darwin-specific aliases
-                      filteredAliases
-                      // {
-                        "update-taco-mac" = "darwin-rebuild switch --flake ~/nix/nixos/darwin#taco-mac";
-                        # Add any other macOS-specific aliases here
-                      }
-                    );
-
-                    # Override Linux-specific functions with Darwin-compatible ones
-                    functions = lib.mkForce (
-                      let
-                        allFunctions = import ../shared-home-manager/taco/fish/functions.nix { inherit pkgs; };
-                        # Filter out Linux-specific functions
-                        darwinFunctions = builtins.removeAttrs allFunctions [
-                          "capture_active" # Remove Hyprland-specific functions
-                          "capture_sel" # Remove Wayland-specific functions
-                          "capture_sel_video" # Remove Wayland-specific functions
-                        ];
-                      in
-                      darwinFunctions
-                    );
-                  };
-
-                  # Additional Darwin-specific settings or packages
-                  home.packages = with pkgs; [
-                    # Add any macOS-specific packages here
-                  ];
-
-                  # Override any shared settings that need customization for macOS
-                  programs.git = {
-                    userName = mkForce "tacogips";
-                    userEmail = mkForce "me+darwin@tacogips.me";
-                  };
-                };
+              home-manager.users.taco = { ... }: {
+                imports = [
+                  ./home-manager
+                ];
+              };
             }
           ];
         };

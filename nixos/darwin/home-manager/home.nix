@@ -1,28 +1,112 @@
-{ config, pkgs, lib, ... }:
+{
+  config,
+  pkgs,
+  firefox-addons,
+  ...
+}:
 
 {
-  # Darwin-specific Home Manager configurations
-  # These settings are now defined in the flake.nix to avoid conflicts
-  
-  # Import shared user configurations
   imports = [
-    # This is now handled in the flake.nix to avoid duplication
+    # Darwin-specific modules
+    ./alacritty.nix
+    ./firefox.nix
+    ./fish      # Import Darwin-specific fish configuration
+    # Add any other Darwin-specific modules here
   ];
-  
-  # Add any Darwin-specific packages or configurations below
-  # Homebrew is configured at the system level
-  
-  # Configure fish shell
-  programs.fish = {
-    enable = true;
-    interactiveShellInit = ''
-      # Disable greeting
-      set fish_greeting
-    '';
+
+  # Darwin-specific input method settings (if needed)
+  # i18n.inputMethod = { ... };
+
+  # Darwin-specific environment variables
+  home.sessionVariables = {
+    EDITOR = "${pkgs.zed}/bin/zed";
+    # Add any macOS-specific environment variables here
+    LANG = "en_US.UTF-8";
+    LC_ALL = "en_US.UTF-8";
+    
+    # XDG Base Directory settings for macOS
+    XDG_CACHE_HOME = "$HOME/.cache";
+    XDG_CONFIG_HOME = "$HOME/.config";
+    XDG_DATA_HOME = "$HOME/.local/share";
+    XDG_BIN_HOME = "$HOME/.local/bin";
   };
-  
-  # Additional macOS-specific packages
+
+  # Darwin-specific packages
   home.packages = with pkgs; [
-    firefox # Add Firefox to the home packages
+    # macOS-specific tools
+    firefox
+    gh          # GitHub CLI
+    gnumake
+    jq
+    go-task
+    tokei
+    dust
+    
+    # Development tools specific to macOS
+    nixfmt-rfc-style
+    nixd        # nix lsp
+    
+    # macOS applications
+    slack
+    obsidian
+    
+    # Ensure coreutils is available for scripts
+    coreutils
+    
+    # Add any macOS-specific packages here
+    mas         # Mac App Store CLI
+    iterm2
+    rectangle  # Window management
   ];
+
+  fonts = {
+    fontconfig.enable = true;
+  };
+
+  # Enable home-manager
+  programs.home-manager.enable = true;
+
+  # macOS-specific configurations
+  targets.darwin = {
+    currentHostDefaults."com.apple.controlcenter".BatteryShowPercentage = true;
+    defaults = {
+      NSGlobalDomain = {
+        # Finder and UI settings
+        AppleShowAllExtensions = true;
+        AppleShowScrollBars = "Always";
+        
+        # Keyboard settings
+        InitialKeyRepeat = 15;  # Normal minimum is 15 (225ms)
+        KeyRepeat = 2;         # Normal minimum is 2 (30ms)
+        
+        # Trackpad settings
+        "com.apple.trackpad.enableSecondaryClick" = true;
+      };
+      
+      # Finder settings
+      "com.apple.finder" = {
+        ShowPathbar = true;
+        ShowStatusBar = true;
+        FXEnableExtensionChangeWarning = false;
+        _FXShowPosixPathInTitle = true;
+        FXPreferredViewStyle = "clmv";  # Column view
+      };
+      
+      # Dock settings
+      "com.apple.dock" = {
+        autohide = true;
+        show-recents = false;
+        tilesize = 48;
+        minimize-to-application = true;
+      };
+      
+      # Safari settings
+      "com.apple.Safari" = {
+        ShowFullURLInSmartSearchField = true;
+        ShowStatusBar = true;
+        AutoFillPasswords = false;
+        AutoOpenSafeDownloads = false;
+      };
+    };
+  };
 }
