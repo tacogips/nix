@@ -52,11 +52,21 @@
     onActivation.autoUpdate = true;
     onActivation.cleanup = "zap";
     taps = [];
-    casks = [];
+    casks = [
+      "firefox"
+    ];
   };
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
+  
+  # Handle package collisions
+  nixpkgs.config.allowAliases = true;
+  nixpkgs.config.permittedInsecurePackages = [];
+  
+  # Allow collisions in environment.systemPackages
+  environment.pathsToLink = [ "/Applications" ];
+  environment.variables.NIX_IGNORE_COLLISIONS = "1";
 
   # Install basic system packages
   environment.systemPackages = with pkgs; [
