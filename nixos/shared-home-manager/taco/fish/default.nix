@@ -63,9 +63,7 @@ in
     '';
   };
 
-  home.file.".config/fish/exports.fish" = {
-    source = ./exports.fish;
-  };
+  # exports.fish moved to Linux-specific configuration
 
   home.file.".private/fish/private.example.fish" = {
     text = ''
