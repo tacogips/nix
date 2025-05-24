@@ -19,14 +19,20 @@
         default_width = 640;
         default_height = 320;
         default_model = {
+          #          Model::ClaudeOpus4 => "claude-opus-4-latest",
+          #          Model::ClaudeOpus4Thinking => "claude-opus-4-thinking-latest",
+          #          Model::ClaudeSonnet4 => "claude-sonnet-4-latest",
+          #          Model::ClaudeSonnet4Thinking => "claude-sonnet-4-thinking-latest",
+
           #provider = "zed.dev";
           provider = "anthropic";
-          model = "claude-3-7-sonnet-latest";
+          model = "claude-sonnet-4-latest";
+
         };
         editor_model = {
           #provider = "zed.dev";
           provider = "anthropic";
-          model = "claude-3-7-sonnet-latest";
+          model = "claude-sonnet-4-latest";
         };
         always_allow_tool_actions = true;
         default_profile = "write";
