@@ -26,6 +26,11 @@
     # enablePamReattach = true;
   };
   
+  # Preserve HOME environment variable when using sudo
+  security.sudo.extraConfig = ''
+    Defaults env_keep += "HOME"
+  '';
+  
   # Nix configuration
   nix.settings = {
     experimental-features = [ "nix-command" "flakes" ];
