@@ -9,9 +9,41 @@
       nil
     ];
 
-    userSettings = {
-      # Assistantの設定
-      assistant = {
+    settings = {
+      theme = {
+        mode = "system";
+        light = "One Dark";
+        dark = "One Dark";
+      };
+      icon_theme = "Zed (Default)";
+      base_keymap = "VSCode";
+      features = {
+        edit_prediction_provider = "zed";
+      };
+      buffer_font_family = "Iosevka";
+      buffer_font_size = 12;
+      ui_font_size = 12;
+      cursor_blink = true;
+      vim_mode = true;
+      format_on_save = "on";
+      telemetry = {
+        diagnostics = false;
+        metrics = true;
+      };
+
+      active_pane_modifiers = {
+        magnification = 1.5;
+        border_size = 2.0;
+        inactive_opacity = 0.3;
+      };
+
+      terminal = {
+        font_family = "Iosevka";
+        font_size = 12;
+        dock = "bottom";
+      };
+
+      agent = {
         version = "2";
         enabled = true;
         button = true;
@@ -19,69 +51,63 @@
         default_width = 640;
         default_height = 320;
         default_model = {
-          #          Model::ClaudeOpus4 => "claude-opus-4-latest",
-          #          Model::ClaudeOpus4Thinking => "claude-opus-4-thinking-latest",
-          #          Model::ClaudeSonnet4 => "claude-sonnet-4-latest",
-          #          Model::ClaudeSonnet4Thinking => "claude-sonnet-4-thinking-latest",
-
-          #provider = "zed.dev";
           provider = "anthropic";
-          model = "claude-sonnet-4-latest";
-
+          model = "claude-3-7-sonnet-latest";
         };
         editor_model = {
-          #provider = "zed.dev";
           provider = "anthropic";
-          model = "claude-sonnet-4-latest";
+          model = "claude-3-7-sonnet-latest";
         };
         always_allow_tool_actions = true;
         default_profile = "write";
         profiles = {
-          ask = {
-            name = "Ask";
-            tools = {
-              diagnostics = true;
-              fetch = true;
-              list_directory = false;
-              now = true;
-              path_search = true;
-              read_file = true;
-              regex_search = true;
-              thinking = true;
-            };
-          };
           write = {
             name = "Write";
             enable_all_context_servers = true;
             tools = {
-              bash = true;
-              batch_tool = true;
-              code_symbols = true;
               copy_path = true;
+              create_directory = true;
               create_file = true;
               delete_path = false;
               diagnostics = true;
-              find_replace_file = true;
+              edit_file = true;
               fetch = true;
               list_directory = true;
               move_path = false;
               now = true;
-              path_search = true;
+              find_path = true;
               read_file = true;
-              regex_search = true;
-              symbol_info = true;
+              grep = true;
+              terminal = true;
               thinking = true;
+              web_search = true;
             };
           };
+          ask = {
+            name = "Ask";
+            tools = {
+              contents = true;
+              diagnostics = true;
+              fetch = true;
+              list_directory = true;
+              now = true;
+              find_path = true;
+              read_file = true;
+              open = true;
+              grep = true;
+              thinking = true;
+              web_search = true;
+            };
+          };
+          minimal = {
+            name = "Minimal";
+            enable_all_context_servers = false;
+            tools = {};
+          };
         };
-        # Where to show notifications when an agent has either completed
-        # its response, or else needs confirmation before it can run a
-        # tool action.
-        # "primary_screen" - Show the notification only on your primary screen (default)
-        # "all_screens" - Show these notifications on all screens
-        # "never" - Never show these notifications
         notify_when_agent_waiting = "primary_screen";
       };
+
       context_servers = {
         "cratedocs-mcp" = {
           "command" = {
@@ -98,36 +124,22 @@
             "env" = { };
           };
         };
-
       };
 
-      telemetry = {
-        diagnostics = false;
-      };
-
-      format_on_save = "on";
-      vim_mode = true;
-      ui_font_size = 12;
-
-      buffer_font_size = 12;
-      buffer_font_family = "Iosevka";
-      #buffer_font_family = "Noto Sans";
-
-      terminal = {
-        font_family = "Iosevka";
-        font_size = 12;
-      };
-
-      theme = {
-        mode = "system";
-        light = "One Dark";
-        dark = "One Dark";
-      };
-
-      active_pane_modifiers = {
-        magnification = 1.5;
-        border_size = 2.0;
-        inactive_opacity = 0.3;
+      edit_predictions = {
+        disabled_globs = [
+          "**/.env*"
+          "**/*.pem"
+          "**/*.key"
+          "**/*.cert"
+          "**/*.crt"
+          "**/.dev.vars"
+          "**/secrets.yml"
+          "**/secrets*"
+          "**/*.private*"
+        ];
+        mode = "eager";
+        enabled_in_text_threads = true;
       };
 
       languages = {
@@ -159,31 +171,15 @@
             };
           };
         };
-
         "YAML" = {
           format_on_save = "off";
         };
         "Python" = {
           language_servers = [
             "pyright"
-            #"ruff"
           ];
           format_on_save = "on";
           formatter = [
-            #{
-            #  external = {
-            #    command = "ruff";
-            #    arguments = [
-            #      "check"
-            #      "--exit-zero"
-            #      "--fix"
-            #      "--stdin-filename"
-            #      "{buffer_path}"
-            #      "-"
-            #    ];
-            #  };
-            #}
-
             {
               external = {
                 command = "ruff";
@@ -195,10 +191,24 @@
                 ];
               };
             }
-
           ];
         };
+      };
 
+      lsp = {
+        rust-analyzer = {
+          check = {
+            extraArgs = [
+              "--target-dir"
+              "target/ra"
+            ];
+          };
+          initialization_options = {
+            check = {
+              command = "check";
+            };
+          };
+        };
       };
 
       vim = {
@@ -209,62 +219,9 @@
         highlight_on_yank_duration = 200;
         custom_digraphs = { };
       };
-
-      edit_predictions = {
-
-        # A list of globs representing files that edit predictions should be disabled for.
-        # There's a sensible default list of globs already included.
-        # Any addition to this list will be merged with the default list.
-        # Globs are matched relative to the worktree root,
-        # except when starting with a slash (/) or equivalent in Windows.
-        disabled_globs = [
-          "**/.env*"
-          "**/*.pem"
-          "**/*.key"
-          "**/*.cert"
-          "**/*.crt"
-          "**/.dev.vars"
-          "**/secrets.yml"
-          "**/secrets*"
-          "**/*.private*"
-        ];
-        mode = "eager";
-        enabled_in_assistant = true;
-      };
-
-      lsp = {
-        rust-analyzer = {
-          check = {
-            # set different director to prevent confliction cargo chech and rust-analyzer
-            extraArgs = [
-              "--target-dir"
-              "target/ra"
-            ];
-          };
-
-          initialization_options = {
-            check = {
-              command = "check";
-            };
-          };
-        };
-      };
     };
 
-    extensions = [
-      "html"
-      "toml"
-      "nix"
-      "lua"
-      "fish"
-      "make"
-      "git-firefly"
-      "mcp-server-exa-search"
-      "graphql"
-      "dockerfile"
-    ];
-
-    userKeymaps = [
+    keymaps = [
       {
         context = "Workspace";
         bindings = {
@@ -273,7 +230,7 @@
           "alt-m" = "terminal_panel::ToggleFocus";
           "alt-t" = "outline_panel::ToggleFocus";
           "alt-s" = "git_panel::ToggleFocus";
-          "alt-a" = "assistant::ToggleFocus";
+          "alt-a" = "agent::ToggleFocus";
           "alt-w" = "pane::RevealInProjectPanel";
           "alt-o" = "projects::OpenRecent";
           "alt-r" = "diagnostics::Deploy";
@@ -281,37 +238,20 @@
           "alt-e" = "project_panel::ToggleFocus";
         };
       }
-
       {
-
         context = "AgentPanel && not_editing";
         bindings = {
           ":" = "command_palette::Toggle";
-          #"ctrl-i" = "agent::ToggleProfileSelector";
-          #"ctrl-alt-/" = "assistant::ToggleModelSelector";
-          #"ctrl-shift-a" = "agent::ToggleContextPicker";
-          #"ctrl-e" = "agent::ChatMode";
-          #"ctrl-alt-e" = "agent::RemoveAllContext";
-
         };
       }
-
       {
-
         context = "AgentPanel";
         bindings = {
-
           "ctrl-enter" = "assistant::Assist";
           "alt-ctrl-t" = "agent::NewTextThread";
           "ctrl-t" = "agent::NewThread";
           ", f" = "agent::OpenHistory";
           "escape" = "pane::GoBack";
-          #"ctrl-i" = "agent::ToggleProfileSelector";
-          #"ctrl-alt-/" = "assistant::ToggleModelSelector";
-          #"ctrl-shift-a" = "agent::ToggleContextPicker";
-          #"ctrl-e" = "agent::ChatMode";
-          #"ctrl-alt-e" = "agent::RemoveAllContext";
-
         };
       }
       {
@@ -339,10 +279,8 @@
           ":" = "command_palette::Toggle";
           "%" = "project_panel::NewFile";
           "/" = "project_panel::NewSearchInDirectory";
-          #"/" = "file_finder::Toggle";
           ", ," = "file_finder::Toggle";
           "d" = "project_panel::NewDirectory";
-          #"shift-d" = "project_panel::RemoveFromProject";
           "ctrl-shift-d" = "project_panel::Delete";
           "enter" = "project_panel::OpenPermanent";
           "escape" = "project_panel::ToggleFocus";
@@ -445,6 +383,19 @@
           "alt-s" = "terminal::ToggleViMode";
         };
       }
+    ];
+
+    extensions = [
+      "html"
+      "toml"
+      "nix"
+      "lua"
+      "fish"
+      "make"
+      "git-firefly"
+      "mcp-server-exa-search"
+      "graphql"
+      "dockerfile"
     ];
   };
 }
