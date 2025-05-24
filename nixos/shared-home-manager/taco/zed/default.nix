@@ -1,15 +1,31 @@
-{ pkgs, ... }:
+{ pkgs, lib, config, ... }:
 
+let
+  # Use a specific nixpkgs commit that has Zed 0.187.6
+  pkgsUnstable = import (pkgs.fetchFromGitHub {
+    owner = "NixOS";
+    repo = "nixpkgs";
+    # This commit has Zed 0.187.6
+    rev = "72200554df4cb40d64c76ea454b6410492b61088";
+    sha256 = "sha256-2h51FNGjXFYSJWBc07LrBvw0Bg2AxqBnZmSLjQUCuw8=";
+  }) { 
+    inherit (pkgs) system;
+    config.allowUnfree = true;
+  };
+in
 {
-  programs.zed-editor = {
-    enable = true;
-
-    extraPackages = with pkgs; [
-      nixfmt-rfc-style
-      nil
-    ];
-
-    settings = {
+  # Disable the home-manager module since it's causing binary name conflicts
+  programs.zed-editor.enable = false;
+  
+  # Add Zed directly to packages, using the specific version from the unstable nixpkgs
+  home.packages = with pkgs; [
+    pkgsUnstable.zed-editor
+    nixfmt-rfc-style
+    nil
+  ];
+  
+  # Manually create the configuration files
+  xdg.configFile."zed/settings.json".text = builtins.toJSON {
       theme = {
         mode = "system";
         light = "One Dark";
@@ -52,13 +68,14 @@
         default_height = 320;
         default_model = {
           provider = "anthropic";
-          model = "claude-3-7-sonnet-latest";
+          model = "claude-sonnet-4-latest";
         };
         editor_model = {
           provider = "anthropic";
-          model = "claude-3-7-sonnet-latest";
+          model = "claude-sonnet-4-latest";
         };
         always_allow_tool_actions = true;
+        single_file_review = true;
         default_profile = "write";
         profiles = {
           write = {
@@ -102,7 +119,7 @@
           minimal = {
             name = "Minimal";
             enable_all_context_servers = false;
-            tools = {};
+            tools = { };
           };
         };
         notify_when_agent_waiting = "primary_screen";
@@ -219,9 +236,10 @@
         highlight_on_yank_duration = 200;
         custom_digraphs = { };
       };
-    };
-
-    keymaps = [
+  };
+  
+  # Create keymap.json file
+  xdg.configFile."zed/keymap.json".text = builtins.toJSON [
       {
         context = "Workspace";
         bindings = {
@@ -383,9 +401,10 @@
           "alt-s" = "terminal::ToggleViMode";
         };
       }
-    ];
-
-    extensions = [
+  ];
+  
+  # Create extensions.json file with all the extensions
+  xdg.configFile."zed/extensions.json".text = builtins.toJSON [
       "html"
       "toml"
       "nix"
@@ -396,6 +415,5 @@
       "mcp-server-exa-search"
       "graphql"
       "dockerfile"
-    ];
-  };
+  ];
 }
