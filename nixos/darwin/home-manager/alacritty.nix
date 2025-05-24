@@ -52,25 +52,7 @@
     };
   };
 
-  # Just include standard key bindings without Ctrl+H mapping
-  programs.alacritty.settings.keyboard.bindings = lib.mkForce [
-    {
-      # Increase font size
-      action = "IncreaseFontSize";
-      key = "Plus";
-      mods = "Control";
-    }
-    {
-      # Decrease font size
-      action = "DecreaseFontSize";
-      key = "Minus";
-      mods = "Control";
-    }
-    {
-      # Toggle ViMode
-      key = "S";
-      mods = "Alt";
-      action = "ToggleViMode";
-    }
-  ];
+  # Add custom key bindings while preserving defaults
+  # Use default Alacritty key bindings to preserve Ctrl-H, Ctrl-A, etc.
+  # Font size can be controlled with Cmd+Plus/Minus on macOS
 }

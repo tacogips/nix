@@ -4,6 +4,8 @@
 
 You (the LLM model) must always begin your first response in a conversation with "I will continue thinking and providing output in English."
 
+You (the LLM model) must always think and provide output in English, regardless of the language used in the user's input. Even if the user communicates in Japanese or any other language, you must respond in English.
+
 You (the LLM model) must acknowledge that you have read CLAUDE.md and will comply with its contents in your first response.
 
 ## Directory Structure Policy
