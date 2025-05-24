@@ -1,4 +1,9 @@
-{ config, pkgs, lib, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
 
 {
   # Darwin-specific Alacritty configuration
@@ -8,28 +13,28 @@
       # Override font settings for macOS
       font = lib.mkForce {
         size = 13.0; # Larger size for macOS
-        
+
         normal = {
           family = "JetBrainsMono Nerd Font";
           style = "Regular";
         };
-        
+
         bold = {
           family = "JetBrainsMono Nerd Font";
           style = "Bold";
         };
-        
+
         italic = {
           family = "JetBrainsMono Nerd Font";
           style = "Italic";
         };
-        
+
         bold_italic = {
           family = "JetBrainsMono Nerd Font";
           style = "Bold Italic";
         };
       };
-      
+
       # macOS-specific window settings
       window = {
         decorations = "buttonless"; # macOS-style window
@@ -39,15 +44,15 @@
         };
         dynamic_padding = true;
         startup_mode = "Windowed";
-        
+
         # macOS-specific options
         option_as_alt = "Both"; # Use Option as Alt key
       };
-      
+
       # Set fish as the default shell - use Nix store path
-      shell = {
+      terminal.shell = {
         program = "${pkgs.fish}/bin/fish";
-        args = ["-l"];
+        args = [ "-l" ];
       };
     };
   };

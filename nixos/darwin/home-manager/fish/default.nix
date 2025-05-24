@@ -18,8 +18,9 @@ in
       # Darwin-specific fish settings
       set -gx PATH $HOME/.local/bin $PATH
       
-      # Darwin-specific key binding
+      # Darwin-specific key bindings
       bind -M insert ctrl-h backward-delete-char
+      bind -M insert ctrl-a beginning-of-line
     '';
   };
 }
