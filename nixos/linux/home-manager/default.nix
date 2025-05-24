@@ -7,6 +7,7 @@
     ./home.nix
     ./fish # Import Linux-specific fish functions
     ./firefox # Import Linux-specific Firefox configuration
+    ./alacritty # Import Linux-specific Alacritty configuration
     ../../shared-home-manager/taco # Import shared configurations
   ];
   
