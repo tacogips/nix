@@ -10,6 +10,10 @@
     # Enable the firewall
     enable = true;
     
+    # Allow loose reverse path filtering for Tailscale exit nodes
+    # This prevents internet connectivity loss when using exit nodes
+    checkReversePath = "loose";
+    
     # Allowed TCP ports
     allowedTCPPorts = [
       22    # SSH

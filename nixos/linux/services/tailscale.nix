@@ -28,6 +28,7 @@ in
       permitCertUid = cfg.permitCertUid; # Permit specified user to manage Tailscale certificates
       useRoutingFeatures = "client"; # Use routing features as a client
       authKeyFile = "/var/lib/tailscale/authkey"; # Path to auth key file
+      extraSetFlags = [ "--exit-node-allow-lan-access" ]; # Allow LAN access when using exit nodes
     };
 
     # Create tailscale group and setup proper file permissions
