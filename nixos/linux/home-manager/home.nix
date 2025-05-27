@@ -6,6 +6,7 @@
   cratedocs-mcp-pkg,
   bravesearch-mcp-pkg,
   hn-mcp-pkg,
+  gitcode-mcp-pkg,
   ...
 }:
 
@@ -108,7 +109,7 @@
       mpv # movie player
       # gui file manager.see xdgdesktops also
       nemo-with-extensions
-      
+
       # Ensure coreutils is available for the nix_diff function
       coreutils
 
@@ -119,6 +120,7 @@
       cratedocs-mcp-pkg
       bravesearch-mcp-pkg
       hn-mcp-pkg
+      gitcode-mcp-pkg
     ];
 
   #  home.file.".config/zoomus.conf" = {

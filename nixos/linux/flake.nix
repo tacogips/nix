@@ -35,6 +35,7 @@
       home-manager,
       xremap-flake,
       cratedocs-mcp,
+      gitcodes-mcp,
       bravesearch-mcp,
       hn-mcp,
       fenix,
@@ -59,6 +60,7 @@
       cratedocs-mcp-orig = cratedocs-mcp.packages.${system}.default;
       bravesearch-mcp-orig = bravesearch-mcp.packages.${system}.default;
       hn-mcp-orig = hn-mcp.packages.${system}.default;
+      gitcodes-mcp-orig = gitcodes-mcp.packages.${system}.default;
 
       # Use the original cratedocs-mcp as the source of the shared library
       cratedocs-mcp-pkg = cratedocs-mcp-orig;
@@ -81,6 +83,13 @@
         }
         # Each package can have its own set of library mappings
         # { lib = "libbar.so"; source = anotherSourcePackage; }
+      ];
+
+      gitcode-mcp-pkg = fixLibraryCollision gitcodes-mcp-orig [
+        {
+          lib = "libhtml2md.so";
+          source = cratedocs-mcp-pkg;
+        }
       ];
 
     in
@@ -132,6 +141,7 @@
                   cratedocs-mcp-pkg
                   bravesearch-mcp-pkg
                   hn-mcp-pkg
+                  gitcode-mcp-pkg
                   firefox-addons
                   ;
               };
