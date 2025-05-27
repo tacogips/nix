@@ -13,7 +13,9 @@
     cratedocs-mcp.url = "github:tacogips/cratedocs-mcp";
     bravesearch-mcp.url = "github:tacogips/bravesearch-mcp";
     hn-mcp.url = "github:tacogips/hn-mcp";
+    gitcodes-mcp.url = "github:tacogips/gitcodes-mcp";
 
+    ## --- rust --------
     fenix = {
       url = "github:nix-community/fenix";
       inputs.nixpkgs.follows = "nixpkgs";

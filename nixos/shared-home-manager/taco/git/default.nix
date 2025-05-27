@@ -6,7 +6,7 @@
     userName = "tacogips";
     userEmail = "me@tacogips.me";
     extraConfig = {
-      core.editor = "vim";
+      core.editor = "${pkgs.vim}/bin/vim";
       init.defaultBranch = "main";
     };
     delta = {
