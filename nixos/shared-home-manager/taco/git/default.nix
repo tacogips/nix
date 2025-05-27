@@ -6,7 +6,7 @@
     userName = "tacogips";
     userEmail = "me@tacogips.me";
     extraConfig = {
-      core.editor = "zeditor";
+      core.editor = "vim";
       init.defaultBranch = "main";
     };
     delta = {
