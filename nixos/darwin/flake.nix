@@ -19,6 +19,12 @@
       url = "gitlab:rycee/nur-expressions?dir=pkgs/firefox-addons";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    ## --- mcps --------
+    cratedocs-mcp.url = "github:tacogips/cratedocs-mcp";
+    bravesearch-mcp.url = "github:tacogips/bravesearch-mcp";
+    hn-mcp.url = "github:tacogips/hn-mcp";
+    gitcodes-mcp.url = "github:tacogips/gitcodes-mcp";
   };
 
   outputs =
@@ -28,6 +34,10 @@
       darwin,
       home-manager,
       firefox-addons,
+      cratedocs-mcp,
+      bravesearch-mcp,
+      hn-mcp,
+      gitcodes-mcp,
       ...
     }:
     let
@@ -122,6 +132,10 @@
               home-manager.backupFileExtension = "backup"; # Automatically backup existing files
               home-manager.extraSpecialArgs = {
                 inherit firefox-addons;
+                cratedocs-mcp-pkg = cratedocs-mcp.packages.${system}.default;
+                bravesearch-mcp-pkg = bravesearch-mcp.packages.${system}.default;
+                hn-mcp-pkg = hn-mcp.packages.${system}.default;
+                gitcode-mcp-pkg = gitcodes-mcp.packages.${system}.default;
               };
               home-manager.users.taco = { ... }: {
                 imports = [

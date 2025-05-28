@@ -2,6 +2,10 @@
   config,
   pkgs,
   firefox-addons,
+  cratedocs-mcp-pkg,
+  bravesearch-mcp-pkg,
+  hn-mcp-pkg,
+  gitcode-mcp-pkg,
   ...
 }:
 
@@ -57,6 +61,12 @@
     mas         # Mac App Store CLI
     iterm2
     rectangle  # Window management
+    
+    # ---- mcps -------------------------------
+    cratedocs-mcp-pkg
+    bravesearch-mcp-pkg
+    hn-mcp-pkg
+    gitcode-mcp-pkg
   ];
 
   fonts = {
