@@ -48,6 +48,7 @@
     # macOS applications
     slack
     obsidian
+    google-chrome
     
     # Ensure coreutils is available for scripts
     coreutils
