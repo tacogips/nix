@@ -49,6 +49,45 @@
         };
         overlays = [ ];
       };
+      # Import our library collision fix function
+      fixLibraryCollision = import ./lib/fixLibraryCollision.nix { inherit pkgs; };
+
+      # Get the original packages
+      cratedocs-mcp-orig = cratedocs-mcp.packages.${system}.default;
+      bravesearch-mcp-orig = bravesearch-mcp.packages.${system}.default;
+      hn-mcp-orig = hn-mcp.packages.${system}.default;
+      gitcodes-mcp-orig = gitcodes-mcp.packages.${system}.default;
+
+      # Use the original cratedocs-mcp as the source of the shared library
+      cratedocs-mcp-pkg = cratedocs-mcp-orig;
+
+      # Fix collisions in other packages by creating fixed versions with library specifications
+      # This approach allows different library mappings for each package if needed
+      bravesearch-mcp-pkg = fixLibraryCollision bravesearch-mcp-orig [
+        {
+          lib = "libhtml2md.dylib";
+          source = cratedocs-mcp-pkg;
+        }
+        # Example of how to add more libraries with different sources:
+        # { lib = "libfoo.dylib"; source = someOtherPackage; }
+      ];
+
+      hn-mcp-pkg = fixLibraryCollision hn-mcp-orig [
+        {
+          lib = "libhtml2md.dylib";
+          source = cratedocs-mcp-pkg;
+        }
+        # Each package can have its own set of library mappings
+        # { lib = "libbar.dylib"; source = anotherSourcePackage; }
+      ];
+
+      gitcode-mcp-pkg = fixLibraryCollision gitcodes-mcp-orig [
+        {
+          lib = "libhtml2md.dylib";
+          source = cratedocs-mcp-pkg;
+        }
+      ];
+
     in
     {
       darwinConfigurations = {
@@ -131,11 +170,13 @@
               home-manager.useUserPackages = true;
               home-manager.backupFileExtension = "backup"; # Automatically backup existing files
               home-manager.extraSpecialArgs = {
-                inherit firefox-addons;
-                cratedocs-mcp-pkg = cratedocs-mcp.packages.${system}.default;
-                bravesearch-mcp-pkg = bravesearch-mcp.packages.${system}.default;
-                hn-mcp-pkg = hn-mcp.packages.${system}.default;
-                gitcode-mcp-pkg = gitcodes-mcp.packages.${system}.default;
+                inherit
+                  firefox-addons
+                  cratedocs-mcp-pkg
+                  bravesearch-mcp-pkg
+                  hn-mcp-pkg
+                  gitcode-mcp-pkg
+                  ;
               };
               home-manager.users.taco = { ... }: {
                 imports = [
