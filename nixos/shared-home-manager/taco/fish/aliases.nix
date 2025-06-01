@@ -28,5 +28,6 @@
   da = "direnv allow";
 
   pyac = "source ./venv/bin/activate.fish";
+  claude = "claude --dangerously-skip-permissions";
 
 }
