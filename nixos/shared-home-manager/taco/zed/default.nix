@@ -5,29 +5,14 @@
   ...
 }:
 
-let
-  # Use a specific nixpkgs commit that has Zed 0.187.6
-  pkgsUnstable =
-    import
-      (pkgs.fetchFromGitHub {
-        owner = "NixOS";
-        repo = "nixpkgs";
-        # This commit has Zed 0.187.6
-        rev = "72200554df4cb40d64c76ea454b6410492b61088";
-        sha256 = "sha256-2h51FNGjXFYSJWBc07LrBvw0Bg2AxqBnZmSLjQUCuw8=";
-      })
-      {
-        inherit (pkgs) system;
-        config.allowUnfree = true;
-      };
-in
+
 {
   # Disable the home-manager module since it's causing binary name conflicts
   programs.zed-editor.enable = false;
 
-  # Add Zed directly to packages, using the specific version from the unstable nixpkgs
+  # Add Zed directly to packages
   home.packages = with pkgs; [
-    pkgsUnstable.zed-editor
+    zed-editor
     nixfmt-rfc-style
     nil
   ];
