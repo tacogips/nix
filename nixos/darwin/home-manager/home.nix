@@ -15,6 +15,7 @@
     ./alacritty.nix
     ./firefox.nix
     ./fish # Import Darwin-specific fish configuration
+    ./aerospace.nix # AeroSpace window manager configuration
     # Add any other Darwin-specific modules here
   ];
 
