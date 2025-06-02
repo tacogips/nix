@@ -79,14 +79,14 @@
         
         # Layout management
         "alt-shift-space" = "layout floating tiling";
-        "alt-f" = "fullscreen";
+        "alt-shift-f" = "fullscreen";
         
-        # Split orientation
-        "alt-s" = "split horizontal";
-        "alt-v" = "split vertical";
+        # Join orientation
+        "alt-shift-s" = "join-with down";
+        "alt-shift-v" = "join-with right";
         
         # Service mode
-        "alt-semicolon" = "mode service";
+        "alt-shift-semicolon" = "mode service";
       };
       
       # Service mode for advanced operations
@@ -103,19 +103,7 @@
         "l" = ["join-with right" "mode main"];
       };
       
-      # Workspace definitions
-      workspace = {
-        "1" = {};
-        "2" = {};
-        "3" = {};
-        "4" = {};
-        "5" = {};
-        "6" = {};
-        "7" = {};
-        "8" = {};
-        "9" = {};
-        "10" = {};
-      };
+
       
       # Application-specific window rules
       on-window-detected = [
