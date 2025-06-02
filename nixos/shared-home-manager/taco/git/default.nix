@@ -8,6 +8,7 @@
     extraConfig = {
       core.editor = "${pkgs.vim}/bin/vim";
       init.defaultBranch = "main";
+      pull.rebase = false;
     };
     delta = {
       enable = true;
