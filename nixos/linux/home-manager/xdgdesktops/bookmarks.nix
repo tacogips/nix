@@ -11,6 +11,7 @@
     "work_notion"
     "work_spreadsheet"
     "work_github"
+    "work_github_project"
     "work_github_backend"
     "work_staging_app"
     "work_slack_report"
