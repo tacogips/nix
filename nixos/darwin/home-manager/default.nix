@@ -5,6 +5,7 @@
   
   imports = [
     ./home.nix   # Import Darwin-specific home settings
+    ./karabiner.nix  # Import Karabiner configuration
     ../../shared-home-manager/taco # Import shared configurations
   ];
   
