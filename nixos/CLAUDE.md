@@ -26,14 +26,56 @@ If the user's instruction is given in English, you (the LLM model) must begin yo
    - Add or update item-level documentation for new functions, modules, configurations
    - Verify documentation is consistent and up-to-date
 7. **Always confirm before git commits**: You may create git commits at your discretion when appropriate, but must ALWAYS ask for user confirmation first. Use this attention-grabbing format:
-   ```
-   🔴 COMMIT CONFIRMATION REQUIRED 🔴
-   
-   Ready to commit changes with message:
-   [commit message summary]
-   
-   Proceed with git commit? (y/n)
-   ```
+
+```
+🔴 COMMIT CONFIRMATION REQUIRED 🔴
+
+
+📁 FILES TO BE COMMITTED:
+
+────────────────────────────────────────────────────────
+
+[output of git diff --staged --stat]
+
+────────────────────────────────────────────────────────
+
+
+Ready to commit changes with message:
+[commit message summary]
+
+Proceed with git commit? (y/n)
+```
+
+Note: When displaying file changes, use color coding where possible:
+
+- 🔴 Red for deletions (D status)
+- 🟢 Green for additions (A status) and modifications (M status)
+- 🟡 Yellow for renames (R status)
+
+Example commit message format:
+
+```
+feat: implement user authentication system
+
+1. Primary Changes and Intent:
+   Added JWT-based authentication system to secure API endpoints and manage user sessions
+
+2. Key Technical Concepts:
+   - JWT token generation and validation
+   - Password hashing with bcrypt
+   - Session management
+
+3. Files and Code Sections:
+   - src/auth/mod.rs: New authentication module with JWT utilities
+   - src/models/user.rs: User model with password hashing
+   - src/routes/auth.rs: Login and registration endpoints
+
+4. Problem Solving:
+   Addressed security vulnerability by implementing proper authentication
+
+5. Impact:
+   Enables secure user access control across the application
+```
 
 **IMPORTANT**: These steps are mandatory for ANY code modification, regardless of size. Do not skip any step unless explicitly told by the user. If any step fails, fix the issues before proceeding to the next step.
 
