@@ -8,6 +8,104 @@ You (the LLM model) must always think and provide output in English, regardless 
 
 You (the LLM model) must acknowledge that you have read CLAUDE.md and will comply with its contents in your first response.
 
+If code changes are made, you (the LLM model) must automatically execute all steps listed in the "How to change code" section before completing the task.
+
+If the user's instruction is given in English, you (the LLM model) must begin your response with "Your instruction is {corrected English}", where {corrected English} is the grammatically corrected version of the user's instruction. This helps ensure clarity when the user's English may contain errors.
+
+## How to change code
+
+**MANDATORY**: You (the LLM model) must automatically execute the following steps after making ANY code changes, without waiting for user instructions:
+
+1. **Always follow the code style guidelines** defined in this document
+2. **Always verify configuration compiles** with `nix flake check` to catch basic compilation errors quickly
+3. **Always ensure all tests pass** if tests are available in the project
+4. **Always run linting** if linting tools are configured in the project
+5. **Always format code** according to project standards (e.g., `nixfmt` for Nix files)
+6. **Always update documentation when applicable**:
+   - Add or update module-level documentation for new modules or significant changes
+   - Add or update item-level documentation for new functions, modules, configurations
+   - Verify documentation is consistent and up-to-date
+7. **Always confirm before git commits**: You may create git commits at your discretion when appropriate, but must ALWAYS ask for user confirmation first. Use this attention-grabbing format:
+   ```
+   🔴 COMMIT CONFIRMATION REQUIRED 🔴
+   
+   Ready to commit changes with message:
+   [commit message summary]
+   
+   Proceed with git commit? (y/n)
+   ```
+
+**IMPORTANT**: These steps are mandatory for ANY code modification, regardless of size. Do not skip any step unless explicitly told by the user. If any step fails, fix the issues before proceeding to the next step.
+
+### Test Handling Guidelines
+
+When working with tests:
+
+- NEVER simplify or remove test cases when tests fail - always fix the code to make tests pass
+- If tests are failing after multiple attempts to fix them, consult the user for further guidance
+- Add new tests for new functionality and edge cases
+- Ensure test coverage is maintained or improved when modifying code
+- When modifying test code, maintain or increase the strictness of the original tests
+- If a test case seems incorrect, discuss this with the user rather than modifying the test
+
+### User Communication Guidelines
+
+When working with user requests:
+
+- Seek clarification when instructions are ambiguous or incomplete
+- Ask detailed questions to understand the user's intent before implementing significant changes
+- For complex modifications, first understand the user's goal before proposing an implementation approach
+- Communicate trade-offs and alternatives when relevant
+- If unsure about a specific implementation detail, present options to the user rather than making assumptions
+- Proactively ask for additional context when it would help provide a better solution
+
+### Git Commit Message Guide
+
+Git commit messages should follow this structured format to provide comprehensive context about the changes:
+
+Create a detailed summary of the changes made, paying close attention to the specific modifications and their impact on the codebase.
+This summary should be thorough in capturing technical details, code patterns, and architectural decisions.
+
+Before creating your final commit message, analyze your changes and ensure you've covered all necessary points:
+
+1. Identify all modified files and the nature of changes made
+2. Document the purpose and motivation behind the changes
+3. Note any architectural decisions or technical concepts involved
+4. Include specific implementation details where relevant
+
+Your commit message should include the following sections:
+
+1. Primary Changes and Intent: Capture the main changes and their purpose in detail
+2. Key Technical Concepts: List important technical concepts, technologies, and frameworks involved
+3. Files and Code Sections: List specific files modified or created, with summaries of changes made
+4. Problem Solving: Document any problems solved or issues addressed
+5. Impact: Describe the impact of these changes on the overall project
+
+Example commit message format:
+
+```
+feat: implement user authentication system
+
+1. Primary Changes and Intent:
+   Added JWT-based authentication system to secure API endpoints and manage user sessions
+
+2. Key Technical Concepts:
+   - JWT token generation and validation
+   - Password hashing with bcrypt
+   - Session management
+
+3. Files and Code Sections:
+   - src/auth/mod.rs: New authentication module with JWT utilities
+   - src/models/user.rs: User model with password hashing
+   - src/routes/auth.rs: Login and registration endpoints
+
+4. Problem Solving:
+   Addressed security vulnerability by implementing proper authentication
+
+5. Impact:
+   Enables secure user access control across the application
+```
+
 ## Directory Structure Policy
 
 ### Overall Structure
