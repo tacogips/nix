@@ -11,7 +11,7 @@
     style = builtins.readFile ./waybar.css;
     settings = {
       mainBar = {
-        position = "bottom";
+        position = "top";
         layer = "top";
         height = 15;
 
