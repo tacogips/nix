@@ -5,7 +5,6 @@
   ...
 }:
 
-
 {
   # Disable the home-manager module since it's causing binary name conflicts
   programs.zed-editor.enable = false;
@@ -35,6 +34,8 @@
     cursor_blink = true;
     vim_mode = true;
     format_on_save = "on";
+    confirm_quit = false;
+    #    autosave = "on_focus_change";
     telemetry = {
       diagnostics = false;
       metrics = true;
