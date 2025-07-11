@@ -1,8 +1,6 @@
-## Instruction
-
 To continue investigating this problem, please summarize what has been learned so far, the work that has been performed, what is believed to be the cause of the problem, where the problem occurs, what has been discovered, and what needs to be investigated going forward, including the method for reproducing the problem.
 
-Output the results to .private.handover/{current_datetime}.md
+Output the results to .private.handover/{current_datetime:format(yyyymmdd_hhmmss)}.md
 
 ## Output Format
 

@@ -34,7 +34,8 @@
   setup-claude-mcps = ''
     ${pkgs.claude-code}/bin/claude mcp add -s user bravesearch-mcp bravesearch-mcp stdio && \
     ${pkgs.claude-code}/bin/claude mcp add -s user gitcodes-mcp gitcodes-mcp stdio && \
-    ${pkgs.claude-code}/bin/claude mcp add -s user cratedocs-mcp cratedocs-mcp stdio
+    ${pkgs.claude-code}/bin/claude mcp add -s user cratedocs-mcp cratedocs-mcp stdio && \
+    ${pkgs.claude-code}/bin/claude mcp add -s user github-insight-mcp github-insight-mcp stdio
   '';
 
 }
