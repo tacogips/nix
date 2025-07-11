@@ -460,11 +460,11 @@
         "nixpkgs": "nixpkgs_4"
       },
       "locked": {
-        "lastModified": 1752199056,
-        "narHash": "sha256-O7Zz3bxOjOiSXodHBGmPz7bPUf9aJhAiQmtNrxpC+s8=",
+        "lastModified": 1752212454,
+        "narHash": "sha256-1DZAHXx+EK+akJU7au0PBG4w98JZ3pV04nygmRlhKBs=",
         "owner": "tacogips",
         "repo": "github-insight",
-        "rev": "db3daa06b3ee24ef5ee700c222dc28cabf03322e",
+        "rev": "2e153316745773ac1f51edfadc2303f15652d52e",
         "type": "github"
       },
       "original": {
