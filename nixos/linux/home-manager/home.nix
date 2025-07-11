@@ -7,6 +7,7 @@
   bravesearch-mcp-pkg,
   hn-mcp-pkg,
   gitcode-mcp-pkg,
+  github-insight-mcp-pkg,
   ...
 }:
 
@@ -121,6 +122,7 @@
       bravesearch-mcp-pkg
       hn-mcp-pkg
       gitcode-mcp-pkg
+      github-insight-mcp-pkg
     ];
 
   #  home.file.".config/zoomus.conf" = {

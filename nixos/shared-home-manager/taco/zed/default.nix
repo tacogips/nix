@@ -344,6 +344,7 @@
       context = "vim_mode == normal";
       bindings = {
         ". y" = "workspace::OpenInTerminal";
+        "y a" = "editor::CopyPath";
         "space w" = "workspace::Save";
         "space t" = "workspace::Reload";
         "space e" = "editor::ReloadFile";

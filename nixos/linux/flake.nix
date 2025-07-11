@@ -14,6 +14,7 @@
     bravesearch-mcp.url = "github:tacogips/bravesearch-mcp";
     hn-mcp.url = "github:tacogips/hn-mcp";
     gitcodes-mcp.url = "github:tacogips/gitcodes-mcp";
+    github-insight-mcp.url = "github:tacogips/github-insight";
 
     ## --- rust --------
     fenix = {
@@ -38,6 +39,7 @@
       gitcodes-mcp,
       bravesearch-mcp,
       hn-mcp,
+      github-insight-mcp,
       fenix,
       firefox-addons,
       ...
@@ -61,6 +63,7 @@
       bravesearch-mcp-pkg = bravesearch-mcp.packages.${system}.default;
       hn-mcp-pkg = hn-mcp.packages.${system}.default;
       gitcode-mcp-pkg = gitcodes-mcp.packages.${system}.default;
+      github-insight-mcp-pkg = github-insight-mcp.packages.${system}.default;
 
     in
     {
@@ -112,6 +115,7 @@
                   bravesearch-mcp-pkg
                   hn-mcp-pkg
                   gitcode-mcp-pkg
+                  github-insight-mcp-pkg
                   firefox-addons
                   ;
               };
