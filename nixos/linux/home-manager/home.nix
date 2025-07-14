@@ -92,6 +92,7 @@
 
       slack
       obsidian
+      chromium
 
       grim # screenshot functionality
       slurp # screenshot functionality (select mouse region)
