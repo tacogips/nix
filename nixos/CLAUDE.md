@@ -101,51 +101,66 @@ When working with user requests:
 - If unsure about a specific implementation detail, present options to the user rather than making assumptions
 - Proactively ask for additional context when it would help provide a better solution
 
-### Git Commit Message Guide
+### Git Commit Policy
 
-Git commit messages should follow this structured format to provide comprehensive context about the changes:
+- Follow commit message format from this document
+- Auto-proceed without user confirmation
+- Execute all "How to change code" steps above before completing
 
-Create a detailed summary of the changes made, paying close attention to the specific modifications and their impact on the codebase.
-This summary should be thorough in capturing technical details, code patterns, and architectural decisions.
+### Git Commit Message Format
 
-Before creating your final commit message, analyze your changes and ensure you've covered all necessary points:
+**Structure** (9 sections):
 
-1. Identify all modified files and the nature of changes made
-2. Document the purpose and motivation behind the changes
-3. Note any architectural decisions or technical concepts involved
-4. Include specific implementation details where relevant
+1. **Objective**: Purpose, goals, challenges addressed
+2. **Primary Changes**: Main changes and intent
+3. **Key Technical Concepts**: Technologies, frameworks involved
+4. **Files and Code Sections**: Modified files with summaries
+5. **Problem Solving**: Issues addressed (include bug reproduction for fixes)
+6. **Impact**: Effect on overall project
+7. **Related Commits**: `Related: abc123d, def456a`
+8. **Unresolved TODOs**: `- [ ]` format
+9. **Future Plan**: `- [ ]` format
 
-Your commit message should include the following sections:
-
-1. Primary Changes and Intent: Capture the main changes and their purpose in detail
-2. Key Technical Concepts: List important technical concepts, technologies, and frameworks involved
-3. Files and Code Sections: List specific files modified or created, with summaries of changes made
-4. Problem Solving: Document any problems solved or issues addressed
-5. Impact: Describe the impact of these changes on the overall project
+**Bug Fix Rule**: Always include reproduction method in commit log with fictional values for sensitive data.
 
 Example commit message format:
 
 ```
 feat: implement user authentication system
 
-1. Primary Changes and Intent:
+1. Objective:
+   Implement secure user authentication to address unauthorized access vulnerabilities
+
+2. Primary Changes:
    Added JWT-based authentication system to secure API endpoints and manage user sessions
 
-2. Key Technical Concepts:
+3. Key Technical Concepts:
    - JWT token generation and validation
    - Password hashing with bcrypt
    - Session management
 
-3. Files and Code Sections:
+4. Files and Code Sections:
    - src/auth/mod.rs: New authentication module with JWT utilities
    - src/models/user.rs: User model with password hashing
    - src/routes/auth.rs: Login and registration endpoints
 
-4. Problem Solving:
-   Addressed security vulnerability by implementing proper authentication
+5. Problem Solving:
+   Fixed security vulnerability allowing unauthorized API access
+   Reproduction: POST /api/endpoint without Authorization header returned 200
 
-5. Impact:
+6. Impact:
    Enables secure user access control across the application
+
+7. Related Commits:
+   Related: 1a2b3c4, 5d6e7f8
+
+8. Unresolved TODOs:
+   - [ ] Add rate limiting for login attempts
+   - [ ] Implement password reset functionality
+
+9. Future Plan:
+   - [ ] Add OAuth integration
+   - [ ] Implement role-based permissions
 ```
 
 ## Directory Structure Policy
