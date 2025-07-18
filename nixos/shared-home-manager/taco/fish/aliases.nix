@@ -31,11 +31,15 @@
   claude = "${pkgs.claude-code}/bin/claude --model claude-sonnet-4-20250514 --dangerously-skip-permissions";
   claude-o = "${pkgs.claude-code}/bin/claude --model claude-opus-4-20250514 --dangerously-skip-permissions";
 
-  setup-claude-mcps = ''
+  setup-claude-mcps-global = ''
     ${pkgs.claude-code}/bin/claude mcp add -s user bravesearch-mcp bravesearch-mcp stdio && \
     ${pkgs.claude-code}/bin/claude mcp add -s user gitcodes-mcp gitcodes-mcp stdio && \
-    ${pkgs.claude-code}/bin/claude mcp add -s user cratedocs-mcp cratedocs-mcp stdio && \
-    ${pkgs.claude-code}/bin/claude mcp add -s user github-insight-mcp github-insight-mcp stdio
+    ${pkgs.claude-code}/bin/claude mcp add -s user cratedocs-mcp cratedocs-mcp stdio
+  '';
+
+  setup-claude-git-mcps-local = ''
+    ${pkgs.claude-code}/bin/claude mcp add -s project github-insight-mcp github-insight-mcp stdio . && \
+    ${pkgs.claude-code}/bin/claude mcp add -s project github-edit-mcp github-edit-mcp stdio .
   '';
 
 }
