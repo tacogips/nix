@@ -32,7 +32,3 @@ Based on the above changes, create a single git commit.
 6. **Impact**: Effect on overall project
 7. **Related Commits**: `Related: abc123d, def456a`
 8. **Unresolved TODOs**: `- [ ]` format
-
-## diffs
-
-!git diff
