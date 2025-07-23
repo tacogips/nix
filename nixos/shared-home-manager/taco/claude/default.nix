@@ -12,4 +12,5 @@
   # shows github url for current repository
   home.file.".claude/commands/show-github-url.md".source = ./show-github-url.md;
   home.file.".claude/commands/reload.md".source = ./reload.md;
+  home.file.".claude/commands/add-local-command.md".source = ./add-local-command.md;
 }
