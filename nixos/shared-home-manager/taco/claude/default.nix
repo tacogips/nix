@@ -13,4 +13,7 @@
   home.file.".claude/commands/show-github-url.md".source = ./show-github-url.md;
   home.file.".claude/commands/reload.md".source = ./reload.md;
   home.file.".claude/commands/add-local-command.md".source = ./add-local-command.md;
+  home.file.".claude/commands/add-local-subagent.md".source = ./add-local-subagent.md;
+  home.file.".claude/commands/cc.md".source = ./cc.md;
+  home.file.".claude/commands/eng.md".source = ./eng.md;
 }
