@@ -5,6 +5,9 @@
     127.0.0.1 mongo1 mongo2 mongo3
   '';
 
+  # DNS configuration
+  networking.nameservers = [ "8.8.8.8" "8.8.4.4" ];
+
   # Consolidated firewall configuration
   networking.firewall = {
     # Enable the firewall

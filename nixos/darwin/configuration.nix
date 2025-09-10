@@ -1,6 +1,11 @@
 { pkgs, ... }:
 
 {
+  # DNS configuration
+  networking = {
+    dns = [ "8.8.8.8" "8.8.4.4" ];
+  };
+
   # System configuration
   system = {
     # Set hostname
