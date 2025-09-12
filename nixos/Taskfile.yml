@@ -1,0 +1,45 @@
+version: '3'
+
+tasks:
+  update:
+    desc: Update all Nix flake dependencies (cross-platform)
+    cmds:
+      - nix flake update
+      
+  update-input:
+    desc: Update a specific Nix flake input (cross-platform)
+    vars:
+      package: '{{.package}}'
+    cmds:
+      - nix flake lock --update-input {{.package}}
+    requires:
+      vars: [package]
+
+  update-linux:
+    desc: Update Linux-specific flake dependencies
+    dir: ./linux
+    cmds:
+      - nix flake update
+      
+  update-darwin:
+    desc: Update Darwin-specific flake dependencies
+    dir: ./darwin
+    cmds:
+      - nix flake update
+
+  check:
+    desc: Check all flake configurations (cross-platform)
+    cmds:
+      - nix flake check
+
+  check-linux:
+    desc: Check Linux flake configuration
+    dir: ./linux
+    cmds:
+      - nix flake check
+      
+  check-darwin:
+    desc: Check Darwin flake configuration
+    dir: ./darwin
+    cmds:
+      - nix flake check
