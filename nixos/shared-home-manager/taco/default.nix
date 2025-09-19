@@ -20,7 +20,7 @@
     ./zoxide
     ./bat
     ./fzf
-    ../../../nixos/extends/mutability
+    ../extends/mutability
     # Other platform-independent modules can be added here
   ];
   
