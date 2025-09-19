@@ -16,16 +16,11 @@
     nil
   ];
 
-  # Create initial mutable settings.json using activation script
-  home.activation.createZedSettings = lib.hm.dag.entryAfter ["writeBoundary"] ''
-    zed_config_dir="$HOME/.config/zed"
-    settings_file="$zed_config_dir/settings.json"
-
-    $DRY_RUN_CMD mkdir -p "$zed_config_dir"
-
-    # Always create/update the settings file, making it mutable
-    $DRY_RUN_CMD cat > "$settings_file" << 'EOF'
-${builtins.toJSON {
+  # Create mutable settings.json using home.file
+  home.file.".config/zed/settings.json" = {
+    force = true;
+    mutable = true;
+    text = builtins.toJSON {
       theme = {
         mode = "system";
         light = "One Dark";
@@ -245,9 +240,8 @@ ${builtins.toJSON {
         highlight_on_yank_duration = 200;
         custom_digraphs = { };
       };
-    }}
-EOF
-  '';
+    };
+  };
 
   # Create keymap.json file
   xdg.configFile."zed/keymap.json".text = builtins.toJSON [
