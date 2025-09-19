@@ -16,10 +16,8 @@
     nil
   ];
 
-  # Create mutable settings.json using home.file
+  # Create settings.json using home.file (will be symlinked to nix store)
   home.file.".config/zed/settings.json" = {
-    force = true;
-    mutable = true;
     text = builtins.toJSON {
       theme = {
         mode = "system";
