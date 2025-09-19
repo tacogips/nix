@@ -6,9 +6,6 @@
 }:
 
 {
-  imports = [
-    ../../mutable.nix
-  ];
   # Disable the home-manager module since it's causing binary name conflicts
   programs.zed-editor.enable = false;
 
@@ -19,11 +16,17 @@
     nil
   ];
 
-  # Manually create the configuration files
-  home.file.".config/zed/settings.json" = {
-    force = true;
-    mutable = true;
-    text = builtins.toJSON {
+  # Create initial configuration files that Zed can modify
+  home.activation.createZedConfig = lib.hm.dag.entryAfter ["writeBoundary"] ''
+    zed_config_dir="$HOME/.config/zed"
+    settings_file="$zed_config_dir/settings.json"
+
+    $DRY_RUN_CMD mkdir -p "$zed_config_dir"
+
+    # Only create settings.json if it doesn't exist, making it mutable
+    if [[ ! -f "$settings_file" ]]; then
+      $DRY_RUN_CMD cat > "$settings_file" << 'EOF'
+${builtins.toJSON {
       theme = {
         mode = "system";
         light = "One Dark";
@@ -244,8 +247,10 @@
         highlight_on_yank_duration = 200;
         custom_digraphs = { };
       };
-    };
-  };
+    }}
+EOF
+    fi
+  '';
 
   # Create keymap.json file
   xdg.configFile."zed/keymap.json".text = builtins.toJSON [
