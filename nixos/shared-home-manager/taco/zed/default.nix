@@ -6,6 +6,9 @@
 }:
 
 {
+  imports = [
+    ../../mutable.nix
+  ];
   # Disable the home-manager module since it's causing binary name conflicts
   programs.zed-editor.enable = false;
 
@@ -17,7 +20,8 @@
   ];
 
   # Manually create the configuration files
-  xdg.configFile."zed/settings.json" = {
+  home.file.".config/zed/settings.json" = {
+    force = true;
     mutable = true;
     text = builtins.toJSON {
       theme = {
