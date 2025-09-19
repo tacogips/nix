@@ -16,7 +16,7 @@
     nil
   ];
 
-  # Create settings.json using home.file (will be symlinked to nix store)
+  # Create mutable settings.json using home.file
   home.file.".config/zed/settings.json" = {
     text = builtins.toJSON {
       theme = {
@@ -239,6 +239,8 @@
         custom_digraphs = { };
       };
     };
+    force = true; # Required for mutable files
+    mutable = true;
   };
 
   # Create keymap.json file
