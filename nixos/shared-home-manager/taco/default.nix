@@ -20,6 +20,7 @@
     ./zoxide
     ./bat
     ./fzf
+    ./mutability
     # Other platform-independent modules can be added here
   ];
   

@@ -15,6 +15,11 @@
     nixfmt-rfc-style
     nil
   ];
+  home.file."_temp_test" = {
+    text = "aaa";
+    force = true; # Required for mutable files
+    mutable = true;
+  };
 
   # Create mutable settings.json using home.file
   home.file.".config/zed/settings.json" = {
@@ -239,8 +244,8 @@
         custom_digraphs = { };
       };
     };
-    force = true; # Required for mutable files
-    mutable = true;
+    #force = true; # Required for mutable files
+    #mutable = true;
   };
 
   # Create keymap.json file
