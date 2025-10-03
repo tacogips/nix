@@ -24,7 +24,7 @@
           "Noto Color Emoji"
         ];
         monospace = [
-          "Iosevka Nerd Fon"
+          "Iosevka Nerd Font"
           "Noto Color Emoji"
         ];
         emoji = [ "Noto Color Emoji" ];

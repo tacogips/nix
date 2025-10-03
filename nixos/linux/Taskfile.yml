@@ -5,7 +5,7 @@ tasks:
     desc: Update all Nix flake dependencies
     cmds:
       - nix flake update
-      
+
   update-input:
     desc: Update a specific Nix flake input
     vars:
@@ -14,6 +14,11 @@ tasks:
       - nix flake lock --update-input {{.package}}
     requires:
       vars: [package]
+
+  rebuild:
+    desc: Rebuild and switch NixOS system configuration
+    cmds:
+      - sudo nixos-rebuild switch --flake ~/nix/nixos/linux#nix-dev-machine
 
   clean-old-generations:
     desc: Delete old system generations, keeping only the latest 5

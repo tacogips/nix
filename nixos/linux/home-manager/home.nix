@@ -85,6 +85,7 @@
       dust
       jq
       claude-code
+      codex
 
       nixfmt-rfc-style
       nixd # nix lsp

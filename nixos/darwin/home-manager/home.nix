@@ -51,6 +51,7 @@
     nixd # nix lsp
 
     claude-code
+    codex
 
     # macOS applications
     slack
