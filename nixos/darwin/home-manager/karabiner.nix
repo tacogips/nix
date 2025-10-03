@@ -29,6 +29,22 @@
             from = { key_code = "caps_lock"; };
             to = [{ key_code = "left_control"; }];
           }
+          {
+            from = { key_code = "left_option"; };
+            to = [{ key_code = "left_command"; }];
+          }
+          {
+            from = { key_code = "left_command"; };
+            to = [{ key_code = "left_option"; }];
+          }
+          {
+            from = { key_code = "right_option"; };
+            to = [{ key_code = "right_command"; }];
+          }
+          {
+            from = { key_code = "right_command"; };
+            to = [{ key_code = "right_option"; }];
+          }
         ];
         virtual_hid_keyboard = { keyboard_type_v2 = "ansi"; };
       }

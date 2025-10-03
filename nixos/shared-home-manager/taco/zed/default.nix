@@ -16,228 +16,231 @@
     nil
   ];
 
-  # Manually create the configuration files
-  xdg.configFile."zed/settings.json".text = builtins.toJSON {
-    theme = {
-      mode = "system";
-      light = "One Dark";
-      dark = "One Dark";
-    };
-    icon_theme = "Zed (Default)";
-    base_keymap = "VSCode";
-    features = {
-      edit_prediction_provider = "zed";
-    };
-    buffer_font_family = "Iosevka";
-    buffer_font_size = 12;
-    ui_font_size = 12;
-    cursor_blink = true;
-    vim_mode = true;
-    format_on_save = "on";
-    confirm_quit = false;
-    #    autosave = "on_focus_change";
-    telemetry = {
-      diagnostics = false;
-      metrics = true;
-    };
-
-    active_pane_modifiers = {
-      magnification = 1.5;
-      border_size = 2.0;
-      inactive_opacity = 0.3;
-    };
-
-    terminal = {
-      font_family = "Iosevka";
-      font_size = 12;
-      dock = "bottom";
-    };
-
-    agent = {
-      version = "2";
-      enabled = true;
-      button = true;
-      dock = "right";
-      default_width = 640;
-      default_height = 320;
-      default_model = {
-        provider = "anthropic";
-        model = "claude-sonnet-4-latest";
+  # Create mutable settings.json using home.file
+  home.file.".config/zed/settings.json" = {
+    text = builtins.toJSON {
+      theme = {
+        mode = "system";
+        light = "One Dark";
+        dark = "One Dark";
       };
-      editor_model = {
-        provider = "anthropic";
-        model = "claude-sonnet-4-latest";
+      icon_theme = "Zed (Default)";
+      base_keymap = "VSCode";
+      features = {
+        edit_prediction_provider = "zed";
       };
-      always_allow_tool_actions = true;
-      single_file_review = true;
-      default_profile = "write";
-      profiles = {
-        write = {
-          name = "Write";
-          enable_all_context_servers = true;
-          tools = {
-            copy_path = true;
-            create_directory = true;
-            create_file = true;
-            delete_path = false;
-            diagnostics = true;
-            edit_file = true;
-            fetch = true;
-            list_directory = true;
-            move_path = false;
-            now = true;
-            find_path = true;
-            read_file = true;
-            grep = true;
-            terminal = true;
-            thinking = true;
-            web_search = true;
-          };
-        };
-        ask = {
-          name = "Ask";
-          tools = {
-            contents = true;
-            diagnostics = true;
-            fetch = true;
-            list_directory = true;
-            now = true;
-            find_path = true;
-            read_file = true;
-            open = true;
-            grep = true;
-            thinking = true;
-            web_search = true;
-          };
-        };
-        minimal = {
-          name = "Minimal";
-          enable_all_context_servers = false;
-          tools = { };
-        };
-      };
-      notify_when_agent_waiting = "primary_screen";
-    };
-
-    context_servers = {
-      "cratedocs-mcp" = {
-        "command" = {
-          "path" = "cratedocs-mcp";
-          "args" = [ "stdio" ];
-          "env" = { };
-        };
+      buffer_font_family = "Iosevka";
+      buffer_font_size = 12;
+      ui_font_size = 12;
+      cursor_blink = true;
+      vim_mode = true;
+      format_on_save = "on";
+      confirm_quit = false;
+      telemetry = {
+        diagnostics = false;
+        metrics = true;
       };
 
-      "gitcodes-mcp" = {
-        "command" = {
-          "path" = "gitcodes-mcp";
-          "args" = [ "stdio" ];
-          "env" = { };
-        };
+      active_pane_modifiers = {
+        magnification = 1.5;
+        border_size = 2.0;
+        inactive_opacity = 0.3;
       };
 
-      "bravesearch-mcp" = {
-        "command" = {
-          "path" = "bravesearch-mcp";
-          "args" = [ "stdio" ];
-          "env" = { };
-        };
+      terminal = {
+        font_family = "Iosevka";
+        font_size = 12;
+        dock = "bottom";
       };
-    };
 
-    edit_predictions = {
-      disabled_globs = [
-        "**/.env*"
-        "**/*.pem"
-        "**/*.key"
-        "**/*.cert"
-        "**/*.crt"
-        "**/.dev.vars"
-        "**/secrets.yml"
-        "**/secrets*"
-        "**/*.private*"
-      ];
-      mode = "eager";
-      enabled_in_text_threads = true;
-    };
-
-    languages = {
-      "C" = {
-        format_on_save = "off";
-        use_on_type_format = false;
-        prettier = {
-          allowed = false;
+      agent = {
+        version = "2";
+        enabled = true;
+        button = true;
+        dock = "right";
+        default_width = 640;
+        default_height = 320;
+        default_model = {
+          provider = "anthropic";
+          model = "claude-sonnet-4-latest";
         };
-      };
-      "C++" = {
-        format_on_save = "off";
-        use_on_type_format = false;
-        prettier = {
-          allowed = false;
+        editor_model = {
+          provider = "anthropic";
+          model = "claude-sonnet-4-latest";
         };
-      };
-      "Toml" = {
-        format_on_save = "off";
-      };
-      "Nix" = {
-        language_servers = [
-          "nil"
-          "..."
-        ];
-        formatter = {
-          external = {
-            command = "nixfmt";
-          };
-        };
-      };
-      "YAML" = {
-        format_on_save = "off";
-      };
-      "Python" = {
-        language_servers = [
-          "pyright"
-        ];
-        format_on_save = "on";
-        formatter = [
-          {
-            external = {
-              command = "ruff";
-              arguments = [
-                "format"
-                "--stdin-filename"
-                "{buffer_path}"
-                "-"
-              ];
+        always_allow_tool_actions = true;
+        single_file_review = true;
+        default_profile = "write";
+        profiles = {
+          write = {
+            name = "Write";
+            enable_all_context_servers = true;
+            tools = {
+              copy_path = true;
+              create_directory = true;
+              create_file = true;
+              delete_path = false;
+              diagnostics = true;
+              edit_file = true;
+              fetch = true;
+              list_directory = true;
+              move_path = false;
+              now = true;
+              find_path = true;
+              read_file = true;
+              grep = true;
+              terminal = true;
+              thinking = true;
+              web_search = true;
             };
-          }
-        ];
+          };
+          ask = {
+            name = "Ask";
+            tools = {
+              contents = true;
+              diagnostics = true;
+              fetch = true;
+              list_directory = true;
+              now = true;
+              find_path = true;
+              read_file = true;
+              open = true;
+              grep = true;
+              thinking = true;
+              web_search = true;
+            };
+          };
+          minimal = {
+            name = "Minimal";
+            enable_all_context_servers = false;
+            tools = { };
+          };
+        };
+        notify_when_agent_waiting = "primary_screen";
       };
-    };
 
-    lsp = {
-      rust-analyzer = {
-        check = {
-          extraArgs = [
-            "--target-dir"
-            "target/ra"
+      context_servers = {
+        "cratedocs-mcp" = {
+          "command" = {
+            "path" = "cratedocs-mcp";
+            "args" = [ "stdio" ];
+            "env" = { };
+          };
+        };
+
+        "gitcodes-mcp" = {
+          "command" = {
+            "path" = "gitcodes-mcp";
+            "args" = [ "stdio" ];
+            "env" = { };
+          };
+        };
+
+        "bravesearch-mcp" = {
+          "command" = {
+            "path" = "bravesearch-mcp";
+            "args" = [ "stdio" ];
+            "env" = { };
+          };
+        };
+      };
+
+      edit_predictions = {
+        disabled_globs = [
+          "**/.env*"
+          "**/*.pem"
+          "**/*.key"
+          "**/*.cert"
+          "**/*.crt"
+          "**/.dev.vars"
+          "**/secrets.yml"
+          "**/secrets*"
+          "**/*.private*"
+        ];
+        mode = "eager";
+        enabled_in_text_threads = true;
+      };
+
+      languages = {
+        "C" = {
+          format_on_save = "off";
+          use_on_type_format = false;
+          prettier = {
+            allowed = false;
+          };
+        };
+        "C++" = {
+          format_on_save = "off";
+          use_on_type_format = false;
+          prettier = {
+            allowed = false;
+          };
+        };
+        "Toml" = {
+          format_on_save = "off";
+        };
+        "Nix" = {
+          language_servers = [
+            "nil"
+            "..."
+          ];
+          formatter = {
+            external = {
+              command = "nixfmt";
+            };
+          };
+        };
+        "YAML" = {
+          format_on_save = "off";
+        };
+        "Python" = {
+          language_servers = [
+            "pyright"
+          ];
+          format_on_save = "on";
+          formatter = [
+            {
+              external = {
+                command = "ruff";
+                arguments = [
+                  "format"
+                  "--stdin-filename"
+                  "{buffer_path}"
+                  "-"
+                ];
+              };
+            }
           ];
         };
-        initialization_options = {
+      };
+
+      lsp = {
+        rust-analyzer = {
           check = {
-            command = "check";
+            extraArgs = [
+              "--target-dir"
+              "target/ra"
+            ];
+          };
+          initialization_options = {
+            check = {
+              command = "check";
+            };
           };
         };
       };
-    };
 
-    vim = {
-      toggle_relative_line_numbers = false;
-      use_system_clipboard = "always";
-      use_multiline_find = false;
-      use_smartcase_find = true;
-      highlight_on_yank_duration = 200;
-      custom_digraphs = { };
+      vim = {
+        toggle_relative_line_numbers = false;
+        use_system_clipboard = "always";
+        use_multiline_find = false;
+        use_smartcase_find = true;
+        highlight_on_yank_duration = 200;
+        custom_digraphs = { };
+      };
     };
+    force = true; # Required for mutable files
+    mutable = true;
   };
 
   # Create keymap.json file
