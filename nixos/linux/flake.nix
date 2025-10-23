@@ -70,70 +70,89 @@
 
     in
     {
-      nixosConfigurations = {
-        "nix-dev-machine" = nixpkgs.lib.nixosSystem {
-          inherit system;
-
-          modules = [
-            # Base configuration
-            ./device/nix-dev-machine/configuration.nix
-            ./ssh/ssh.nix
-
-            # Service configurations
-            ./services/tailscale.nix
-            ./services/docker.nix
-            ./services/openssh.nix
-            ./services/gnome-keyring.nix
-            ./services/greetd.nix
-            ./services/xdg-portal.nix
-
-            # Hardware configurations
-            ./hardware/fan-control.nix
-            ./hardware/cuda.nix
-            ./hardware/storage.nix
-            ./hardware/nvidia.nix
-
-            # Program configurations
-            ./programs/hyprland.nix
-
-            # System configurations
-            ./configuration/fonts.nix
-            ./configuration/users.nix
-            ./configuration/networking.nix
-            ./configuration/nix-settings.nix
-            ./configuration/system-packages.nix
-            ./configuration/kernel-modules.nix
-            ./configuration/tailscale.nix
-
-            home-manager.nixosModules.home-manager
+      nixosConfigurations =
+        let
+          # Docker module with custom data root for nix-dev-machine
+          nixDevMachineDockerModule =
             {
-              home-manager.useGlobalPkgs = true;
-              home-manager.useUserPackages = true;
-              home-manager.backupFileExtension = "hmm_backup";
-              home-manager.extraSpecialArgs = {
-                inherit
-                  xremap-flake
-                  fenix
-                  cratedocs-mcp-pkg
-                  bravesearch-mcp-pkg
-                  hn-mcp-pkg
-                  gitcode-mcp-pkg
-                  github-insight-mcp-pkg
-                  github-edit-mcp-pkg
-                  firefox-addons
-                  ;
-              };
-              home-manager.users.taco =
-                { ... }:
-                {
-                  imports = [
-                    ./home-manager
-                  ];
+              config,
+              lib,
+              pkgs,
+              ...
+            }:
+            import ./services/docker.nix {
+              inherit
+                config
+                lib
+                pkgs
+                ;
+              dataRoot = "/g/docker";
+            };
+        in
+        {
+          "nix-dev-machine" = nixpkgs.lib.nixosSystem {
+            inherit system;
+
+            modules = [
+              # Base configuration
+              ./device/nix-dev-machine/configuration.nix
+              ./ssh/ssh.nix
+
+              # Service configurations
+              ./services/tailscale.nix
+              nixDevMachineDockerModule
+              ./services/openssh.nix
+              ./services/gnome-keyring.nix
+              ./services/greetd.nix
+              ./services/xdg-portal.nix
+
+              # Hardware configurations
+              ./hardware/fan-control.nix
+              ./hardware/cuda.nix
+              ./hardware/storage.nix
+              ./hardware/nvidia.nix
+
+              # Program configurations
+              ./programs/hyprland.nix
+
+              # System configurations
+              ./configuration/fonts.nix
+              ./configuration/users.nix
+              ./configuration/networking.nix
+              ./configuration/nix-settings.nix
+              ./configuration/system-packages.nix
+              ./configuration/kernel-modules.nix
+              ./configuration/tailscale.nix
+
+              home-manager.nixosModules.home-manager
+              {
+                home-manager.useGlobalPkgs = true;
+                home-manager.useUserPackages = true;
+                home-manager.backupFileExtension = "hmm_backup";
+                home-manager.extraSpecialArgs = {
+                  inherit
+                    xremap-flake
+                    fenix
+                    cratedocs-mcp-pkg
+                    bravesearch-mcp-pkg
+                    hn-mcp-pkg
+                    gitcode-mcp-pkg
+                    github-insight-mcp-pkg
+                    github-edit-mcp-pkg
+                    firefox-addons
+                    ;
                 };
-            }
-          ];
+                home-manager.users.taco =
+                  { ... }:
+                  {
+                    imports = [
+                      ./home-manager
+                    ];
+                  };
+              }
+            ];
+          };
         };
-      };
     };
 
 }

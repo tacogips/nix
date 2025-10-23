@@ -6,20 +6,21 @@
   imports = [
     # Import shared modules (no home.nix as it's platform-specific)
     ./alacritty
+    ./bat
     ./bottom
     ./claude
-    ./eza
     ./direnv
+    ./eza
     ./fd
+    ./fish
+    ./fzf
     ./git
     ./lazygit
+    ./marktext
     ./ripgrep
-    ./fish
     ./ssh
     ./zed
     ./zoxide
-    ./bat
-    ./fzf
     ../extends/mutability
     # Other platform-independent modules can be added here
   ];
