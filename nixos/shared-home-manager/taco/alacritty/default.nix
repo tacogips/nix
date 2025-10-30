@@ -65,16 +65,6 @@
       scrolling = {
         history = 10000;
       };
-
-      keyboard = {
-        bindings = [
-          {
-            key = "K";
-            mods = "Control|Shift";
-            action = "ToggleViMode";
-          }
-        ];
-      };
     };
   };
 }

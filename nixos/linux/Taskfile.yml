@@ -8,6 +8,13 @@ tasks:
 
   update-input:
     desc: Update a specific Nix flake input
+    summary: |
+      Update a specific Nix flake input to its latest version.
+
+      Examples:
+        task update-input package=github-insight-mcp
+        task update-input package=hn-mcp
+        task update-input package=gitcodes-mcp
     vars:
       package: '{{.package}}'
     cmds:
