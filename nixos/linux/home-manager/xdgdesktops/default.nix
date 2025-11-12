@@ -1,6 +1,12 @@
 { config, pkgs, ... }:
 
 let
+  # Browser desktop file names for easy switching
+  defaultBrowser = "brave-browser.desktop";
+  browserIcon = "brave";
+  browserPackage = pkgs.brave;
+  browserBinary = "brave";
+
   # We'll still import fish functions for reference, but create simplified bash versions
   fishFunctions = import ../fish/functions.nix { inherit pkgs; };
 
@@ -30,9 +36,9 @@ let
       #!/bin/sh
       URL_FILE_PATH=~/.private/bookmarks/${bookmark_name}.txt
       URL=$(${pkgs.coreutils}/bin/cat $URL_FILE_PATH)
-      ${pkgs.firefox}/bin/firefox "$URL"
+      ${browserPackage}/bin/${browserBinary} "$URL"
     ''}/bin/open-url-from-file-${bookmark_name}";
-    icon = "firefox";
+    icon = browserIcon;
     terminal = false;
     categories = [
       "Development"
@@ -125,14 +131,14 @@ in
       "image/tiff" = "feh.desktop";
       "inode/directory" = [ "nemo.desktop" ];
       "application/x-gnome-saved-search" = [ "nemo.desktop" ];
-      "text/html" = "firefox.desktop";
-      "application/pdf" = "firefox.desktop";
-      "application/xhtml+xml" = "firefox.desktop";
-      "text/xml" = "firefox.desktop";
-      "x-scheme-handler/ftp" = "firefox.desktop";
-      "x-scheme-handler/http" = "firefox.desktop";
-      "x-scheme-handler/https" = "firefox.desktop";
-      "default-web-browser" = "firefox.desktop";
+      "text/html" = defaultBrowser;
+      "application/pdf" = defaultBrowser;
+      "application/xhtml+xml" = defaultBrowser;
+      "text/xml" = defaultBrowser;
+      "x-scheme-handler/ftp" = defaultBrowser;
+      "x-scheme-handler/http" = defaultBrowser;
+      "x-scheme-handler/https" = defaultBrowser;
+      "default-web-browser" = defaultBrowser;
     };
   };
 

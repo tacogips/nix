@@ -1,7 +1,12 @@
-{ config, pkgs, lib, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
 
 {
-  # Linux-specific Brave configuration
+  # Darwin-specific Brave configuration
   programs.chromium = {
     enable = true;
     package = pkgs.brave;
@@ -21,17 +26,13 @@
       { id = "cnjifjpddelmedmihgijeibhnjfabmlf"; }
     ];
 
-    # Command-line arguments for Brave
+    # Command-line arguments for Brave on macOS
     commandLineArgs = [
       # Privacy and security flags
       "--disable-background-networking"
       "--disable-breakpad"
       "--disable-crash-reporter"
       "--disable-sync"
-
-      # Performance flags
-      "--enable-features=VaapiVideoDecoder"
-      "--use-gl=desktop"
     ];
   };
 }
