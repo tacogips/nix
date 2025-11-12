@@ -8,10 +8,10 @@
     # Monitor layout profiles
     # Use 'hyprctl monitors' to check current monitor configuration
     profiles = {
-      # Triple monitor setup: 2 monitors on top, 1 centered below
+      # Triple monitor setup: 2 monitors on top, 1 below left
       # Physical layout:
       #   [HDMI-A-1]  [DP-3]
-      #       [DP-2]
+      #   [DP-2]
       triplemonitor = {
         outputs = [
           # Top left: HDMI-A-1 (Dell S2721QS)
@@ -30,11 +30,11 @@
             mode = "3840x2160";
             scale = 1.5;
           }
-          # Bottom center: DP-2 (HP 27f 4k)
+          # Bottom left: DP-2 (HP 27f 4k) - directly below HDMI-A-1
           {
             criteria = "DP-2";
             status = "enable";
-            position = "1280,1440"; # Centered: (5120-2560)/2 = 1280, Height: 2160/1.5 = 1440
+            position = "0,1440"; # Aligned with HDMI-A-1 left edge, Height: 2160/1.5 = 1440
             mode = "3840x2160";
             scale = 1.5;
           }
