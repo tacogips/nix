@@ -91,7 +91,16 @@
 
       qt6.qtwayland # needed for mozc to run  QT_QPA_PLATFORM, wayland
 
-      # Override Slack to fix Wayland rendering issues
+      # Override Slack to fix Wayland rendering issues (jagged/pixelated display)
+      # Why this works:
+      # 1. Slack 4.46.96+ has a bug where --ozone-platform-hint=auto is ignored (GitHub issue #445220)
+      # 2. Environment variables like ELECTRON_FLAGS don't apply to individual Electron apps
+      #    because each app has its own launch wrapper
+      # 3. By overriding at package level with makeWrapper, we ensure flags are passed directly to Slack
+      # 4. --ozone-platform=wayland forces native Wayland mode instead of falling back to XWayland
+      # 5. --disable-gpu-sandbox works around Nvidia-specific GPU rendering issues
+      # 6. UseOzonePlatform enables Electron's Ozone platform backend for proper Wayland support
+      # 7. WebRTCPipeWireCapturer enables screen sharing via PipeWire on Wayland
       (slack.overrideAttrs (oldAttrs: {
         installPhase = oldAttrs.installPhase + ''
           rm $out/bin/slack
