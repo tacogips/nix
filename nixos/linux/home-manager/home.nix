@@ -55,7 +55,6 @@
     XDG_DATA_HOME = "$HOME/.local/share";
     XDG_BIN_HOME = "$HOME/.local/bin";
     NIXOS_OZONE_WL = "1";
-    ELECTRON_OZONE_PLATFORM_HINT = "wayland";
     QT_QPA_PLATFORM = "wayland";
     SDL_VIDEODRIVER = "wayland";
     MOZ_ENABLE_WAYLAND = 1;
@@ -92,7 +91,19 @@
 
       qt6.qtwayland # needed for mozc to run  QT_QPA_PLATFORM, wayland
 
-      slack
+      # Override Slack to fix Wayland rendering issues
+      (slack.overrideAttrs (oldAttrs: {
+        installPhase = oldAttrs.installPhase + ''
+          rm $out/bin/slack
+
+          makeWrapper $out/lib/slack/slack $out/bin/slack \
+            --prefix XDG_DATA_DIRS : $GSETTINGS_SCHEMAS_PATH \
+            --prefix PATH : ${pkgs.lib.makeBinPath [ pkgs.xdg-utils ]} \
+            --add-flags "--ozone-platform=wayland" \
+            --add-flags "--enable-features=UseOzonePlatform,WebRTCPipeWireCapturer" \
+            --add-flags "--disable-gpu-sandbox"
+        '';
+      }))
       obsidian
       chromium
 
