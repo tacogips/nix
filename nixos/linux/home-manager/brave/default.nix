@@ -23,6 +23,11 @@
 
     # Command-line arguments for Brave
     commandLineArgs = [
+      # Wayland support - fixes crashes when moving windows between workspaces
+      # See: https://github.com/brave/brave-browser/issues/49862
+      "--ozone-platform=wayland"
+      "--disable-features=WaylandWpColorManagerV1"
+
       # Privacy and security flags
       "--disable-background-networking"
       "--disable-breakpad"
