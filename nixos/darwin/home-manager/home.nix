@@ -17,6 +17,7 @@
     ./brave.nix # Import Darwin-specific Brave configuration
     ./fish # Import Darwin-specific fish configuration
     ./aerospace.nix # AeroSpace window manager configuration
+    ./zoom.nix # Zoom video conferencing application
     # Add any other Darwin-specific modules here
   ];
 

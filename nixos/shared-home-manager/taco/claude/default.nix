@@ -9,6 +9,8 @@
   home.file.".claude/commands/output-design.md".source = ./output-design.md;
   # executes git diff and commits following git commit policy
   home.file.".claude/commands/commit-diff.md".source = ./commit-diff.md;
+  # shows recent commit logs with changed files (default 3 commits)
+  home.file.".claude/commands/read-commit-logs.md".source = ./read-commit-logs.md;
   # shows github url for current repository
   home.file.".claude/commands/show-github-url.md".source = ./show-github-url.md;
   home.file.".claude/commands/reload.md".source = ./reload.md;
