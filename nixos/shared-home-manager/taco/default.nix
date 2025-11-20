@@ -16,6 +16,7 @@
     ./fish
     ./fzf
     ./git
+    ./go
     ./lazygit
     ./marktext
     ./ripgrep

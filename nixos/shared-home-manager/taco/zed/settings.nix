@@ -190,6 +190,20 @@
         }
       ];
     };
+    "Go" = {
+      language_servers = [
+        "gopls"
+      ];
+      format_on_save = "on";
+      formatter = {
+        external = {
+          command = "goimports";
+        };
+      };
+      code_actions_on_format = {
+        "source.organizeImports" = true;
+      };
+    };
   };
 
   lsp = {
@@ -203,6 +217,35 @@
       initialization_options = {
         check = {
           command = "check";
+        };
+      };
+    };
+    gopls = {
+      initialization_options = {
+        usePlaceholders = true;
+        completeUnimported = true;
+        staticcheck = true;
+        gofumpt = true;
+        analyses = {
+          unusedparams = true;
+          shadow = true;
+        };
+        codelenses = {
+          generate = true;
+          gc_details = true;
+          test = true;
+          tidy = true;
+          upgrade_dependency = true;
+          vendor = true;
+        };
+        hints = {
+          assignVariableTypes = true;
+          compositeLiteralFields = true;
+          compositeLiteralTypes = true;
+          constantValues = true;
+          functionTypeParameters = true;
+          parameterNames = true;
+          rangeVariableTypes = true;
         };
       };
     };
