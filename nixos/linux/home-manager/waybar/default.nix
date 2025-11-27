@@ -41,7 +41,7 @@
           "custom/disk-g"
           "network"
         ];
-        
+
         "network" = {
           format-wifi = "{essid} ({signalStrength}%) 󰖩";
           format-ethernet = "󰈀 {ipaddr}";
@@ -89,7 +89,7 @@
           exec = "${pkgs.fcitx5}/bin/fcitx5-remote -n";
           interval = 1;
           return-type = "text";
-          on-click = "${pkgs.fcitx5}/bin/fcitx5-configtool";
+          on-click = "${pkgs.qt6Packages.fcitx5-configtool}/bin/fcitx5-configtool";
           tooltip = false;
           signal = 1;
         };
