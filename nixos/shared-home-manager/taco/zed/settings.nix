@@ -1,6 +1,10 @@
 { ... }:
 
 {
+  collaboration_panel = {
+    dock = "right";
+  };
+
   theme = {
     mode = "system";
     light = "One Dark";
