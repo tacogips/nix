@@ -72,4 +72,16 @@
     end
   '';
 
+  setup-claude-mcps-global = ''
+    ${pkgs.claude-code}/bin/claude mcp add -s user bravesearch-mcp bravesearch-mcp stdio
+    and ${pkgs.claude-code}/bin/claude mcp add -s user gitcodes-mcp gitcodes-mcp stdio
+    and ${pkgs.claude-code}/bin/claude mcp add -s user cratedocs-mcp cratedocs-mcp stdio
+  '';
+
+  setup-claude-git-rust-mcps-local = ''
+    ${pkgs.claude-code}/bin/claude mcp add -s local github-insight-mcp github-insight-mcp stdio
+    and ${pkgs.claude-code}/bin/claude mcp add -s local github-edit-mcp github-edit-mcp stdio
+    and ${pkgs.claude-code}/bin/claude mcp add -s local cratedocs-mcp cratedocs-mcp stdio
+  '';
+
 }
