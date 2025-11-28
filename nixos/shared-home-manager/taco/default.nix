@@ -23,7 +23,6 @@
     ./ssh
     ./zed
     ./zoxide
-    ./zsh
     ../extends/mutability
     # Other platform-independent modules can be added here
   ];
