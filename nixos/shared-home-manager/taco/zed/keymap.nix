@@ -109,6 +109,7 @@
       "space e" = "editor::ReloadFile";
       "space q" = "pane::CloseActiveItem";
       ", a" = "editor::ToggleCodeActions";
+      ", b" = "task::Spawn";
       ", e" = "editor::Rename";
       ", ," = "file_finder::Toggle";
       ", r" = "pane::DeploySearch";

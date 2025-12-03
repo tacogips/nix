@@ -9,6 +9,7 @@ let
   zedSettings = import ./settings.nix { };
   zedKeymap = import ./keymap.nix { };
   zedExtensions = import ./extensions.nix { };
+  zedTasks = import ./tasks.nix { };
 in
 {
   # Disable the home-manager module since it's causing binary name conflicts
@@ -42,4 +43,10 @@ in
 
   # Create extensions.json file with all the extensions
   xdg.configFile."zed/extensions.json".text = builtins.toJSON zedExtensions;
+
+  # Create tasks.json template in config directory for reference
+  xdg.configFile."zed/tasks.json.template".text = builtins.toJSON zedTasks;
+
+  # Create .zed/tasks.json in the nixos project directory
+  home.file."nix/nixos/.zed/tasks.json".text = builtins.toJSON zedTasks;
 }
