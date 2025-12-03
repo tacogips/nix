@@ -106,18 +106,21 @@
 
   context_servers = {
     "cratedocs-mcp" = {
+      "source" = "custom";
       "command" = "cratedocs-mcp";
       "args" = [ "stdio" ];
       "env" = { };
     };
 
     "gitcodes-mcp" = {
+      "source" = "custom";
       "command" = "gitcodes-mcp";
       "args" = [ "stdio" ];
       "env" = { };
     };
 
     "bravesearch-mcp" = {
+      "source" = "custom";
       "command" = "bravesearch-mcp";
       "args" = [ "stdio" ];
       "env" = { };
