@@ -84,4 +84,8 @@
     and ${pkgs.claude-code}/bin/claude mcp add -s local cratedocs-mcp cratedocs-mcp stdio
   '';
 
+  gh-pr-view = ''
+    ${pkgs.gh}/bin/gh pr view --web
+  '';
+
 }
