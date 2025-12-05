@@ -29,6 +29,6 @@
 
   pyac = "source ./venv/bin/activate.fish";
   claude = "${pkgs.claude-code}/bin/claude --model claude-sonnet-4-5-20250929 --dangerously-skip-permissions";
-  claude-o = "${pkgs.claude-code}/bin/claude --model claude-opus-4-20250805 --dangerously-skip-permissions";
+  claude-o = "${pkgs.claude-code}/bin/claude --model claude-opus-4-5-20251101 --dangerously-skip-permissions";
 
 }
