@@ -33,4 +33,6 @@
   home.file.".claude/commands/read-claude-plugins.md".source = ./read-claude-plugins.md;
   # reads and understands Claude Code hooks documentation
   home.file.".claude/commands/read-claude-hooks.md".source = ./read-claude-hooks.md;
+  # reads and understands Claude Code slash commands documentation
+  home.file.".claude/commands/read-claude-slash-commands.md".source = ./read-claude-slash-commands.md;
 }
