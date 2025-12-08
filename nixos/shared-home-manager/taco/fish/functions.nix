@@ -84,6 +84,12 @@
     and ${pkgs.claude-code}/bin/claude mcp add -s local cratedocs-mcp cratedocs-mcp stdio
   '';
 
+  remove-claude-git-rust-mcps-local = ''
+    ${pkgs.claude-code}/bin/claude mcp remove -s local github-insight-mcp
+    and ${pkgs.claude-code}/bin/claude mcp remove -s local github-edit-mcp
+    and ${pkgs.claude-code}/bin/claude mcp remove -s local cratedocs-mcp
+  '';
+
   gh-pr-view = ''
     ${pkgs.gh}/bin/gh pr view --web
   '';
