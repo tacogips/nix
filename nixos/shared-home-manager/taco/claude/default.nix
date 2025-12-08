@@ -1,23 +1,22 @@
 { ... }:
 {
-  # Copy handover.md to ~/.claude/commands/ for Claude slash commands
+  # Copy ope-handover.md to ~/.claude/commands/ for Claude slash commands
   # output to .private.handover/{datetime::format(yyyymmdd_hhmmss)}.md
-  home.file.".claude/commands/handover.md".source = ./handover.md;
+  home.file.".claude/commands/ope-handover.md".source = ./ope-handover.md;
   # reads from .private.handover/{datetime::format(yyyymmdd_hhmmss)}.md
-  home.file.".claude/commands/cont-handover.md".source = ./cont-handover.md;
+  home.file.".claude/commands/ope-cont-handover.md".source = ./ope-cont-handover.md;
   # output to .private.design/{datetime::format(yyyymmdd_hhmmss)}.md
-  home.file.".claude/commands/output-design.md".source = ./output-design.md;
+  home.file.".claude/commands/ope-output-design.md".source = ./ope-output-design.md;
   # executes git diff and commits following git commit policy
   home.file.".claude/commands/git-commit-diff.md".source = ./git-commit-diff.md;
   # shows recent commit logs with changed files (default 3 commits)
-  home.file.".claude/commands/read-commit-logs.md".source = ./read-commit-logs.md;
+  home.file.".claude/commands/git-read-commit-logs.md".source = ./git-read-commit-logs.md;
   # shows github url for current repository
-  home.file.".claude/commands/show-github-url.md".source = ./show-github-url.md;
-  home.file.".claude/commands/reload.md".source = ./reload.md;
-  home.file.".claude/commands/add-local-command.md".source = ./add-local-command.md;
-  home.file.".claude/commands/add-local-subagent.md".source = ./add-local-subagent.md;
-  home.file.".claude/commands/cc.md".source = ./cc.md;
-  home.file.".claude/commands/eng.md".source = ./eng.md;
+  home.file.".claude/commands/git-show-github-url.md".source = ./git-show-github-url.md;
+  home.file.".claude/commands/ope-reload.md".source = ./ope-reload.md;
+  home.file.".claude/commands/ope-add-local-command.md".source = ./ope-add-local-command.md;
+  home.file.".claude/commands/ope-add-local-subagent.md".source = ./ope-add-local-subagent.md;
+  home.file.".claude/commands/util-to-eng.md".source = ./util-to-eng.md;
   # creates a new sub-branch from current branch with format {current_branch}_{sub_name}
   home.file.".claude/commands/git-create-sub-branch.md".source = ./git-create-sub-branch.md;
   # finds the parent branch of current branch based on naming convention
