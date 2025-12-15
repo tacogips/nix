@@ -33,4 +33,23 @@
     # Clean up the temporary directory
     ${pkgs.coreutils}/bin/rm -rf $temp_dir
   '';
+
+  # GitHub authentication setup function
+  gh-auth-setup = ''
+    set -x GIT_CONFIG_GLOBAL ~/.private/git/credential/config
+    gh auth setup-git
+  '';
+
+  # GitHub authentication refresh function
+  gh-auth-refresh = ''
+    # Logout from GitHub CLI
+    gh auth logout
+
+    # Login to GitHub CLI
+    gh auth login
+
+    # Setup git credential helper to writable config
+    set -x GIT_CONFIG_GLOBAL ~/.private/git/credential/config
+    gh auth setup-git
+  '';
 }
