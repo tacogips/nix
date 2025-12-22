@@ -8,6 +8,7 @@
     ./alacritty
     ./bat
     ./bottom
+    ./bun
     ./claude
     ./deno
     ./direnv

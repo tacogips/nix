@@ -501,11 +501,11 @@
         "nixpkgs": "nixpkgs_3"
       },
       "locked": {
-        "lastModified": 1761389093,
-        "narHash": "sha256-nUgMMZgjtZPr04mEA9LbtW/oPqXE7ZKDVkFLEPwZ/aA=",
+        "lastModified": 1765777594,
+        "narHash": "sha256-3U8GT19L9Q5KYCNq3q8kwy4flt7JZ4BijKbvX6kX2Vg=",
         "owner": "tacogips",
         "repo": "gitcodes-mcp",
-        "rev": "39d9f3e8608f75eeb8a3b4a2c912a7049239e062",
+        "rev": "00da24027f0b6c9093718f92f0fa216aa43dc589",
         "type": "github"
       },
       "original": {
