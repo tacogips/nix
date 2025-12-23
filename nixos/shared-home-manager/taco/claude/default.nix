@@ -31,6 +31,8 @@
   home.file.".claude/commands/read-claude-subagents.md".source = ./read-claude-subagents.md;
   # reads and understands Claude Code plugins documentation
   home.file.".claude/commands/read-claude-plugins.md".source = ./read-claude-plugins.md;
+  # reads and understands Claude Code plugins reference documentation
+  home.file.".claude/commands/read-claude-plugins-reference.md".source = ./read-claude-plugins-reference.md;
   # reads and understands Claude Code hooks documentation
   home.file.".claude/commands/read-claude-hooks.md".source = ./read-claude-hooks.md;
   # reads and understands Claude Code slash commands documentation
