@@ -23,6 +23,9 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    ## --- go tools --------
+    ign.url = "github:tacogips/ign";
+
     # Firefox extensions repository from NUR
     firefox-addons = {
       url = "gitlab:rycee/nur-expressions?dir=pkgs/firefox-addons";
@@ -43,6 +46,7 @@
       github-insight-mcp,
       github-edit-mcp,
       fenix,
+      ign,
       firefox-addons,
       ...
     }:
@@ -67,6 +71,7 @@
       gitcode-mcp-pkg = gitcodes-mcp.packages.${system}.default;
       github-insight-mcp-pkg = github-insight-mcp.packages.${system}.default;
       github-edit-mcp-pkg = github-edit-mcp.packages.${system}.default;
+      ign-pkg = ign.packages.${system}.default;
 
     in
     {
@@ -139,6 +144,7 @@
                     gitcode-mcp-pkg
                     github-insight-mcp-pkg
                     github-edit-mcp-pkg
+                    ign-pkg
                     firefox-addons
                     ;
                 };

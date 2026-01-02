@@ -18,6 +18,7 @@
     ./fzf
     ./git
     ./go
+    ./ign
     ./lazygit
     ./marktext
     ./ripgrep
