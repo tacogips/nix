@@ -3,9 +3,11 @@
 
   programs.git = {
     enable = true;
-    userName = "tacogips";
-    userEmail = "me@tacogips.me";
-    extraConfig = {
+    settings = {
+      user = {
+        name = "tacogips";
+        email = "me@tacogips.me";
+      };
       core.editor = "${pkgs.vim}/bin/vim";
       init.defaultBranch = "main";
       pull.rebase = false;
@@ -16,9 +18,11 @@
     includes = [
       { path = "~/.private/git/credential/config"; }
     ];
-    delta = {
-      enable = true;
-    };
+  };
+
+  programs.delta = {
+    enable = true;
+    enableGitIntegration = true;
   };
 
 }

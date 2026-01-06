@@ -64,7 +64,7 @@
       };
 
       # Configure Firefox extensions from NUR
-      extensions.packages = with firefox-addons.packages.${pkgs.system}; [
+      extensions.packages = with firefox-addons.packages.${pkgs.stdenv.hostPlatform.system}; [
         # Privacy and security
         ghostery
         # Password management

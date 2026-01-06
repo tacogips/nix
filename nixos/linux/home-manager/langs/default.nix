@@ -10,7 +10,7 @@
   # We'll receive the fenix input directly, so no need for a separate overlay here
 
   home.packages = with pkgs; [
-    (fenix.packages.${pkgs.system}.stable.withComponents [
+    (fenix.packages.${pkgs.stdenv.hostPlatform.system}.stable.withComponents [
       "cargo"
       "clippy"
       "rust-src"

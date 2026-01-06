@@ -55,8 +55,8 @@
   services.xserver.enable = true;
 
   # Enable the GNOME Desktop Environment.
-  services.xserver.displayManager.gdm.enable = true;
-  services.xserver.desktopManager.gnome.enable = true;
+  services.displayManager.gdm.enable = true;
+  services.desktopManager.gnome.enable = true;
 
   # Configure keymap in X11
   services.xserver.xkb = {
@@ -80,16 +80,20 @@
 
     # Set Webcam C270 as the default microphone
     extraConfig.pipewire = {
-      "context.modules" = [{
-        name = "libpipewire-module-metadata";
-        args = {
-          "metadata.name" = "default-restore";
-          "metadata.values" = [{
-            key = "default.audio.source";
-            value = ''{ "name": "alsa_input.usb-Logitech_Webcam_C270-00.analog-mono" }''; 
-          }];
-        };
-      }];
+      "context.modules" = [
+        {
+          name = "libpipewire-module-metadata";
+          args = {
+            "metadata.name" = "default-restore";
+            "metadata.values" = [
+              {
+                key = "default.audio.source";
+                value = ''{ "name": "alsa_input.usb-Logitech_Webcam_C270-00.analog-mono" }'';
+              }
+            ];
+          };
+        }
+      ];
     };
 
     # use the example session manager (no others are packaged yet so this is enabled by default,
@@ -114,8 +118,8 @@
   };
 
   # Enable automatic login for the user.
-  services.xserver.displayManager.autoLogin.enable = true;
-  services.xserver.displayManager.autoLogin.user = "taco";
+  services.displayManager.autoLogin.enable = true;
+  services.displayManager.autoLogin.user = "taco";
 
   # Workaround for GNOME autologin: https://github.com/NixOS/nixpkgs/issues/103746#issuecomment-945091229
   systemd.services."getty@tty1".enable = false;

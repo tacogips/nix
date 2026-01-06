@@ -5,15 +5,16 @@
   services.kanshi = {
     enable = true;
 
-    # Monitor layout profiles
+    # Monitor layout settings
     # Use 'hyprctl monitors' to check current monitor configuration
-    profiles = {
+    settings = [
       # Triple monitor setup: 2 monitors on top, 1 below left
       # Physical layout:
       #   [HDMI-A-1]  [DP-3]
       #   [DP-2]
-      triplemonitor = {
-        outputs = [
+      {
+        profile.name = "triplemonitor";
+        profile.outputs = [
           # Top left: HDMI-A-1 (Dell S2721QS)
           {
             criteria = "HDMI-A-1";
@@ -39,14 +40,15 @@
             scale = 1.5;
           }
         ];
-      };
+      }
 
       # Dual monitor setup: vertical stack
       # Physical layout:
       #   [HDMI-A-1]
       #     [DP-2]
-      dualmonitor = {
-        outputs = [
+      {
+        profile.name = "dualmonitor";
+        profile.outputs = [
           # Upper: HDMI-A-1
           {
             criteria = "HDMI-A-1";
@@ -63,13 +65,13 @@
             mode = "3840x2160";
             scale = 1.5;
           }
-
         ];
-      };
+      }
 
       # Single monitor profile: DP-2 only (HP 27f 4k)
-      dp2only = {
-        outputs = [
+      {
+        profile.name = "dp2only";
+        profile.outputs = [
           {
             criteria = "DP-2";
             status = "enable";
@@ -77,11 +79,12 @@
             scale = 1.5;
           }
         ];
-      };
+      }
 
       # Single monitor profile: HDMI-A-1 only (Dell S2721QS)
-      hdmionly = {
-        outputs = [
+      {
+        profile.name = "hdmionly";
+        profile.outputs = [
           {
             criteria = "HDMI-A-1";
             status = "enable";
@@ -89,7 +92,7 @@
             scale = 1.5;
           }
         ];
-      };
-    };
+      }
+    ];
   };
 }
