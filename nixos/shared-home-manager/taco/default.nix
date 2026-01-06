@@ -19,6 +19,7 @@
     ./git
     ./go
     ./ign
+    ./julia
     ./lazygit
     ./marktext
     ./ripgrep
