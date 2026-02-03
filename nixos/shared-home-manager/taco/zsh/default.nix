@@ -7,17 +7,7 @@
     shellAliases = {
       # Claude MCP management aliases
 
-      # Add all MCP servers to current project's local scope
-      claude-mcp-add-all = ''
-        claude mcp add --scope local --transport stdio github-insight-mcp github-insight-mcp stdio && \
-        claude mcp add --scope local --transport stdio github-edit-mcp github-edit-mcp stdio && \
-        claude mcp add --scope local --transport stdio cratedocs-mcp cratedocs-mcp stdio && \
-        echo "✅ All MCP servers added to local scope"
-      '';
-
-      # Individual MCP server addition aliases
-      claude-mcp-add-github-insight = "claude mcp add --scope local --transport stdio github-insight-mcp github-insight-mcp stdio";
-      claude-mcp-add-github-edit = "claude mcp add --scope local --transport stdio github-edit-mcp github-edit-mcp stdio";
+      # Add cratedocs MCP server to current project's local scope
       claude-mcp-add-cratedocs = "claude mcp add --scope local --transport stdio cratedocs-mcp cratedocs-mcp stdio";
     };
 

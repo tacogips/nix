@@ -78,16 +78,12 @@
     and ${pkgs.claude-code}/bin/claude mcp add -s user cratedocs-mcp cratedocs-mcp stdio
   '';
 
-  setup-claude-git-rust-mcps-local = ''
-    ${pkgs.claude-code}/bin/claude mcp add -s local github-insight-mcp github-insight-mcp stdio
-    and ${pkgs.claude-code}/bin/claude mcp add -s local github-edit-mcp github-edit-mcp stdio
-    and ${pkgs.claude-code}/bin/claude mcp add -s local cratedocs-mcp cratedocs-mcp stdio
+  setup-claude-cratedocs-mcp-local = ''
+    ${pkgs.claude-code}/bin/claude mcp add -s local cratedocs-mcp cratedocs-mcp stdio
   '';
 
-  remove-claude-git-rust-mcps-local = ''
-    ${pkgs.claude-code}/bin/claude mcp remove -s local github-insight-mcp
-    and ${pkgs.claude-code}/bin/claude mcp remove -s local github-edit-mcp
-    and ${pkgs.claude-code}/bin/claude mcp remove -s local cratedocs-mcp
+  remove-claude-cratedocs-mcp-local = ''
+    ${pkgs.claude-code}/bin/claude mcp remove -s local cratedocs-mcp
   '';
 
   gh-pr-view = ''
