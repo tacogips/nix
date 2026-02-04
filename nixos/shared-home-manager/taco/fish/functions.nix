@@ -90,4 +90,47 @@
     ${pkgs.gh}/bin/gh pr view --web
   '';
 
+  gh-token-export = ''
+    set -l token (${pkgs.gh}/bin/gh auth token 2>/dev/null)
+    if test -z "$token"
+      echo "Error: Failed to get GitHub token. Please run 'gh auth login' first."
+      return 1
+    end
+
+    set -l private_fish_dir "$HOME/.private/fish"
+    set -l private_fish_file "$private_fish_dir/private.fish"
+
+    # Create directory if it doesn't exist
+    if not test -d $private_fish_dir
+      mkdir -p $private_fish_dir
+    end
+
+    # Check if file exists and has GITHUB_TOKEN line
+    if test -f $private_fish_file
+      if ${pkgs.gnugrep}/bin/grep -q "^set -x GITHUB_TOKEN" $private_fish_file
+        # Extract existing token and compare
+        set -l existing_token (${pkgs.gnugrep}/bin/grep "^set -x GITHUB_TOKEN" $private_fish_file | ${pkgs.gnused}/bin/sed 's/^set -x GITHUB_TOKEN //')
+        if test "$existing_token" = "$token"
+          echo "GITHUB_TOKEN is already up to date"
+        else
+          # Update existing GITHUB_TOKEN line
+          ${pkgs.gnused}/bin/sed -i "s|^set -x GITHUB_TOKEN.*|set -x GITHUB_TOKEN $token|" $private_fish_file
+          echo "Updated GITHUB_TOKEN in $private_fish_file"
+        end
+      else
+        # Append GITHUB_TOKEN line
+        echo "set -x GITHUB_TOKEN $token" >> $private_fish_file
+        echo "Added GITHUB_TOKEN to $private_fish_file"
+      end
+    else
+      # Create new file with GITHUB_TOKEN
+      echo "set -x GITHUB_TOKEN $token" > $private_fish_file
+      echo "Created $private_fish_file with GITHUB_TOKEN"
+    end
+
+    # Also export to current session
+    set -gx GITHUB_TOKEN $token
+    echo "GITHUB_TOKEN exported to current session"
+  '';
+
 }
