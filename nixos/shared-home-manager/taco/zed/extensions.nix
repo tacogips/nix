@@ -11,4 +11,5 @@
   "mcp-server-exa-search"
   "graphql"
   "dockerfile"
+  "svelte"
 ]

@@ -208,6 +208,18 @@
         "source.organizeImports" = true;
       };
     };
+    "Svelte" = {
+      language_servers = [
+        "svelte-language-server"
+        "..."
+      ];
+      format_on_save = "on";
+      formatter = {
+        language_server = {
+          name = "svelte-language-server";
+        };
+      };
+    };
   };
 
   lsp = {
@@ -250,6 +262,30 @@
           functionTypeParameters = true;
           parameterNames = true;
           rangeVariableTypes = true;
+        };
+      };
+    };
+    svelte-language-server = {
+      initialization_options = {
+        configuration = {
+          svelte = {
+            plugin = {
+              svelte = {
+                format = {
+                  enable = true;
+                };
+              };
+              typescript = {
+                enable = true;
+              };
+              css = {
+                enable = true;
+              };
+              html = {
+                enable = true;
+              };
+            };
+          };
         };
       };
     };
