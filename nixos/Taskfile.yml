@@ -51,12 +51,6 @@ tasks:
     cmds:
       - nix flake update
 
-  build-overlay-claude-code:
-    desc: Build claude-code overlay package to verify it compiles
-    dir: ./linux
-    cmds:
-      - nix-build --no-out-link --expr 'let pkgs = import <nixpkgs> { config.allowUnfree = true; overlays = [ (import ../overlays).claude-code ]; }; in pkgs.claude-code'
-
   check:
     desc: Check all flake configurations (cross-platform)
     cmds:

@@ -26,11 +26,6 @@ tasks:
     cmds:
       - sudo nixos-rebuild switch --flake ~/nix/nixos/linux#nix-dev-machine
 
-  build-overlay-claude-code:
-    desc: Build claude-code overlay package to verify it compiles
-    cmds:
-      - nix-build --no-out-link --expr 'let pkgs = import <nixpkgs> { config.allowUnfree = true; overlays = [ (import ../overlays).claude-code ]; }; in pkgs.claude-code'
-
   clean-old-generations:
     desc: Delete old system generations, keeping only the latest 5
     cmds:
