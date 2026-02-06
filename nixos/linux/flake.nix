@@ -24,6 +24,9 @@
     ## --- go tools --------
     ign.url = "github:tacogips/ign";
 
+    ## --- overlays --------
+    nix-overlays.url = "github:tacogips/nix-overlays";
+
     # Firefox extensions repository from NUR
     firefox-addons = {
       url = "gitlab:rycee/nur-expressions?dir=pkgs/firefox-addons";
@@ -43,6 +46,7 @@
       hn-mcp,
       fenix,
       ign,
+      nix-overlays,
       firefox-addons,
       ...
     }:
@@ -55,6 +59,10 @@
           allowUnfree = true;
           cudaSupport = true;
         };
+        overlays = [
+          nix-overlays.overlays.claude-code
+          nix-overlays.overlays.codex
+        ];
       };
 
       # Import our library collision fix function
@@ -93,6 +101,14 @@
             inherit system;
 
             modules = [
+              # Overlays
+              {
+                nixpkgs.overlays = [
+                  nix-overlays.overlays.claude-code
+                  nix-overlays.overlays.codex
+                ];
+              }
+
               # Base configuration
               ./device/nix-dev-machine/configuration.nix
               ./ssh/ssh.nix

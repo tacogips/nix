@@ -29,6 +29,6 @@
 
   pyac = "source ./venv/bin/activate.fish";
   claude = "env NODE_OPTIONS='--max-old-space-size=16384' ${pkgs.claude-code}/bin/claude --model claude-sonnet-4-5-20250929 --dangerously-skip-permissions";
-  claude-o = "env NODE_OPTIONS='--max-old-space-size=16384' ${pkgs.claude-code}/bin/claude --model claude-opus-4-5-20251101 --dangerously-skip-permissions";
+  claude-o = "env NODE_OPTIONS='--max-old-space-size=16384' ${pkgs.claude-code}/bin/claude --model claude-opus-4-6 --dangerously-skip-permissions";
 
 }

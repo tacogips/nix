@@ -20,6 +20,9 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    ## --- overlays --------
+    nix-overlays.url = "github:tacogips/nix-overlays";
+
     ## --- mcps --------
     cratedocs-mcp.url = "github:tacogips/cratedocs-mcp";
     bravesearch-mcp.url = "github:tacogips/bravesearch-mcp";
@@ -34,6 +37,7 @@
       darwin,
       home-manager,
       firefox-addons,
+      nix-overlays,
       cratedocs-mcp,
       bravesearch-mcp,
       hn-mcp,
@@ -47,7 +51,10 @@
         config = {
           allowUnfree = true;
         };
-        overlays = [ ];
+        overlays = [
+          nix-overlays.overlays.claude-code
+          nix-overlays.overlays.codex
+        ];
       };
       # Import our library collision fix function
       fixLibraryCollision = import ./lib/fixLibraryCollision.nix { inherit pkgs; };
@@ -95,6 +102,14 @@
           inherit system;
           specialArgs = { inherit pkgs; };
           modules = [
+            # Overlays
+            {
+              nixpkgs.overlays = [
+                nix-overlays.overlays.claude-code
+                nix-overlays.overlays.codex
+              ];
+            }
+
             # Basic Darwin configuration
             {
               # Set primary user for system defaults
