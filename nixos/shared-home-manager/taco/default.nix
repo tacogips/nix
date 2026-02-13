@@ -24,6 +24,7 @@
     ./marktext
     ./ripgrep
     ./ssh
+    ./tmux
     ./zed
     ./zoxide
     ../extends/mutability

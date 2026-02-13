@@ -90,6 +90,54 @@
     ${pkgs.gh}/bin/gh pr view --web
   '';
 
+  gh-token-refresh = ''
+    # Save old token for comparison
+    set -l old_token (${pkgs.gh}/bin/gh auth token 2>/dev/null)
+
+    # Logout to revoke current token
+    echo "Revoking current GitHub token..."
+    ${pkgs.gh}/bin/gh auth logout -h github.com 2>/dev/null
+    or true
+
+    # Login to get a new token
+    echo "Please login to generate a new token..."
+    ${pkgs.gh}/bin/gh auth login -h github.com -p https -w
+
+    if test $status -ne 0
+      echo "Error: GitHub login failed."
+      return 1
+    end
+
+    # Verify token actually changed
+    set -l new_token (${pkgs.gh}/bin/gh auth token 2>/dev/null)
+    if test "$old_token" = "$new_token"
+      echo "Warning: Token did not change. Try revoking at https://github.com/settings/connections/applications first."
+    else
+      echo "Token successfully regenerated."
+    end
+
+    # Export the new token
+    gh-token-export
+  '';
+
+  gh-token-reset = ''
+    set -l private_fish_file "$HOME/.private/fish/private.fish"
+
+    # Remove GITHUB_TOKEN from private.fish
+    if test -f $private_fish_file
+      if ${pkgs.gnugrep}/bin/grep -q "^set -x GITHUB_TOKEN" $private_fish_file
+        ${pkgs.gnused}/bin/sed -i "/^set -x GITHUB_TOKEN/d" $private_fish_file
+        echo "Removed GITHUB_TOKEN from $private_fish_file"
+      else
+        echo "GITHUB_TOKEN not found in $private_fish_file"
+      end
+    end
+
+    # Unset from current session
+    set -e GITHUB_TOKEN
+    echo "GITHUB_TOKEN unset from current session"
+  '';
+
   gh-token-export = ''
     set -l token (${pkgs.gh}/bin/gh auth token 2>/dev/null)
     if test -z "$token"

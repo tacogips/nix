@@ -18,11 +18,6 @@ let
       ${pkgs.fish}/bin/fish -c "capture_sel"
     '';
 
-    capture_sel_video = pkgs.writeShellScriptBin "capture_sel_video" ''
-      #!/bin/sh
-      ${pkgs.fish}/bin/fish -c "capture_sel_video"
-    '';
-
     capture_active = pkgs.writeShellScriptBin "capture_active" ''
       #!/bin/sh
       ${pkgs.fish}/bin/fish -c "capture_active"
@@ -75,19 +70,6 @@ in
         "Utility"
         "Graphics"
         "X-Screenshot"
-      ];
-    };
-    capture_sel_video = {
-      name = "capture_sel_video: Screen Area Video";
-      comment = "Capture a video of a selected area of the screen";
-      exec = "${screenshotScripts.capture_sel_video}/bin/capture_sel_video";
-      icon = "camera-video";
-      terminal = false;
-      categories = [
-        "Utility"
-        "AudioVideo"
-        "Video"
-        "X-Screencast"
       ];
     };
     capture_active = {

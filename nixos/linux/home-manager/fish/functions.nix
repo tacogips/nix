@@ -14,12 +14,6 @@
     wl-copy < $img_path
   '';
 
-  capture_sel_video = ''
-    set -l timestamp (date +%Y-%m-%d-%H%M%S)
-    set -l video_path  ~/Pictures/capture_sel_video_$timestamp.mp4
-    ${pkgs.wf-recorder}/bin/wf-recorder -g "$(${pkgs.slurp}/bin/slurp)" -f $video_path
-  '';
-  
   # NixOS-specific function to compare current and booted system packages
   nix_diff = ''
     set -l temp_dir (${pkgs.coreutils}/bin/mktemp -d -t "nix_diff_XXXXXX")
@@ -51,5 +45,8 @@
     # Setup git credential helper to writable config
     set -x GIT_CONFIG_GLOBAL ~/.private/git/credential/config
     gh auth setup-git
+
+    # Update GITHUB_TOKEN
+    gh-token-export
   '';
 }

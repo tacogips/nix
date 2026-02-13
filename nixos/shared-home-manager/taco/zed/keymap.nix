@@ -120,6 +120,7 @@
       ", z" = "editor::FindAllReferences";
       ", x" = "editor::GoToImplementation";
       ", t" = "editor::Hover";
+      ", g" = "project_symbols::Toggle";
     };
   }
   {

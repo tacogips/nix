@@ -117,7 +117,7 @@
 
       grim # screenshot functionality
       slurp # screenshot functionality (select mouse region)
-      wf-recorder # capture video
+      kooha # GUI screen recorder for Wayland
       feh
 
       # using zoom web client for now
