@@ -83,9 +83,12 @@
       dust
       jq
       claude-code
-      codex
+      (codex.overrideAttrs (oldAttrs: {
+        nativeBuildInputs = (oldAttrs.nativeBuildInputs or [ ]) ++ [ pkg-config ];
+        buildInputs = (oldAttrs.buildInputs or [ ]) ++ [ libcap ];
+      }))
 
-      nixfmt-rfc-style
+      nixfmt
       nixd # nix lsp
 
       qt6.qtwayland # needed for mozc to run  QT_QPA_PLATFORM, wayland

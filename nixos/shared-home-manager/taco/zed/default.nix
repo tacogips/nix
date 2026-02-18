@@ -18,7 +18,7 @@ in
   # Add Zed directly to packages
   home.packages = with pkgs; [
     zed-editor
-    nixfmt-rfc-style
+    nixfmt
     nil
   ];
 

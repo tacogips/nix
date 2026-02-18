@@ -49,7 +49,7 @@
     dust
 
     # Development tools specific to macOS
-    nixfmt-rfc-style
+    nixfmt
     nixd # nix lsp
 
     claude-code
