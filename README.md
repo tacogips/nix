@@ -1,4 +1,25 @@
-# Initial NixOS bootstrap
+# Bootstrap
+
+## Flakes Prerequisite
+
+Before any `nix shell nixpkgs#...` command in this README, enable flakes once for your user:
+
+```bash
+mkdir -p ~/.config/nix
+printf 'experimental-features = nix-command flakes\n' >> ~/.config/nix/nix.conf
+```
+
+The `nix shell` commands below install `go-task` temporarily. After flakes are enabled, you can also normalize this setting with a task from either platform directory:
+
+```bash
+cd ~/nix/nixos/linux
+nix shell nixpkgs#go-task --command task enable-flakes-user
+
+cd ~/nix/nixos/darwin
+nix shell nixpkgs#go-task --command task enable-flakes-user
+```
+
+## NixOS
 
 Use `ignite` once when migrating a fresh NixOS install to this repository-managed `/etc/nixos`.
 
@@ -16,6 +37,40 @@ bash ignite.sh
 sudo nixos-rebuild switch --flake ~/nix/nixos/linux#taco-main
 ```
 
+## nix-darwin
+
+Use this path on macOS after Nix is installed.
+
+1. Move to the Darwin configuration directory:
+
+```bash
+cd ~/nix/nixos/darwin
+```
+
+2. Install Homebrew first, because the nix-darwin flake checks for it during activation:
+
+```bash
+nix shell nixpkgs#go-task --command task first-time-setup
+```
+
+3. Back up the `/etc` files that nix-darwin will replace:
+
+```bash
+nix shell nixpkgs#go-task --command task backup-etc
+```
+
+4. Run the first nix-darwin activation from the repository checkout:
+
+```bash
+nix shell nixpkgs#go-task --command task build
+```
+
+5. Later updates can use:
+
+```bash
+nix shell nixpkgs#go-task --command task rebuild
+```
+
 # update
 
 nix flake lock --update-input cratedocs-mcp
@@ -25,28 +80,41 @@ nix flake update
 
 This configuration uses HTTPS GitHub authentication with the `GITHUB_TOKEN` environment variable instead of SSH keys.
 
-## Initial Setup
+Because this repository is now public, you do not need `GITHUB_TOKEN` before the initial `nixos-rebuild` or `darwin-rebuild` just to check out and apply this repository itself.
 
-1. On a machine that only has Nix installed, temporarily install `gh` and `kinko` with Nix flakes:
+You still need to seed `kinko` shared secrets with `GITHUB_TOKEN` if you want this environment to clone or fetch other private GitHub repositories later.
+
+## NixOS
+
+1. Move to the Linux configuration directory:
+
 ```bash
-nix shell nixpkgs#gh github:tacogips/kinko
+cd ~/nix/nixos/linux
 ```
 
-2. Authenticate with GitHub CLI:
+2. When you want to register `GITHUB_TOKEN` in `kinko` shared secrets, temporarily install `gh`, `kinko`, and `go-task` with Nix flakes, then run the Taskfile target:
 ```bash
-gh auth login
+nix shell nixpkgs#gh nixpkgs#go-task github:tacogips/kinko --command task setup-github-token
 ```
 
-3. Save the current GitHub CLI token into kinko shared secrets as `GITHUB_TOKEN`:
+3. After Home Manager is applied, open a new shell so fish can export shared kinko secrets automatically.
+   If you only want to populate the current shell from GitHub CLI, use `gh-token-export`.
+
+## nix-darwin
+
+1. Move to the Darwin configuration directory:
+
 ```bash
-kinko set-key GITHUB_TOKEN --shared --value "$(gh auth token)"
+cd ~/nix/nixos/darwin
 ```
 
-4. After Home Manager is applied, open a new shell so fish can export shared kinko secrets automatically.
-   If you only want to populate the current shell from GitHub CLI without touching kinko, use:
+2. When you want to register `GITHUB_TOKEN` in `kinko` shared secrets, temporarily install `gh`, `kinko`, and `go-task` with Nix flakes, then run the Taskfile target:
 ```bash
-gh-token-export
+nix shell nixpkgs#gh nixpkgs#go-task github:tacogips/kinko --command task setup-github-token
 ```
+
+3. Apply the nix-darwin configuration, then open a new fish shell so shared kinko secrets are exported automatically.
+   If you only want to populate the current shell from GitHub CLI, use `gh-token-export`.
 
 ## How It Works
 

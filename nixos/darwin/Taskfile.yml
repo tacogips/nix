@@ -1,6 +1,25 @@
 version: '3'
 
 tasks:
+  enable-flakes-user:
+    desc: Ensure nix-command and flakes are enabled in ~/.config/nix/nix.conf
+    cmds:
+      - mkdir -p "${HOME}/.config/nix"
+      - |
+        if [ -f "${HOME}/.config/nix/nix.conf" ] && grep -Eq '^[[:space:]]*experimental-features[[:space:]]*=.*(nix-command.*flakes|flakes.*nix-command)' "${HOME}/.config/nix/nix.conf"; then
+          echo "experimental-features already enabled in ${HOME}/.config/nix/nix.conf"
+        else
+          printf '\nexperimental-features = nix-command flakes\n' >> "${HOME}/.config/nix/nix.conf"
+          echo "Enabled nix-command and flakes in ${HOME}/.config/nix/nix.conf"
+        fi
+
+  setup-github-token:
+    desc: Authenticate with GitHub CLI and save the token to kinko shared secrets
+    cmds:
+      - gh auth login
+      - kinko set-key GITHUB_TOKEN --shared --value "$(gh auth token)"
+      - echo "Saved GITHUB_TOKEN to kinko shared secrets"
+
   first-time-setup:
     desc: First-time setup - Install Homebrew (run this before task build)
     summary: |

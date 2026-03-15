@@ -4,17 +4,33 @@
 
 This Linux configuration uses HTTPS GitHub authentication with the `GITHUB_TOKEN` environment variable.
 
-On a machine that only has Nix installed, temporarily install `gh` and `kinko` with Nix flakes:
+This repository is now public, so `GITHUB_TOKEN` is not required before the initial rebuild just to check out and apply this repository itself.
+
+You still need to register `GITHUB_TOKEN` in `kinko` shared secrets if you want to clone or fetch other private GitHub repositories from the configured environment.
+
+Before any `nix shell nixpkgs#...` command here, enable flakes once for your user:
 
 ```bash
-nix shell nixpkgs#gh github:tacogips/kinko
+mkdir -p ~/.config/nix
+printf 'experimental-features = nix-command flakes\n' >> ~/.config/nix/nix.conf
 ```
 
-Then authenticate and save the current GitHub CLI token into kinko shared secrets:
+Then move to the Linux configuration directory:
 
 ```bash
-gh auth login
-kinko set-key GITHUB_TOKEN --shared --value "$(gh auth token)"
+cd ~/nix/nixos/linux
+```
+
+If you want a task that keeps the same setting in place after flakes already work, run:
+
+```bash
+nix shell nixpkgs#go-task --command task enable-flakes-user
+```
+
+When you want to register the token, temporarily install `gh`, `kinko`, and `go-task` with Nix flakes and run the Taskfile target:
+
+```bash
+nix shell nixpkgs#gh nixpkgs#go-task github:tacogips/kinko --command task setup-github-token
 ```
 
 After applying the Home Manager or NixOS configuration, open a new fish shell. Fish will import shared kinko secrets automatically when `kinko` is available.
