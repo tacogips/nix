@@ -1,0 +1,92 @@
+* {
+    border: none;
+    border-radius: 0;
+    font-family: "Iosevka Nerd Font";
+    font-size: 14px;
+    min-height: 0;
+}
+
+window#waybar {
+    background: rgba(30, 30, 46, 0.8);
+    color: #cdd6f4;
+}
+
+#workspaces button {
+    padding: 0 5px;
+    background: transparent;
+    color: #cdd6f4;
+}
+
+#workspaces button.active {
+    background: #313244;
+    border-bottom: 3px solid #a6e3a1;
+}
+
+#clock,
+#battery,
+#cpu,
+#memory,
+#disk,
+#temperature,
+#network,
+#custom-cpu-temp,
+#custom-cpu-load,
+#custom-fcitx5,
+#custom-disk-root,
+#custom-disk-d,
+#custom-disk-g {
+    padding: 0 10px;
+    margin: 0 4px;
+    background-color: #313244;
+    border-radius: 3px;
+}
+
+#temperature {
+    color: #f5c2e7;
+}
+
+#cpu {
+    color: #89b4fa;
+}
+
+#memory {
+    color: #a6e3a1;
+}
+
+#custom-disk-root {
+    color: #cba6f7;
+}
+
+#custom-disk-d {
+    color: #b4befe;
+}
+
+#custom-disk-g {
+    color: #f5c2e7;
+}
+
+#custom-cpu-temp {
+    color: #f38ba8;
+}
+
+#custom-cpu-load {
+    color: #fab387;
+}
+
+#clock {
+    color: #ffd700;
+    font-size: 16px;
+    font-weight: bold;
+    padding: 0 12px;
+    border-width: 0 3px;
+    border-style: solid;
+    border-color: #ffd700;
+}
+
+#network {
+    color: #94e2d5;
+}
+
+#custom-fcitx5 {
+    color: #89dceb;
+}

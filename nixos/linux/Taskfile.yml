@@ -1,0 +1,52 @@
+version: '3'
+
+tasks:
+  update:
+    desc: Update all Nix flake dependencies
+    cmds:
+      - nix flake update
+
+  update-input:
+    desc: Update a specific Nix flake input
+    summary: |
+      Update a specific Nix flake input to its latest version.
+
+      Examples:
+        task update-input package=hn-mcp
+        task update-input package=gitcodes-mcp
+    vars:
+      package: '{{.package}}'
+    cmds:
+      - nix flake lock --update-input {{.package}}
+    requires:
+      vars: [package]
+
+  rebuild:
+    desc: Rebuild and switch NixOS system configuration
+    cmds:
+      - |
+        sudo env \
+          NIXOS_PRIVATE_CONFIG="${HOME}/nix/nixos/linux/device/nix-dev-machine/.private/private.nix" \
+          nixos-rebuild switch --impure --flake ~/nix/nixos/linux#nix-dev-machine
+
+  update-and-rebuild:
+    desc: Update all Nix flake dependencies and then rebuild the NixOS system configuration
+    cmds:
+      - task: update
+      - task: rebuild
+
+  clean-old-generations:
+    desc: Delete old system generations, keeping only the latest 5
+    cmds:
+      - |
+        # Get all system generations except the latest 5
+        old_generations=$(sudo nixos-rebuild list-generations | head -n -5 | awk '{print $1}')
+        if [ -n "$old_generations" ]; then
+          echo "Deleting old system generations: $old_generations"
+          sudo nixos-rebuild delete-generations $old_generations
+          echo "Running garbage collection..."
+          sudo nix-collect-garbage -d
+          echo "Cleanup completed"
+        else
+          echo "No old generations to delete (5 or fewer generations exist)"
+        fi

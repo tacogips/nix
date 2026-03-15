@@ -1,0 +1,69 @@
+version: '3'
+
+tasks:
+  first-time-setup:
+    desc: First-time setup - Install Homebrew (run this before task build)
+    summary: |
+      Install Homebrew on macOS.
+      This only needs to be run once on a new machine.
+
+      After installation, run 'task build' to build and apply the system configuration.
+    cmds:
+      - /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+      - echo ""
+      - echo "✅ Homebrew installed successfully!"
+      - echo "Next step - Run task build to build and apply the Darwin configuration"
+
+  backup-etc:
+    desc: Backup existing /etc files before nix-darwin takes over
+    summary: |
+      Rename existing /etc files that nix-darwin wants to manage.
+      This is required before the first 'task build' on a new machine.
+    cmds:
+      - sudo mv /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/ca-certificates.crt.before-nix-darwin || true
+      - sudo mv /etc/bashrc /etc/bashrc.before-nix-darwin || true
+      - sudo mv /etc/zshrc /etc/zshrc.before-nix-darwin || true
+      - echo "✅ Existing /etc files backed up"
+      - echo "Next step - Run task build"
+
+  update:
+    desc: Update all Nix flake dependencies
+    cmds:
+      - nix flake update
+
+  update-input:
+    desc: Update a specific Nix flake input
+    summary: |
+      Update a specific Nix flake input to its latest version.
+
+      Examples:
+        task update-input package=hn-mcp
+        task update-input package=gitcodes-mcp
+    vars:
+      package: '{{.package}}'
+    cmds:
+      - nix flake lock --update-input {{.package}}
+    requires:
+      vars: [package]
+
+  build:
+    desc: Build Darwin system configuration (use for initial bootstrap)
+    cmds:
+      - nix build .#darwinConfigurations.taco-mac.system
+      - sudo ./result/sw/bin/darwin-rebuild switch --flake .#taco-mac
+
+  rebuild:
+    desc: Rebuild and switch Darwin system configuration
+    cmds:
+      - sudo darwin-rebuild switch --flake ~/nix/nixos/darwin#taco-mac
+
+  clean-old-generations:
+    desc: Delete old system generations, keeping only the latest 5
+    cmds:
+      - |
+        # Delete all but the latest 5 system generations
+        echo "Deleting old system generations (keeping latest 5)..."
+        sudo nix-env --delete-generations +5 --profile /nix/var/nix/profiles/system
+        echo "Running garbage collection..."
+        sudo nix-collect-garbage -d
+        echo "Cleanup completed"
