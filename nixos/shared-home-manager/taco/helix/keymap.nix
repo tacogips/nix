@@ -1,3 +1,5 @@
+{ yaziPicker, zellijBin }:
+
 {
   normal = {
     space = {
@@ -22,5 +24,7 @@
 
     "A-j" = "jump_view_left";
     "A-l" = "jump_view_right";
+    "C-y" =
+      ":sh ${zellijBin} run -n Yazi -c -f -x 10%% -y 10%% --width 80%% --height 80%% -- ${yaziPicker}/bin/hx-yazi-picker";
   };
 }

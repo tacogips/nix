@@ -29,8 +29,10 @@
     ./ripgrep
     ./ssh
     ./tmux
+    ./yazi
     ./zed
     ./zoxide
+    ./zellij
     ../extends/mutability
     # Other platform-independent modules can be added here
   ];

@@ -40,9 +40,15 @@ home-manager.users.taco = { ... }: {
 ## Configuration Organization
 
 - **Platform-Independent Configs**: Add to `home-manager/taco/` directory modules
-  - Examples: git, fish, bat, ssh configurations that work on any platform
+  - Examples: git, fish, bat, ssh, helix, yazi, and zellij configurations that work on any platform
 - **Platform-Specific Configs**: Add to the respective OS directories
   - Linux-specific configs: `linux/home-manager/`
   - Darwin-specific configs: `darwin/home-manager/`
 
 This separation makes it easy to maintain consistent configurations across platforms while allowing for platform-specific customizations in their appropriate locations.
+
+The shared editor environment now follows the Zellij + Helix + Yazi workflow. The shared modules define the Helix/Yazi/Zellij integration, while the platform-specific Home Manager entrypoints set `taco.yazi.openCommand` so Yazi can hand files off to the correct GUI opener on Linux and Darwin.
+
+The shared Zellij module provides two launch styles:
+- `ide`: the default article-style development workspace
+- `ide-agent 3|4|5`: an agent-coding workspace that opens a project with 3, 4, or 5 side-by-side terminal panes
