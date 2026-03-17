@@ -5,7 +5,6 @@
 {
   imports = [
     # Import shared modules (no home.nix as it's platform-specific)
-    ./alacritty
     ./bat
     ./bottom
     ./bun
@@ -18,6 +17,7 @@
     ./fzf
     ./git
     ./go
+    ./ghostty
     ./helix
     ./ign
     ./julia

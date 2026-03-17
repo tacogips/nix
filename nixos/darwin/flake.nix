@@ -61,119 +61,123 @@
           specialArgs = { inherit pkgs; };
           modules = [
             # Basic Darwin configuration
-            ({ config, ... }: {
-              # Set primary user for system defaults
-              system.primaryUser = "taco";
+            (
+              { config, ... }:
+              {
+                # Set primary user for system defaults
+                system.primaryUser = "taco";
 
-              # Set hostname
-              system.defaults.NSGlobalDomain = {
-                AppleKeyboardUIMode = 3;
-                ApplePressAndHoldEnabled = false;
-                InitialKeyRepeat = 20;
-                KeyRepeat = 1;
-              };
-
-              # System settings
-              system.stateVersion = 4;
-
-              # Set nixbld group ID to match actual value
-              ids.gids.nixbld = 350;
-
-              # Disable nix-darwin management of Nix installation
-              nix.enable = false;
-
-              # Nix settings (still applied even with nix.enable = false)
-              nix.settings = {
-                experimental-features = [
-                  "nix-command"
-                  "flakes"
-                ];
-                trusted-users = [ "@admin" ];
-              };
-
-              # Configure fonts (using updated option names)
-              fonts.packages = with pkgs; [
-                jetbrains-mono
-                nerd-fonts.jetbrains-mono
-                iosevka # Add iosevka font for Alacritty
-              ];
-
-              # Allow unfree packages
-              nixpkgs.config.allowUnfree = true;
-
-              # Install basic system packages
-              environment.systemPackages = with pkgs; [
-                git
-                vim
-                curl
-                wget
-                alacritty
-                # zed - Installed via Homebrew (see homebrew.casks below)
-              ];
-
-              # Enable shells
-              programs.zsh.enable = true;
-              programs.fish.enable = true;
-
-              # Set fish as default shell
-              users.users.taco = {
-                shell = pkgs.fish;
-              };
-
-              # Homebrew configuration
-              homebrew = {
-                enable = true;
-
-                # Update Homebrew and upgrade packages on activation
-                onActivation = {
-                  autoUpdate = true;
-                  upgrade = true;
-                  cleanup = "zap"; # Remove unlisted packages
+                # Set hostname
+                system.defaults.NSGlobalDomain = {
+                  AppleKeyboardUIMode = 3;
+                  ApplePressAndHoldEnabled = false;
+                  InitialKeyRepeat = 20;
+                  KeyRepeat = 1;
                 };
 
-                # GUI applications (casks)
-                casks = [
-                  "zed" # Zed Editor
-                  "claude" # Claude Code
-                  "codex" # OpenAI Codex CLI
-                ];
+                # System settings
+                system.stateVersion = 4;
 
-                # Command-line tools (brews)
-                brews = [
-                  # Add any CLI tools that are better via Homebrew
-                ];
+                # Set nixbld group ID to match actual value
+                ids.gids.nixbld = 350;
 
-                # Mac App Store apps (requires mas-cli)
-                masApps = {
-                  # "App Name" = appId;
+                # Disable nix-darwin management of Nix installation
+                nix.enable = false;
+
+                # Nix settings (still applied even with nix.enable = false)
+                nix.settings = {
+                  experimental-features = [
+                    "nix-command"
+                    "flakes"
+                  ];
+                  trusted-users = [ "@admin" ];
                 };
-              };
 
-              # Check for Homebrew (installation must be done manually)
-              system.activationScripts.preActivation.text = ''
-                # Check for Homebrew in expected locations
-                if [ -f /opt/homebrew/bin/brew ] || [ -f /usr/local/bin/brew ]; then
-                  echo "✅ Homebrew is installed"
-                else
-                  echo "⚠️  Homebrew not found!"
-                  echo "Please install Homebrew manually:"
-                  echo "  /bin/bash -c \"\$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)\""
-                  echo ""
-                  echo "After installation, run 'darwin-rebuild switch' again."
-                  exit 1
-                fi
-              '';
+                # Configure fonts (using updated option names)
+                fonts.packages = with pkgs; [
+                  jetbrains-mono
+                  nerd-fonts.jetbrains-mono
+                  iosevka
+                ];
 
-              # Add activation script to set shell for the user
-              system.activationScripts.postActivation.text =
-                let
-                  user = config.system.primaryUser;
-                in ''
-                # Set fish shell for current user
-                echo "Setting fish as default shell for user ${user}..."
-                sudo chsh -s ${pkgs.fish}/bin/fish ${user}
-              '';
-            })
+                # Allow unfree packages
+                nixpkgs.config.allowUnfree = true;
+
+                # Install basic system packages
+                environment.systemPackages = with pkgs; [
+                  git
+                  vim
+                  curl
+                  wget
+                  ghostty
+                  # zed - Installed via Homebrew (see homebrew.casks below)
+                ];
+
+                # Enable shells
+                programs.zsh.enable = true;
+                programs.fish.enable = true;
+
+                # Set fish as default shell
+                users.users.taco = {
+                  shell = pkgs.fish;
+                };
+
+                # Homebrew configuration
+                homebrew = {
+                  enable = true;
+
+                  # Update Homebrew and upgrade packages on activation
+                  onActivation = {
+                    autoUpdate = true;
+                    upgrade = true;
+                    cleanup = "zap"; # Remove unlisted packages
+                  };
+
+                  # GUI applications (casks)
+                  casks = [
+                    "zed" # Zed Editor
+                    "claude" # Claude Code
+                    "codex" # OpenAI Codex CLI
+                  ];
+
+                  # Command-line tools (brews)
+                  brews = [
+                    # Add any CLI tools that are better via Homebrew
+                  ];
+
+                  # Mac App Store apps (requires mas-cli)
+                  masApps = {
+                    # "App Name" = appId;
+                  };
+                };
+
+                # Check for Homebrew (installation must be done manually)
+                system.activationScripts.preActivation.text = ''
+                  # Check for Homebrew in expected locations
+                  if [ -f /opt/homebrew/bin/brew ] || [ -f /usr/local/bin/brew ]; then
+                    echo "✅ Homebrew is installed"
+                  else
+                    echo "⚠️  Homebrew not found!"
+                    echo "Please install Homebrew manually:"
+                    echo "  /bin/bash -c \"\$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)\""
+                    echo ""
+                    echo "After installation, run 'darwin-rebuild switch' again."
+                    exit 1
+                  fi
+                '';
+
+                # Add activation script to set shell for the user
+                system.activationScripts.postActivation.text =
+                  let
+                    user = config.system.primaryUser;
+                  in
+                  ''
+                    # Set fish shell for current user
+                    echo "Setting fish as default shell for user ${user}..."
+                    sudo chsh -s ${pkgs.fish}/bin/fish ${user}
+                  '';
+              }
+            )
 
             # Home Manager configuration
             home-manager.darwinModules.home-manager
@@ -189,11 +193,13 @@
                   kinko-pkg
                   ;
               };
-              home-manager.users.taco = { ... }: {
-                imports = [
-                  ./home-manager
-                ];
-              };
+              home-manager.users.taco =
+                { ... }:
+                {
+                  imports = [
+                    ./home-manager
+                  ];
+                };
             }
           ];
         };

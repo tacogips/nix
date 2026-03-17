@@ -9,7 +9,7 @@
 {
   imports = [
     # Darwin-specific modules
-    ./alacritty.nix
+    ./ghostty.nix
     # ./firefox.nix
     ./brave.nix # Import Darwin-specific Brave configuration
     ./fish # Import Darwin-specific fish configuration
@@ -38,8 +38,8 @@
 
   # Add Homebrew to PATH for all shells
   home.sessionPath = [
-    "/opt/homebrew/bin"  # Apple Silicon
-    "/usr/local/bin"     # Intel Mac
+    "/opt/homebrew/bin" # Apple Silicon
+    "/usr/local/bin" # Intel Mac
   ];
 
   # Darwin-specific packages
