@@ -18,6 +18,7 @@
     ./fzf
     ./git
     ./go
+    ./helix
     ./ign
     ./julia
     ./kinko
