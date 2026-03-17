@@ -10,13 +10,7 @@
   ff = ''
     set dest (${pkgs.fd}/bin/fd --color=never $argv[1] | ${pkgs.fzf}/bin/fzf +m --query "$LBUFFER" --prompt="find > ")
     if test -n "$dest"
-        # On Darwin, zed is installed via Homebrew
-        # On Linux, zed-editor is from Nix
-        if type -q zed
-            zed "$dest"
-        else if type -q zeditor
-            zeditor "$dest"
-        end
+        zed "$dest"
     end
   '';
 
@@ -25,13 +19,7 @@
     if test -n "$dest"
         set line_number (echo $dest | cut -d: -f2)
         set file_path (echo $dest | cut -d: -f1)
-        # On Darwin, zed is installed via Homebrew
-        # On Linux, zed-editor is from Nix
-        if type -q zed
-            zed $file_path:$line_number
-        else if type -q zeditor
-            zeditor $file_path:$line_number
-        end
+        zed $file_path:$line_number
     end
   '';
 
@@ -90,13 +78,7 @@
   '';
 
   z = ''
-    # On Darwin, zed is installed via Homebrew
-    # On Linux, zed-editor is from Nix
-    if type -q zed
-        zed $argv
-    else if type -q zeditor
-        zeditor $argv
-    end
+    zed $argv
   '';
 
   ppp = ''

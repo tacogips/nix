@@ -10,6 +10,21 @@ let
   zedKeymap = import ./keymap.nix { };
   zedExtensions = import ./extensions.nix { };
   zedTasks = import ./tasks.nix { };
+  zedPackage =
+    if pkgs.stdenv.isLinux then
+      pkgs.symlinkJoin {
+        name = "zed-editor-wrapped";
+        paths = [ pkgs.zededitor ];
+        nativeBuildInputs = [ pkgs.makeWrapper ];
+        postBuild = ''
+          wrapProgram $out/bin/zed \
+            --prefix LD_LIBRARY_PATH : ${lib.makeLibraryPath [ pkgs.wayland ]} \
+            --set XKB_CONFIG_ROOT ${pkgs.xkeyboard_config}/share/X11/xkb \
+            --set XLOCALEDIR ${pkgs.libx11}/share/X11/locale
+        '';
+      }
+    else
+      null;
 in
 {
   # Disable the home-manager module since it's causing binary name conflicts
@@ -18,13 +33,14 @@ in
   # Add Zed directly to packages
   # On Darwin, zed-editor is installed via Homebrew (managed in flake.nix)
   # to avoid build issues with Metal shader compiler
+  # On Linux, use the zededitor package from the nix-overlays input.
   home.packages =
     with pkgs;
     [
       nixfmt
       nil
     ]
-    ++ lib.optionals pkgs.stdenv.isLinux [ zed-editor ];
+    ++ lib.optionals pkgs.stdenv.isLinux [ zedPackage ];
 
   # Create mutable Zed settings using an activation script approach
   home.activation.zedSettings = lib.hm.dag.entryAfter [ "writeBoundary" ] ''

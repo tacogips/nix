@@ -1,42 +1,50 @@
 { pkgs, ... }:
 
+let
+  codexCommand = "codex";
+  codexGlobalFlags = "--dangerously-bypass-approvals-and-sandbox --model gpt-5.4";
+  codexBaseCommand = "${codexCommand} ${codexGlobalFlags}";
+in
 {
-  ll = "ls -al";
-  fa = "fd -H";
+  codexCommand = codexCommand;
+  codexBaseCommand = codexBaseCommand;
 
-  gac = "git add .; git commit -am";
+  aliases = {
+    ll = "ls -al";
+    fa = "fd -H";
 
-  dc = "docker compose";
+    gac = "git add .; git commit -am";
 
-  lg = "lazygit";
-  ldc = "lazydocker";
-  cat = "bat";
-  gs = "git status";
+    dc = "docker compose";
 
-  gps = "git push origin";
-  gpl = "git pull origin";
-  gch = "git checkout";
-  ghb = "gh browse";
-  htop = "btm";
+    lg = "lazygit";
+    ldc = "lazydocker";
+    cat = "bat";
+    gs = "git status";
 
-  cc = "cargo check";
-  cb = "cargo check";
+    gps = "git push origin";
+    gpl = "git pull origin";
+    gch = "git checkout";
+    ghb = "gh browse";
+    htop = "btm";
 
-  f = "${pkgs.fd}/bin/fd";
+    cc = "cargo check";
+    cb = "cargo check";
 
-  da = "direnv allow";
+    f = "${pkgs.fd}/bin/fd";
 
-  pyac = "source ./venv/bin/activate.fish";
-  claude = "env NODE_OPTIONS='--max-old-space-size=16384' CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1 claude --model sonnet --dangerously-skip-permissions";
-  claude-o = "env NODE_OPTIONS='--max-old-space-size=16384' CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1 claude --model opus --dangerously-skip-permissions";
+    da = "direnv allow";
 
-  # `high` is not part of the model name; configure it via
-  # `model_reasoning_effort = "high"` in `~/.codex/config.toml`.
-  # Official docs currently point Codex CLI at the GPT-5.1-Codex family.
-  codex = "codex --dangerously-bypass-approvals-and-sandbox --model gpt-5.1-codex-max";
-  # fish alias expands to a function, so `codex-r*` should delegate to the
-  # `codex` alias to avoid passing global flags twice.
-  codex-rl = "codex resume --last";
-  codex-r = "codex resume";
+    pyac = "source ./venv/bin/activate.fish";
+    claude = "env NODE_OPTIONS='--max-old-space-size=16384' CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1 claude --model sonnet --dangerously-skip-permissions";
+    claude-o = "env NODE_OPTIONS='--max-old-space-size=16384' CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1 claude --model opus --dangerously-skip-permissions";
 
+    # `high` is not part of the model name; configure it via
+    # `model_reasoning_effort = "high"` in `~/.codex/config.toml`.
+    # Keep the shared flags in Nix so aliases and functions do not depend on
+    # another fish alias being present.
+    cx = codexBaseCommand;
+    cxrl = "${codexBaseCommand} resume --last";
+    cxr = "${codexBaseCommand} resume";
+  };
 }

@@ -1,4 +1,8 @@
 { pkgs, ... }:
+let
+  sharedFish = import ../../../shared-home-manager/taco/fish/aliases.nix { inherit pkgs; };
+  codexExecCommand = "${sharedFish.codexBaseCommand} exec";
+in
 {
   capture_active = ''
     set -l timestamp (date +%Y-%m-%d-%H%M%S)
@@ -82,7 +86,7 @@
     set prompt "$prompt\n\n$codex_loop_suffix"
 
     for i in (seq $n)
-      command codex exec --dangerously-bypass-approvals-and-sandbox --model gpt-5.1-codex-max "$prompt"
+      command ${codexExecCommand} "$prompt"
     end
   '';
 }

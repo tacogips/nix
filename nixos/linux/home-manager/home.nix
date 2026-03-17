@@ -43,7 +43,7 @@
   # User settings moved to default.nix
 
   home.sessionVariables = {
-    EDITOR = "zeditor";
+    EDITOR = "zed";
     GTK_IM_MODULE = "fcitx";
     QT_IM_MODULE = "fcitx";
     XMODIFIERS = "@im=fcitx";
@@ -66,7 +66,7 @@
     #    GBM_BACKEND = "nvidia-drm";
 
     # NOTE:
-    # __GLX_VENDOR_LIBRARY_NAME=nvidia breaks zeditor startup on this setup.
+    # __GLX_VENDOR_LIBRARY_NAME=nvidia breaks zed startup on this setup.
     # Keep GLX vendor selection at defaults for Wayland/Vulkan apps.
 
   };
