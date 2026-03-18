@@ -42,6 +42,7 @@ in
       shell-integration = fish
       command = ${pkgs.fish}/bin/fish --login
       copy-on-select = false
+      confirm-close-surface = false
       keybind = alt+s=write_screen_file:open
       ${cfg.extraConfig}
     '';

@@ -9,12 +9,20 @@ let
     zellij
   ];
 
+  ideYaziScript = pkgs.writeShellApplication {
+    name = "ide-yazi";
+    text = ''
+      set -euo pipefail
+      export TACO_IDE_LAYOUT=1
+      exec ${pkgs.yazi}/bin/yazi
+    '';
+  };
+
   projectSelection = ''
     projects_root="''${IDE_PROJECTS_ROOT:-$HOME/projects}"
 
     selected="$(
-      find "$projects_root" -maxdepth 3 -name .git -type d 2>/dev/null \
-        | xargs -r -n1 dirname \
+      find "$projects_root" -maxdepth 3 -name .git -type d -printf '%h\n' 2>/dev/null \
         | sort -u \
         | fzf --prompt="Project > "
     )"
@@ -89,7 +97,7 @@ in
 
   programs.zellij = {
     enable = true;
-    enableFishIntegration = true;
+    enableFishIntegration = false;
 
     settings = {
       default_layout = "ide";
@@ -108,15 +116,14 @@ in
                   plugin location="status-bar"
               }
           }
-          tab name="editor" focus=true {
-              pane split_direction="vertical" {
-                  pane split_direction="horizontal" {
-                      pane focus=true name="Editor" {
-                          command "hx"
-                      }
-                      pane size="40%" name="Implement"
+          tab name="ide" focus=true {
+              pane split_direction="horizontal" {
+                  pane size="35%" focus=true name="Yazi" {
+                      command "${ideYaziScript}/bin/ide-yazi"
                   }
-                  pane size="30%" name="Review"
+                  pane name="Helix" {
+                      command "${pkgs.helix}/bin/hx"
+                  }
               }
           }
       }

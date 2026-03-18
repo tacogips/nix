@@ -77,10 +77,6 @@
     and claude mcp add -s user hn-mcp hn-mcp stdio
   '';
 
-  z = ''
-    zed $argv
-  '';
-
   ppp = ''
     # Copy current directory to clipboard
     # On Darwin, use pbcopy; on Linux, use wl-copy

@@ -1,5 +1,10 @@
 {
   language-server = {
+    basedpyright = {
+      command = "basedpyright-langserver";
+      args = [ "--stdio" ];
+    };
+
     rust-analyzer = {
       command = "rust-analyzer";
       config = {
@@ -61,6 +66,10 @@
     {
       name = "go";
       language-servers = [ "gopls" ];
+    }
+    {
+      name = "python";
+      language-servers = [ "basedpyright" ];
     }
     {
       name = "typescript";
