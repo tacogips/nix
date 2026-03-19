@@ -2,7 +2,9 @@
 
 let
   codexCommand = "codex";
-  codexGlobalFlags = "--ask-for-approval never --dangerously-bypass-approvals-and-sandbox --model gpt-5.4";
+  # Newer Codex CLI versions reject combining explicit approval policy with
+  # the bypass flag, because bypass already disables approvals and sandboxing.
+  codexGlobalFlags = "--dangerously-bypass-approvals-and-sandbox --model gpt-5.4";
   codexBaseCommand = "${codexCommand} ${codexGlobalFlags}";
   claudeBaseCommand = "env NODE_OPTIONS='--max-old-space-size=16384' CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1 claude --permission-mode bypassPermissions --dangerously-skip-permissions";
 in
@@ -35,6 +37,8 @@ in
     f = "${pkgs.fd}/bin/fd";
 
     da = "direnv allow";
+
+    kinu = "kinko unlock ";
 
     pyac = "source ./venv/bin/activate.fish";
     z = "zellij";

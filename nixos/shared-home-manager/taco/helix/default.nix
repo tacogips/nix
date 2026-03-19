@@ -6,8 +6,8 @@
 
 {
   # Shared Helix configuration.
-  # Language servers for Rust, Go, and TypeScript React are installed here so
-  # Helix has the required binaries on both Linux and Darwin.
+  # Language servers for Rust, Go, TypeScript React, and Zig are installed
+  # here so Helix has the required binaries on both Linux and Darwin.
   home.packages =
     with pkgs;
     [
@@ -15,6 +15,7 @@
       gopls
       nodePackages.typescript
       nodePackages.typescript-language-server
+      zls
     ]
     ++ lib.optionals pkgs.stdenv.isDarwin [
       rust-analyzer

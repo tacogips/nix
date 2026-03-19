@@ -1,4 +1,9 @@
-{ config, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 {
   # Linux-specific Home Manager configurations
@@ -16,6 +21,13 @@
   home.homeDirectory = "/home/taco";
   taco.yazi.openCommand = "${pkgs.xdg-utils}/bin/xdg-open";
   taco.ghostty.fontSize = 11;
+  programs.zellij.extraConfig = lib.mkAfter ''
+    keybinds {
+        shared_except "locked" {
+            bind "Alt f" { ToggleFocusFullscreen; }
+        }
+    }
+  '';
 
   # Any other Linux-specific settings can go here
   # These will only be applied when imported from the Linux configuration

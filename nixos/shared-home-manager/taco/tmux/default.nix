@@ -13,17 +13,36 @@
       # Enable mouse support
       set -g mouse on
 
-      # Split panes using | and -
-      bind | split-window -h
-      bind - split-window -v
-      unbind '"'
-      unbind %
+      # Increase contrast so the active pane is easier to spot.
+      set -g pane-border-style 'fg=colour238'
+      set -g pane-active-border-style 'fg=colour81,bold'
 
-      # Switch panes using Alt-arrow without prefix
-      bind -n M-Left select-pane -L
-      bind -n M-Right select-pane -R
-      bind -n M-Up select-pane -U
-      bind -n M-Down select-pane -D
+      # Split panes without a prefix.
+      bind -n M-n split-window -h
+      bind -n M-N split-window -v
+
+      # Jump to windows by index without a prefix.
+      bind -n M-1 select-window -t :=1
+      bind -n M-2 select-window -t :=2
+      bind -n M-3 select-window -t :=3
+      bind -n M-4 select-window -t :=4
+      bind -n M-5 select-window -t :=5
+      bind -n M-6 select-window -t :=6
+      bind -n M-7 select-window -t :=7
+      bind -n M-8 select-window -t :=8
+      bind -n M-9 select-window -t :=9
+
+      # Create a new window from the current pane's directory.
+      bind -n M-t new-window -c '#{pane_current_path}'
+
+      # Switch panes using Alt-h/j/k/l without a prefix.
+      bind -n M-h select-pane -L
+      bind -n M-j select-pane -D
+      bind -n M-k select-pane -U
+      bind -n M-l select-pane -R
+
+      # Toggle zoom for the current pane without a prefix.
+      bind -n M-f resize-pane -Z
 
       # Reload config with r
       bind r source-file ~/.config/tmux/tmux.conf \; display-message "Config reloaded!"

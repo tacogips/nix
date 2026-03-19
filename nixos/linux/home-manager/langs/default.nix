@@ -35,9 +35,8 @@
     #golangci-lint
     #delve # Go debugger
 
-    # Zig compiler and language server
+    # Zig compiler
     zig
-    zls
     ruff
 
     package-version-server # used in zed

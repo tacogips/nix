@@ -56,6 +56,10 @@
       command = "typescript-language-server";
       args = [ "--stdio" ];
     };
+
+    zls = {
+      command = "zls";
+    };
   };
 
   language = [
@@ -78,6 +82,10 @@
     {
       name = "tsx";
       language-servers = [ "typescript-language-server" ];
+    }
+    {
+      name = "zig";
+      language-servers = [ "zls" ];
     }
   ];
 }

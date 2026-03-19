@@ -2,6 +2,7 @@
   pkgs,
   lib,
   config,
+  stablePkgs ? null,
   ...
 }:
 
@@ -12,15 +13,18 @@ let
   zedTasks = import ./tasks.nix { };
   zedPackage =
     if pkgs.stdenv.isLinux then
-      pkgs.symlinkJoin {
+      stablePkgs.symlinkJoin {
         name = "zed-editor-wrapped";
-        paths = [ pkgs.zededitor ];
-        nativeBuildInputs = [ pkgs.makeWrapper ];
+        paths = [ stablePkgs.zed-editor ];
+        nativeBuildInputs = [ stablePkgs.makeWrapper ];
         postBuild = ''
-          wrapProgram $out/bin/zed \
-            --prefix LD_LIBRARY_PATH : ${lib.makeLibraryPath [ pkgs.wayland ]} \
-            --set XKB_CONFIG_ROOT ${pkgs.xkeyboard_config}/share/X11/xkb \
-            --set XLOCALEDIR ${pkgs.libx11}/share/X11/locale
+          rm "$out/bin/zeditor"
+          makeWrapper ${lib.getExe stablePkgs.zed-editor} "$out/bin/zeditor" \
+            --prefix LD_LIBRARY_PATH : ${lib.makeLibraryPath [ stablePkgs.wayland ]} \
+            --set XKB_CONFIG_ROOT ${stablePkgs.xkeyboard_config}/share/X11/xkb \
+            --set XLOCALEDIR ${stablePkgs.xorg.libX11}/share/X11/locale
+
+          ln -s zeditor "$out/bin/zed"
         '';
       }
     else
@@ -33,7 +37,7 @@ in
   # Add Zed directly to packages
   # On Darwin, zed-editor is installed via Homebrew (managed in flake.nix)
   # to avoid build issues with Metal shader compiler
-  # On Linux, use the zededitor package from the nix-overlays input.
+  # On Linux, use zed-editor from the stable nixpkgs input.
   home.packages =
     with pkgs;
     [

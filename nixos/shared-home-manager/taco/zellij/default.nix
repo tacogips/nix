@@ -57,6 +57,27 @@ let
     '';
   };
 
+  gitLayoutScript = pkgs.writeShellApplication {
+    name = "ide-git";
+    inherit runtimeInputs;
+    text = ''
+      set -euo pipefail
+      ${projectSelection}
+
+      session_name="''${project_name}:''${branch//\//-}:git"
+
+      # Zellij limits session names on macOS, so keep it short and portable.
+      session_name="''${session_name:0:30}"
+
+      if [[ -n "''${ZELLIJ:-}" ]]; then
+        zellij action detach
+      fi
+
+      cd "$selected"
+      exec zellij attach "$session_name" 2>/dev/null || exec zellij -s "$session_name" -l git
+    '';
+  };
+
   ideAgentScript = pkgs.writeShellApplication {
     name = "ide-agent";
     inherit runtimeInputs;
@@ -91,6 +112,7 @@ let
 in
 {
   home.packages = [
+    gitLayoutScript
     ideScript
     ideAgentScript
   ];
@@ -118,12 +140,36 @@ in
           }
           tab name="ide" focus=true {
               pane split_direction="horizontal" {
-                  pane size="35%" focus=true name="Yazi" {
+                  pane size="25%" focus=true name="Yazi" {
                       command "${ideYaziScript}/bin/ide-yazi"
                   }
-                  pane name="Helix" {
+                  pane size="50%" name="Helix" {
                       command "${pkgs.helix}/bin/hx"
                   }
+                  pane name="Terminal"
+              }
+          }
+      }
+    '';
+
+    layouts.git = ''
+      layout {
+          default_tab_template {
+              pane size=1 borderless=true {
+                  plugin location="tab-bar"
+              }
+              children
+              pane size=2 borderless=true {
+                  plugin location="status-bar"
+              }
+          }
+          tab name="git" focus=true {
+              pane split_direction="horizontal" {
+                  pane size="34%" focus=true name="Lazygit" {
+                      command "${pkgs.lazygit}/bin/lazygit"
+                  }
+                  pane size="33%" name="Terminal 1"
+                  pane size="33%" name="Terminal 2"
               }
           }
       }

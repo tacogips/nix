@@ -47,8 +47,10 @@ home-manager.users.taco = { ... }: {
 
 This separation makes it easy to maintain consistent configurations across platforms while allowing for platform-specific customizations in their appropriate locations.
 
-The shared editor environment now follows the Zellij + Helix + Yazi workflow. The shared modules define the Helix/Yazi/Zellij integration, while the platform-specific Home Manager entrypoints set `taco.yazi.openCommand` so Yazi can hand files off to the correct GUI opener on Linux and Darwin.
+The shared editor environment now follows the Zellij + Helix + Yazi workflow. The shared modules define the Helix/Yazi/Zellij integration, while the platform-specific Home Manager entrypoints set `taco.yazi.openCommand` so Yazi can hand files off to the correct GUI opener on Linux and Darwin. In the shared Yazi config, opening a directory launches a new terminal rooted at that directory instead of handing it to the GUI file opener. When Yazi is launched from fish as `yazi` or `y`, exiting Yazi updates the current shell to the last directory you visited.
 
 The shared Zellij module provides two launch styles:
 - `ide`: a two-pane workspace with Yazi on the left and Helix on the right; opening a file in Yazi loads it into the adjacent Helix pane
 - `ide-agent 3|4|5`: an agent-coding workspace that opens a project with 3, 4, or 5 side-by-side terminal panes
+
+The shared tmux workflow exposes a `tm` fish function that opens a fresh three-pane workspace. The left pane starts Yazi, file selections open in Helix in the center pane, and directory selections retarget the right pane's current working directory. Plain `tmux` remains unmodified.

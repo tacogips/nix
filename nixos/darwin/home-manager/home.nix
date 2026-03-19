@@ -23,8 +23,7 @@
 
   # Darwin-specific environment variables
   home.sessionVariables = {
-    # Zed is installed via Homebrew, so use the binary from PATH
-    EDITOR = "zed";
+    EDITOR = "hx";
     # Add any macOS-specific environment variables here
     LANG = "en_US.UTF-8";
     LC_ALL = "en_US.UTF-8";
