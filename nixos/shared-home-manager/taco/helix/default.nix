@@ -25,7 +25,7 @@
     enable = true;
 
     settings = {
-      theme = "catppuccin_macchiato";
+      theme = "catppuccin_mocha";
 
       keys = import ./keymap.nix;
     };

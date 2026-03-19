@@ -41,6 +41,7 @@ in
     kinu = "kinko unlock ";
 
     pyac = "source ./venv/bin/activate.fish";
+    tm = "tmux";
     z = "zellij";
     cl = "${claudeBaseCommand} --model sonnet";
     clo = "${claudeBaseCommand} --model opus";

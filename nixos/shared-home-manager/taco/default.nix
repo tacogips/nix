@@ -22,6 +22,7 @@
     ./ign
     ./julia
     ./kinko
+    ./lazydocker
     ./lazygit
     # Temporarily disabled: marktext build fails in nixpkgs (node-gyp not found)
     # Re-enable after upstream/package fix.

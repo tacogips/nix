@@ -203,45 +203,4 @@
       clone $repo $argv
   '';
 
-  tm = ''
-    set -l tmux_bin ${pkgs.tmux}/bin/tmux
-
-    if set -q TMUX
-      set -l current_tty (tty 2>/dev/null)
-      set -l pane_tty
-
-      if set -q TMUX_PANE
-        set pane_tty ($tmux_bin display-message -p -t "$TMUX_PANE" '#{pane_tty}' 2>/dev/null)
-      end
-
-      if test -z "$current_tty"; or test -z "$pane_tty"; or test "$current_tty" != "$pane_tty"
-        env -u TMUX -u TMUX_PANE $tmux_bin $argv
-        return $status
-      end
-    end
-
-    if test (count $argv) -gt 0
-      $tmux_bin $argv
-      return $status
-    end
-
-    set -l session_name "tmux-"(date '+%Y%m%d-%H%M%S')"-"$fish_pid
-    set -l cwd (pwd -P)
-
-    $tmux_bin new-session -d -s "$session_name" -n main -c "$cwd"
-    or return $status
-
-    set -l target "$session_name:main"
-    set -l left_pane ($tmux_bin display-message -p -t "$target" '#{pane_id}')
-    set -l center_pane ($tmux_bin split-window -h -P -F '#{pane_id}' -t "$left_pane" -c "$cwd")
-    set -l right_pane ($tmux_bin split-window -h -P -F '#{pane_id}' -t "$center_pane" -c "$cwd")
-    $tmux_bin select-layout -t "$target" even-horizontal >/dev/null
-
-    set -l yazi_cmd "cd -- "(string escape -- "$cwd")" && export TACO_IDE_LAYOUT=1 TACO_TMUX_EDITOR_PANE="(string escape -- "$center_pane")" TACO_TMUX_DIRECTORY_PANE="(string escape -- "$right_pane")" && exec ${pkgs.yazi}/bin/yazi"
-    $tmux_bin send-keys -t "$left_pane" C-c "$yazi_cmd" Enter
-    $tmux_bin send-keys -t "$center_pane" C-c "${pkgs.helix}/bin/hx" Enter
-    $tmux_bin select-pane -t "$left_pane"
-    exec $tmux_bin attach-session -t "$session_name"
-  '';
-
 }

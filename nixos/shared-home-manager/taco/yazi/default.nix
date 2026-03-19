@@ -7,6 +7,14 @@
 
 let
   cfg = config.taco.yazi;
+  catppuccinFlavorSource = pkgs.fetchzip {
+    url = "https://github.com/yazi-rs/flavors/archive/9511cb09cadcbf57e39a46b06a52d00957177175.tar.gz";
+    hash = "sha256-3RR8mi7CcVMDMitdTdaonFmfAIkeOzWK/CVKQmomIhE=";
+  };
+  catppuccinMochaFlavor = pkgs.runCommandLocal "catppuccin-mocha.yazi" { } ''
+    mkdir -p "$out"
+    cp -r ${catppuccinFlavorSource}/catppuccin-mocha.yazi/. "$out/"
+  '';
   helixPaneOpener = pkgs.writeShellApplication {
     name = "hx-pane-open";
     text = ''
@@ -187,6 +195,9 @@ in
       enable = true;
       enableFishIntegration = false;
       shellWrapperName = "y";
+      flavors = {
+        "catppuccin-mocha" = catppuccinMochaFlavor;
+      };
       extraPackages = with pkgs; [
         fd
         file
@@ -197,6 +208,12 @@ in
       ];
 
       inherit keymap;
+
+      theme = {
+        flavor = {
+          dark = "catppuccin-mocha";
+        };
+      };
 
       settings = {
         mgr = {

@@ -134,11 +134,11 @@ in
       bind -n M-8 select-window -t :=8
       bind -n M-9 select-window -t :=9
 
-      # Create a plain new window from the current pane's directory.
-      bind -n M-t new-window -c '#{pane_current_path}'
-
       # Create a new window, then choose a predefined layout for it.
-      bind -n M-i new-window -c '#{pane_current_path}' \; ${layoutMenu}
+      bind -n M-t new-window -c '#{pane_current_path}' \; ${layoutMenu}
+
+      # Create a plain new window from the current pane's directory.
+      bind -n M-i new-window -c '#{pane_current_path}'
 
       # Apply a predefined layout to the current fresh window.
       bind I ${layoutMenu}
