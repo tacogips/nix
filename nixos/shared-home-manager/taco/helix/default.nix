@@ -25,7 +25,7 @@
     enable = true;
 
     settings = {
-      theme = "hex_toxic";
+      theme = "catppuccin_macchiato";
 
       keys = import ./keymap.nix;
     };
