@@ -9,6 +9,10 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    nvf = {
+      url = "github:NotAShelf/nvf";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     xremap-flake.url = "github:xremap/nix-flake";
     ## --- mcps --------
     cratedocs-mcp.url = "github:tacogips/cratedocs-mcp";
@@ -45,6 +49,7 @@
       nixpkgs,
       nixpkgs-stable,
       home-manager,
+      nvf,
       xremap-flake,
       cratedocs-mcp,
       gitcodes-mcp,
@@ -184,6 +189,7 @@
                   {
                     imports = [
                       ./home-manager
+                      nvf.homeManagerModules.default
                     ];
                   };
               }

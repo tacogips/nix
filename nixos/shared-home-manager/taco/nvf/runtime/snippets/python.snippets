@@ -1,0 +1,26 @@
+snippet if__name "if __name__ == "__main__""
+	if __name__ == "__main__":
+		pass
+
+snippet cprint
+	def cprint(obj):
+			# need import inspect
+			caller = inspect.stack()[-1]
+			print(f"--- {caller.filename}:{caller.lineno} ---  ")
+			print(obj)
+
+snippet cprint
+	def cprint(
+			obj,
+			title=None,
+			available=True,
+	):
+			if available:
+
+					# need import inspect
+					caller = inspect.stack()[-1]
+					if title:
+							title = f"[{title}]"
+
+					print(f"--- {title or ''} {caller.filename}:{caller.lineno} ---  ")
+					print(obj)

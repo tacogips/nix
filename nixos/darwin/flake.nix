@@ -13,6 +13,10 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    nvf = {
+      url = "github:NotAShelf/nvf";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     # Firefox extensions repository from NUR
     firefox-addons = {
@@ -34,6 +38,7 @@
       nixpkgs,
       darwin,
       home-manager,
+      nvf,
       firefox-addons,
       ign,
       kinko,
@@ -198,6 +203,7 @@
                 {
                   imports = [
                     ./home-manager
+                    nvf.homeManagerModules.default
                   ];
                 };
             }
