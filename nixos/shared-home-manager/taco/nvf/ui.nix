@@ -2,7 +2,7 @@
 {
   settings.vim = {
     luaConfigRC.ui = ''
-      vim.cmd.colorscheme("iceberg")
+      vim.cmd.colorscheme("gruvbox")
       vim.cmd.iabbrev("todo TODO")
       vim.cmd([[
       let g:quickrun_config = {
@@ -36,7 +36,7 @@
 
     statusline.lualine = {
       enable = true;
-      theme = "iceberg";
+      theme = "gruvbox";
       componentSeparator = {
         left = "";
         right = "|";

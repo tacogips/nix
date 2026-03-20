@@ -112,10 +112,22 @@ in
     baseIndex = 1;
 
     extraConfig = ''
+      # Enable true color support for Ghostty.
+      set -ga terminal-overrides ',xterm-ghostty:Tc,screen-256color:Tc'
+
       # Enable mouse support
       set -g mouse on
 
-      # Use a darker idle border and a brighter cyan active border.
+      # Slow copy-mode wheel scrolling down from tmux's default 5 lines per tick.
+      bind -T copy-mode-vi WheelUpPane select-pane \; send-keys -X -N 1 scroll-up
+      bind -T copy-mode-vi WheelDownPane select-pane \; send-keys -X -N 1 scroll-down
+      bind -T copy-mode WheelUpPane select-pane \; send-keys -X -N 1 scroll-up
+      bind -T copy-mode WheelDownPane select-pane \; send-keys -X -N 1 scroll-down
+
+      # Dim inactive panes and give the focused pane a brighter border.
+      # Gruvbox palette: active = default (#282828 bg0), inactive = darker (#1d2021 bg0_h).
+      set -g window-style 'fg=#928374,bg=#1d2021'
+      set -g window-active-style 'fg=default,bg=default'
       set -g pane-border-lines heavy
       set -g pane-border-style 'fg=colour240'
       set -g pane-active-border-style 'fg=colour45,bold'

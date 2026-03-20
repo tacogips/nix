@@ -33,7 +33,7 @@ in
     home.packages = [ pkgs.ghostty ];
 
     xdg.configFile."ghostty/config".text = ''
-      theme = Catppuccin Mocha
+      theme = Gruvbox Dark
       font-family = ${cfg.fontFamily}
       font-size = ${toString cfg.fontSize}
       window-padding-x = 5

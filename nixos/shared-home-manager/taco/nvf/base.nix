@@ -46,6 +46,7 @@
       history = 2000;
       magic = true;
       number = true;
+      relativenumber = false;
       shada = "'2000,f1,<50";
       shortmess = "atI";
       shiftwidth = 2;
@@ -93,6 +94,7 @@
       cmp_luasnip.package = cmp_luasnip;
       dart.package = dart-vim-plugin;
       editorconfig.package = editorconfig-vim;
+      gruvbox.package = gruvbox-nvim;
       iceberg.package = iceberg-vim;
       jinja.package = jinja-vim;
       kdl.package = kdl-vim;

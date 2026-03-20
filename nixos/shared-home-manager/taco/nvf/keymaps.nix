@@ -178,12 +178,13 @@
     }
     {
       mode = "n";
-      key = ",e";
+      # Match Zed's `space e = ReloadFile`; Yazi moved to Alt-e in yazi.nix.
+      key = "<Space>e";
       action = ":e! %<CR>";
     }
     {
       mode = "n";
-      key = ",y";
+      key = ",o";
       action = ":tabo<CR>";
     }
     {
@@ -213,7 +214,7 @@
     }
     {
       mode = "n";
-      key = ",g";
+      key = ",r";
       action = "<CMD>lua require'telescope.builtin'.live_grep{}<Cr>";
     }
     {
@@ -238,6 +239,42 @@
     }
     {
       mode = "n";
+      key = ",a";
+      action = "<cmd>lua vim.lsp.buf.code_action()<CR>";
+    }
+    {
+      mode = "n";
+      # Match Zed's `, g = project_symbols::Toggle` with workspace-wide LSP symbols.
+      key = ",g";
+      action = "<CMD>lua require'telescope.builtin'.lsp_dynamic_workspace_symbols{}<Cr>";
+    }
+    {
+      mode = "n";
+      key = ",s";
+      action = "<CMD>lua require'telescope.builtin'.lsp_document_symbols{}<Cr>";
+    }
+    {
+      mode = "n";
+      key = ",n";
+      action = "<cmd>lua vim.diagnostic.goto_next()<CR>";
+    }
+    {
+      mode = "n";
+      key = ",p";
+      action = "<cmd>lua vim.diagnostic.goto_prev()<CR>";
+    }
+    {
+      mode = "n";
+      key = ",t";
+      action = "<Cmd>lua vim.lsp.buf.hover()<CR>";
+    }
+    {
+      mode = "n";
+      key = ",y";
+      action = "<cmd>lua vim.lsp.buf.type_definition()<CR>";
+    }
+    {
+      mode = "n";
       key = ",z";
       action = "<CMD>lua require'telescope.builtin'.lsp_references{}<Cr>";
     }
@@ -245,6 +282,11 @@
       mode = "n";
       key = ",x";
       action = "<CMD>lua require'telescope.builtin'.lsp_implementations{}<Cr>";
+    }
+    {
+      mode = "n";
+      key = ",e";
+      action = "<cmd>lua vim.lsp.buf.rename()<CR>";
     }
     {
       mode = "n";

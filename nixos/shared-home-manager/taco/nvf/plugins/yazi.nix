@@ -4,8 +4,11 @@
     keymaps = [
       {
         mode = "n";
-        key = "<Space>e";
-        action = ":Yazi<CR>";
+        # Zed uses Alt-e for project panel focus. In Neovim, Yazi is the closest
+        # project-panel-like file browser, so keep the same chord and open it at
+        # the current working directory with `:Yazi cwd`.
+        key = "<M-e>";
+        action = ":Yazi cwd<CR>";
       }
     ];
 
