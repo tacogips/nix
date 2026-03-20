@@ -20,6 +20,7 @@
   home.username = "taco";
   home.homeDirectory = "/home/taco";
   taco.yazi.openCommand = "${pkgs.xdg-utils}/bin/xdg-open";
+  taco.ghostty.autoStartTmux = true;
   taco.ghostty.fontSize = 11;
   programs.zellij.extraConfig = lib.mkAfter ''
     keybinds {

@@ -19,13 +19,16 @@ let
         exit 1
       fi
 
-      if [[ "$pane_count" != "1" ]]; then
-        ${pkgs.tmux}/bin/tmux display-message "Refusing to overwrite window with $pane_count panes"
-        exit 1
-      fi
-
       base_pane="$(${pkgs.tmux}/bin/tmux display-message -p -t "$target_window" '#{pane_id}')"
       cwd="$(${pkgs.tmux}/bin/tmux display-message -p -t "$base_pane" '#{pane_current_path}')"
+
+      if [[ "$pane_count" != "1" ]]; then
+        while IFS= read -r pane_id; do
+          if [[ "$pane_id" != "$base_pane" ]]; then
+            ${pkgs.tmux}/bin/tmux kill-pane -t "$pane_id"
+          fi
+        done < <(${pkgs.tmux}/bin/tmux list-panes -t "$target_window" -F '#{pane_id}')
+      fi
 
       shell_escape() {
         printf '%q' "$1"
@@ -95,8 +98,8 @@ let
 
   layoutMenu = ''
     display-menu -T 'Window Layouts' \
-      'IDE 3 Pane' i "run-shell '${tmuxLayoutApply}/bin/tmux-layout-apply ide-3pane #{window_id}'" \
       'Editor 2 Pane' e "run-shell '${tmuxLayoutApply}/bin/tmux-layout-apply editor-2pane #{window_id}'" \
+      'IDE 3 Pane' i "run-shell '${tmuxLayoutApply}/bin/tmux-layout-apply ide-3pane #{window_id}'" \
       'Agent 4 Pane' a "run-shell '${tmuxLayoutApply}/bin/tmux-layout-apply agent-4pane #{window_id}'" \
       'Shell 3 Pane' s "run-shell '${tmuxLayoutApply}/bin/tmux-layout-apply shell-3pane #{window_id}'"
   '';
@@ -124,13 +127,13 @@ in
       bind -T copy-mode WheelUpPane select-pane \; send-keys -X -N 1 scroll-up
       bind -T copy-mode WheelDownPane select-pane \; send-keys -X -N 1 scroll-down
 
-      # Dim inactive panes and give the focused pane a brighter border.
-      # Gruvbox palette: active = default (#282828 bg0), inactive = darker (#1d2021 bg0_h).
-      set -g window-style 'fg=#928374,bg=#1d2021'
-      set -g window-active-style 'fg=default,bg=default'
-      set -g pane-border-lines heavy
-      set -g pane-border-style 'fg=colour240'
-      set -g pane-active-border-style 'fg=colour45,bold'
+      # Push the focused pane forward with a stronger active/inactive contrast.
+      # Gruvbox palette: active = bright fg on bg0, inactive = muted fg on near-black bg.
+      set -g window-style 'fg=#665c54,bg=#141617'
+      set -g window-active-style 'fg=#ebdbb2,bg=#282828'
+      set -g pane-border-lines double
+      set -g pane-border-style 'fg=#3c3836'
+      set -g pane-active-border-style 'fg=#fabd2f,bold'
 
       # Split panes without a prefix.
       bind -n M-n split-window -h

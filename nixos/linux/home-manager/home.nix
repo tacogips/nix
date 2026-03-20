@@ -43,7 +43,7 @@
   # User settings moved to default.nix
 
   home.sessionVariables = {
-    EDITOR = "hx";
+    EDITOR = "nvim";
     GTK_IM_MODULE = "fcitx";
     QT_IM_MODULE = "fcitx";
     XMODIFIERS = "@im=fcitx";

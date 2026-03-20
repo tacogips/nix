@@ -23,7 +23,7 @@
 
   # Darwin-specific environment variables
   home.sessionVariables = {
-    EDITOR = "hx";
+    EDITOR = "nvim";
     # Add any macOS-specific environment variables here
     LANG = "en_US.UTF-8";
     LC_ALL = "en_US.UTF-8";

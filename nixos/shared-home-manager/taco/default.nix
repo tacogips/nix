@@ -18,7 +18,7 @@
     ./git
     ./go
     ./ghostty
-    ./helix
+    # ./helix
     ./ign
     ./julia
     ./kinko
@@ -32,7 +32,7 @@
     ./ssh
     ./tmux
     ./yazi
-    ./zed
+    # ./zed
     ./zoxide
     ./zellij
     ../extends/mutability

@@ -7,6 +7,18 @@
 
 let
   cfg = config.taco.ghostty;
+  ghosttyCommand =
+    if cfg.autoStartTmux then
+      let
+        launchTmux = pkgs.writeShellScript "ghostty-launch-tmux" ''
+          if ! exec ${pkgs.tmux}/bin/tmux new-session -A -s ${cfg.tmuxSessionName}; then
+            exec ${pkgs.fish}/bin/fish --login
+          fi
+        '';
+      in
+      "direct:${launchTmux}"
+    else
+      "direct:${pkgs.fish}/bin/fish --login";
 in
 {
   options.taco.ghostty = {
@@ -28,6 +40,18 @@ in
       description = "Ghostty font size.";
     };
 
+    autoStartTmux = lib.mkOption {
+      type = lib.types.bool;
+      default = false;
+      description = "Whether Ghostty should launch directly into tmux.";
+    };
+
+    tmuxSessionName = lib.mkOption {
+      type = lib.types.str;
+      default = "main";
+      description = "tmux session name used when Ghostty auto-starts tmux.";
+    };
+
     extraConfig = lib.mkOption {
       type = lib.types.lines;
       default = "";
@@ -46,7 +70,8 @@ in
       window-padding-y = 5
       window-decoration = auto
       shell-integration = fish
-      command = ${pkgs.fish}/bin/fish --login
+      initial-command = ${ghosttyCommand}
+      command = ${ghosttyCommand}
       copy-on-select = false
       confirm-close-surface = false
       keybind = alt+s=text:hx\x20
