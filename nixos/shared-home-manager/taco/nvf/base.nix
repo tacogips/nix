@@ -91,7 +91,6 @@
       cmp-nvim-lsp.package = cmp-nvim-lsp;
       cmp-path.package = cmp-path;
       cmp_luasnip.package = cmp_luasnip;
-      copilot.package = copilot-vim;
       dart.package = dart-vim-plugin;
       editorconfig.package = editorconfig-vim;
       iceberg.package = iceberg-vim;
