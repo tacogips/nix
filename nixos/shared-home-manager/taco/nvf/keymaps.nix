@@ -174,12 +174,12 @@
     {
       mode = "n";
       key = "<Space>t";
-      action = "<cmd>AerialToggle! float<CR>";
+      action = "<cmd>Telescope aerial<CR>";
     }
     {
       mode = "n";
-      # Match Zed's `space e = ReloadFile`; Yazi moved to Alt-e in yazi.nix.
-      key = "<Space>e";
+      # Keep reload nearby without colliding with the file browser on `Space-e`.
+      key = "<Space>p";
       action = ":e! %<CR>";
     }
     {

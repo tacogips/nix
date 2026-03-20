@@ -23,13 +23,15 @@ let
 
     return { entry = entry }
   '';
-  flavorSource = pkgs.fetchzip {
-    url = "https://github.com/yazi-rs/flavors/archive/9511cb09cadcbf57e39a46b06a52d00957177175.tar.gz";
-    hash = "sha256-3RR8mi7CcVMDMitdTdaonFmfAIkeOzWK/CVKQmomIhE=";
+  gruvboxDarkFlavorSource = pkgs.fetchFromGitHub {
+    owner = "bennyyip";
+    repo = "gruvbox-dark.yazi";
+    rev = "619fdc5844db0c04f6115a62cf218e707de2821e";
+    hash = "sha256-Y/i+eS04T2+Sg/Z7/CGbuQHo5jxewXIgORTQm25uQb4=";
   };
   gruvboxBaseFlavor = pkgs.runCommandLocal "gruvboxbase.yazi" { } ''
     mkdir -p "$out"
-    cp -r ${flavorSource}/gruvbox-dark.yazi/. "$out/"
+    cp -r ${gruvboxDarkFlavorSource}/. "$out/"
   '';
   helixPaneOpener = pkgs.writeShellApplication {
     name = "hx-pane-open";

@@ -12,7 +12,7 @@ in
   options.taco.ghostty = {
     theme = lib.mkOption {
       type = lib.types.str;
-      default = "gruvboxbase";
+      default = "Gruvbox Dark";
       description = "Ghostty color theme.";
     };
 
