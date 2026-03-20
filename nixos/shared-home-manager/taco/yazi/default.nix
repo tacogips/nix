@@ -39,6 +39,13 @@ let
         printf '%q' "$1"
       }
 
+      parent_dir() {
+        local target
+
+        target="$1"
+        ${pkgs.coreutils}/bin/dirname -- "$target"
+      }
+
       tmux_pane_is_helix() {
         [[ "$1" == "hx" || "$1" == "helix" ]]
       }
@@ -62,21 +69,25 @@ let
       }
 
       open_in_tmux_file() {
-        local target_file pane_command escaped_path
+        local target_file target_dir pane_command escaped_path escaped_dir
 
         target_file="$1"
+        target_dir="$(parent_dir "$target_file")"
         pane_command="$2"
         escaped_path="$(helix_escape "$target_file")"
+        escaped_dir="$(helix_escape "$target_dir")"
 
         if tmux_pane_is_helix "$pane_command"; then
           ${pkgs.tmux}/bin/tmux send-keys -t "$TACO_TMUX_EDITOR_PANE" Escape
+          ${pkgs.tmux}/bin/tmux send-keys -t "$TACO_TMUX_EDITOR_PANE" ":cd \"$escaped_dir\""
+          ${pkgs.tmux}/bin/tmux send-keys -t "$TACO_TMUX_EDITOR_PANE" Enter
           ${pkgs.tmux}/bin/tmux send-keys -t "$TACO_TMUX_EDITOR_PANE" ":open \"$escaped_path\""
           ${pkgs.tmux}/bin/tmux send-keys -t "$TACO_TMUX_EDITOR_PANE" Enter
           return
         fi
 
         ${pkgs.tmux}/bin/tmux send-keys -t "$TACO_TMUX_EDITOR_PANE" C-c
-        ${pkgs.tmux}/bin/tmux send-keys -t "$TACO_TMUX_EDITOR_PANE" "${pkgs.helix}/bin/hx -- $(shell_escape "$target_file")"
+        ${pkgs.tmux}/bin/tmux send-keys -t "$TACO_TMUX_EDITOR_PANE" "${pkgs.helix}/bin/hx --working-dir $(shell_escape "$target_dir") -- $(shell_escape "$target_file")"
         ${pkgs.tmux}/bin/tmux send-keys -t "$TACO_TMUX_EDITOR_PANE" Enter
       }
 
@@ -87,17 +98,20 @@ let
       fi
 
       if [[ "''${TACO_IDE_LAYOUT:-0}" != "1" ]]; then
-        exec ${pkgs.helix}/bin/hx "$file_path"
+        exec ${pkgs.helix}/bin/hx --working-dir "$(parent_dir "$file_path")" "$file_path"
       fi
 
       if [[ -n "''${ZELLIJ:-}" ]]; then
         escaped_path="$(helix_escape "$file_path")"
+        escaped_dir="$(helix_escape "$(parent_dir "$file_path")")"
 
         if ! ${pkgs.zellij}/bin/zellij action move-focus right >/dev/null 2>&1; then
-          exec ${pkgs.helix}/bin/hx "$file_path"
+          exec ${pkgs.helix}/bin/hx --working-dir "$(parent_dir "$file_path")" "$file_path"
         fi
 
         ${pkgs.zellij}/bin/zellij action write 27
+        ${pkgs.zellij}/bin/zellij action write-chars ":cd \"$escaped_dir\""
+        ${pkgs.zellij}/bin/zellij action write 13
         ${pkgs.zellij}/bin/zellij action write-chars ":open \"$escaped_path\""
         ${pkgs.zellij}/bin/zellij action write 13
         ${pkgs.zellij}/bin/zellij action move-focus left >/dev/null 2>&1 || true
@@ -108,7 +122,7 @@ let
         pane_command="$(${pkgs.tmux}/bin/tmux display-message -p -t "$TACO_TMUX_EDITOR_PANE" '#{pane_current_command}' 2>/dev/null || true)"
 
         if [[ -z "$pane_command" ]]; then
-          exec ${pkgs.helix}/bin/hx "$file_path"
+          exec ${pkgs.helix}/bin/hx --working-dir "$(parent_dir "$file_path")" "$file_path"
         fi
 
         if [[ -d "$file_path" ]]; then
@@ -128,7 +142,7 @@ let
         exit 0
       fi
 
-      exec ${pkgs.helix}/bin/hx "$file_path"
+      exec ${pkgs.helix}/bin/hx --working-dir "$(parent_dir "$file_path")" "$file_path"
     '';
   };
   directoryTerminalOpener = pkgs.writeShellApplication {

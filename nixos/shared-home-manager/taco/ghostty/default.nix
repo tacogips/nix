@@ -43,7 +43,9 @@ in
       command = ${pkgs.fish}/bin/fish --login
       copy-on-select = false
       confirm-close-surface = false
-      keybind = alt+s=write_screen_file:open
+      keybind = alt+s=text:hx\x20
+      keybind = chain=write_screen_file:paste,plain
+      keybind = chain=text:\r
       ${cfg.extraConfig}
     '';
   };

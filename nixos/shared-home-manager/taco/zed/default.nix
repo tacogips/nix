@@ -50,15 +50,21 @@ in
   home.activation.zedSettings = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
         ZED_CONFIG_DIR="$HOME/.config/zed"
         ZED_SETTINGS_FILE="$ZED_CONFIG_DIR/settings.json"
+        ZED_SETTINGS_MANAGED="$(mktemp)"
 
         # Create config directory if it doesn't exist
         mkdir -p "$ZED_CONFIG_DIR"
 
-        # Only create the settings file if it doesn't exist (preserves user edits)
-        if [ ! -f "$ZED_SETTINGS_FILE" ]; then
-          cat > "$ZED_SETTINGS_FILE" << 'EOF'
+        cat > "$ZED_SETTINGS_MANAGED" << 'EOF'
     ${builtins.toJSON zedSettings}
     EOF
+
+        if [ -f "$ZED_SETTINGS_FILE" ]; then
+          ${pkgs.jq}/bin/jq -s '.[0] * .[1]' "$ZED_SETTINGS_FILE" "$ZED_SETTINGS_MANAGED" > "$ZED_SETTINGS_FILE.tmp"
+          mv "$ZED_SETTINGS_FILE.tmp" "$ZED_SETTINGS_FILE"
+          rm -f "$ZED_SETTINGS_MANAGED"
+        else
+          mv "$ZED_SETTINGS_MANAGED" "$ZED_SETTINGS_FILE"
         fi
   '';
 

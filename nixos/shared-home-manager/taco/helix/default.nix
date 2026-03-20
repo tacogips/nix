@@ -25,11 +25,29 @@
     enable = true;
 
     settings = {
-      theme = "catppuccin_mocha";
+      theme = "taco_catppuccin_mocha";
 
       keys = import ./keymap.nix;
     };
 
     languages = import ./languages.nix;
+
+    themes.taco_catppuccin_mocha = {
+      inherits = "catppuccin_mocha";
+
+      # Soften a few noisy syntax groups that stand out too much in Rust.
+      comment = {
+        fg = "overlay1";
+        modifiers = [ ];
+      };
+      keyword = {
+        fg = "lavender";
+        modifiers = [ ];
+      };
+      string = {
+        fg = "teal";
+        modifiers = [ ];
+      };
+    };
   };
 }

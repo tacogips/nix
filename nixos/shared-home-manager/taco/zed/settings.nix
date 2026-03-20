@@ -7,10 +7,10 @@
 
   theme = {
     mode = "system";
-    light = "One Dark";
-    dark = "One Dark";
+    light = "Catppuccin Latte";
+    dark = "Catppuccin Mocha";
   };
-  icon_theme = "Zed (Default)";
+  icon_theme = "Catppuccin Icons";
   base_keymap = "VSCode";
   features = {
     edit_prediction_provider = "zed";

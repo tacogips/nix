@@ -115,9 +115,10 @@ in
       # Enable mouse support
       set -g mouse on
 
-      # Increase contrast so the active pane is easier to spot.
-      set -g pane-border-style 'fg=colour238'
-      set -g pane-active-border-style 'fg=colour81,bold'
+      # Use a darker idle border and a brighter cyan active border.
+      set -g pane-border-lines heavy
+      set -g pane-border-style 'fg=colour240'
+      set -g pane-active-border-style 'fg=colour45,bold'
 
       # Split panes without a prefix.
       bind -n M-n split-window -h
@@ -151,6 +152,9 @@ in
 
       # Toggle zoom for the current pane without a prefix.
       bind -n M-f resize-pane -Z
+
+      # Rename the current window without a prefix.
+      bind -n M-r command-prompt -I "#W" "rename-window -- '%%'"
 
       # Reload config with r
       bind r source-file ~/.config/tmux/tmux.conf \; display-message "Config reloaded!"

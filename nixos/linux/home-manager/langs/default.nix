@@ -6,18 +6,21 @@
   ...
 }:
 
+let
+  rustToolchain = fenix.packages.${pkgs.stdenv.hostPlatform.system}.stable.withComponents [
+    "cargo"
+    "clippy"
+    "rust-src"
+    "rustc"
+    "rustfmt"
+    "rust-analyzer"
+  ];
+in
 {
   # We'll receive the fenix input directly, so no need for a separate overlay here
 
   home.packages = with pkgs; [
-    (fenix.packages.${pkgs.stdenv.hostPlatform.system}.stable.withComponents [
-      "cargo"
-      "clippy"
-      "rust-src"
-      "rustc"
-      "rustfmt"
-      "rust-analyzer"
-    ])
+    rustToolchain
 
     # Python with common packages
     (python3.withPackages (
@@ -48,6 +51,7 @@
     # Rust
     CARGO_HOME = "${config.home.homeDirectory}/.cargo";
     RUSTUP_HOME = "${config.home.homeDirectory}/.rustup";
+    RUST_SRC_PATH = "${rustToolchain}/lib/rustlib/src/rust/library";
 
     ## Go
     #GOPATH = "${config.home.homeDirectory}/go";
@@ -56,4 +60,7 @@
     # Add the bins to PATH
     PATH = "${config.home.homeDirectory}/go/bin:${config.home.homeDirectory}/.cargo/bin:$PATH";
   };
+
+  programs.helix.languages.language-server.rust-analyzer.command =
+    lib.mkForce "${rustToolchain}/bin/rust-analyzer";
 }

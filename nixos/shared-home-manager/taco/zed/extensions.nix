@@ -1,6 +1,8 @@
 { ... }:
 
 [
+  "catppuccin"
+  "catppuccin-icons"
   "html"
   "toml"
   "nix"
