@@ -43,6 +43,8 @@ in
     pyac = "source ./venv/bin/activate.fish";
     tm = "tmux";
     z = "zellij";
+    vim = "nvim";
+    nv = "nvim";
     cl = "${claudeBaseCommand} --model sonnet";
     clo = "${claudeBaseCommand} --model opus";
 
