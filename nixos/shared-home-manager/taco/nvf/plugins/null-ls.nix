@@ -1,6 +1,6 @@
 { pkgs, mkLuaInline, ... }:
 {
-  settings.vim.lazy.plugins.null-ls-nvim = {
+  settings.vim.lazy.plugins."null-ls.nvim" = {
     package = pkgs.vimPlugins.null-ls-nvim;
     setupModule = "null-ls";
     setupOpts.sources = mkLuaInline ''

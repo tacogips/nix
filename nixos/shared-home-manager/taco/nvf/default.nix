@@ -19,6 +19,7 @@ let
     pkgs.vimUtils.buildVimPlugin {
       inherit pname;
       version = rev;
+      dependencies = [ pkgs.vimPlugins.plenary-nvim ];
       src = pkgs.fetchFromGitHub {
         inherit
           owner
@@ -28,14 +29,6 @@ let
           ;
       };
     };
-
-  zigToolsPlugin = mkGithubPlugin {
-    pname = "zig-tools-nvim";
-    owner = "tacogips";
-    repo = "zig-tools.nvim";
-    rev = "f806832f04ef58e8de4d347f7379f771cb627242";
-    sha256 = "1ldqcdwix9hfnkwhahv0142cd79iv32fqa5v4k41khyc0ljzbcfm";
-  };
 
   mermaidPlugin = mkGithubPlugin {
     pname = "mermaid-vim";
@@ -52,7 +45,6 @@ let
       runtimePath
       openCommand
       mkLuaInline
-      zigToolsPlugin
       mermaidPlugin
       ;
   };
@@ -70,7 +62,6 @@ in
     (import ./lsp.nix commonArgs)
     (import ./ui.nix commonArgs)
     (import ./plugins/aerial.nix commonArgs)
-    (import ./plugins/crates.nix commonArgs)
     (import ./plugins/fidget.nix commonArgs)
     (import ./plugins/formatter.nix commonArgs)
     (import ./plugins/git-blame.nix commonArgs)
@@ -82,6 +73,5 @@ in
     (import ./plugins/telescope.nix commonArgs)
     (import ./plugins/toggleterm.nix commonArgs)
     (import ./plugins/yazi.nix commonArgs)
-    (import ./plugins/zig-tools.nix commonArgs)
   ];
 }

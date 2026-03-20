@@ -1,6 +1,6 @@
 { pkgs, mkLuaInline, ... }:
 {
-  settings.vim.lazy.plugins.telescope-nvim = {
+  settings.vim.lazy.plugins."telescope.nvim" = {
     package = pkgs.vimPlugins.telescope-nvim;
     setupModule = "telescope";
     after = ''

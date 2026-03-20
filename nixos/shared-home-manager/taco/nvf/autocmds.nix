@@ -127,11 +127,6 @@
         pattern = [ "typescript" ];
         command = "inoremap <buffer> <C-Space> <C-x><C-o>";
       }
-      {
-        event = [ "FileType" ];
-        pattern = [ "zig" ];
-        command = "nmap <buffer> .b <ESC>:Zig build<CR> | nmap <buffer> .t <ESC>:Zig task test<CR> | nmap <buffer> .r <ESC>:Zig run<CR>";
-      }
     ];
   };
 }

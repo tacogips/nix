@@ -9,7 +9,7 @@
       }
     ];
 
-    lazy.plugins.yazi-nvim = {
+    lazy.plugins."yazi.nvim" = {
       package = pkgs.vimPlugins.yazi-nvim;
       setupModule = "yazi";
       setupOpts = {

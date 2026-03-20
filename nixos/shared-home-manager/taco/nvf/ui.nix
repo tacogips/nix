@@ -1,10 +1,7 @@
-{
-  mkLuaInline,
-  ...
-}:
+{ mkLuaInline, ... }:
 {
   settings.vim = {
-    luaConfigRC = ''
+    luaConfigRC.ui = ''
       vim.cmd.colorscheme("iceberg")
       vim.cmd.iabbrev("todo TODO")
       vim.cmd([[
@@ -65,12 +62,6 @@
           "diagnostics"
         ];
       };
-      extraActiveSection.c = [
-        {
-          __unkeyed-1 = "filename";
-          path = 2;
-        }
-      ];
       inactiveSection = {
         a = [ ];
         b = [ ];
@@ -83,17 +74,6 @@
 
     treesitter.highlight = {
       enable = true;
-      additionalVimRegexHighlighting = false;
-      disable = [
-        "c"
-        "rust"
-        "python"
-        "javascript"
-        "typescript"
-        "json"
-        "toml"
-        "typescriptreact"
-      ];
     };
   };
 }

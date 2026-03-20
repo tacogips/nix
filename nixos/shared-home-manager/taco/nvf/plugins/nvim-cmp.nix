@@ -17,7 +17,6 @@
       sources = mkLuaInline ''
         require("cmp").config.sources({
           { name = "luasnip" },
-          { name = "crates" },
           { name = "path" },
         }, {
           { name = "buffer" },

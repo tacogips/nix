@@ -1,6 +1,6 @@
 { pkgs, ... }:
 {
-  settings.vim.lazy.plugins.aerial-nvim = {
+  settings.vim.lazy.plugins."aerial.nvim" = {
     package = pkgs.vimPlugins.aerial-nvim;
     setupModule = "aerial";
     setupOpts = {

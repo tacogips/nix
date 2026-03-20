@@ -1,6 +1,6 @@
 { pkgs, mkLuaInline, ... }:
 {
-  settings.vim.lazy.plugins.formatter-nvim = {
+  settings.vim.lazy.plugins."formatter.nvim" = {
     package = pkgs.vimPlugins.formatter-nvim;
     setupModule = "formatter";
     setupOpts = {
