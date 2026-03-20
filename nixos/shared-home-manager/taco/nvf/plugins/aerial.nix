@@ -16,7 +16,7 @@
         ];
         width = null;
         min_width = 10;
-        default_direction = "prefer_right";
+        default_direction = "float";
         placement = "window";
       };
       attach_mode = "window";

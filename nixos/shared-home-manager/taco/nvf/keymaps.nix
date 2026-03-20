@@ -174,7 +174,7 @@
     {
       mode = "n";
       key = "<Space>t";
-      action = "<cmd>AerialToggle!<CR>";
+      action = "<cmd>AerialToggle! float<CR>";
     }
     {
       mode = "n";

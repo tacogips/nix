@@ -23,13 +23,13 @@ let
 
     return { entry = entry }
   '';
-  catppuccinFlavorSource = pkgs.fetchzip {
+  flavorSource = pkgs.fetchzip {
     url = "https://github.com/yazi-rs/flavors/archive/9511cb09cadcbf57e39a46b06a52d00957177175.tar.gz";
     hash = "sha256-3RR8mi7CcVMDMitdTdaonFmfAIkeOzWK/CVKQmomIhE=";
   };
-  catppuccinMochaFlavor = pkgs.runCommandLocal "catppuccin-mocha.yazi" { } ''
+  gruvboxBaseFlavor = pkgs.runCommandLocal "gruvboxbase.yazi" { } ''
     mkdir -p "$out"
-    cp -r ${catppuccinFlavorSource}/catppuccin-mocha.yazi/. "$out/"
+    cp -r ${flavorSource}/gruvbox-dark.yazi/. "$out/"
   '';
   helixPaneOpener = pkgs.writeShellApplication {
     name = "hx-pane-open";
@@ -228,7 +228,7 @@ in
       enableFishIntegration = false;
       shellWrapperName = "y";
       flavors = {
-        "catppuccin-mocha" = catppuccinMochaFlavor;
+        "gruvboxbase" = gruvboxBaseFlavor;
       };
       extraPackages = with pkgs; [
         fd
@@ -243,7 +243,7 @@ in
 
       theme = {
         flavor = {
-          dark = "catppuccin-mocha";
+          dark = "gruvboxbase";
         };
       };
 

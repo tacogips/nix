@@ -10,6 +10,7 @@
       config = {
         cargo = {
           allFeatures = true;
+          targetDir = "target/rust-analyzer";
         };
         check = {
           command = "check";

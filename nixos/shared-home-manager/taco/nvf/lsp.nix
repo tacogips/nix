@@ -35,8 +35,14 @@
         settings = {
           rust-analyzer = {
             procMacro.enable = true;
-            cargo = { };
-            checkOnSave = { };
+            cargo.targetDir = "target/rust-analyzer";
+            check = {
+              command = "check";
+              extraArgs = [
+                "--target-dir"
+                "target/ra"
+              ];
+            };
           };
         };
       };

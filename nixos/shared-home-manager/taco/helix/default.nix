@@ -25,14 +25,14 @@
     enable = true;
 
     settings = {
-      theme = "taco_gruvbox_dark";
+      theme = "gruvboxbase";
 
       keys = import ./keymap.nix;
     };
 
     languages = import ./languages.nix;
 
-    themes.taco_gruvbox_dark = {
+    themes.gruvboxbase = {
       inherits = "gruvbox";
 
       # Soften a few noisy syntax groups that stand out too much in Rust.

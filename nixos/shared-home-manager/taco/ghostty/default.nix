@@ -10,6 +10,12 @@ let
 in
 {
   options.taco.ghostty = {
+    theme = lib.mkOption {
+      type = lib.types.str;
+      default = "gruvboxbase";
+      description = "Ghostty color theme.";
+    };
+
     fontFamily = lib.mkOption {
       type = lib.types.str;
       default = "iosevka";
@@ -33,7 +39,7 @@ in
     home.packages = [ pkgs.ghostty ];
 
     xdg.configFile."ghostty/config".text = ''
-      theme = Gruvbox Dark
+      theme = ${cfg.theme}
       font-family = ${cfg.fontFamily}
       font-size = ${toString cfg.fontSize}
       window-padding-x = 5

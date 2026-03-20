@@ -231,6 +231,9 @@
         ];
       };
       initialization_options = {
+        rust = {
+          analyzerTargetDir = "target/rust-analyzer";
+        };
         check = {
           command = "check";
         };
