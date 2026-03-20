@@ -7,6 +7,22 @@
 
 let
   cfg = config.taco.yazi;
+  enterDirectoryPlugin = ''
+    --- @sync entry
+    local function entry()
+      local hovered = cx.active.current.hovered
+
+      if hovered and hovered.cha.is_dir then
+        ya.emit("cd", { hovered.url })
+        ya.emit("quit", {})
+        return
+      end
+
+      ya.emit("open", { hovered = true })
+    end
+
+    return { entry = entry }
+  '';
   catppuccinFlavorSource = pkgs.fetchzip {
     url = "https://github.com/yazi-rs/flavors/archive/9511cb09cadcbf57e39a46b06a52d00957177175.tar.gz";
     hash = "sha256-3RR8mi7CcVMDMitdTdaonFmfAIkeOzWK/CVKQmomIhE=";
@@ -204,6 +220,8 @@ in
         message = "Set taco.yazi.openCommand in a platform-specific Home Manager module.";
       }
     ];
+
+    xdg.configFile."yazi/plugins/enter-directory.yazi/main.lua".text = enterDirectoryPlugin;
 
     programs.yazi = {
       enable = true;

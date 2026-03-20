@@ -26,7 +26,6 @@ follow-up request:
 4. Run relevant linting if configured.
 5. Format changed files according to project standards.
 6. Update documentation when the change affects behavior, structure, or usage.
-7. Never create a git commit unless the user explicitly asks for one.
 
 ### Test Handling
 
