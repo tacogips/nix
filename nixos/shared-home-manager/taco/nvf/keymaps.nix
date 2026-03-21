@@ -67,6 +67,7 @@
       # Keep Ctrl-j free from its default insert-mode meaning.
       mode = "i";
       key = "<C-j>";
+      desc = "-";
       action = "<nop>";
     }
     {
@@ -79,66 +80,77 @@
       # Disable Ex mode entry.
       mode = "n";
       key = "Q";
+      desc = "-";
       action = "<Nop>";
     }
     {
       # Disable Ex mode entry.
       mode = "n";
       key = "gQ";
+      desc = "-";
       action = "<Nop>";
     }
     {
       # Keep `g` focused on custom goto mappings by disabling Ex formatting.
       mode = "n";
       key = "gq";
+      desc = "-";
       action = "<Nop>";
     }
     {
       # Keep `g` focused on custom goto mappings by disabling bracket jumps here.
       mode = "n";
       key = "g%";
+      desc = "-";
       action = "<Nop>";
     }
     {
       # Keep `g` focused on custom goto mappings by disabling external open.
       mode = "n";
       key = "gx";
+      desc = "-";
       action = "<Nop>";
     }
     {
       # Keep `g` focused on custom goto mappings by disabling line start motion.
       mode = "n";
       key = "g0";
+      desc = "-";
       action = "<Nop>";
     }
     {
       # Keep `g` focused on custom goto mappings by disabling UTF-8 inspection.
       mode = "n";
       key = "g8";
+      desc = "-";
       action = "<Nop>";
     }
     {
       # Keep `g` focused on custom goto mappings by disabling ASCII inspection.
       mode = "n";
       key = "ga";
+      desc = "-";
       action = "<Nop>";
     }
     {
       # Keep `g` focused on custom goto mappings by disabling last non-blank motion.
       mode = "n";
       key = "g^";
+      desc = "-";
       action = "<Nop>";
     }
     {
       # Keep `g` focused on custom goto mappings by disabling last non-blank motion.
       mode = "n";
       key = "g_";
+      desc = "-";
       action = "<Nop>";
     }
     {
       # Keep `g` focused on custom goto mappings by disabling case toggle.
       mode = "n";
       key = "g~";
+      desc = "-";
       action = "<Nop>";
     }
     {
@@ -197,108 +209,126 @@
       # Keep `z` focused on custom view mappings by disabling fold toggle.
       mode = "n";
       key = "za";
+      desc = "-";
       action = "<Nop>";
     }
     {
       # Keep `z` focused on custom view mappings by disabling recursive fold toggle.
       mode = "n";
       key = "zA";
+      desc = "-";
       action = "<Nop>";
     }
     {
       # Keep `z` focused on custom view mappings by disabling fold open.
       mode = "n";
       key = "zo";
+      desc = "-";
       action = "<Nop>";
     }
     {
       # Keep `z` focused on custom view mappings by disabling recursive fold open.
       mode = "n";
       key = "zO";
+      desc = "-";
       action = "<Nop>";
     }
     {
       # Keep `z` focused on custom view mappings by disabling fold reduction.
       mode = "n";
       key = "zr";
+      desc = "-";
       action = "<Nop>";
     }
     {
       # Keep `z` focused on custom view mappings by disabling fold increase.
       mode = "n";
       key = "zi";
+      desc = "-";
       action = "<Nop>";
     }
     {
       # Keep `z` focused on custom view mappings by disabling fold creation.
       mode = "n";
       key = "zf";
+      desc = "-";
       action = "<Nop>";
     }
     {
       # Keep `z` focused on custom view mappings by disabling fold mark.
       mode = "n";
       key = "zF";
+      desc = "-";
       action = "<Nop>";
     }
     {
       # Keep `z` focused on custom view mappings by disabling spell suggestion.
       mode = "n";
       key = "z=";
+      desc = "-";
       action = "<Nop>";
     }
     {
       # Keep `z` focused on custom view mappings by disabling screen-line top motion.
       mode = "n";
       key = "z^";
+      desc = "-";
       action = "<Nop>";
     }
     {
       # Keep `z` focused on custom view mappings by disabling redraw to cursor line.
       mode = "n";
       key = "z.";
+      desc = "-";
       action = "<Nop>";
     }
     {
       # Keep `z` focused on custom view mappings by disabling top scroll shortcut.
       mode = "n";
       key = "z+";
+      desc = "-";
       action = "<Nop>";
     }
     {
       # Keep `z` focused on custom view mappings by disabling put with trailing indent.
       mode = "n";
       key = "zp";
+      desc = "-";
       action = "<Nop>";
     }
     {
       # Keep `z` focused on custom view mappings by disabling put with leading indent.
       mode = "n";
       key = "zP";
+      desc = "-";
       action = "<Nop>";
     }
     {
       # Keep `z` focused on custom view mappings by disabling transient width fit.
       mode = "n";
       key = "zw";
+      desc = "-";
       action = "<Nop>";
     }
     {
       # Keep `z` focused on custom view mappings by disabling transient width fit.
       mode = "n";
       key = "zW";
+      desc = "-";
       action = "<Nop>";
     }
     {
       # Keep `z` focused on custom view mappings by disabling transient text width.
       mode = "n";
       key = "zx";
+      desc = "-";
       action = "<Nop>";
     }
     {
       # Keep `z` focused on custom view mappings by disabling transient text width.
       mode = "n";
       key = "zX";
+      desc = "-";
       action = "<Nop>";
     }
     {
@@ -529,89 +559,91 @@
       # Helix-like `Space a`: show available LSP code actions.
       mode = "n";
       key = "<Space>a";
-      desc = "Show code actions";
+      desc = "[lsp] Show code actions";
       action = "<cmd>lua vim.lsp.buf.code_action()<CR>";
     }
     {
       # Helix-like `Space S`: show workspace-wide LSP symbols.
       mode = "n";
       key = "<Space>S";
-      desc = "Open workspace symbols picker";
+      desc = "[lsp] Open workspace symbols picker";
       action = "<CMD>lua require'telescope.builtin'.lsp_dynamic_workspace_symbols{}<Cr>";
     }
     {
       # Helix-like `Space s`: show document-local symbols through Telescope.
       mode = "n";
       key = "<Space>s";
-      desc = "Open document symbols picker";
+      desc = "[lsp] Open document symbols picker";
       action = "<CMD>lua require'telescope.builtin'.lsp_document_symbols{}<Cr>";
     }
     {
       # Helix-like `Space d`: show document diagnostics through Telescope.
       mode = "n";
       key = "<Space>d";
-      desc = "Open document diagnostics picker";
+      desc = "[lsp] Open document diagnostics picker";
       action = "<CMD>lua require'telescope.builtin'.diagnostics{bufnr=0}<Cr>";
     }
     {
       # Helix-like `Space D`: show workspace diagnostics through Telescope.
       mode = "n";
       key = "<Space>D";
-      desc = "Open workspace diagnostics picker";
+      desc = "[lsp] Open workspace diagnostics picker";
       action = "<CMD>lua require'telescope.builtin'.diagnostics{}<Cr>";
     }
     {
       # Go-style `g n`: jump to the next diagnostic.
       mode = "n";
       key = "gn";
+      desc = "[lsp] Jump to next diagnostic";
       action = "<cmd>lua vim.diagnostic.goto_next()<CR>";
     }
     {
       # Go-style `g p`: jump to the previous diagnostic.
       mode = "n";
       key = "gp";
+      desc = "[lsp] Jump to previous diagnostic";
       action = "<cmd>lua vim.diagnostic.goto_prev()<CR>";
     }
     {
       # Helix-like `Space k`: show hover documentation from the LSP server.
       mode = "n";
       key = "<Space>k";
-      desc = "Show hover documentation";
+      desc = "[lsp] Show hover documentation";
       action = "<Cmd>lua vim.lsp.buf.hover()<CR>";
     }
     {
       # Helix-like `Space r`: rename the symbol under the cursor.
       mode = "n";
       key = "<Space>r";
-      desc = "Rename symbol";
+      desc = "[lsp] Rename symbol";
       action = "<cmd>lua vim.lsp.buf.rename()<CR>";
     }
     {
       # Helix-like `g d`: jump to the symbol definition.
       mode = "n";
       key = "gd";
-      desc = "Jump to definition";
+      desc = "[lsp] Jump to definition";
       action = "<Cmd>lua vim.lsp.buf.definition()<CR>";
     }
     {
       # Helix-like `g y`: jump to the type definition.
       mode = "n";
       key = "gy";
-      desc = "Jump to type definition";
+      desc = "[lsp] Jump to type definition";
       action = "<cmd>lua vim.lsp.buf.type_definition()<CR>";
     }
     {
       # Helix-like `g r`: show references through Telescope.
       mode = "n";
       key = "gr";
-      desc = "Open references picker";
+      desc = "[lsp] Open references picker";
       action = "<CMD>lua require'telescope.builtin'.lsp_references{}<Cr>";
     }
     {
       # Helix-like `g i`: show implementations through Telescope.
       mode = "n";
       key = "gi";
-      desc = "Open implementations picker";
+      desc = "[lsp] Open implementations picker";
       action = "<CMD>lua require'telescope.builtin'.lsp_implementations{}<Cr>";
     }
     {
@@ -630,6 +662,7 @@
       # Restart the active LSP clients.
       mode = "n";
       key = "<Space>\\";
+      desc = "[lsp] Restart LSP";
       action = ":LspRestart<CR>";
     }
     {

@@ -72,7 +72,7 @@ in
     (import ./plugins/nvim-cmp.nix commonArgs)
     (import ./plugins/telescope.nix commonArgs)
     (import ./plugins/toggleterm.nix commonArgs)
-    (import ./plugins/which-key.nix commonArgs)
+    (import ./plugins/mini-clue.nix commonArgs)
     (import ./plugins/yazi.nix commonArgs)
   ];
 }

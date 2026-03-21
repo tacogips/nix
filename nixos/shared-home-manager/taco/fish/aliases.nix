@@ -2,15 +2,19 @@
 
 let
   codexCommand = "codex";
+  cursorCommand = "cursor-agent";
   # Newer Codex CLI versions reject combining explicit approval policy with
   # the bypass flag, because bypass already disables approvals and sandboxing.
   codexGlobalFlags = "--dangerously-bypass-approvals-and-sandbox --model gpt-5.4";
   codexBaseCommand = "${codexCommand} ${codexGlobalFlags}";
+  cursorBaseCommand = cursorCommand;
   claudeBaseCommand = "env NODE_OPTIONS='--max-old-space-size=16384' CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1 claude --permission-mode bypassPermissions --dangerously-skip-permissions";
 in
 {
   codexCommand = codexCommand;
   codexBaseCommand = codexBaseCommand;
+  cursorCommand = cursorCommand;
+  cursorBaseCommand = cursorBaseCommand;
 
   aliases = {
     ll = "ls -al";
@@ -55,5 +59,8 @@ in
     co = codexBaseCommand;
     corl = "${codexBaseCommand} resume --last";
     cor = "${codexBaseCommand} resume";
+    cu = cursorBaseCommand;
+    curl = "${cursorBaseCommand} resume --last";
+    cur = "${cursorBaseCommand} resume";
   };
 }

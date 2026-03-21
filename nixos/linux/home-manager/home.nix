@@ -86,6 +86,7 @@
       dust
       jq
       claude-code
+      cursor-cli
       (codex.overrideAttrs (oldAttrs: {
         nativeBuildInputs = (oldAttrs.nativeBuildInputs or [ ]) ++ [ pkg-config ];
         buildInputs = (oldAttrs.buildInputs or [ ]) ++ [ libcap ];

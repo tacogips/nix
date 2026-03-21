@@ -41,9 +41,17 @@ let
         shift
         command="$*"
 
-        ${pkgs.tmux}/bin/tmux send-keys -t "$pane" C-c
+        ${pkgs.tmux}/bin/tmux send-keys -t "$pane" C-c || true
         ${pkgs.tmux}/bin/tmux send-keys -t "$pane" "$command"
         ${pkgs.tmux}/bin/tmux send-keys -t "$pane" Enter
+      }
+
+      focus_pane() {
+        ${pkgs.tmux}/bin/tmux select-pane -t "$1" || true
+      }
+
+      notify_layout() {
+        ${pkgs.tmux}/bin/tmux display-message "$1" || true
       }
 
       launch_ide_yazi() {
@@ -63,30 +71,30 @@ let
           ${pkgs.tmux}/bin/tmux select-layout -t "$target_window" even-horizontal >/dev/null
           launch_ide_yazi "$base_pane" "$center_pane" "$right_pane"
           run_in_pane "$center_pane" "${pkgs.helix}/bin/hx"
-          ${pkgs.tmux}/bin/tmux select-pane -t "$base_pane"
-          ${pkgs.tmux}/bin/tmux display-message "Applied layout: ide-3pane"
+          focus_pane "$base_pane"
+          notify_layout "Applied layout: ide-3pane"
           ;;
         editor-2pane)
           editor_pane="$(${pkgs.tmux}/bin/tmux split-window -h -P -F '#{pane_id}' -t "$base_pane" -c "$cwd")"
           ${pkgs.tmux}/bin/tmux select-layout -t "$target_window" even-horizontal >/dev/null
           run_in_pane "$editor_pane" "${pkgs.helix}/bin/hx"
-          ${pkgs.tmux}/bin/tmux select-pane -t "$editor_pane"
-          ${pkgs.tmux}/bin/tmux display-message "Applied layout: editor-2pane"
+          focus_pane "$editor_pane"
+          notify_layout "Applied layout: editor-2pane"
           ;;
         agent-4pane)
           top_right_pane="$(${pkgs.tmux}/bin/tmux split-window -h -P -F '#{pane_id}' -t "$base_pane" -c "$cwd")"
           ${pkgs.tmux}/bin/tmux split-window -v -t "$base_pane" -c "$cwd"
           ${pkgs.tmux}/bin/tmux split-window -v -t "$top_right_pane" -c "$cwd"
           ${pkgs.tmux}/bin/tmux select-layout -t "$target_window" tiled >/dev/null
-          ${pkgs.tmux}/bin/tmux select-pane -t "$base_pane"
-          ${pkgs.tmux}/bin/tmux display-message "Applied layout: agent-4pane"
+          focus_pane "$base_pane"
+          notify_layout "Applied layout: agent-4pane"
           ;;
         shell-3pane)
           middle_pane="$(${pkgs.tmux}/bin/tmux split-window -h -P -F '#{pane_id}' -t "$base_pane" -c "$cwd")"
           ${pkgs.tmux}/bin/tmux split-window -h -t "$middle_pane" -c "$cwd"
           ${pkgs.tmux}/bin/tmux select-layout -t "$target_window" even-horizontal >/dev/null
-          ${pkgs.tmux}/bin/tmux select-pane -t "$base_pane"
-          ${pkgs.tmux}/bin/tmux display-message "Applied layout: shell-3pane"
+          focus_pane "$base_pane"
+          notify_layout "Applied layout: shell-3pane"
           ;;
         *)
           ${pkgs.tmux}/bin/tmux display-message "Unknown layout: $layout_name"
@@ -127,12 +135,12 @@ in
       bind -T copy-mode WheelUpPane select-pane \; send-keys -X -N 1 scroll-up
       bind -T copy-mode WheelDownPane select-pane \; send-keys -X -N 1 scroll-down
 
-      # Push the focused pane forward with a stronger active/inactive contrast.
-      # Gruvbox palette: active = bright fg on bg0, inactive = muted fg on near-black bg.
-      set -g window-style 'fg=#665c54,bg=#141617'
+      # Keep inactive panes slightly dimmer than the active pane without dropping too far into near-black.
+      # Gruvbox palette: active = bright fg on bg0, inactive = muted fg on a softened dark background.
+      set -g window-style 'fg=#a89984,bg=#1d2021'
       set -g window-active-style 'fg=#ebdbb2,bg=#282828'
       set -g pane-border-lines double
-      set -g pane-border-style 'fg=#3c3836'
+      set -g pane-border-style 'fg=#665c54'
       set -g pane-active-border-style 'fg=#fabd2f,bold'
 
       # Split panes without a prefix.
@@ -167,6 +175,9 @@ in
 
       # Toggle zoom for the current pane without a prefix.
       bind -n M-f resize-pane -Z
+
+      # Toggle copy-mode with Alt-s so the same key enters and exits scrollback mode.
+      bind -n M-s if-shell -F '#{pane_in_mode}' 'send-keys -X cancel' 'copy-mode'
 
       # Rename the current window without a prefix.
       bind -n M-r command-prompt -I "#W" "rename-window -- '%%'"

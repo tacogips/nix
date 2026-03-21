@@ -12,6 +12,12 @@ let
       let
         launchTmux = pkgs.writeShellScript "ghostty-launch-tmux" ''
           session_name="${cfg.tmuxSessionName}-$$-$(${pkgs.coreutils}/bin/date +%s)"
+          # Ghostty can be spawned from inside an existing tmux client.
+          # Clear inherited tmux state so each Ghostty instance creates and
+          # attaches to its own session instead of reusing the parent client.
+          unset TMUX
+          unset TMUX_PANE
+
           if ! exec ${pkgs.tmux}/bin/tmux new-session -s "$session_name"; then
             exec ${pkgs.fish}/bin/fish --login
           fi
@@ -75,9 +81,7 @@ in
       command = ${ghosttyCommand}
       copy-on-select = false
       confirm-close-surface = false
-      keybind = alt+s=text:hx\x20
-      keybind = chain=write_screen_file:paste,plain
-      keybind = chain=text:\r
+      app-notifications = config-reload
       ${cfg.extraConfig}
     '';
   };
