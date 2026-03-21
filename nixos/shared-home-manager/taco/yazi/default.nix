@@ -1,170 +1,295 @@
-{ pkgs, ... }:
 {
-  programs.yazi = {
-    enable = true;
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
-    # シェルラッパー名の設定（デフォルトはyy）
-    shellWrapperName = "y";
+let
+  cfg = config.taco.yazi;
+  enterDirectoryPlugin = ''
+    --- @sync entry
+    local function entry()
+      local hovered = cx.active.current.hovered
 
-    # シェル統合の有効化
-    enableFishIntegration = true;
+      if hovered and hovered.cha.is_dir then
+        ya.emit("cd", { hovered.url })
+        ya.emit("quit", {})
+        return
+      end
 
-    #keymap = {
-    #  input.prepend_keymap = [
-    #    {
-    #      run = "close";
-    #      on = [ "<C-q>" ];
-    #    }
-    #    {
-    #      run = "close --submit";
-    #      on = [ "<Enter>" ];
-    #    }
-    #    {
-    #      run = "escape";
-    #      on = [ "<Esc>" ];
-    #    }
-    #    {
-    #      run = "backspace";
-    #      on = [ "<Backspace>" ];
-    #    }
-    #  ];
+      ya.emit("open", { hovered = true })
+    end
 
-    #  manager.prepend_keymap = [
-    #    {
-    #      run = "escape";
-    #      on = [ "<Esc>" ];
-    #    }
-    #    {
-    #      run = "quit";
-    #      on = [ "q" ];
-    #    }
-    #    {
-    #      run = "close";
-    #      on = [ "<C-q>" ];
-    #    }
-    #    {
-    #      run = "open";
-    #      on = [ "<Enter>" ];
-    #    }
-    #    {
-    #      run = "parent";
-    #      on = [ "h" ];
-    #    }
-    #    {
-    #      run = "cd";
-    #      on = [ "l" ];
-    #    }
-    #    {
-    #      run = "up";
-    #      on = [ "k" ];
-    #    }
-    #    {
-    #      run = "down";
-    #      on = [ "j" ];
-    #    }
-    #  ];
+    return { entry = entry }
+  '';
+  gruvboxDarkFlavorSource = pkgs.fetchFromGitHub {
+    owner = "bennyyip";
+    repo = "gruvbox-dark.yazi";
+    rev = "619fdc5844db0c04f6115a62cf218e707de2821e";
+    hash = "sha256-Y/i+eS04T2+Sg/Z7/CGbuQHo5jxewXIgORTQm25uQb4=";
+  };
+  gruvboxBaseFlavor = pkgs.runCommandLocal "gruvboxbase.yazi" { } ''
+    mkdir -p "$out"
+    cp -r ${gruvboxDarkFlavorSource}/. "$out/"
+  '';
+  helixPaneOpener = pkgs.writeShellApplication {
+    name = "hx-pane-open";
+    text = ''
+      set -euo pipefail
 
-    #  preview.prepend_keymap = [
-    #    {
-    #      run = "toggle";
-    #      on = [ "<Tab>" ];
-    #    }
-    #  ];
-    #};
+      file_path="''${1:-}"
 
-    settings = {
+      if [[ -z "$file_path" ]]; then
+        exit 0
+      fi
+
+      helix_escape() {
+        local escaped
+
+        escaped="$1"
+        escaped="''${escaped//\\/\\\\}"
+        escaped="''${escaped//\"/\\\"}"
+        printf '%s' "$escaped"
+      }
+
+      shell_escape() {
+        printf '%q' "$1"
+      }
+
+      parent_dir() {
+        local target
+
+        target="$1"
+        ${pkgs.coreutils}/bin/dirname -- "$target"
+      }
+
+      tmux_pane_is_helix() {
+        [[ "$1" == "hx" || "$1" == "helix" ]]
+      }
+
+      open_in_tmux_directory() {
+        local target_dir target_pane pane_command shell_path
+
+        target_dir="$1"
+        target_pane="$2"
+        pane_command="$3"
+        shell_path="''${SHELL:-${pkgs.fish}/bin/fish}"
+
+        if tmux_pane_is_helix "$pane_command"; then
+          ${pkgs.tmux}/bin/tmux respawn-pane -k -t "$target_pane" -c "$target_dir" "$shell_path -l"
+          return
+        fi
+
+        ${pkgs.tmux}/bin/tmux send-keys -t "$target_pane" C-c
+        ${pkgs.tmux}/bin/tmux send-keys -t "$target_pane" "cd -- $(shell_escape "$target_dir")"
+        ${pkgs.tmux}/bin/tmux send-keys -t "$target_pane" Enter
+      }
+
+      open_in_tmux_file() {
+        local target_file target_dir pane_command escaped_path escaped_dir
+
+        target_file="$1"
+        target_dir="$(parent_dir "$target_file")"
+        pane_command="$2"
+        escaped_path="$(helix_escape "$target_file")"
+        escaped_dir="$(helix_escape "$target_dir")"
+
+        if tmux_pane_is_helix "$pane_command"; then
+          ${pkgs.tmux}/bin/tmux send-keys -t "$TACO_TMUX_EDITOR_PANE" Escape
+          ${pkgs.tmux}/bin/tmux send-keys -t "$TACO_TMUX_EDITOR_PANE" ":cd \"$escaped_dir\""
+          ${pkgs.tmux}/bin/tmux send-keys -t "$TACO_TMUX_EDITOR_PANE" Enter
+          ${pkgs.tmux}/bin/tmux send-keys -t "$TACO_TMUX_EDITOR_PANE" ":open \"$escaped_path\""
+          ${pkgs.tmux}/bin/tmux send-keys -t "$TACO_TMUX_EDITOR_PANE" Enter
+          return
+        fi
+
+        ${pkgs.tmux}/bin/tmux send-keys -t "$TACO_TMUX_EDITOR_PANE" C-c
+        ${pkgs.tmux}/bin/tmux send-keys -t "$TACO_TMUX_EDITOR_PANE" "${pkgs.helix}/bin/hx --working-dir $(shell_escape "$target_dir") -- $(shell_escape "$target_file")"
+        ${pkgs.tmux}/bin/tmux send-keys -t "$TACO_TMUX_EDITOR_PANE" Enter
+      }
+
+      mime_info="$(${pkgs.file}/bin/file -bL --mime -- "$file_path" 2>/dev/null || true)"
+
+      if [[ "$mime_info" == *"charset=binary"* ]]; then
+        exec ${cfg.openCommand} "$file_path"
+      fi
+
+      if [[ "''${TACO_IDE_LAYOUT:-0}" != "1" ]]; then
+        exec ${pkgs.helix}/bin/hx --working-dir "$(parent_dir "$file_path")" "$file_path"
+      fi
+
+      if [[ -n "''${ZELLIJ:-}" ]]; then
+        escaped_path="$(helix_escape "$file_path")"
+        escaped_dir="$(helix_escape "$(parent_dir "$file_path")")"
+
+        if ! ${pkgs.zellij}/bin/zellij action move-focus right >/dev/null 2>&1; then
+          exec ${pkgs.helix}/bin/hx --working-dir "$(parent_dir "$file_path")" "$file_path"
+        fi
+
+        ${pkgs.zellij}/bin/zellij action write 27
+        ${pkgs.zellij}/bin/zellij action write-chars ":cd \"$escaped_dir\""
+        ${pkgs.zellij}/bin/zellij action write 13
+        ${pkgs.zellij}/bin/zellij action write-chars ":open \"$escaped_path\""
+        ${pkgs.zellij}/bin/zellij action write 13
+        ${pkgs.zellij}/bin/zellij action move-focus left >/dev/null 2>&1 || true
+        exit 0
+      fi
+
+      if [[ -n "''${TMUX:-}" && -n "''${TACO_TMUX_EDITOR_PANE:-}" ]]; then
+        pane_command="$(${pkgs.tmux}/bin/tmux display-message -p -t "$TACO_TMUX_EDITOR_PANE" '#{pane_current_command}' 2>/dev/null || true)"
+
+        if [[ -z "$pane_command" ]]; then
+          exec ${pkgs.helix}/bin/hx --working-dir "$(parent_dir "$file_path")" "$file_path"
+        fi
+
+        if [[ -d "$file_path" ]]; then
+          target_pane="''${TACO_TMUX_DIRECTORY_PANE:-$TACO_TMUX_EDITOR_PANE}"
+          target_pane_command="$(${pkgs.tmux}/bin/tmux display-message -p -t "$target_pane" '#{pane_current_command}' 2>/dev/null || true)"
+
+          if [[ -z "$target_pane_command" ]]; then
+            target_pane="$TACO_TMUX_EDITOR_PANE"
+            target_pane_command="$pane_command"
+          fi
+
+          open_in_tmux_directory "$file_path" "$target_pane" "$target_pane_command"
+          exit 0
+        fi
+
+        open_in_tmux_file "$file_path" "$pane_command"
+        exit 0
+      fi
+
+      exec ${pkgs.helix}/bin/hx --working-dir "$(parent_dir "$file_path")" "$file_path"
+    '';
+  };
+  directoryTerminalOpener = pkgs.writeShellApplication {
+    name = "yazi-open-terminal";
+    text =
+      if pkgs.stdenv.hostPlatform.isDarwin then
+        ''
+          set -euo pipefail
+
+          for target_path in "$@"; do
+            if [[ -d "$target_path" ]]; then
+              if [[ -n "''${TMUX:-}" && -n "''${TACO_TMUX_DIRECTORY_PANE:-}" ]]; then
+                ${pkgs.tmux}/bin/tmux send-keys -t "$TACO_TMUX_DIRECTORY_PANE" C-c
+                ${pkgs.tmux}/bin/tmux send-keys -t "$TACO_TMUX_DIRECTORY_PANE" "cd -- $(printf '%q' "$target_path")"
+                ${pkgs.tmux}/bin/tmux send-keys -t "$TACO_TMUX_DIRECTORY_PANE" Enter
+                continue
+              fi
+
+              /usr/bin/open -na Ghostty.app --args --working-directory="$target_path"
+            fi
+          done
+        ''
+      else
+        ''
+          set -euo pipefail
+
+          for target_path in "$@"; do
+            if [[ -d "$target_path" ]]; then
+              if [[ -n "''${TMUX:-}" && -n "''${TACO_TMUX_DIRECTORY_PANE:-}" ]]; then
+                ${pkgs.tmux}/bin/tmux send-keys -t "$TACO_TMUX_DIRECTORY_PANE" C-c
+                ${pkgs.tmux}/bin/tmux send-keys -t "$TACO_TMUX_DIRECTORY_PANE" "cd -- $(printf '%q' "$target_path")"
+                ${pkgs.tmux}/bin/tmux send-keys -t "$TACO_TMUX_DIRECTORY_PANE" Enter
+                continue
+              fi
+
+              ${pkgs.ghostty}/bin/ghostty --working-directory="$target_path" >/dev/null 2>&1 &
+            fi
+          done
+        '';
+  };
+  keymap = import ./keymap.nix;
+in
+{
+  options.taco.yazi.openCommand = lib.mkOption {
+    type = with lib.types; nullOr str;
+    default = null;
+    example = "${pkgs.xdg-utils}/bin/xdg-open";
+    description = ''
+      Absolute command Yazi should use when it opens files outside the terminal.
+      Set this in a platform-specific Home Manager module so Linux and Darwin can
+      use different launchers.
+    '';
+  };
+
+  config = {
+    assertions = [
+      {
+        assertion = cfg.openCommand != null;
+        message = "Set taco.yazi.openCommand in a platform-specific Home Manager module.";
+      }
+    ];
+
+    xdg.configFile."yazi/plugins/enter-directory.yazi/main.lua".text = enterDirectoryPlugin;
+
+    programs.yazi = {
+      enable = true;
+      enableFishIntegration = false;
+      shellWrapperName = "y";
+      flavors = {
+        "gruvboxbase" = gruvboxBaseFlavor;
+      };
+      extraPackages = with pkgs; [
+        fd
+        file
+        fzf
+        jq
+        ripgrep
+        zoxide
+      ];
+
+      inherit keymap;
+
+      theme = {
+        flavor = {
+          dark = "gruvboxbase";
+        };
+      };
+
+      settings = {
+        mgr = {
+          show_hidden = true;
+          sort_by = "mtime";
+          sort_dir_first = true;
+          sort_reverse = true;
+        };
+
+        open.prepend_rules = [
+          {
+            mime = "inode/directory";
+            use = "open-terminal";
+          }
+        ];
+
+        opener = {
+          edit = [
+            {
+              run = ''${helixPaneOpener}/bin/hx-pane-open "$@"'';
+              block = true;
+              desc = "Helix";
+            }
+          ];
+
+          open = [
+            {
+              run = ''${cfg.openCommand} "$@"'';
+              orphan = true;
+              desc = "Open";
+            }
+          ];
+
+          open-terminal = [
+            {
+              run = ''${directoryTerminalOpener}/bin/yazi-open-terminal "$@"'';
+              orphan = true;
+              desc = "Open terminal here";
+            }
+          ];
+        };
+      };
     };
-
-    #theme = {
-    #  filetype = {
-    #    rules = [
-    #      {
-    #        fg = "#7AD9E5";
-    #        mime = "image/*";
-    #      }
-    #      {
-    #        fg = "#F3D398";
-    #        mime = "video/*";
-    #      }
-    #      {
-    #        fg = "#F3D398";
-    #        mime = "audio/*";
-    #      }
-    #      {
-    #        fg = "#CD9EFC";
-    #        mime = "application/zip";
-    #      }
-    #      {
-    #        fg = "#CD9EFC";
-    #        mime = "application/gzip";
-    #      }
-    #      {
-    #        fg = "#CD9EFC";
-    #        mime = "application/x-tar";
-    #      }
-    #      {
-    #        fg = "#85C46C";
-    #        mime = "text/*";
-    #      }
-    #      {
-    #        fg = "#7AD9E5";
-    #        mime = "application/pdf";
-    #      }
-    #    ];
-    #  };
-
-    #  status = {
-    #    separator_open = "";
-    #    separator_close = "";
-    #  };
-
-    #  selection = {
-    #    fg = "#000000";
-    #    bg = "#FFFFFF";
-    #  };
-
-    #  current = {
-    #    fg = "#1E1E1E";
-    #    bg = "#EEEEEE";
-    #  };
-    #};
-
-    #initLua = ''
-    #  function Status:name()
-    #    local h = cx.active.current.hovered
-    #    if h == nil then
-    #      return ui.Span("")
-    #    end
-
-    #    local linked = ""
-    #    if h.link_to ~= nil then
-    #      linked = " -> " .. h.link_to
-    #    end
-
-    #    return ui.Span(" " .. h.name .. linked)
-    #  end
-    #'';
-
-    #initLua = ./init.lua;
-
-    #plugins = {
-    #  # 例: yaziが提供するステータスライン拡張
-    #  "statusline" = pkgs.fetchFromGitHub {
-    #    owner = "yazi-rs";
-    #    repo = "plugin-statusline";
-    #    rev = "v0.1.0";
-    #    sha256 = "sha256-aBcDeFgHiJkLmNoPqRsTuVwXyZ..."; # ハッシュを適切に設定してください
-    #  };
-    #};
-
-    #flavors = {
-    #  # 例: 既存のダークテーマを追加
-    #  "dracula" = pkgs.fetchFromGitHub {
-    #    owner = "yazi-rs";
-    #    repo = "theme-dracula";
-    #    rev = "v1.0.0";
-    #    sha256 = "sha256-AbCdEfGhIjKlMnOpQrStUvWxYz..."; # ハッシュを適切に設定してください
-    #  };
-    #};
   };
 }

@@ -1,41 +1,68 @@
-# CLAUDE.md for /home/taco/nix
+# AGENTS.md for the repository root
 
-This file serves as the primary instruction file for AI assistants working in this directory.
+This file is the canonical instruction entry point for AI assistants working in
+the repository root and its subdirectories.
 
-## Instructions
+## Response Rules
 
-**IMPORTANT**: You must read and follow the instructions in `/home/taco/nix/nixos/CLAUDE.md`.
+- The first response in a conversation must state that you have read this file
+  and will comply with it.
+- Think and respond in English unless the user explicitly asks for another
+  language.
+- If the user's instruction is given in English, begin the first response with
+  `Your instruction is {corrected English}` using a grammatically corrected
+  version of the user's request.
+- If code changes are made, complete the verification steps in this file before
+  finishing.
 
-All development work in this directory and its subdirectories must comply with the guidelines, rules, and procedures defined in that file.
+## Code Change Procedure
 
-## Directory Overview
+After any code change, do all applicable steps below without waiting for a
+follow-up request:
 
-This is a NixOS and nix-darwin configuration repository for managing system configurations across multiple platforms (Linux and macOS). The repository uses Nix flakes for declarative system and home management.
+1. Follow the repository's code style.
+2. Verify flake evaluation with `nix flake check` in the relevant flake root.
+3. Run relevant tests if they exist.
+4. Run relevant linting if configured.
+5. Format changed files according to project standards.
+6. Update documentation when the change affects behavior, structure, or usage.
+
+### Test Handling
+
+- Do not weaken or remove failing tests just to make the suite pass.
+- If tests fail after multiple reasonable fixes, stop and ask the user.
+- Add tests for new behavior and edge cases when appropriate.
+- If a test appears wrong, discuss it before changing it.
+
+## Repository Overview
+
+This repository manages NixOS and nix-darwin systems with Nix flakes.
 
 ### Key Features
 
-- **Multi-platform support**: Configurations for both NixOS (Linux) and nix-darwin (macOS)
-- **Home Manager integration**: User environment management across platforms
-- **Shared configuration modules**: Platform-independent settings in `nixos/shared-home-manager/`
-- **GitHub CLI authentication**: Uses GitHub CLI instead of SSH keys for git operations
-- **Modular structure**: Organized by platform with shared and platform-specific configurations
+- Multi-platform support for Linux and macOS
+- Home Manager integration across platforms
+- Shared configuration modules in `nixos/shared-home-manager/`
+- GitHub CLI-based HTTPS authentication for Git operations
+- Modular layout with shared and platform-specific configuration
 
 ### Directory Structure
 
-```
-/home/taco/nix/
+```text
+repo/
 ├── ignite/             # Initial NixOS bootstrap configuration
 ├── nixos/              # Main NixOS and nix-darwin configurations
 │   ├── linux/          # Linux-specific system configuration
+│   │   ├── flake.nix   # Linux flake root
 │   ├── darwin/         # macOS-specific system configuration
+│   │   ├── flake.nix   # Darwin flake root
 │   └── shared-home-manager/  # Shared, platform-independent Home Manager modules
-├── flake.nix           # Nix flake definition
-└── flake.lock          # Flake input lock file
+└── ...
 ```
 
-## Build and Update Commands
+## Build And Update Commands
 
-### Initial Build (First NixOS Installation)
+### Initial Build
 
 ```bash
 cd ignite
@@ -50,61 +77,97 @@ sudo nixos-rebuild switch --flake ~/nix/nixos/linux#taco-main
 
 ### Update Flake Dependencies
 
-Update specific input:
+Update a specific input:
+
 ```bash
+cd nixos/linux
 nix flake lock --update-input cratedocs-mcp
 ```
 
 Update all inputs:
+
 ```bash
+cd nixos/linux
 nix flake update
 ```
 
-## GitHub Authentication Setup
+## GitHub Authentication
 
-This configuration uses HTTPS GitHub authentication with the `GITHUB_TOKEN` environment variable instead of SSH keys for git operations.
+This repository uses HTTPS GitHub authentication with `GITHUB_TOKEN` instead of
+SSH keys for Git operations.
 
 ### Initial Setup
 
-1. Authenticate with GitHub CLI if needed:
 ```bash
 gh auth login
-```
-
-2. Export a token into the environment:
-```bash
 gh-token-export
 ```
 
-### How It Works
+### Notes
 
-- **No SSH keys required**: Git operations use HTTPS protocol with a git credential helper
-- **Automatic URL conversion**: SSH URLs (`git@github.com:`) are automatically converted to HTTPS (`https://github.com/`)
-- **Credential source**: `~/.config/git/github-credential.config` reads credentials from `GITHUB_TOKEN`
-- **Works for private repositories**: Full access to private repositories with proper token scopes (repo, read:org, gist)
+- SSH-style GitHub URLs are converted automatically to HTTPS
+- Credentials are read from `GITHUB_TOKEN`
+- This setup supports private repositories when token scopes are sufficient
 
-### Configuration Files
+### Relevant Configuration Files
 
-- `nixos/shared-home-manager/taco/git/default.nix`: Configures automatic SSH to HTTPS URL conversion
-- `nixos/shared-home-manager/taco/git/github-credential.config`: Managed git credential helper config that reads `GITHUB_TOKEN`
+- `nixos/shared-home-manager/taco/git/default.nix`
+- `nixos/shared-home-manager/taco/git/github-credential.config`
 
-### For Golang Private Repositories
+### Golang Private Repositories
 
-Set the `GOPRIVATE` environment variable for your private Go modules:
 ```bash
 export GOPRIVATE=github.com/your-org/*
 ```
 
-Go will automatically use the git credential helper when fetching private modules.
+## Nix-Specific Guidance
 
-## Reference
+### Flake Roots
 
-See: `/home/taco/nix/nixos/CLAUDE.md` for detailed instructions on:
-- Response rules and language requirements
-- Code change procedures
-- Git commit policies and message formats
-- Directory structure policies
-- Nix-specific command considerations
-- Best practices for modularity and cross-platform configuration
-- Darwin (macOS) configuration guidelines
-- Developer notes for adding new packages
+- The repository root is not a flake root.
+- Linux flake root: `nixos/linux`
+- Darwin flake root: `nixos/darwin`
+
+### Git Tracking Requirement
+
+- Nix flakes only recognize files tracked by Git.
+- New files may need to be staged or committed before some flake operations can
+  see them.
+
+### Path Resolution
+
+- Relative imports in flake-based code should be reasoned about from the flake
+  root.
+
+### Rebuild Commands
+
+- Linux: run `nixos-rebuild switch --flake .#nix-dev-machine` from
+  `nixos/linux`
+- Darwin: run `darwin-rebuild switch --flake .#taco-mac` from `nixos/darwin`
+
+### Diagnostics
+
+- Use `nix flake check` before applying changes when possible.
+- If Linux evaluation requires private configuration, document that constraint in
+  the final response.
+
+## Structure Guidance
+
+- Keep platform-independent configuration in `nixos/shared-home-manager/`.
+- Keep Linux-specific configuration in `nixos/linux/`.
+- Keep Darwin-specific configuration in `nixos/darwin/`.
+- Prefer small, self-contained modules over unrelated edits in large files.
+- Shared Home Manager modules belong under `nixos/shared-home-manager/taco/`.
+
+## Darwin Notes
+
+- Use `darwin.lib.darwinSystem` for Darwin systems.
+- Use `home-manager.darwinModules.home-manager` for Home Manager on macOS.
+- Conflicting shared settings may need `lib.mkForce`.
+- Build first with
+  `nix build .#darwinConfigurations.taco-mac.system` when appropriate.
+
+## Documentation
+
+- Update documentation when changing directory structure or workflow.
+- Document platform-specific requirements and compatibility constraints.

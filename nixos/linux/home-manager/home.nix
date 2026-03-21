@@ -43,7 +43,7 @@
   # User settings moved to default.nix
 
   home.sessionVariables = {
-    EDITOR = "zed";
+    EDITOR = "nvim";
     GTK_IM_MODULE = "fcitx";
     QT_IM_MODULE = "fcitx";
     XMODIFIERS = "@im=fcitx";
@@ -86,6 +86,7 @@
       dust
       jq
       claude-code
+      cursor-cli
       (codex.overrideAttrs (oldAttrs: {
         nativeBuildInputs = (oldAttrs.nativeBuildInputs or [ ]) ++ [ pkg-config ];
         buildInputs = (oldAttrs.buildInputs or [ ]) ++ [ libcap ];

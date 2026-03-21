@@ -19,7 +19,7 @@
     if test -n "$dest"
         set line_number (echo $dest | cut -d: -f2)
         set file_path (echo $dest | cut -d: -f1)
-        zed $file_path:$line_number
+        hx $file_path:$line_number
     end
   '';
 
@@ -27,7 +27,7 @@
     rg --json $argv | delta
   '';
 
-  y = ''
+  yazi = ''
     set -l tmp (mktemp -t "yazi-cwd.XXXXXX")
     ${pkgs.yazi}/bin/yazi $argv --cwd-file="$tmp"
     if test -s "$tmp"
@@ -37,6 +37,10 @@
         end
     end
     rm -f -- "$tmp"
+  '';
+
+  y = ''
+    yazi $argv
   '';
 
   fd = ''
@@ -75,10 +79,6 @@
   setup-claude-mcps-global = ''
     claude mcp add -s user bravesearch-mcp bravesearch-mcp stdio
     and claude mcp add -s user hn-mcp hn-mcp stdio
-  '';
-
-  z = ''
-    zed $argv
   '';
 
   ppp = ''

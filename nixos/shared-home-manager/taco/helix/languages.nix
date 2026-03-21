@@ -1,10 +1,16 @@
 {
   language-server = {
+    basedpyright = {
+      command = "basedpyright-langserver";
+      args = [ "--stdio" ];
+    };
+
     rust-analyzer = {
       command = "rust-analyzer";
       config = {
         cargo = {
           allFeatures = true;
+          targetDir = "target/rust-analyzer";
         };
         check = {
           command = "check";
@@ -51,6 +57,10 @@
       command = "typescript-language-server";
       args = [ "--stdio" ];
     };
+
+    zls = {
+      command = "zls";
+    };
   };
 
   language = [
@@ -63,12 +73,20 @@
       language-servers = [ "gopls" ];
     }
     {
+      name = "python";
+      language-servers = [ "basedpyright" ];
+    }
+    {
       name = "typescript";
       language-servers = [ "typescript-language-server" ];
     }
     {
       name = "tsx";
       language-servers = [ "typescript-language-server" ];
+    }
+    {
+      name = "zig";
+      language-servers = [ "zls" ];
     }
   ];
 }

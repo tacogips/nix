@@ -60,6 +60,7 @@ in
       if command -sq kinko
            kinko export fish --shared-only --force 2>/dev/null | source
       end
+
     '';
   };
 

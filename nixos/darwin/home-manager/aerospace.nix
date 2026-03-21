@@ -1,15 +1,22 @@
-{ config, pkgs, lib, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
 
 {
   # Override the aerospace reload activation to handle when AeroSpace isn't running
-  home.activation.aerospace-reload-config = lib.mkForce (lib.hm.dag.entryAfter ["writeBoundary"] ''
-    # Only reload if AeroSpace is running
-    if ${pkgs.darwin.ps}/bin/ps aux | ${pkgs.gnugrep}/bin/grep -q "[A]eroSpace"; then
-      $DRY_RUN_CMD ${pkgs.aerospace}/bin/aerospace reload-config || echo "AeroSpace reload failed, continuing..."
-    else
-      echo "AeroSpace not running, skipping reload"
-    fi
-  '');
+  home.activation.aerospace-reload-config = lib.mkForce (
+    lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+      # Only reload if AeroSpace is running
+      if ${pkgs.darwin.ps}/bin/ps aux | ${pkgs.gnugrep}/bin/grep -q "[A]eroSpace"; then
+        $DRY_RUN_CMD ${pkgs.aerospace}/bin/aerospace reload-config || echo "AeroSpace reload failed, continuing..."
+      else
+        echo "AeroSpace not running, skipping reload"
+      fi
+    ''
+  );
 
   programs.aerospace = {
     enable = true;
@@ -18,21 +25,21 @@
     userSettings = {
       # Start AeroSpace automatically at login
       start-at-login = true;
-      
+
       # Commands to run after AeroSpace startup
       after-startup-command = [
         "layout tiles"
       ];
-      
+
       # Normalization settings
       enable-normalization-flatten-containers = true;
       enable-normalization-opposite-orientation-for-nested-containers = true;
-      
+
       # Container settings
       accordion-padding = 30;
       default-root-container-layout = "tiles";
       default-root-container-orientation = "horizontal";
-      
+
       # Gaps configuration
       gaps = {
         inner.horizontal = 8;
@@ -42,10 +49,10 @@
         outer.top = 8;
         outer.right = 8;
       };
-      
+
       # Key mapping preset
       key-mapping.preset = "qwerty";
-      
+
       # Mode configuration
       mode.main.binding = {
         # Focus management
@@ -53,17 +60,17 @@
         "alt-shift-j" = "focus down";
         "alt-shift-k" = "focus up";
         "alt-shift-l" = "focus right";
-        
+
         # Move windows
         "ctrl-shift-h" = "move left";
         "ctrl-shift-j" = "move down";
         "ctrl-shift-k" = "move up";
         "ctrl-shift-l" = "move right";
-        
+
         # Resize windows
         "alt-shift-minus" = "resize smart -50";
         "alt-shift-equal" = "resize smart +50";
-        
+
         # Workspace navigation
         "alt-shift-1" = "workspace 1";
         "alt-shift-2" = "workspace 2";
@@ -75,7 +82,7 @@
         "alt-shift-8" = "workspace 8";
         "alt-shift-9" = "workspace 9";
         "alt-shift-0" = "workspace 10";
-        
+
         # Move window to workspace
         "alt-ctrl-1" = "move-node-to-workspace 1";
         "alt-ctrl-2" = "move-node-to-workspace 2";
@@ -87,38 +94,60 @@
         "alt-ctrl-8" = "move-node-to-workspace 8";
         "alt-ctrl-9" = "move-node-to-workspace 9";
         "alt-ctrl-0" = "move-node-to-workspace 10";
-        
+
         # Layout management
         "alt-shift-space" = "layout floating tiling";
         "alt-shift-f" = "fullscreen";
-        
+
         # Join orientation
         "alt-shift-s" = "join-with down";
         "alt-shift-v" = "join-with right";
-        
+
         # Launch applications
-        "alt-shift-enter" = "exec-and-forget open -na Alacritty";
+        "alt-shift-enter" = "exec-and-forget ${pkgs.ghostty}/bin/ghostty";
 
         # Service mode
         "alt-shift-semicolon" = "mode service";
       };
-      
+
       # Service mode for advanced operations
       mode.service.binding = {
-        "esc" = ["reload-config" "mode main"];
-        "r" = ["flatten-workspace-tree" "mode main"];
-        "f" = ["layout floating tiling" "mode main"];
-        "backspace" = ["close-all-windows-but-current" "mode main"];
-        
-        # Move between monitors
-        "h" = ["join-with left" "mode main"];
-        "j" = ["join-with down" "mode main"];
-        "k" = ["join-with up" "mode main"];
-        "l" = ["join-with right" "mode main"];
-      };
-      
+        "esc" = [
+          "reload-config"
+          "mode main"
+        ];
+        "r" = [
+          "flatten-workspace-tree"
+          "mode main"
+        ];
+        "f" = [
+          "layout floating tiling"
+          "mode main"
+        ];
+        "backspace" = [
+          "close-all-windows-but-current"
+          "mode main"
+        ];
 
-      
+        # Move between monitors
+        "h" = [
+          "join-with left"
+          "mode main"
+        ];
+        "j" = [
+          "join-with down"
+          "mode main"
+        ];
+        "k" = [
+          "join-with up"
+          "mode main"
+        ];
+        "l" = [
+          "join-with right"
+          "mode main"
+        ];
+      };
+
       # Application-specific window rules
       on-window-detected = [
         {
@@ -152,9 +181,9 @@
           run = "move-node-to-workspace 10";
         }
       ];
-      
+
       # Mouse follows focus
-      on-focused-monitor-changed = ["move-mouse monitor-lazy-center"];
+      on-focused-monitor-changed = [ "move-mouse monitor-lazy-center" ];
     };
   };
 }

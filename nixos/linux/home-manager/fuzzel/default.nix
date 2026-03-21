@@ -8,7 +8,7 @@
     settings = {
       main = {
         font = "Sans:size=12";
-        terminal = "${pkgs.alacritty}/bin/alacritty"; # Alacrittyをターミナルとして使用
+        terminal = "${pkgs.ghostty}/bin/ghostty";
         layer = "overlay"; # Wayland layer
         width = 50;
         horizontal-pad = 10;

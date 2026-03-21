@@ -4,8 +4,13 @@
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-unstable";
+    nixpkgs-stable.url = "github:nixos/nixpkgs?ref=nixos-25.05";
     home-manager = {
       url = "github:nix-community/home-manager";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    nvf = {
+      url = "github:NotAShelf/nvf";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     xremap-flake.url = "github:xremap/nix-flake";
@@ -42,7 +47,9 @@
     {
       self,
       nixpkgs,
+      nixpkgs-stable,
       home-manager,
+      nvf,
       xremap-flake,
       cratedocs-mcp,
       gitcodes-mcp,
@@ -68,8 +75,13 @@
         overlays = [
           nix-overlays.overlays.claude-code
           nix-overlays.overlays.codex
-          nix-overlays.overlays.zededitor
         ];
+      };
+      stablePkgs = import nixpkgs-stable {
+        system = "${system}";
+        config = {
+          allowUnfree = true;
+        };
       };
 
       # Import our library collision fix function
@@ -119,7 +131,6 @@
                 nixpkgs.overlays = [
                   nix-overlays.overlays.claude-code
                   nix-overlays.overlays.codex
-                  nix-overlays.overlays.zededitor
                 ];
               }
 
@@ -170,6 +181,7 @@
                     kinko-pkg
                     qraftbox-pkg
                     firefox-addons
+                    stablePkgs
                     ;
                 };
                 home-manager.users.taco =
@@ -177,6 +189,7 @@
                   {
                     imports = [
                       ./home-manager
+                      nvf.homeManagerModules.default
                     ];
                   };
               }

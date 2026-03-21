@@ -5,7 +5,6 @@
 {
   imports = [
     # Import shared modules (no home.nix as it's platform-specific)
-    ./alacritty
     ./bat
     ./bottom
     ./bun
@@ -18,19 +17,24 @@
     ./fzf
     ./git
     ./go
-    ./helix
+    ./ghostty
+    # ./helix
     ./ign
     ./julia
     ./kinko
+    ./lazydocker
     ./lazygit
+    ./nvf
     # Temporarily disabled: marktext build fails in nixpkgs (node-gyp not found)
     # Re-enable after upstream/package fix.
     # ./marktext
     ./ripgrep
     ./ssh
     ./tmux
-    ./zed
+    ./yazi
+    # ./zed
     ./zoxide
+    ./zellij
     ../extends/mutability
     # Other platform-independent modules can be added here
   ];

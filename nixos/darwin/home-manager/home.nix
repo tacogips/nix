@@ -9,7 +9,7 @@
 {
   imports = [
     # Darwin-specific modules
-    ./alacritty.nix
+    ./ghostty.nix
     # ./firefox.nix
     ./brave.nix # Import Darwin-specific Brave configuration
     ./fish # Import Darwin-specific fish configuration
@@ -23,8 +23,7 @@
 
   # Darwin-specific environment variables
   home.sessionVariables = {
-    # Zed is installed via Homebrew, so use the binary from PATH
-    EDITOR = "zed";
+    EDITOR = "nvim";
     # Add any macOS-specific environment variables here
     LANG = "en_US.UTF-8";
     LC_ALL = "en_US.UTF-8";
@@ -38,8 +37,8 @@
 
   # Add Homebrew to PATH for all shells
   home.sessionPath = [
-    "/opt/homebrew/bin"  # Apple Silicon
-    "/usr/local/bin"     # Intel Mac
+    "/opt/homebrew/bin" # Apple Silicon
+    "/usr/local/bin" # Intel Mac
   ];
 
   # Darwin-specific packages
@@ -56,7 +55,7 @@
     nixfmt
     nixd # nix lsp
 
-    # claude-code and codex: installed via Homebrew on Darwin
+    # claude-code, codex, and cursor-cli: installed via Homebrew on Darwin
 
     # macOS applications
     slack
