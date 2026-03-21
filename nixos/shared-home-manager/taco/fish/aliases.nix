@@ -38,13 +38,13 @@ in
 
     da = "direnv allow";
 
-    kinu = "kinko unlock ";
+    kin = "kinko unlock ";
 
     pyac = "source ./venv/bin/activate.fish";
     tm = "tmux";
     z = "zellij";
     vim = "nvim";
-    nv = "nvim";
+    n = "nvim";
     cl = "${claudeBaseCommand} --model sonnet";
     clo = "${claudeBaseCommand} --model opus";
 
