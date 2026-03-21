@@ -40,7 +40,6 @@
     options = {
       autochdir = true;
       autoread = true;
-      clipboard = "unnamedplus";
       cursorline = true;
       expandtab = false;
       history = 2000;

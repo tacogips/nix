@@ -1,16 +1,6 @@
 { pkgs, ... }:
 {
   settings.vim = {
-    keymaps = [
-      {
-        mode = "n";
-        # Keep the project-panel-like file browser on a leader chord so it
-        # doesn't depend on terminal Alt handling.
-        key = "<Space>e";
-        action = ":Yazi cwd<CR>";
-      }
-    ];
-
     lazy.plugins."yazi.nvim" = {
       package = pkgs.vimPlugins.yazi-nvim;
       setupModule = "yazi";
