@@ -68,11 +68,11 @@ in
     (import ./plugins/hop.nix commonArgs)
     (import ./plugins/hotpot.nix commonArgs)
     (import ./plugins/luasnip.nix commonArgs)
-    (import ./plugins/mini-clue.nix commonArgs)
     (import ./plugins/none-ls.nix commonArgs)
     (import ./plugins/nvim-cmp.nix commonArgs)
     (import ./plugins/telescope.nix commonArgs)
     (import ./plugins/toggleterm.nix commonArgs)
+    (import ./plugins/which-key.nix commonArgs)
     (import ./plugins/yazi.nix commonArgs)
   ];
 }
