@@ -11,7 +11,8 @@ let
     if cfg.autoStartTmux then
       let
         launchTmux = pkgs.writeShellScript "ghostty-launch-tmux" ''
-          if ! exec ${pkgs.tmux}/bin/tmux new-session -A -s ${cfg.tmuxSessionName}; then
+          session_name="${cfg.tmuxSessionName}-$$-$(${pkgs.coreutils}/bin/date +%s)"
+          if ! exec ${pkgs.tmux}/bin/tmux new-session -s "$session_name"; then
             exec ${pkgs.fish}/bin/fish --login
           fi
         '';
@@ -49,7 +50,7 @@ in
     tmuxSessionName = lib.mkOption {
       type = lib.types.str;
       default = "main";
-      description = "tmux session name used when Ghostty auto-starts tmux.";
+      description = "Prefix used for tmux session names when Ghostty auto-starts tmux.";
     };
 
     extraConfig = lib.mkOption {
