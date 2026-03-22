@@ -61,7 +61,6 @@ in
     (import ./keymaps.nix commonArgs)
     (import ./lsp.nix commonArgs)
     (import ./ui.nix commonArgs)
-    (import ./plugins/aerial.nix commonArgs)
     (import ./plugins/fidget.nix commonArgs)
     (import ./plugins/formatter.nix commonArgs)
     (import ./plugins/git-blame.nix commonArgs)

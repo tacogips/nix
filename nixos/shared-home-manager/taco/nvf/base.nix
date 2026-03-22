@@ -35,6 +35,7 @@
       rustfmt_autosave = 0;
       taco_open_cmd = openCommand;
       taco_browser_open_cmd = openCommand;
+      vim_markdown_folding_disabled = 1;
     };
 
     options = {
@@ -42,6 +43,7 @@
       autoread = true;
       cursorline = true;
       expandtab = false;
+      foldenable = false;
       history = 2000;
       magic = true;
       number = true;

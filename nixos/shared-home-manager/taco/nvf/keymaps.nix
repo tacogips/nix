@@ -423,13 +423,6 @@
       action = ":QuickRun<CR>";
     }
     {
-      # Open the Aerial symbol picker through Telescope.
-      mode = "n";
-      key = "<Space>T";
-      desc = "[lsp] Open Aerial symbol picker";
-      action = "<cmd>Telescope aerial<CR>";
-    }
-    {
       # Helix-like `Space p`: paste the system clipboard after the cursor.
       mode = "n";
       key = "<Space>p";
@@ -507,9 +500,9 @@
       action = "<CMD>lua require'telescope.builtin'.git_commits{}<Cr>";
     }
     {
-      # Helix-like `Space h`: reopen the last fuzzy picker context via recent files.
+      # Helix-like `Space ,`: reopen the last fuzzy picker context via recent files.
       mode = "n";
-      key = "<Space>h";
+      key = "<Space>,";
       desc = "Open recent files picker";
       action = "<CMD>:Telescope oldfiles<Cr>";
     }
@@ -563,9 +556,9 @@
       action = "<cmd>lua vim.lsp.buf.code_action()<CR>";
     }
     {
-      # Helix-like `Space S`: show workspace-wide LSP symbols.
+      # Helix-like `Space s`: show workspace-wide LSP symbols.
       mode = "n";
-      key = "<Space>S";
+      key = "<Space>s";
       desc = "[lsp] Open workspace symbols picker";
       action = "<CMD>lua require'telescope.builtin'.lsp_dynamic_workspace_symbols{}<Cr>";
     }

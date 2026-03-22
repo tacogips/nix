@@ -11,7 +11,6 @@
         '';
         on_attach = mkLuaInline ''
           function(client, bufnr)
-            require("aerial").on_attach(client, bufnr)
             client.server_capabilities.documentFormattingProvider = false
             client.server_capabilities.documentRangeFormattingProvider = false
           end

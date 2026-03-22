@@ -26,6 +26,11 @@
         command = "FormatWrite";
       }
       {
+        event = [ "FileType" ];
+        pattern = [ "*" ];
+        command = "setlocal nofoldenable";
+      }
+      {
         event = [
           "BufNewFile"
           "BufRead"

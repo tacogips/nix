@@ -20,9 +20,6 @@
         },
       },
       extensions = {
-        aerial = {
-          show_nesting = true,
-        },
         fzf = {
           fuzzy = true,
           override_generic_sorter = true,
@@ -31,17 +28,5 @@
         },
       },
     })
-
-    local function load_aerial_extension()
-      return pcall(require("telescope").load_extension, "aerial")
-    end
-
-    if not load_aerial_extension() then
-      vim.schedule(load_aerial_extension)
-      vim.api.nvim_create_autocmd("VimEnter", {
-        once = true,
-        callback = load_aerial_extension,
-      })
-    end
   '';
 }
