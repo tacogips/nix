@@ -2,12 +2,13 @@
   config,
   lib,
   pkgs,
-  chilla-pkg,
+  chilla-pkg ? null,
   ...
 }:
 
 let
   cfg = config.taco.yazi;
+  chillaCommand = if chilla-pkg == null then cfg.openCommand else "${chilla-pkg}/bin/chilla";
   enterDirectoryPlugin = ''
     --- @sync entry
     local function entry()
@@ -209,7 +210,7 @@ let
 
       for target_path in "$@"; do
         if [[ -n "$target_path" ]]; then
-          ${chilla-pkg}/bin/chilla "$target_path" >/dev/null 2>&1 &
+          ${chillaCommand} "$target_path" >/dev/null 2>&1 &
         fi
       done
     '';

@@ -104,7 +104,7 @@
         "alt-shift-v" = "join-with right";
 
         # Launch applications
-        "alt-shift-enter" = "exec-and-forget ${pkgs.ghostty}/bin/ghostty";
+        "alt-shift-enter" = "exec-and-forget /usr/bin/open -na Ghostty.app";
 
         # Service mode
         "alt-shift-semicolon" = "mode service";

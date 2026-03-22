@@ -1,13 +1,13 @@
 {
   lib,
   pkgs,
-  chilla-pkg,
+  chilla-pkg ? null,
   ...
 }:
 let
   runtimePath = ./runtime;
   openCommand = if pkgs.stdenv.isDarwin then "open" else "xdg-open";
-  chillaCommand = "${chilla-pkg}/bin/chilla";
+  chillaCommand = if chilla-pkg == null then openCommand else "${chilla-pkg}/bin/chilla";
   mkLuaInline = lib.generators.mkLuaInline;
 
   mkGithubPlugin =

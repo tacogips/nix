@@ -29,6 +29,15 @@ let
 in
 {
   options.taco.ghostty = {
+    package = lib.mkOption {
+      type = with lib.types; nullOr package;
+      default = if pkgs.stdenv.hostPlatform.isDarwin then null else pkgs.ghostty;
+      defaultText = lib.literalExpression ''
+        if pkgs.stdenv.hostPlatform.isDarwin then null else pkgs.ghostty
+      '';
+      description = "Ghostty package to install. Set to null when managed outside Home Manager.";
+    };
+
     theme = lib.mkOption {
       type = lib.types.str;
       default = "Gruvbox Dark";
@@ -67,7 +76,7 @@ in
   };
 
   config = {
-    home.packages = [ pkgs.ghostty ];
+    home.packages = lib.optional (cfg.package != null) cfg.package;
 
     xdg.configFile."ghostty/config".text = ''
       theme = ${cfg.theme}

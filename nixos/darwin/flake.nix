@@ -131,7 +131,6 @@
                   vim
                   curl
                   wget
-                  ghostty
                   # zed - Installed via Homebrew (see homebrew.casks below)
                 ];
 
@@ -157,7 +156,8 @@
 
                   # GUI applications (casks)
                   casks = [
-                    "zed" # Zed Editor
+                    "ghostty" # Ghostty terminal
+                    # "zed" # Zed Editor
                     "claude" # Claude Code
                     "codex" # OpenAI Codex CLI
                     "cursor-cli" # Cursor CLI
