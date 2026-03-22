@@ -68,13 +68,13 @@ tasks:
   build:
     desc: Build Darwin system configuration (use for initial bootstrap)
     cmds:
-      - nix build .#darwinConfigurations.taco-mac.system
-      - sudo ./result/sw/bin/darwin-rebuild switch --flake .#taco-mac
+      - nix build --impure .#darwinConfigurations.taco-mac.system
+      - sudo ./result/sw/bin/darwin-rebuild switch --impure --flake .#taco-mac
 
   rebuild:
     desc: Rebuild and switch Darwin system configuration
     cmds:
-      - sudo darwin-rebuild switch --flake ~/nix/nixos/darwin#taco-mac
+      - sudo darwin-rebuild switch --impure --flake ~/nix/nixos/darwin#taco-mac
 
   clean-old-generations:
     desc: Delete old system generations, keeping only the latest 5

@@ -425,8 +425,8 @@
     {
       # Open the Aerial symbol picker through Telescope.
       mode = "n";
-      key = "<Space>t";
-      desc = "Open Aerial symbol picker";
+      key = "<Space>T";
+      desc = "[lsp] Open Aerial symbol picker";
       action = "<cmd>Telescope aerial<CR>";
     }
     {
@@ -507,9 +507,9 @@
       action = "<CMD>lua require'telescope.builtin'.git_commits{}<Cr>";
     }
     {
-      # Helix-like `Space '`: reopen the last fuzzy picker context via recent files.
+      # Helix-like `Space h`: reopen the last fuzzy picker context via recent files.
       mode = "n";
-      key = "<Space>'";
+      key = "<Space>h";
       desc = "Open recent files picker";
       action = "<CMD>:Telescope oldfiles<Cr>";
     }
@@ -542,9 +542,9 @@
       action = "<CMD>lua require'telescope.builtin'.marks{}<Cr>";
     }
     {
-      # Helix-like `Space h`: show command-line history in Telescope.
+      # Helix-like `Space H`: show command-line history in Telescope.
       mode = "n";
-      key = "<Space>h";
+      key = "<Space>H";
       desc = "Open command history picker";
       action = "<CMD>lua require'telescope.builtin'.command_history{}<Cr>";
     }
@@ -570,9 +570,9 @@
       action = "<CMD>lua require'telescope.builtin'.lsp_dynamic_workspace_symbols{}<Cr>";
     }
     {
-      # Helix-like `Space s`: show document-local symbols through Telescope.
+      # Helix-like `Space t`: show document-local symbols through Telescope.
       mode = "n";
-      key = "<Space>s";
+      key = "<Space>t";
       desc = "[lsp] Open document symbols picker";
       action = "<CMD>lua require'telescope.builtin'.lsp_document_symbols{}<Cr>";
     }

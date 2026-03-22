@@ -65,6 +65,11 @@
     }:
     let
       system = "x86_64-linux";
+      hostName = "nix-dev-machine";
+      stateVersions = import ../lib/state-versions.nix { lib = nixpkgs.lib; };
+      hostStateVersions = stateVersions.forNixosHost hostName;
+      nixosStateVersion = hostStateVersions.system;
+      homeStateVersion = hostStateVersions.home;
       #pkgs = nixpkgs.legacyPackages.${system};
       pkgs = import nixpkgs {
         system = "${system}";
@@ -122,8 +127,11 @@
             };
         in
         {
-          "nix-dev-machine" = nixpkgs.lib.nixosSystem {
+          "${hostName}" = nixpkgs.lib.nixosSystem {
             inherit system;
+            specialArgs = {
+              inherit nixosStateVersion;
+            };
 
             modules = [
               # Overlays
@@ -173,6 +181,7 @@
                   inherit
                     xremap-flake
                     fenix
+                    homeStateVersion
                     cratedocs-mcp-pkg
                     bravesearch-mcp-pkg
                     hn-mcp-pkg

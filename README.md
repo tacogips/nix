@@ -71,6 +71,28 @@ nix shell nixpkgs#go-task --command task build
 nix shell nixpkgs#go-task --command task rebuild
 ```
 
+## State Versions
+
+`system.stateVersion` and `home.stateVersion` are compatibility values, not
+"upgrade to latest" values. The tracked default stays at `24.11` for NixOS and
+Home Manager, and `4` for nix-darwin system state.
+
+Only change a machine's value when that machine was first installed on a
+different release, or when you are doing an intentional compatibility migration
+after reading the relevant release notes.
+
+To keep machine-specific state versions out of Git, copy the example file to an
+untracked absolute path and use `NIX_STATE_VERSIONS_CONFIG` with `--impure`:
+
+```bash
+cp ~/nix/nixos/state-versions.nix.example ~/.config/nix/state-versions.nix
+export NIX_STATE_VERSIONS_CONFIG="$HOME/.config/nix/state-versions.nix"
+```
+
+Different machines may legitimately need different values. Update the matching
+host entry in that local file when installing NixOS or nix-darwin on a machine
+whose first-install release differs from the default.
+
 # update
 
 nix flake lock --update-input cratedocs-mcp

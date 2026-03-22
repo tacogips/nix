@@ -59,6 +59,7 @@ in
     co = codexBaseCommand;
     corl = "${codexBaseCommand} resume --last";
     cor = "${codexBaseCommand} resume";
+    ca = "${cursorCommand} --model composer-2-fast --force";
     cu = cursorBaseCommand;
     curl = "${cursorBaseCommand} resume --last";
     cur = "${cursorBaseCommand} resume";

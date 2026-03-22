@@ -176,6 +176,15 @@ in
       # Toggle zoom for the current pane without a prefix.
       bind -n M-f resize-pane -Z
 
+      # Enter a temporary resize table, then use h/j/k/l to resize the active pane.
+      bind -n M-z switch-client -T resize
+      bind -T resize h resize-pane -L 5
+      bind -T resize j resize-pane -D 5
+      bind -T resize k resize-pane -U 5
+      bind -T resize l resize-pane -R 5
+      bind -T resize Escape switch-client -T root
+      bind -T resize Enter switch-client -T root
+
       # Toggle copy-mode with Alt-s so the same key enters and exits scrollback mode.
       bind -n M-s if-shell -F '#{pane_in_mode}' 'send-keys -X cancel' 'copy-mode'
 

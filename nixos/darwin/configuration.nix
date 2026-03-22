@@ -1,9 +1,16 @@
-{ pkgs, ... }:
+{
+  pkgs,
+  darwinStateVersion ? 4,
+  ...
+}:
 
 {
   # DNS configuration
   networking = {
-    dns = [ "8.8.8.8" "8.8.4.4" ];
+    dns = [
+      "8.8.8.8"
+      "8.8.4.4"
+    ];
   };
 
   # System configuration
@@ -22,7 +29,7 @@
       _HIHideMenuBar = false;
     };
   };
-  
+
   # Enable Touch ID for sudo authentication
   security.pam.services.sudo_local = {
     # This enables Touch ID for sudo using the new sudo_local file
@@ -30,18 +37,21 @@
     # Enable pam_reattach for proper Touch ID support in tmux/screen
     pamReattach = true;
   };
-  
+
   # Preserve HOME environment variable when using sudo
   security.sudo.extraConfig = ''
     Defaults env_keep += "HOME"
   '';
-  
+
   # Nix configuration
   nix.settings = {
-    experimental-features = [ "nix-command" "flakes" ];
+    experimental-features = [
+      "nix-command"
+      "flakes"
+    ];
     trusted-users = [ "@admin" ];
   };
-  
+
   # Configure fonts
   fonts = {
     fontDir.enable = true;
@@ -56,18 +66,18 @@
     enable = true;
     onActivation.autoUpdate = true;
     onActivation.cleanup = "zap";
-    taps = [];
+    taps = [ ];
     casks = [
     ];
   };
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
-  
+
   # Handle package collisions
   nixpkgs.config.allowAliases = true;
-  nixpkgs.config.permittedInsecurePackages = [];
-  
+  nixpkgs.config.permittedInsecurePackages = [ ];
+
   # Allow collisions in environment.systemPackages
   environment.pathsToLink = [ "/Applications" ];
   environment.variables.NIX_IGNORE_COLLISIONS = "1";
@@ -86,16 +96,16 @@
   # Create /etc/zshrc that loads the nix-darwin environment
   programs.zsh.enable = true;
   programs.fish.enable = true;
-  
+
   # Add fish to available shells and /etc/shells
   environment.shells = [ pkgs.fish ];
-  
+
   # Add shell to /etc/shells
   environment.etc."shells".text = ''
     # List of acceptable shells for chpass(1).
     # Ftpd will not allow users to connect who are not using
     # one of these shells.
-    
+
     /bin/bash
     /bin/csh
     /bin/dash
@@ -105,12 +115,12 @@
     /bin/zsh
     ${pkgs.fish}/bin/fish
   '';
-  
+
   # Set fish as default shell
   users.users.taco = {
     shell = pkgs.fish;
   };
 
   # Used for backwards compatibility, please read the changelog before changing
-  system.stateVersion = 4;  # Darwin state versions continue to use single numbers
+  system.stateVersion = darwinStateVersion; # nix-darwin uses integer compatibility versions.
 }

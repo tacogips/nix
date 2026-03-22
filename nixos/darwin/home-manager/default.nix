@@ -2,6 +2,7 @@
   config,
   pkgs,
   lib,
+  homeStateVersion ? "24.11",
   ...
 }:
 
@@ -17,7 +18,7 @@
   # Darwin-specific user settings
   home.username = lib.mkForce "taco";
   home.homeDirectory = lib.mkForce "/Users/taco";
-  home.stateVersion = lib.mkForce "24.11";
+  home.stateVersion = lib.mkForce homeStateVersion;
   taco.yazi.openCommand = "/usr/bin/open";
 
   # Override any shared settings that need customization for macOS

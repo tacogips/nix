@@ -1,6 +1,11 @@
 # Default entry point for taco's shared home-manager configuration
 # (platform-independent settings)
-{ config, pkgs, ... }:
+{
+  config,
+  pkgs,
+  homeStateVersion ? "24.11",
+  ...
+}:
 
 {
   imports = [
@@ -42,6 +47,6 @@
   # Common configuration for all platforms
   programs.home-manager.enable = true;
 
-  # Only keep the state version here as it should be consistent across platforms
-  home.stateVersion = "24.11";
+  # Compatibility version: keep the user's first Home Manager release per machine.
+  home.stateVersion = homeStateVersion;
 }

@@ -47,6 +47,11 @@
     }:
     let
       system = "aarch64-darwin"; # For Apple Silicon Macs
+      hostName = "taco-mac";
+      stateVersions = import ../lib/state-versions.nix { lib = nixpkgs.lib; };
+      hostStateVersions = stateVersions.forDarwinHost hostName;
+      darwinStateVersion = hostStateVersions.system;
+      homeStateVersion = hostStateVersions.home;
       pkgs = import nixpkgs {
         inherit system;
         config = {
@@ -61,13 +66,22 @@
     in
     {
       darwinConfigurations = {
-        "taco-mac" = darwin.lib.darwinSystem {
+        "${hostName}" = darwin.lib.darwinSystem {
           inherit system;
-          specialArgs = { inherit pkgs; };
+          specialArgs = {
+            inherit
+              pkgs
+              darwinStateVersion
+              ;
+          };
           modules = [
             # Basic Darwin configuration
             (
-              { config, ... }:
+              {
+                config,
+                darwinStateVersion,
+                ...
+              }:
               {
                 # Set primary user for system defaults
                 system.primaryUser = "taco";
@@ -81,7 +95,7 @@
                 };
 
                 # System settings
-                system.stateVersion = 4;
+                system.stateVersion = darwinStateVersion;
 
                 # Set nixbld group ID to match actual value
                 ids.gids.nixbld = 350;
@@ -193,6 +207,7 @@
               home-manager.backupFileExtension = "backup"; # Automatically backup existing files
               home-manager.extraSpecialArgs = {
                 inherit
+                  homeStateVersion
                   firefox-addons
                   bravesearch-mcp-pkg
                   ign-pkg

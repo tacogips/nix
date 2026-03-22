@@ -1,0 +1,34 @@
+{
+  # Local-only overrides for state versions.
+  #
+  # Use this only when a specific machine was first installed on a different
+  # release than the tracked default. Do not blindly bump these values when
+  # nixpkgs or nix-darwin inputs move forward.
+  #
+  # Example:
+  #   cp nixos/state-versions.nix.example ~/.config/nix/state-versions.nix
+  #   export NIX_STATE_VERSIONS_CONFIG="$HOME/.config/nix/state-versions.nix"
+  #   nix flake check --impure
+  #
+  # Different machines may legitimately need different values. Update the
+  # matching host entry when you install NixOS or nix-darwin on a machine whose
+  # first-install release differs from the repository default.
+
+  nixos = {
+    hosts = {
+      "nix-dev-machine" = {
+        system = "24.11";
+        home = "24.11";
+      };
+    };
+  };
+
+  darwin = {
+    hosts = {
+      "taco-mac" = {
+        system = 4;
+        home = "24.11";
+      };
+    };
+  };
+}
