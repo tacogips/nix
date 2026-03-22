@@ -57,14 +57,32 @@ tasks:
       - task: check-linux
       - task: check-darwin
 
+  clean:
+    desc: Clean old rebuild generations and unused Nix store paths (cross-platform)
+    cmds:
+      - task: clean-linux
+      - task: clean-darwin
+
   check-linux:
     desc: Check Linux flake configuration
     dir: ./linux
     cmds:
       - NIXOS_PRIVATE_CONFIG="${HOME}/nix/nixos/linux/device/nix-dev-machine/.private/private.nix" nix flake check --impure
-      
+
+  clean-linux:
+    desc: Clean old Linux rebuild generations and unused Nix store paths
+    dir: ./linux
+    cmds:
+      - task: clean
+
   check-darwin:
     desc: Check Darwin flake configuration
     dir: ./darwin
     cmds:
       - nix flake check
+
+  clean-darwin:
+    desc: Clean old Darwin rebuild generations and unused Nix store paths
+    dir: ./darwin
+    cmds:
+      - task: clean

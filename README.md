@@ -71,6 +71,12 @@ nix shell nixpkgs#go-task --command task build
 nix shell nixpkgs#go-task --command task rebuild
 ```
 
+6. To remove rebuild generations older than the latest 5 and garbage-collect unused Nix store paths:
+
+```bash
+nix shell nixpkgs#go-task --command task clean
+```
+
 ## State Versions
 
 `system.stateVersion` and `home.stateVersion` are compatibility values, not
@@ -137,6 +143,8 @@ nix shell nixpkgs#gh nixpkgs#go-task github:tacogips/kinko --command task setup-
 
 3. Apply the nix-darwin configuration, then open a new fish shell so shared kinko secrets are exported automatically.
    If you only want to populate the current shell from GitHub CLI, use `gh-token-export`.
+
+For routine cleanup on either platform, run `nix shell nixpkgs#go-task --command task clean` from `~/nix/nixos/linux` or `~/nix/nixos/darwin`.
 
 ## How It Works
 

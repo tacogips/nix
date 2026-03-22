@@ -54,18 +54,23 @@ tasks:
       - task: update
       - task: rebuild
 
-  clean-old-generations:
-    desc: Delete old system generations, keeping only the latest 5
+  clean:
+    desc: Delete rebuild generations older than the latest 5 and garbage-collect unused Nix store paths
     cmds:
       - |
-        # Get all system generations except the latest 5
+        # Get all system generations except the latest 5.
         old_generations=$(sudo nixos-rebuild list-generations | head -n -5 | awk '{print $1}')
         if [ -n "$old_generations" ]; then
           echo "Deleting old system generations: $old_generations"
           sudo nixos-rebuild delete-generations $old_generations
-          echo "Running garbage collection..."
-          sudo nix-collect-garbage -d
-          echo "Cleanup completed"
         else
-          echo "No old generations to delete (5 or fewer generations exist)"
+          echo "No old system generations to delete (5 or fewer generations exist)"
         fi
+        echo "Running garbage collection..."
+        sudo nix-collect-garbage -d
+        echo "Cleanup completed"
+
+  clean-old-generations:
+    desc: Backward-compatible alias for task clean
+    cmds:
+      - task: clean

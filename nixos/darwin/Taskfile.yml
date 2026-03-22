@@ -76,13 +76,17 @@ tasks:
     cmds:
       - sudo darwin-rebuild switch --impure --flake ~/nix/nixos/darwin#taco-mac
 
-  clean-old-generations:
-    desc: Delete old system generations, keeping only the latest 5
+  clean:
+    desc: Delete rebuild generations older than the latest 5 and garbage-collect unused Nix store paths
     cmds:
       - |
-        # Delete all but the latest 5 system generations
         echo "Deleting old system generations (keeping latest 5)..."
         sudo nix-env --delete-generations +5 --profile /nix/var/nix/profiles/system
         echo "Running garbage collection..."
         sudo nix-collect-garbage -d
         echo "Cleanup completed"
+
+  clean-old-generations:
+    desc: Backward-compatible alias for task clean
+    cmds:
+      - task: clean
