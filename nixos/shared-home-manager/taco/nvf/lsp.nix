@@ -42,6 +42,10 @@
                 "target/ra"
               ];
             };
+            workspace.symbol.search = {
+              kind = "all_symbols";
+              limit = 4096;
+            };
           };
         };
       };

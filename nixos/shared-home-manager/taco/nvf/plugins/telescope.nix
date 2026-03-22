@@ -1,6 +1,55 @@
 { ... }:
 {
   settings.vim.luaConfigRC.telescope = ''
+    local telescope_builtin = require("telescope.builtin")
+
+    local function workspace_type_symbols()
+      return {
+        "File",
+        "Module",
+        "Namespace",
+        "Package",
+        "Class",
+        "Property",
+        "Field",
+        "Constructor",
+        "Enum",
+        "Interface",
+        "String",
+        "Number",
+        "Boolean",
+        "Array",
+        "Object",
+        "Key",
+        "Null",
+        "EnumMember",
+        "Struct",
+        "Event",
+        "Operator",
+        "TypeParameter",
+      }
+    end
+
+    _G.taco_workspace_struct_symbols = function()
+      telescope_builtin.lsp_workspace_symbols({
+        query = "",
+        symbols = workspace_type_symbols(),
+      })
+    end
+
+    _G.taco_workspace_non_struct_symbols = function()
+      telescope_builtin.lsp_workspace_symbols({
+        query = "",
+        ignore_symbols = workspace_type_symbols(),
+      })
+    end
+
+    _G.taco_workspace_symbols = function()
+      telescope_builtin.lsp_workspace_symbols({
+        query = "",
+      })
+    end
+
     require("telescope").setup({
       defaults = {
         prompt_prefix = " ❯ ",

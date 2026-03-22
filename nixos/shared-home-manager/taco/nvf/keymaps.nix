@@ -388,18 +388,18 @@
       action = ":write<CR>";
     }
     {
-      # Copy the current working directory to the system clipboard.
+      # Copy the current file path to the system clipboard.
       mode = "n";
       key = "<Space>c";
-      desc = "Copy current directory path";
-      action = ":let @+=getcwd()<CR>";
+      desc = "Copy current file path";
+      action = ":let @+=expand('%:p')<CR>";
     }
     {
-      # Insert a newline below and return to normal mode.
+      # Helix-like `Space j`: open the jumplist in Telescope.
       mode = "n";
       key = "<Space>j";
-      desc = "Insert newline below";
-      action = "i<CR><ESC>";
+      desc = "Open jump history picker";
+      action = "<CMD>lua require'telescope.builtin'.jumplist{}<Cr>";
     }
     {
       # Force-quit the current window.
@@ -472,11 +472,11 @@
       action = "\"+Y";
     }
     {
-      # Copy the current file path to the system clipboard.
+      # Copy the current working directory to the system clipboard.
       mode = "n";
       key = "<Space>C";
-      desc = "Copy current file path";
-      action = ":let @+=expand('%:p')<CR>";
+      desc = "Copy current directory path";
+      action = ":let @+=getcwd()<CR>";
     }
     {
       # Helix-like `Space g`: open LazyGit in a floating window.
@@ -549,18 +549,25 @@
       action = "<cmd>lua vim.lsp.buf.code_action()<CR>";
     }
     {
-      # Helix-like `Space s`: show only struct symbols from the current buffer.
+      # Helix-like `Space s`: show only struct-like symbols from the workspace.
       mode = "n";
       key = "<Space>s";
-      desc = "[lsp] Open struct symbols picker";
-      action = "<CMD>lua require'telescope.builtin'.lsp_document_symbols({ symbols = { 'Struct' } })<Cr>";
+      desc = "[lsp] Open workspace type symbols picker";
+      action = "<CMD>lua taco_workspace_struct_symbols()<Cr>";
     }
     {
-      # Helix-like `Space S`: show non-struct symbols from the current buffer.
+      # Helix-like `Space S`: show workspace symbols except struct-like symbols.
       mode = "n";
       key = "<Space>S";
-      desc = "[lsp] Open non-struct symbols picker";
-      action = "<CMD>lua require'telescope.builtin'.lsp_document_symbols({ ignore_symbols = { 'Struct' } })<Cr>";
+      desc = "[lsp] Open workspace non-type symbols picker";
+      action = "<CMD>lua taco_workspace_non_struct_symbols()<Cr>";
+    }
+    {
+      # Helix-like `Space W`: show all workspace symbols without filtering.
+      mode = "n";
+      key = "<Space>W";
+      desc = "[lsp] Open workspace symbols picker";
+      action = "<CMD>lua taco_workspace_symbols()<Cr>";
     }
     {
       # Helix-like `Space t`: show document-local symbols through Telescope.
