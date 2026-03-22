@@ -66,6 +66,7 @@ in
     (import ./plugins/git-blame.nix commonArgs)
     (import ./plugins/hop.nix commonArgs)
     (import ./plugins/hotpot.nix commonArgs)
+    (import ./plugins/lazygit.nix commonArgs)
     (import ./plugins/luasnip.nix commonArgs)
     (import ./plugins/none-ls.nix commonArgs)
     (import ./plugins/nvim-cmp.nix commonArgs)

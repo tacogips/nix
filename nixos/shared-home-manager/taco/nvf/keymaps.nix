@@ -479,11 +479,11 @@
       action = ":let @+=expand('%:p')<CR>";
     }
     {
-      # Helix-like `Space g`: show changed files / git status entries in Telescope.
+      # Helix-like `Space g`: open LazyGit in a floating window.
       mode = "n";
       key = "<Space>g";
-      desc = "Open git status picker";
-      action = "<CMD>lua require'telescope.builtin'.git_status{}<Cr>";
+      desc = "Open LazyGit";
+      action = "<CMD>LazyGit<CR>";
     }
     {
       # Helix-like `Space G`: list git branches in Telescope.
@@ -491,13 +491,6 @@
       key = "<Space>G";
       desc = "Open git branch picker";
       action = "<CMD>lua require'telescope.builtin'.git_branches{}<Cr>";
-    }
-    {
-      # Helix-like `Space g c`: show commit history in Telescope.
-      mode = "n";
-      key = "<Space>gc";
-      desc = "Open git commit picker";
-      action = "<CMD>lua require'telescope.builtin'.git_commits{}<Cr>";
     }
     {
       # Helix-like `Space ,`: reopen the last fuzzy picker context via recent files.
@@ -556,11 +549,18 @@
       action = "<cmd>lua vim.lsp.buf.code_action()<CR>";
     }
     {
-      # Helix-like `Space s`: show workspace-wide LSP symbols.
+      # Helix-like `Space s`: show only struct symbols from the current buffer.
       mode = "n";
       key = "<Space>s";
-      desc = "[lsp] Open workspace symbols picker";
-      action = "<CMD>lua require'telescope.builtin'.lsp_dynamic_workspace_symbols{}<Cr>";
+      desc = "[lsp] Open struct symbols picker";
+      action = "<CMD>lua require'telescope.builtin'.lsp_document_symbols({ symbols = { 'Struct' } })<Cr>";
+    }
+    {
+      # Helix-like `Space S`: show non-struct symbols from the current buffer.
+      mode = "n";
+      key = "<Space>S";
+      desc = "[lsp] Open non-struct symbols picker";
+      action = "<CMD>lua require'telescope.builtin'.lsp_document_symbols({ ignore_symbols = { 'Struct' } })<Cr>";
     }
     {
       # Helix-like `Space t`: show document-local symbols through Telescope.
