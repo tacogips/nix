@@ -1,4 +1,4 @@
-{ ... }:
+{ chillaCommand, ... }:
 {
   # Prefix grouping rule for custom keymaps in this repo:
   # - `<Space>` is the main picker/action namespace.
@@ -414,6 +414,13 @@
       key = "<Space>e";
       desc = "Open yazi file browser";
       action = ":Yazi cwd<CR>";
+    }
+    {
+      # Open the current file, or fall back to the current working directory, in Chilla.
+      mode = "n";
+      key = "<Space>v";
+      desc = "Open current file or directory in Chilla";
+      action = "<Cmd>lua local path = vim.api.nvim_buf_get_name(0); if path == '' then path = vim.fn.getcwd() else path = vim.fn.fnamemodify(path, ':p') end; vim.fn.jobstart({ '${chillaCommand}', path }, { detach = true })<CR>";
     }
     {
       # Run the current buffer through QuickRun.

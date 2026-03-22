@@ -32,6 +32,7 @@
 
     ## --- apps --------
     qraftbox.url = "git+https://github.com/tacogips/QraftBox.git";
+    chilla.url = "github:tacogips/chilla";
 
     ## --- overlays --------
     nix-overlays.url = "github:tacogips/nix-overlays";
@@ -59,6 +60,7 @@
       ign,
       kinko,
       qraftbox,
+      chilla,
       nix-overlays,
       firefox-addons,
       ...
@@ -104,6 +106,7 @@
         ];
       });
       qraftbox-pkg = qraftbox.packages.${system}.default;
+      chilla-pkg = chilla.packages.${system}.default;
 
     in
     {
@@ -189,6 +192,7 @@
                     ign-pkg
                     kinko-pkg
                     qraftbox-pkg
+                    chilla-pkg
                     firefox-addons
                     stablePkgs
                     ;

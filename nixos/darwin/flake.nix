@@ -27,6 +27,7 @@
     ## --- go tools --------
     ign.url = "github:tacogips/ign";
     kinko.url = "github:tacogips/kinko";
+    chilla.url = "github:tacogips/chilla";
 
     ## --- mcps --------
     bravesearch-mcp.url = "github:tacogips/bravesearch-mcp";
@@ -42,6 +43,7 @@
       firefox-addons,
       ign,
       kinko,
+      chilla,
       bravesearch-mcp,
       ...
     }:
@@ -62,6 +64,7 @@
       bravesearch-mcp-pkg = bravesearch-mcp.packages.${system}.default;
       ign-pkg = ign.packages.${system}.default;
       kinko-pkg = kinko.packages.${system}.default;
+      chilla-pkg = chilla.packages.${system}.default;
 
     in
     {
@@ -212,6 +215,7 @@
                   bravesearch-mcp-pkg
                   ign-pkg
                   kinko-pkg
+                  chilla-pkg
                   ;
               };
               home-manager.users.taco =

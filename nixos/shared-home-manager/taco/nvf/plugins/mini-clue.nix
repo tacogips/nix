@@ -20,6 +20,7 @@
           { mode = "n", keys = "<Space>j", desc = "Open jump history picker" },
           { mode = "n", keys = "<Space><Space>q", desc = "Force-quit current window" },
           { mode = "n", keys = "<Space>e", desc = "Open yazi file browser" },
+          { mode = "n", keys = "<Space>v", desc = "Open current file or directory in Chilla" },
           { mode = "n", keys = "<Space>R", desc = "Run current file with QuickRun" },
           { mode = { "n", "x" }, keys = "<Space>p", desc = "Paste system clipboard after" },
           { mode = { "n", "x" }, keys = "<Space>P", desc = "Paste system clipboard before" },
