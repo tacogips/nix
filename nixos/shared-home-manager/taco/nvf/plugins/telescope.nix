@@ -10,7 +10,6 @@
         "Namespace",
         "Package",
         "Class",
-        "Property",
         "Field",
         "Constructor",
         "Enum",
