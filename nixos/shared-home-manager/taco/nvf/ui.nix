@@ -58,24 +58,63 @@
       alwaysDivideMiddle = true;
       activeSection = {
         a = [ "mode" ];
-        b = [ ];
-        c = [ "filename" ];
-        x = [
-          "encoding"
-          "fileformat"
+        b = [
+          ''
+            {
+              function()
+                local cwd = vim.fn.fnamemodify(vim.fn.getcwd(), ":~")
+                if cwd == "" then
+                  return "cwd ."
+                end
+                return "cwd " .. cwd
+              end,
+            }
+          ''
         ];
-        y = [ "location" ];
-        z = [
-          "filetype"
+        c = [
+          ''
+            {
+              "filename",
+              path = 0,
+              symbols = { modified = " [+]", readonly = " [ro]", unnamed = "[No Name]" },
+            }
+          ''
+        ];
+        x = [
           "branch"
           "diff"
           "diagnostics"
         ];
+        y = [
+          "filetype"
+          "encoding"
+          "fileformat"
+        ];
+        z = [ "location" ];
       };
       inactiveSection = {
         a = [ ];
         b = [ ];
-        c = [ "filename" ];
+        c = [
+          ''
+            {
+              function()
+                local cwd = vim.fn.fnamemodify(vim.fn.getcwd(), ":~")
+                if cwd == "" then
+                  return "cwd ."
+                end
+                return "cwd " .. cwd
+              end,
+            }
+          ''
+          ''
+            {
+              "filename",
+              path = 0,
+              symbols = { modified = " [+]", readonly = " [ro]", unnamed = "[No Name]" },
+            }
+          ''
+        ];
         x = [ "location" ];
         y = [ ];
         z = [ ];
