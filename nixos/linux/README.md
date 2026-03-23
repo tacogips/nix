@@ -57,3 +57,15 @@ gh-clone https://github.com/owner/repo.git
 ```
 
 `gh-clone` rewrites GitHub SSH clone URLs to HTTPS, prefers the current shell's `GITHUB_TOKEN`, falls back to `kinko` if needed, and injects that token as the credential for the clone command.
+
+## Agent Loops
+
+The Linux fish configuration provides two iterative agent helpers:
+
+```bash
+codex-loop 3 "prompt"
+cursor-loop 3 "prompt"
+cat prompt.md | cursor-loop 3
+```
+
+Both commands append the same architecture and git-diff review suffix on each iteration. `cursor-loop` uses the same Cursor model selection as the `ca` alias, which means `composer-2-fast` runs with the shared `--force --approve-mcps` flags and non-interactive `--print` output.

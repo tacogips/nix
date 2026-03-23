@@ -3,11 +3,12 @@
 let
   codexCommand = "codex";
   cursorCommand = "cursor-agent";
+  cursorGlobalFlags = "--force --approve-mcps";
   # Newer Codex CLI versions reject combining explicit approval policy with
   # the bypass flag, because bypass already disables approvals and sandboxing.
   codexGlobalFlags = "--dangerously-bypass-approvals-and-sandbox --model gpt-5.4";
   codexBaseCommand = "${codexCommand} ${codexGlobalFlags}";
-  cursorBaseCommand = cursorCommand;
+  cursorBaseCommand = "${cursorCommand} ${cursorGlobalFlags}";
   claudeBaseCommand = "env NODE_OPTIONS='--max-old-space-size=16384' CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1 claude --permission-mode bypassPermissions --dangerously-skip-permissions";
 in
 {
@@ -59,7 +60,7 @@ in
     co = codexBaseCommand;
     corl = "${codexBaseCommand} resume --last";
     cor = "${codexBaseCommand} resume";
-    ca = "${cursorCommand} --model composer-2-fast --force";
+    ca = "${cursorBaseCommand} --model composer-2-fast";
     cu = cursorBaseCommand;
     curl = "${cursorBaseCommand} resume --last";
     cur = "${cursorBaseCommand} resume";

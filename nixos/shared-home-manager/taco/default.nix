@@ -14,6 +14,7 @@
     ./bottom
     ./bun
     ./claude
+    ./cursor
     ./deno
     ./direnv
     ./eza

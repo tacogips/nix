@@ -2,6 +2,8 @@
 let
   sharedFish = import ../../../shared-home-manager/taco/fish/aliases.nix { inherit pkgs; };
   codexExecCommand = "${sharedFish.codexBaseCommand} exec";
+  cursorPrintCommand = "${sharedFish.cursorBaseCommand} --model composer-2-fast --print --output-format text --trust";
+  agentLoopSuffix = "Check whether the current architecture/design matches this intended purpose. If it does not, update the design, create an implementation plan, and implement it. This work will be carried out over multiple iterations. If there is a git diff, review it and check whether there is any continuation of the previous task, any bugs, any overlooked considerations, or any areas that can be further improved, and fix them if necessary.";
 in
 {
   capture_active = ''
@@ -82,11 +84,47 @@ in
       return 1
     end
 
-    set -l codex_loop_suffix "Check whether the current architecture/design matches this intended purpose. If it does not, update the design, create an implementation plan, and implement it. This work will be carried out over multiple iterations. If there is a git diff, review it and check whether there is any continuation of the previous task, any bugs, any overlooked considerations, or any areas that can be further improved, and fix them if necessary."
+    set -l codex_loop_suffix "${agentLoopSuffix}"
     set prompt "$prompt\n\n$codex_loop_suffix"
 
     for i in (seq $n)
       command ${codexExecCommand} "$prompt"
+    end
+  '';
+
+  cursor-loop = ''
+    set -l n $argv[1]
+
+    if test -z "$n"
+      echo "usage: cursor-loop n [prompt]" >&2
+      echo "   or: cat prompt.md | cursor-loop n" >&2
+      return 1
+    end
+
+    if not string match -qr '^[1-9][0-9]*$' -- $n
+      echo "cursor-loop: n must be a positive integer" >&2
+      return 1
+    end
+
+    set -e argv[1]
+
+    set -l prompt
+
+    if test (count $argv) -gt 0
+      set prompt (string join ' ' -- $argv)
+    else if not isatty stdin
+      set prompt (cat)
+    else
+      echo "usage: cursor-loop n [prompt]" >&2
+      echo "   or: cat prompt.md | cursor-loop n" >&2
+      return 1
+    end
+
+    set -l cursor_loop_suffix "${agentLoopSuffix}"
+    set prompt "$prompt\n\n$cursor_loop_suffix"
+
+    for i in (seq $n)
+      command ${cursorPrintCommand} "$prompt"
     end
   '';
 }

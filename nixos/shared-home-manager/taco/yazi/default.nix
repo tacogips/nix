@@ -290,6 +290,18 @@ in
             use = "open-terminal";
           }
           {
+            url = "*.md";
+            use = "open-chilla";
+          }
+          {
+            url = "*.markdown";
+            use = "open-chilla";
+          }
+          {
+            mime = "text/markdown";
+            use = "open-chilla";
+          }
+          {
             mime = "application/pdf";
             use = "open-chilla";
           }
