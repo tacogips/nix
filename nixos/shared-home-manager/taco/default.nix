@@ -26,6 +26,7 @@
     ./ghostty
     # ./helix
     ./ign
+    ./jj
     ./julia
     ./kinko
     ./lazydocker
