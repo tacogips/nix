@@ -70,14 +70,14 @@ let
           right_pane="$(${pkgs.tmux}/bin/tmux split-window -h -P -F '#{pane_id}' -t "$center_pane" -c "$cwd")"
           ${pkgs.tmux}/bin/tmux select-layout -t "$target_window" even-horizontal >/dev/null
           launch_ide_yazi "$base_pane" "$center_pane" "$right_pane"
-          run_in_pane "$center_pane" "${pkgs.helix}/bin/hx"
+          run_in_pane "$center_pane" "nvim"
           focus_pane "$base_pane"
           notify_layout "Applied layout: ide-3pane"
           ;;
         editor-2pane)
           editor_pane="$(${pkgs.tmux}/bin/tmux split-window -h -P -F '#{pane_id}' -t "$base_pane" -c "$cwd")"
           ${pkgs.tmux}/bin/tmux select-layout -t "$target_window" even-horizontal >/dev/null
-          run_in_pane "$editor_pane" "${pkgs.helix}/bin/hx"
+          run_in_pane "$editor_pane" "nvim"
           focus_pane "$editor_pane"
           notify_layout "Applied layout: editor-2pane"
           ;;

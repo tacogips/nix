@@ -35,8 +35,8 @@ let
     mkdir -p "$out"
     cp -r ${gruvboxDarkFlavorSource}/. "$out/"
   '';
-  helixPaneOpener = pkgs.writeShellApplication {
-    name = "hx-pane-open";
+  nvimPaneOpener = pkgs.writeShellApplication {
+    name = "nvim-pane-open";
     text = ''
       set -euo pipefail
 
@@ -46,7 +46,7 @@ let
         exit 0
       fi
 
-      helix_escape() {
+      editor_escape() {
         local escaped
 
         escaped="$1"
@@ -66,20 +66,38 @@ let
         ${pkgs.coreutils}/bin/dirname -- "$target"
       }
 
-      tmux_pane_is_helix() {
-        [[ "$1" == "hx" || "$1" == "helix" ]]
+      open_with_nvim() {
+        local target_file target_dir
+
+        target_file="$1"
+        target_dir="$(parent_dir "$target_file")"
+        cd -- "$target_dir"
+        exec nvim -- "$target_file"
+      }
+
+      tmux_pane_is_nvim() {
+        [[ "$1" == "nvim" ]]
+      }
+
+      reset_tmux_pane_to_shell() {
+        local target_pane target_dir shell_path
+
+        target_pane="$1"
+        target_dir="$2"
+        shell_path="''${SHELL:-${pkgs.fish}/bin/fish}"
+
+        ${pkgs.tmux}/bin/tmux respawn-pane -k -t "$target_pane" -c "$target_dir" "$shell_path -l"
       }
 
       open_in_tmux_directory() {
-        local target_dir target_pane pane_command shell_path
+        local target_dir target_pane pane_command
 
         target_dir="$1"
         target_pane="$2"
         pane_command="$3"
-        shell_path="''${SHELL:-${pkgs.fish}/bin/fish}"
 
-        if tmux_pane_is_helix "$pane_command"; then
-          ${pkgs.tmux}/bin/tmux respawn-pane -k -t "$target_pane" -c "$target_dir" "$shell_path -l"
+        if tmux_pane_is_nvim "$pane_command"; then
+          reset_tmux_pane_to_shell "$target_pane" "$target_dir"
           return
         fi
 
@@ -89,25 +107,20 @@ let
       }
 
       open_in_tmux_file() {
-        local target_file target_dir pane_command escaped_path escaped_dir
+        local target_file target_dir pane_command
 
         target_file="$1"
         target_dir="$(parent_dir "$target_file")"
         pane_command="$2"
-        escaped_path="$(helix_escape "$target_file")"
-        escaped_dir="$(helix_escape "$target_dir")"
 
-        if tmux_pane_is_helix "$pane_command"; then
-          ${pkgs.tmux}/bin/tmux send-keys -t "$TACO_TMUX_EDITOR_PANE" Escape
-          ${pkgs.tmux}/bin/tmux send-keys -t "$TACO_TMUX_EDITOR_PANE" ":cd \"$escaped_dir\""
-          ${pkgs.tmux}/bin/tmux send-keys -t "$TACO_TMUX_EDITOR_PANE" Enter
-          ${pkgs.tmux}/bin/tmux send-keys -t "$TACO_TMUX_EDITOR_PANE" ":open \"$escaped_path\""
-          ${pkgs.tmux}/bin/tmux send-keys -t "$TACO_TMUX_EDITOR_PANE" Enter
-          return
+        if tmux_pane_is_nvim "$pane_command"; then
+          reset_tmux_pane_to_shell "$TACO_TMUX_EDITOR_PANE" "$target_dir"
         fi
 
         ${pkgs.tmux}/bin/tmux send-keys -t "$TACO_TMUX_EDITOR_PANE" C-c
-        ${pkgs.tmux}/bin/tmux send-keys -t "$TACO_TMUX_EDITOR_PANE" "${pkgs.helix}/bin/hx --working-dir $(shell_escape "$target_dir") -- $(shell_escape "$target_file")"
+        ${pkgs.tmux}/bin/tmux send-keys -t "$TACO_TMUX_EDITOR_PANE" "cd -- $(shell_escape "$target_dir")"
+        ${pkgs.tmux}/bin/tmux send-keys -t "$TACO_TMUX_EDITOR_PANE" Enter
+        ${pkgs.tmux}/bin/tmux send-keys -t "$TACO_TMUX_EDITOR_PANE" "nvim -- $(shell_escape "$target_file")"
         ${pkgs.tmux}/bin/tmux send-keys -t "$TACO_TMUX_EDITOR_PANE" Enter
       }
 
@@ -118,15 +131,15 @@ let
       fi
 
       if [[ "''${TACO_IDE_LAYOUT:-0}" != "1" ]]; then
-        exec ${pkgs.helix}/bin/hx --working-dir "$(parent_dir "$file_path")" "$file_path"
+        open_with_nvim "$file_path"
       fi
 
       if [[ -n "''${ZELLIJ:-}" ]]; then
-        escaped_path="$(helix_escape "$file_path")"
-        escaped_dir="$(helix_escape "$(parent_dir "$file_path")")"
+        escaped_path="$(editor_escape "$file_path")"
+        escaped_dir="$(editor_escape "$(parent_dir "$file_path")")"
 
         if ! ${pkgs.zellij}/bin/zellij action move-focus right >/dev/null 2>&1; then
-          exec ${pkgs.helix}/bin/hx --working-dir "$(parent_dir "$file_path")" "$file_path"
+          open_with_nvim "$file_path"
         fi
 
         ${pkgs.zellij}/bin/zellij action write 27
@@ -142,7 +155,7 @@ let
         pane_command="$(${pkgs.tmux}/bin/tmux display-message -p -t "$TACO_TMUX_EDITOR_PANE" '#{pane_current_command}' 2>/dev/null || true)"
 
         if [[ -z "$pane_command" ]]; then
-          exec ${pkgs.helix}/bin/hx --working-dir "$(parent_dir "$file_path")" "$file_path"
+          open_with_nvim "$file_path"
         fi
 
         if [[ -d "$file_path" ]]; then
@@ -162,7 +175,7 @@ let
         exit 0
       fi
 
-      exec ${pkgs.helix}/bin/hx --working-dir "$(parent_dir "$file_path")" "$file_path"
+      open_with_nvim "$file_path"
     '';
   };
   directoryTerminalOpener = pkgs.writeShellApplication {
@@ -293,9 +306,9 @@ in
         opener = {
           edit = [
             {
-              run = ''${helixPaneOpener}/bin/hx-pane-open "$@"'';
+              run = ''${nvimPaneOpener}/bin/nvim-pane-open "$@"'';
               block = true;
-              desc = "Helix";
+              desc = "Neovim";
             }
           ];
 
