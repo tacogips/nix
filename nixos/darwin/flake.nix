@@ -59,6 +59,29 @@
         config = {
           allowUnfree = true;
         };
+        overlays = [
+          (final: prev: {
+            # Work around a broken nixpkgs direnv derivation on Darwin.
+            # In this nixpkgs revision, direnv was changed to disable cgo
+            # (bcaf9e5064bb, PR #486452) while still building with
+            # -linkmode=external on Darwin, which fails with:
+            # "-linkmode=external requires external (cgo) linking, but cgo
+            # is not enabled".
+            #
+            # Upstream fix: NixOS/nixpkgs#502769
+            # https://github.com/NixOS/nixpkgs/pull/502769
+            #
+            # This overlay should become unnecessary after the next nixpkgs
+            # update that includes commit a4fb16db2751
+            # ("direnv: no external linkmode").
+            direnv = prev.direnv.overrideAttrs (_: {
+              allowGoReference = true;
+              env = (prev.direnv.env or { }) // {
+                CGO_ENABLED = "1";
+              };
+            });
+          })
+        ];
       };
       # Get the original packages
       bravesearch-mcp-pkg = bravesearch-mcp.packages.${system}.default;
