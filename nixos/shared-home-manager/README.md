@@ -40,7 +40,7 @@ home-manager.users.taco = { ... }: {
 ## Configuration Organization
 
 - **Platform-Independent Configs**: Add to `home-manager/taco/` directory modules
-  - Examples: git, jj (jujutsu), fish, bat, ssh, ghostty, helix, yazi, and zellij configurations that work on any platform
+  - Examples: git, jj (jujutsu), lazyjj, fish, bat, ssh, ghostty, helix, yazi, and zellij configurations that work on any platform
 - **Platform-Specific Configs**: Add to the respective OS directories
   - Linux-specific configs: `linux/home-manager/`
   - Darwin-specific configs: `darwin/home-manager/`
@@ -57,4 +57,4 @@ The shared Zellij module provides two launch styles:
 
 The shared tmux workflow now exposes predefined layouts directly inside tmux. `Alt-t` opens a new window and immediately shows a layout menu, while `Alt-i` still opens a plain new window rooted at the current pane's directory. `prefix + I` shows the same menu for the current window and rebuilds the window from the active pane before applying the selected layout. `Alt-z` enters a temporary resize mode where `h/j/k/l` resize the active pane until you press `Esc` or `Enter`. The `ide-3pane` layout starts Yazi on the left, opens Neovim in the center pane, and retargets directory selections to the right pane's current working directory.
 
-The shared Cursor CLI configuration now writes `~/.cursor/cli-config.json` with `editor.vimMode = true` and `permissions.allow = ["*"]`, and the shared fish aliases run `cursor-agent` with `--force --approve-mcps`. That combination enables Vim keybindings and removes interactive approval prompts for shell commands and MCP approvals in normal `cu` / `cur` / `curl` usage.
+The shared Cursor CLI configuration now writes `~/.cursor/cli-config.json` with `editor.vimMode = true`. On Linux, the shared Cursor module also wraps `cursor-agent` so normal agent invocations auto-enable `--yolo --approve-mcps` and pre-create the workspace trust marker for the current repo before launch. That removes the usual shell-command, MCP, and workspace-trust prompts in normal `cursor-agent` / `cu` / `cur` / `curl` usage. Cursor can still require explicit confirmation for some hard-coded security checks, such as particularly sensitive config changes.

@@ -3,7 +3,7 @@
 let
   codexCommand = "codex";
   cursorCommand = "cursor-agent";
-  cursorGlobalFlags = "--force --approve-mcps";
+  cursorGlobalFlags = "--yolo --approve-mcps";
   # Newer Codex CLI versions reject combining explicit approval policy with
   # the bypass flag, because bypass already disables approvals and sandboxing.
   codexGlobalFlags = "--dangerously-bypass-approvals-and-sandbox --model gpt-5.4";

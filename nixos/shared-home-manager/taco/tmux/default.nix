@@ -144,8 +144,8 @@ in
       set -g pane-active-border-style 'fg=#fabd2f,bold'
 
       # Split panes without a prefix.
-      bind -n M-n split-window -h
-      bind -n M-N split-window -v
+      bind -n M-n split-window -h -c '#{pane_current_path}'
+      bind -n M-N split-window -v -c '#{pane_current_path}'
 
       # Jump to windows by index without a prefix.
       bind -n M-1 select-window -t :=1
