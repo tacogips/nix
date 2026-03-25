@@ -40,21 +40,17 @@ home-manager.users.taco = { ... }: {
 ## Configuration Organization
 
 - **Platform-Independent Configs**: Add to `home-manager/taco/` directory modules
-  - Examples: git, jj (jujutsu), fish, bat, ssh, ghostty, helix, and yazi configurations that work on any platform
+  - Examples: git, jj (jujutsu), lazyjj, fish, bat, ssh, ghostty, helix, and yazi configurations that work on any platform
 - **Platform-Specific Configs**: Add to the respective OS directories
   - Linux-specific configs: `linux/home-manager/`
   - Darwin-specific configs: `darwin/home-manager/`
 
 This separation makes it easy to maintain consistent configurations across platforms while allowing for platform-specific customizations in their appropriate locations.
 
-The shared editor environment now follows the Zellij + Helix + Yazi workflow. The shared modules define the Helix/Yazi/Zellij integration, while the platform-specific Home Manager entrypoints set `taco.yazi.openCommand` so Yazi can hand files off to the correct GUI opener on Linux and Darwin. Yazi now routes Markdown, PDF, image, and video files to `chilla`, while directories still open in a terminal and other file types continue to use the platform GUI opener. In the shared Yazi config, pressing `Enter` on a directory exits Yazi into that directory in the current terminal instead of handing it to the GUI file opener. When Yazi is launched from fish as `yazi` or `y`, exiting Yazi updates the current shell to the last directory you visited.
+The shared editor environment uses the shared Yazi integration together with platform-specific `taco.yazi.openCommand` values so files can be handed off to the correct GUI opener on Linux and Darwin. Yazi routes Markdown, PDF, image, and video files to `chilla`, while directories still open in a terminal and other file types continue to use the platform GUI opener. In the shared Yazi config, pressing `Enter` on a directory exits Yazi into that directory in the current terminal instead of handing it to the GUI file opener. When Yazi is launched from fish as `yazi` or `y`, exiting Yazi updates the current shell to the last directory you visited.
 
 Rust editor integrations keep `cargo check` artifacts under `target/ra` and place rust-analyzer's own target data under `target/rust-analyzer` so background analysis does not contend with the save-time diagnostics output.
 
-The shared Zellij module provides two launch styles:
-- `ide`: a two-pane workspace with Yazi on the left and Helix on the right; opening a file in Yazi loads it into the adjacent Helix pane
-- `ide-agent 3|4|5`: an agent-coding workspace that opens a project with 3, 4, or 5 side-by-side terminal panes
-
 The shared tmux workflow now exposes predefined layouts directly inside tmux. `Alt-t` opens a new window and immediately shows a layout menu, while `Alt-i` still opens a plain new window rooted at the current pane's directory. `prefix + I` shows the same menu for the current window and rebuilds the window from the active pane before applying the selected layout. `Alt-z` enters a temporary resize mode where `h/j/k/l` resize the active pane until you press `Esc` or `Enter`. The `ide-3pane` layout starts Yazi on the left, opens Neovim in the center pane, and retargets directory selections to the right pane's current working directory.
 
-The shared Cursor CLI configuration now writes `~/.cursor/cli-config.json` with `editor.vimMode = true` and `permissions.allow = ["*"]`, and the shared fish aliases run `cursor-agent` with `--force --approve-mcps`. That combination enables Vim keybindings and removes interactive approval prompts for shell commands and MCP approvals in normal `cu` / `cur` / `curl` usage.
+The shared Cursor CLI configuration now writes `~/.cursor/cli-config.json` with `editor.vimMode = true`. On Linux, the shared Cursor module also wraps `cursor-agent` so normal agent invocations auto-enable `--yolo --approve-mcps` and pre-create the workspace trust marker for the current repo before launch. That removes the usual shell-command, MCP, and workspace-trust prompts in normal `cursor-agent` / `cu` / `cur` / `curl` usage. Cursor can still require explicit confirmation for some hard-coded security checks, such as particularly sensitive config changes.

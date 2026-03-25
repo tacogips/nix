@@ -68,4 +68,4 @@ cursor-loop 3 "prompt"
 cat prompt.md | cursor-loop 3
 ```
 
-Both commands append the same architecture and git-diff review suffix on each iteration. `cursor-loop` uses the same Cursor model selection as the `ca` alias, which means `composer-2-fast` runs with the shared `--force --approve-mcps` flags and non-interactive `--print` output.
+Both commands append the same architecture and git-diff review suffix on each iteration. `cursor-loop` uses the same Cursor model selection as the `ca` alias, which means `composer-2-fast` runs with the shared `--yolo --approve-mcps` flags and non-interactive `--print` output.
