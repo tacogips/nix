@@ -40,7 +40,7 @@ home-manager.users.taco = { ... }: {
 ## Configuration Organization
 
 - **Platform-Independent Configs**: Add to `home-manager/taco/` directory modules
-  - Examples: git, jj (jujutsu), fish, bat, ssh, ghostty, helix, yazi, and zellij configurations that work on any platform
+  - Examples: git, jj (jujutsu), fish, bat, ssh, ghostty, helix, and yazi configurations that work on any platform
 - **Platform-Specific Configs**: Add to the respective OS directories
   - Linux-specific configs: `linux/home-manager/`
   - Darwin-specific configs: `darwin/home-manager/`

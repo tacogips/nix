@@ -134,23 +134,6 @@ let
         open_with_nvim "$file_path"
       fi
 
-      if [[ -n "''${ZELLIJ:-}" ]]; then
-        escaped_path="$(editor_escape "$file_path")"
-        escaped_dir="$(editor_escape "$(parent_dir "$file_path")")"
-
-        if ! ${pkgs.zellij}/bin/zellij action move-focus right >/dev/null 2>&1; then
-          open_with_nvim "$file_path"
-        fi
-
-        ${pkgs.zellij}/bin/zellij action write 27
-        ${pkgs.zellij}/bin/zellij action write-chars ":cd \"$escaped_dir\""
-        ${pkgs.zellij}/bin/zellij action write 13
-        ${pkgs.zellij}/bin/zellij action write-chars ":open \"$escaped_path\""
-        ${pkgs.zellij}/bin/zellij action write 13
-        ${pkgs.zellij}/bin/zellij action move-focus left >/dev/null 2>&1 || true
-        exit 0
-      fi
-
       if [[ -n "''${TMUX:-}" && -n "''${TACO_TMUX_EDITOR_PANE:-}" ]]; then
         pane_command="$(${pkgs.tmux}/bin/tmux display-message -p -t "$TACO_TMUX_EDITOR_PANE" '#{pane_current_command}' 2>/dev/null || true)"
 
