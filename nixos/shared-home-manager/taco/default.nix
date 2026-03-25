@@ -24,7 +24,6 @@
     ./git
     ./go
     ./ghostty
-    # ./helix
     ./ign
     ./jj
     ./julia

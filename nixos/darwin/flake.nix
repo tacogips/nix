@@ -183,7 +183,6 @@
                     # "zed" # Zed Editor
                     "claude" # Claude Code
                     "codex" # OpenAI Codex CLI
-                    "cursor-cli" # Cursor CLI
                   ];
 
                   # Command-line tools (brews)

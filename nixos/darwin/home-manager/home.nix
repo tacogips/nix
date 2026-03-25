@@ -56,7 +56,8 @@
     nixfmt
     nixd # nix lsp
 
-    # claude-code, codex, and cursor-cli: installed via Homebrew on Darwin
+    # claude-code and codex: installed via Homebrew on Darwin
+    # cursor-cli: installed via shared Home Manager config on Darwin
 
     # macOS applications
     slack

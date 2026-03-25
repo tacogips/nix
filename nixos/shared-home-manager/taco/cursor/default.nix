@@ -95,6 +95,8 @@ let
           chmod +x "$out/bin/cursor-agent"
         '';
       }
+    else if pkgs.stdenv.isDarwin then
+      pkgs.cursor-cli
     else
       null;
 in
@@ -108,5 +110,5 @@ in
     }
     + "\n";
 
-  home.packages = lib.optionals pkgs.stdenv.isLinux [ cursorCliPackage ];
+  home.packages = lib.optional (cursorCliPackage != null) cursorCliPackage;
 }

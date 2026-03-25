@@ -1,23 +1,35 @@
-{ pkgs, lib, config, ... }:
+{
+  pkgs,
+  lib,
+  config,
+  ...
+}:
 
 let
   darwinFishFunctions = import ./functions.nix { inherit pkgs; };
   darwinFishAliases = import ./aliases.nix { inherit pkgs; };
 in
 {
-  # Set Darwin-specific fish functions and aliases
+  # Extend shared fish settings with Darwin-specific additions.
   programs.fish = {
-    functions = lib.mkForce darwinFishFunctions;
-    shellAliases = lib.mkForce darwinFishAliases;
-    
-    # Darwin-specific fish settings
-    interactiveShellInit = ''
+    functions = darwinFishFunctions;
+    shellAliases = darwinFishAliases;
+
+    interactiveShellInit = lib.mkAfter ''
       # Disable greeting
       set fish_greeting
-      
-      # Darwin-specific fish settings
-      set -gx PATH $HOME/.local/bin $PATH
-      
+
+      # Keep Home Manager and Homebrew binaries visible in interactive fish.
+      for fish_user_bin in \
+        "$HOME/.local/bin" \
+        "${config.home.profileDirectory}/bin" \
+        "/opt/homebrew/bin" \
+        "/usr/local/bin"
+        if test -d "$fish_user_bin"
+          fish_add_path --prepend "$fish_user_bin"
+        end
+      end
+
       # Darwin-specific key bindings
       bind -M insert ctrl-h backward-delete-char
       bind -M insert ctrl-a beginning-of-line

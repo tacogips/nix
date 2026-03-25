@@ -75,10 +75,9 @@ let
           notify_layout "Applied layout: ide-3pane"
           ;;
         editor-2pane)
-          editor_pane="$(${pkgs.tmux}/bin/tmux split-window -h -P -F '#{pane_id}' -t "$base_pane" -c "$cwd")"
+          shell_pane="$(${pkgs.tmux}/bin/tmux split-window -h -P -F '#{pane_id}' -t "$base_pane" -c "$cwd")"
           ${pkgs.tmux}/bin/tmux select-layout -t "$target_window" even-horizontal >/dev/null
-          run_in_pane "$editor_pane" "nvim"
-          focus_pane "$editor_pane"
+          focus_pane "$shell_pane"
           notify_layout "Applied layout: editor-2pane"
           ;;
         agent-4pane)
@@ -106,7 +105,7 @@ let
 
   layoutMenu = ''
     display-menu -T 'Window Layouts' \
-      'Editor 2 Pane' e "run-shell '${tmuxLayoutApply}/bin/tmux-layout-apply editor-2pane #{window_id}'" \
+      'Shell 2 Pane' e "run-shell '${tmuxLayoutApply}/bin/tmux-layout-apply editor-2pane #{window_id}'" \
       'IDE 3 Pane' i "run-shell '${tmuxLayoutApply}/bin/tmux-layout-apply ide-3pane #{window_id}'" \
       'Agent 4 Pane' a "run-shell '${tmuxLayoutApply}/bin/tmux-layout-apply agent-4pane #{window_id}'" \
       'Shell 3 Pane' s "run-shell '${tmuxLayoutApply}/bin/tmux-layout-apply shell-3pane #{window_id}'"

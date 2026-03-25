@@ -61,6 +61,4 @@ in
     PATH = "${config.home.homeDirectory}/go/bin:${config.home.homeDirectory}/.cargo/bin:$PATH";
   };
 
-  programs.helix.languages.language-server.rust-analyzer.command =
-    lib.mkForce "${rustToolchain}/bin/rust-analyzer";
 }

@@ -19,7 +19,7 @@
     if test -n "$dest"
         set line_number (echo $dest | cut -d: -f2)
         set file_path (echo $dest | cut -d: -f1)
-        hx $file_path:$line_number
+        nvim "+$line_number" "$file_path"
     end
   '';
 
