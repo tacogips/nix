@@ -74,7 +74,7 @@ tasks:
   rebuild:
     desc: Rebuild and switch Darwin system configuration
     cmds:
-      - sudo darwin-rebuild switch --impure --flake ~/nix/nixos/darwin#taco-mac
+      - sudo /run/current-system/sw/bin/darwin-rebuild switch --impure --flake ~/nix/nixos/darwin#taco-mac
 
   clean:
     desc: Delete rebuild generations older than the latest 5 and garbage-collect unused Nix store paths
