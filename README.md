@@ -41,6 +41,10 @@ sudo nixos-rebuild switch --flake ~/nix/nixos/linux#taco-main
 
 Use this path on macOS after Nix is installed.
 
+Note: Tauri desktop end-to-end tests that rely on `tauri-driver` do not run on
+macOS. Upstream Tauri only supports that WebDriver flow on Linux and Windows
+because macOS does not provide a `WKWebView` WebDriver implementation.
+
 1. Move to the Darwin configuration directory:
 
 ```bash
@@ -70,6 +74,8 @@ nix shell nixpkgs#go-task --command task build
 ```bash
 nix shell nixpkgs#go-task --command task rebuild
 ```
+
+If a GUI terminal such as Ghostty opens `fish` and shows `fish: Unknown command: nix`, apply the nix-darwin configuration again and open a fresh Ghostty window so fish reloads the Nix profile script.
 
 6. To remove rebuild generations older than the latest 5 and garbage-collect unused Nix store paths:
 
