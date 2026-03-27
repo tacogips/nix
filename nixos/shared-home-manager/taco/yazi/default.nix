@@ -25,6 +25,11 @@ let
 
     return { entry = entry }
   '';
+  gitPluginInit = pkgs.writeText "yazi-init.lua" ''
+    require("git"):setup {
+      order = 1500,
+    }
+  '';
   gruvboxDarkFlavorSource = pkgs.fetchFromGitHub {
     owner = "bennyyip";
     repo = "gruvbox-dark.yazi";
@@ -246,10 +251,16 @@ in
         fd
         file
         fzf
+        git
         jq
         ripgrep
         zoxide
       ];
+
+      initLua = gitPluginInit;
+      plugins = {
+        inherit (pkgs.yaziPlugins) git;
+      };
 
       inherit keymap;
 
@@ -266,6 +277,19 @@ in
           sort_dir_first = true;
           sort_reverse = true;
         };
+
+        plugin.prepend_fetchers = [
+          {
+            id = "git";
+            url = "*";
+            run = "git";
+          }
+          {
+            id = "git";
+            url = "*/";
+            run = "git";
+          }
+        ];
 
         open.prepend_rules = [
           {

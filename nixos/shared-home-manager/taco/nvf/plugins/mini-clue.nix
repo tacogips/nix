@@ -32,7 +32,7 @@
           { mode = "n", keys = "<Space>,", desc = "Open smart file picker" },
           { mode = "n", keys = "<Space>b", desc = "Open buffer picker" },
           { mode = "n", keys = "<Space>f", desc = "Open git files picker" },
-          { mode = "n", keys = "<Space>/", desc = "Open live grep picker" },
+          { mode = "n", keys = "<Space>/", desc = "Open repo-aware grep picker" },
           { mode = "n", keys = "<Space>m", desc = "Open marks picker" },
           { mode = "n", keys = "<Space>H", desc = "Open command history picker" },
           { mode = "n", keys = "<Space>?", desc = "Open keymap picker" },

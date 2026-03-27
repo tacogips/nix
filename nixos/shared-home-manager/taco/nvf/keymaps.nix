@@ -521,11 +521,11 @@
       action = "<CMD>lua require'telescope.builtin'.git_files{}<Cr>";
     }
     {
-      # Helix-like `Space /`: search text across the project.
+      # Helix-like `Space /`: search tracked files in the current git repo, or the cwd otherwise.
       mode = "n";
       key = "<Space>/";
-      desc = "Open live grep picker";
-      action = "<CMD>lua require'telescope.builtin'.live_grep{}<Cr>";
+      desc = "Open repo-aware grep picker";
+      action = "<CMD>lua taco_project_live_grep()<Cr>";
     }
     {
       # Helix-like `Space m`: show marks in Telescope.

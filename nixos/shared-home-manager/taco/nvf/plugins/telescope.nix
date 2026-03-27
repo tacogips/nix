@@ -3,6 +3,33 @@
   settings.vim.luaConfigRC.telescope = ''
     local telescope_builtin = require("telescope.builtin")
 
+    local function system_lines(cmd, cwd)
+      local result = vim.system(cmd, {
+        cwd = cwd,
+        text = true,
+      }):wait()
+
+      return result.code, vim.split(result.stdout or "", "\n", { trimempty = true })
+    end
+
+    local function repo_grep_targets()
+      local cwd = vim.fn.getcwd()
+      local repo_status, repo_lines = system_lines({ "git", "rev-parse", "--show-toplevel" }, cwd)
+
+      if repo_status ~= 0 or #repo_lines == 0 then
+        return cwd, nil
+      end
+
+      local repo_root = repo_lines[1]
+      local files_status, tracked_files = system_lines({ "git", "ls-files" }, repo_root)
+
+      if files_status ~= 0 or #tracked_files == 0 then
+        return repo_root, nil
+      end
+
+      return repo_root, tracked_files
+    end
+
     local function workspace_type_symbols()
       return {
         "File",
@@ -46,6 +73,15 @@
     _G.taco_workspace_symbols = function()
       telescope_builtin.lsp_workspace_symbols({
         query = "",
+      })
+    end
+
+    _G.taco_project_live_grep = function()
+      local cwd, search_dirs = repo_grep_targets()
+
+      telescope_builtin.live_grep({
+        cwd = cwd,
+        search_dirs = search_dirs,
       })
     end
 

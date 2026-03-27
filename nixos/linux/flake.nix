@@ -34,9 +34,6 @@
     qraftbox.url = "git+https://github.com/tacogips/QraftBox.git";
     chilla.url = "github:tacogips/chilla";
 
-    ## --- overlays --------
-    nix-overlays.url = "github:tacogips/nix-overlays";
-
     # Firefox extensions repository from NUR
     firefox-addons = {
       url = "gitlab:rycee/nur-expressions?dir=pkgs/firefox-addons";
@@ -61,7 +58,6 @@
       kinko,
       qraftbox,
       chilla,
-      nix-overlays,
       firefox-addons,
       ...
     }:
@@ -79,10 +75,6 @@
           allowUnfree = true;
           cudaSupport = true;
         };
-        overlays = [
-          nix-overlays.overlays.claude-code
-          nix-overlays.overlays.codex
-        ];
       };
       stablePkgs = import nixpkgs-stable {
         system = "${system}";
@@ -137,14 +129,6 @@
             };
 
             modules = [
-              # Overlays
-              {
-                nixpkgs.overlays = [
-                  nix-overlays.overlays.claude-code
-                  nix-overlays.overlays.codex
-                ];
-              }
-
               # Base configuration
               ./device/nix-dev-machine/configuration.nix
               ./ssh/ssh.nix
