@@ -29,7 +29,7 @@
           { mode = "n", keys = "<Space>C", desc = "Copy current directory path" },
           { mode = "n", keys = "<Space>g", desc = "Open LazyGit" },
           { mode = "n", keys = "<Space>G", desc = "Open git branch picker" },
-          { mode = "n", keys = "<Space>,", desc = "Open recent files picker" },
+          { mode = "n", keys = "<Space>,", desc = "Open smart file picker" },
           { mode = "n", keys = "<Space>b", desc = "Open buffer picker" },
           { mode = "n", keys = "<Space>f", desc = "Open git files picker" },
           { mode = "n", keys = "<Space>/", desc = "Open live grep picker" },

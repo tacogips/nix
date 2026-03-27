@@ -500,11 +500,11 @@
       action = "<CMD>lua require'telescope.builtin'.git_branches{}<Cr>";
     }
     {
-      # Helix-like `Space ,`: reopen the last fuzzy picker context via recent files.
+      # Helix-like `Space ,`: open a smart file picker across history, buffers, and cwd files.
       mode = "n";
       key = "<Space>,";
-      desc = "Open recent files picker";
-      action = "<CMD>:Telescope oldfiles<Cr>";
+      desc = "Open smart file picker";
+      action = "<CMD>lua taco_smart_open()<Cr>";
     }
     {
       # Helix-like `Space b`: pick from open buffers.

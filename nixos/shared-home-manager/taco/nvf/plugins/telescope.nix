@@ -49,6 +49,10 @@
       })
     end
 
+    _G.taco_smart_open = function()
+      require("telescope").extensions.smart_open.smart_open()
+    end
+
     require("telescope").setup({
       defaults = {
         prompt_prefix = " ❯ ",
@@ -74,7 +78,12 @@
           override_file_sorter = true,
           case_mode = "smart_case",
         },
+        smart_open = {
+          match_algorithm = "fzf",
+        },
       },
     })
+
+    pcall(require("telescope").load_extension, "smart_open")
   '';
 }

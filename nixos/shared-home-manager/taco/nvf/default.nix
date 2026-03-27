@@ -73,6 +73,7 @@ in
     (import ./plugins/luasnip.nix commonArgs)
     (import ./plugins/none-ls.nix commonArgs)
     (import ./plugins/nvim-cmp.nix commonArgs)
+    (import ./plugins/smart-open.nix commonArgs)
     (import ./plugins/telescope.nix commonArgs)
     (import ./plugins/toggleterm.nix commonArgs)
     (import ./plugins/mini-clue.nix commonArgs)
