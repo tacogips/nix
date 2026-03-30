@@ -1,0 +1,7 @@
+interface:
+  display_name: "Git Publish Scrub"
+  short_description: "Audit new Git files before commit or push"
+  default_prompt: "Use $git-new-file-publish-scrub to check whether newly added Git files are safe to commit or push."
+
+policy:
+  allow_implicit_invocation: true
