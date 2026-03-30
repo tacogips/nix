@@ -147,4 +147,8 @@ in
   cursor-loop = ''
     __agent-loop-run cursor-loop cursor input $argv
   '';
+
+  cursor-loop-review-today = ''
+    __agent-loop-run cursor-loop-review-today cursor fixed "${codexReviewTodayPrompt}" $argv
+  '';
 }
