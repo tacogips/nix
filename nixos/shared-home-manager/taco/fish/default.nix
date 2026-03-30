@@ -1,8 +1,10 @@
-{ pkgs, ... }:
+{ lib, pkgs, ... }:
 let
 
   fishFunctions = import ./functions.nix { inherit pkgs; };
-  fishAliases = import ./aliases.nix { inherit pkgs; };
+  fishAliases = import ./aliases.nix {
+    inherit lib pkgs;
+  };
   aliases = fishAliases.aliases;
   abbrs = import ./abbrs.nix;
 in

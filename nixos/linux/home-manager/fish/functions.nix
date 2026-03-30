@@ -1,10 +1,12 @@
 { pkgs, ... }:
 let
-  sharedFish = import ../../../shared-home-manager/taco/fish/aliases.nix { inherit pkgs; };
-  codexExecCommand = "${sharedFish.codexBaseCommand} exec";
-  cursorPrintCommand = "${sharedFish.cursorBaseCommand} --model composer-2-fast --print --output-format text --trust";
-  agentLoopSuffix = "Check whether the current architecture/design matches this intended purpose. If it does not, update the design, create an implementation plan, and implement it. This work will be carried out over multiple iterations. If there is a git diff, review it and check whether there is any continuation of the previous task, any bugs, any overlooked considerations, or any areas that can be further improved, and fix them if necessary.";
-  codexReviewTodayPrompt = sharedFish.codexReviewTodayPrompt;
+  agentCommands = import ../../../shared-home-manager/taco/fish/agent-commands.nix { };
+  codexExecCommand = "${agentCommands.codexBaseCommand} exec";
+  inherit (agentCommands)
+    agentLoopSuffix
+    codexReviewTodayPrompt
+    cursorPrintCommand
+    ;
 in
 {
   capture_active = ''
@@ -74,7 +76,15 @@ in
     set -l loop_name $argv[1]
     set -l runner $argv[2]
     set -l prompt_mode $argv[3]
-    set argv $argv[4..-1]
+    set -l fixed_prompt
+
+    switch $prompt_mode
+      case fixed
+        set fixed_prompt $argv[4]
+        set argv $argv[5..-1]
+      case '*'
+        set argv $argv[4..-1]
+    end
 
     set -l n $argv[1]
     if test -z "$n"
@@ -95,23 +105,23 @@ in
         if test (count $argv) -gt 0
           set prompt (string join ' ' -- $argv)
         else if not isatty stdin
-          set prompt (cat)
+          set prompt (cat | string collect)
         else
           __agent-loop-print-usage $loop_name $prompt_mode
           return 1
         end
       case fixed
-        if test (count $argv) -ne 1
+        if test (count $argv) -ne 0
           __agent-loop-print-usage $loop_name $prompt_mode
           return 1
         end
-        set prompt $argv[1]
+        set prompt $fixed_prompt
       case '*'
         echo "$loop_name: unsupported prompt mode: $prompt_mode" >&2
         return 1
     end
 
-    set prompt "$prompt\n\n${agentLoopSuffix}"
+    set prompt (printf '%s\n\n%s' -- "$prompt" "${agentLoopSuffix}" | string collect)
 
     for i in (seq $n)
       switch $runner

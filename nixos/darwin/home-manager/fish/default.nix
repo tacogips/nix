@@ -7,7 +7,7 @@
 
 let
   darwinFishFunctions = import ./functions.nix { inherit pkgs; };
-  darwinFishAliases = import ./aliases.nix { inherit pkgs; };
+  darwinFishAliases = import ./aliases.nix { inherit lib pkgs; };
 in
 {
   # Extend shared fish settings with Darwin-specific additions.

@@ -1,8 +1,10 @@
-{ pkgs }:
+{ lib, pkgs }:
 
 let
   # Import shared aliases
-  sharedFish = import ../../../shared-home-manager/taco/fish/aliases.nix { inherit pkgs; };
+  sharedFish = import ../../../shared-home-manager/taco/fish/aliases.nix {
+    inherit lib pkgs;
+  };
   sharedAliases = sharedFish.aliases;
 
   # Darwin-specific aliases

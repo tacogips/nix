@@ -70,4 +70,4 @@ cat prompt.md | cursor-loop 3
 ```
 
 Both commands append the same architecture and git-diff review suffix on each iteration. `cursor-loop` uses the same Cursor model selection as the `ca` alias, which means `composer-2-fast` runs with the shared `--yolo --approve-mcps` flags and non-interactive `--print` output.
-`codex-loop-review-today` reuses the same fixed review prompt as `co-review-today`, but runs it through the iterative Codex loop for the number of times you pass as `n`.
+`codex-loop-review-today` produces the same effective review request as `co-review-today`, including the architecture/design check and current-diff continuation review, but runs it through the iterative Codex loop for the number of times you pass as `n`.

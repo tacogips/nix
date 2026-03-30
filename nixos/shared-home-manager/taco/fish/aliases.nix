@@ -1,23 +1,26 @@
-{ pkgs, ... }:
+{ lib, pkgs, ... }:
 
 let
-  codexCommand = "codex";
-  cursorCommand = "cursor-agent";
-  cursorGlobalFlags = "--yolo --approve-mcps";
-  # Newer Codex CLI versions reject combining explicit approval policy with
-  # the bypass flag, because bypass already disables approvals and sandboxing.
-  codexGlobalFlags = "--dangerously-bypass-approvals-and-sandbox --model gpt-5.4";
-  codexBaseCommand = "${codexCommand} ${codexGlobalFlags}";
-  codexReviewTodayPrompt = "Review the code changes made today and improve low-quality code. The review and fixes should cover code that is generally considered low quality, unused code, deprecated code that still remains, unnecessary hardcoding, places that can be made DRY, places that are not aligned with SOLID principles without a clear reason, inappropriate variable names, cases not covered by tests, overlooked considerations, and bugs.";
-  cursorBaseCommand = "${cursorCommand} ${cursorGlobalFlags}";
-  claudeBaseCommand = "env NODE_OPTIONS='--max-old-space-size=16384' CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1 claude --permission-mode bypassPermissions --dangerously-skip-permissions";
+  agentCommands = import ./agent-commands.nix { };
+  inherit (agentCommands)
+    claudeBaseCommand
+    codexBaseCommand
+    codexReviewTodayFullPrompt
+    codexCommand
+    codexReviewTodayPrompt
+    cursorBaseCommand
+    cursorCommand
+    cursorFastModel
+    ;
 in
 {
-  codexCommand = codexCommand;
-  codexBaseCommand = codexBaseCommand;
-  codexReviewTodayPrompt = codexReviewTodayPrompt;
-  cursorCommand = cursorCommand;
-  cursorBaseCommand = cursorBaseCommand;
+  inherit
+    codexBaseCommand
+    codexCommand
+    codexReviewTodayPrompt
+    cursorBaseCommand
+    cursorCommand
+    ;
 
   aliases = {
     ll = "ls -al";
@@ -59,10 +62,10 @@ in
     # Keep the shared flags in Nix so aliases and functions do not depend on
     # another fish alias being present.
     co = codexBaseCommand;
-    "co-review-today" = "${codexBaseCommand} exec '${codexReviewTodayPrompt}'";
+    "co-review-today" = "${codexBaseCommand} exec ${lib.escapeShellArg codexReviewTodayFullPrompt}";
     corl = "${codexBaseCommand} resume --last";
     cor = "${codexBaseCommand} resume";
-    ca = "${cursorBaseCommand} --model composer-2-fast";
+    ca = "${cursorBaseCommand} --model ${cursorFastModel}";
     cu = cursorBaseCommand;
     curl = "${cursorBaseCommand} resume --last";
     cur = "${cursorBaseCommand} resume";
