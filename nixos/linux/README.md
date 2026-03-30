@@ -64,8 +64,10 @@ The Linux fish configuration provides two iterative agent helpers:
 
 ```bash
 codex-loop 3 "prompt"
+codex-loop-review-today 3
 cursor-loop 3 "prompt"
 cat prompt.md | cursor-loop 3
 ```
 
 Both commands append the same architecture and git-diff review suffix on each iteration. `cursor-loop` uses the same Cursor model selection as the `ca` alias, which means `composer-2-fast` runs with the shared `--yolo --approve-mcps` flags and non-interactive `--print` output.
+`codex-loop-review-today` reuses the same fixed review prompt as `co-review-today`, but runs it through the iterative Codex loop for the number of times you pass as `n`.

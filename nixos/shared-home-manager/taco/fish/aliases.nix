@@ -15,6 +15,7 @@ in
 {
   codexCommand = codexCommand;
   codexBaseCommand = codexBaseCommand;
+  codexReviewTodayPrompt = codexReviewTodayPrompt;
   cursorCommand = cursorCommand;
   cursorBaseCommand = cursorBaseCommand;
 
