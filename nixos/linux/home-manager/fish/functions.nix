@@ -121,7 +121,7 @@ in
         return 1
     end
 
-    set prompt (printf '%s\n\n%s' -- "$prompt" "${agentLoopSuffix}" | string collect)
+    set prompt (printf '%s\n\n%s' "$prompt" "${agentLoopSuffix}" | string collect)
 
     for i in (seq $n)
       switch $runner
