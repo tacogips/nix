@@ -8,6 +8,14 @@
     {
       on = [
         ","
+        "g"
+      ];
+      run = "plugin git-diff-tree";
+      desc = "Show files and directories with git diff";
+    }
+    {
+      on = [
+        ","
         "r"
       ];
       run = "search --via=rg";
