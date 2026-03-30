@@ -32,7 +32,7 @@ in
 
 
 
-      function fish_mode_prompt
+      function __taco_fish_bind_mode_indicator
         switch $fish_bind_mode
           case default
             set_color --bold red
@@ -50,6 +50,9 @@ in
         set_color normal
       end
 
+      function fish_mode_prompt
+      end
+
       set -g fish_escape_delay_ms 10
       set -g __fish_git_prompt_show_informative_status true
       set -g __fish_git_prompt_showdirtystate true
@@ -61,7 +64,7 @@ in
       function fish_prompt
         set -l last_status $status
 
-        fish_mode_prompt
+        __taco_fish_bind_mode_indicator
 
         set_color $fish_color_cwd
         echo -n (prompt_pwd)
