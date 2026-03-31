@@ -33,7 +33,7 @@ When you want to register the token, temporarily install `gh`, `kinko`, and `go-
 nix shell nixpkgs#gh nixpkgs#go-task github:tacogips/kinko --command task setup-github-token
 ```
 
-After applying the Home Manager or NixOS configuration, open a new fish shell. Fish will import shared kinko secrets automatically when `kinko` is available.
+After applying the Home Manager or NixOS configuration, open a new fish shell. Fish will import shared kinko secrets automatically when `kinko` is available, and it will warn when the shell starts and whenever `cd` changes directories if `kinko` is installed but currently locked.
 
 If you only want to populate the current shell from GitHub CLI without updating kinko, use:
 

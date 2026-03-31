@@ -90,6 +90,26 @@ in
         end
       end
 
+      function __taco_warn_if_kinko_locked
+        if not command -sq kinko
+          return
+        end
+
+        set -l kinko_status (kinko status 2>/dev/null | string trim)
+        if test "$kinko_status" = "locked"
+          echo
+          set_color --bold red
+          echo "!!! KINKO IS LOCKED !!!"
+          set_color --bold yellow
+          echo "Run 'kinko unlock' if you need shared secrets."
+          set_color normal
+        end
+      end
+
+      function __taco_warn_if_kinko_locked_on_pwd_change --on-variable PWD
+        __taco_warn_if_kinko_locked
+      end
+
       set -l exports_file "$HOME/.config/fish/exports.fish"
       if test -f $exports_file
            source $exports_file
@@ -98,6 +118,8 @@ in
       if command -sq kinko
            kinko export fish --shared-only --force 2>/dev/null | source
       end
+
+      __taco_warn_if_kinko_locked
 
     '';
   };
