@@ -156,6 +156,8 @@ export GOPRIVATE=github.com/your-org/*
 - Keep platform-independent configuration in `nixos/shared-home-manager/`.
 - Keep Linux-specific configuration in `nixos/linux/`.
 - Keep Darwin-specific configuration in `nixos/darwin/`.
+- Keep Linux-only Home Manager modules in `nixos/linux/home-manager/`.
+- Keep Darwin-only Home Manager modules in `nixos/darwin/home-manager/`.
 - Prefer small, self-contained modules over unrelated edits in large files.
 - Shared Home Manager modules belong under `nixos/shared-home-manager/taco/`.
 

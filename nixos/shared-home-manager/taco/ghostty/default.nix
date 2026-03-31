@@ -90,7 +90,7 @@ in
       command = ${ghosttyCommand}
       copy-on-select = false
       confirm-close-surface = false
-      app-notifications = config-reload
+      app-notifications = config-reload,no-clipboard-copy
       ${cfg.extraConfig}
     '';
   };
