@@ -24,11 +24,11 @@ let
 
       find "$infoDir" -type f -name '*.trashinfo' -print | while IFS= read -r infoPath; do
         entryName="$(basename "$infoPath" .trashinfo)"
-        rm -rf -- "$filesDir/$entryName"
-        rm -f -- "$infoPath"
+        rm -rf -- "''${filesDir:?}/''${entryName:?}"
+        rm -f -- "''${infoPath:?}"
       done
 
-      rm -f -- "$trashBase/directorysizes"
+      rm -f -- "''${trashBase:?}/directorysizes"
     '';
   };
 in
