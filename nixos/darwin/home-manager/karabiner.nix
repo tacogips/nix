@@ -1,6 +1,13 @@
 { config, pkgs, lib, ... }:
 
 {
+  # Keyboard layout references:
+  # - Custom layout: ./keyboard-layouts/us-linux-kana.keylayout
+  # - Mapping notes:  ./keyboard-layouts/mac_keybind.md
+  #
+  # Keep the .keylayout and the Markdown mapping notes in sync when editing
+  # the US/Linux kana layout.
+
   # Karabiner-Elements configuration
   home.file.".config/karabiner/karabiner.json" = {
     text = builtins.toJSON {
@@ -37,4 +44,16 @@
     };
     force = true;  # Allow Home Manager to overwrite existing files
   };
+
+  home.activation.installUsLinuxKanaKeylayout = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+    layout_dir="$HOME/Library/Keyboard Layouts"
+    layout_name="US Linux Kana.keylayout"
+    mkdir -p "$layout_dir"
+
+    if [ -L "$layout_dir/$layout_name" ]; then
+      rm -f "$layout_dir/$layout_name"
+    fi
+
+    cp -f ${./keyboard-layouts/us-linux-kana.keylayout} "$layout_dir/$layout_name"
+  '';
 }
