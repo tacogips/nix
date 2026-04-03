@@ -23,6 +23,8 @@
     launchd.enable = true;
 
     userSettings = {
+      config-version = 2;
+
       # Start AeroSpace automatically at login
       start-at-login = true;
 
@@ -30,6 +32,51 @@
       after-startup-command = [
         "layout tiles"
       ];
+
+      # Prefer the external monitor for primary workspaces when docked,
+      # while always keeping the built-in display on workspace 9.
+      "workspace-to-monitor-force-assignment" = {
+        "1" = [
+          "secondary"
+          "main"
+        ];
+        "2" = [
+          "secondary"
+          "main"
+        ];
+        "3" = [
+          "secondary"
+          "main"
+        ];
+        "4" = [
+          "secondary"
+          "main"
+        ];
+        "5" = [
+          "secondary"
+          "main"
+        ];
+        "6" = [
+          "secondary"
+          "main"
+        ];
+        "7" = [
+          "secondary"
+          "main"
+        ];
+        "8" = [
+          "secondary"
+          "main"
+        ];
+        "9" = [
+          "built-in"
+          "main"
+        ];
+        "10" = [
+          "secondary"
+          "main"
+        ];
+      };
 
       # Normalization settings
       enable-normalization-flatten-containers = true;
