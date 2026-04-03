@@ -1,13 +1,12 @@
 { config, pkgs, lib, ... }:
 
 let
-  jaHiraganaCondition = [
+  jaKanaCondition = [
     {
       type = "input_source_if";
       input_sources = [
         {
-          language = "^ja$";
-          input_mode_id = "^com\\.apple\\.inputmethod\\.Japanese\\.Hiragana$";
+          input_source_id = "^com\\.apple\\.inputmethod\\.Kotoeri\\.KanaTyping\\.Japanese$";
         }
       ];
     }
@@ -20,7 +19,17 @@ let
       modifiers = { optional = [ "caps_lock" ]; };
     };
     to = [{ key_code = toKey; }];
-    conditions = jaHiraganaCondition;
+    conditions = jaKanaCondition;
+  };
+
+  mkKanaKeyRemapWithModifiers = fromKey: toKey: toModifiers: {
+    type = "basic";
+    from = {
+      key_code = fromKey;
+      modifiers = { optional = [ "caps_lock" ]; };
+    };
+    to = [{ key_code = toKey; modifiers = toModifiers; }];
+    conditions = jaKanaCondition;
   };
 
   mkKanaShiftRemap = fromKey: toKey: toModifiers: {
@@ -33,28 +42,7 @@ let
       };
     };
     to = [{ key_code = toKey; modifiers = toModifiers; }];
-    conditions = jaHiraganaCondition;
-  };
-
-  mkKanaTextRemap = fromKey: text: shift: {
-    type = "basic";
-    from = {
-      key_code = fromKey;
-      modifiers =
-        if shift then
-          {
-            mandatory = [ "shift" ];
-            optional = [ "caps_lock" ];
-          }
-        else
-          { optional = [ "caps_lock" ]; };
-    };
-    to = [
-      {
-        shell_command = "osascript -e 'tell application \"System Events\" to keystroke \"${text}\"'";
-      }
-    ];
-    conditions = jaHiraganaCondition;
+    conditions = jaKanaCondition;
   };
 in
 {
@@ -63,7 +51,10 @@ in
   # - Mapping notes:  ./keyboard-layouts/mac_keybind.md
   #
   # The custom .keylayout attempt is kept as reference. The active solution is
-  # Karabiner remapping against the standard Japanese Hiragana input source.
+  # Karabiner remapping against the standard Japanese KANA input source.
+  #
+  # Direct key-event remaps are used where possible. shell_command with
+  # osascript is used only for characters absent from the Mac kana layout.
 
   # Karabiner-Elements configuration
   home.file.".config/karabiner/karabiner.json" = {
@@ -89,18 +80,24 @@ in
               description = "match Linux kana layout on US keyboard";
               manipulators = [
                 (mkKanaKeyRemap "equal_sign" "backslash")
-                (mkKanaTextRemap "backslash" "む" false)
-                (mkKanaKeyRemap "grave_accent_and_tilde" "quote")
+                {
+                  type = "basic";
+                  from = {
+                    key_code = "backslash";
+                    modifiers = { optional = [ "caps_lock" ]; };
+                  };
+                  to = [{
+                    shell_command = "osascript -e 'tell application \"System Events\" to keystroke \"む\"'";
+                  }];
+                  conditions = jaKanaCondition;
+                }
+                (mkKanaKeyRemapWithModifiers "grave_accent_and_tilde" "quote" [ "shift" ])
                 (mkKanaKeyRemap "close_bracket" "equal_sign")
-                (mkKanaTextRemap "semicolon" "れ" false)
-                (mkKanaTextRemap "z" "つ" false)
                 (mkKanaShiftRemap "equal_sign" "backslash" [ "shift" ])
-                (mkKanaShiftRemap "hyphen" "close_bracket" [ ])
+                (mkKanaShiftRemap "hyphen" "close_bracket" [ "shift" ])
                 (mkKanaShiftRemap "backslash" "open_bracket" [ "shift" ])
                 (mkKanaShiftRemap "grave_accent_and_tilde" "quote" [ "shift" ])
                 (mkKanaShiftRemap "close_bracket" "equal_sign" [ "shift" ])
-                (mkKanaTextRemap "semicolon" "れ" true)
-                (mkKanaTextRemap "z" "つ" true)
               ];
             }
           ];

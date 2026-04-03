@@ -60,6 +60,7 @@ Each row shows:
 | Row 4 English | `zxcvb` | `%nm,./` |
 | Row 4 English + Shift | `ZXCVB` | `%NM<>?` |
 | Row 4 Japanese | `つさそひこ` | `ぇみもねるめ` |
+| Row 4 Japanese + Shift | `っさそひこ` | `ぇみも、。・` |
 
 ## Correspondence
 
