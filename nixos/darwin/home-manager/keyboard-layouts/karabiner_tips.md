@@ -86,14 +86,18 @@ layout (e.g. `む` does not appear on any US keyboard key in Mac kana mode).
   "type": "basic",
   "from": { "key_code": "backslash" },
   "to": [{
-    "shell_command": "osascript -e 'tell application \"System Events\" to keystroke \"む\"'"
+    "shell_command": "/nix/store/...-karabiner-type-mu/bin/karabiner-type-mu"
   }],
   "conditions": [...]
 }
 ```
 
-Requires **Accessibility** permission for Karabiner-Elements in
-System Settings > Privacy & Security > Accessibility.
+The current Nix configuration builds this helper from an embedded Swift source
+using `pkgs.swift`, then points Karabiner at the resulting store path. This is
+faster than spawning `osascript` for every `む` keypress.
+
+Requires **Accessibility** permission for Karabiner-Elements in System Settings
+> Privacy & Security > Accessibility.
 
 ## Event Processing Order
 
