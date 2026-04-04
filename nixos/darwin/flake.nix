@@ -187,12 +187,13 @@
 
                   # Command-line tools (brews)
                   brews = [
-                    # Add any CLI tools that are better via Homebrew
+                    "colima"
+                    "docker"
                   ];
 
                   # Mac App Store apps (requires mas-cli)
                   masApps = {
-                    # "App Name" = appId;
+                    Xcode = 497799835;
                   };
                 };
 
