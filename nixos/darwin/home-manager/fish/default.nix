@@ -10,7 +10,7 @@ let
   darwinFishAliases = import ./aliases.nix { inherit lib pkgs; };
 in
 {
-  # Extend shared fish settings with Darwin-specific additions.
+  # Merge only Darwin-specific fish additions into the shared module.
   programs.fish = {
     functions = darwinFishFunctions;
     shellAliases = darwinFishAliases;

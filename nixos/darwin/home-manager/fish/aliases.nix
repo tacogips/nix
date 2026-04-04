@@ -1,13 +1,8 @@
-{ lib, pkgs }:
+_:
 
 let
-  # Import shared aliases
-  sharedFish = import ../../../shared-home-manager/taco/fish/aliases.nix {
-    inherit lib pkgs;
-  };
-  sharedAliases = sharedFish.aliases;
-
-  # Darwin-specific aliases
+  # These aliases are Darwin-only additions. Shared aliases are provided by the
+  # shared module and merged by the Nix module system.
   darwinAliases = {
     "nix-switch-taco-mac" = "darwin-rebuild switch --flake ~/nix/nixos/darwin#taco-mac";
     "brewup" = "brew update && brew upgrade";
@@ -16,5 +11,4 @@ let
   };
 
 in
-# Merge shared aliases with Darwin-specific ones
-sharedAliases // darwinAliases
+darwinAliases

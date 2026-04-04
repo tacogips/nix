@@ -181,7 +181,7 @@
                   casks = [
                     "ghostty" # Ghostty terminal
                     # "zed" # Zed Editor
-                    "claude" # Claude Code
+                    "claude-code" # Claude Code CLI
                     "codex" # OpenAI Codex CLI
                   ];
 

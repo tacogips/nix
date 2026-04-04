@@ -58,7 +58,7 @@ in
 
     autoStartTmux = lib.mkOption {
       type = lib.types.bool;
-      default = false;
+      default = true;
       description = "Whether Ghostty should launch directly into tmux.";
     };
 
@@ -85,7 +85,10 @@ in
       window-padding-x = 5
       window-padding-y = 5
       window-decoration = auto
-      shell-integration = fish
+      # When Ghostty launches tmux directly, Ghostty's shell integration hooks do
+      # not attach to the interactive shell process. Disable integration in that
+      # mode so fullscreen TUIs receive key input normally.
+      shell-integration = ${if cfg.autoStartTmux then "none" else "fish"}
       initial-command = ${ghosttyCommand}
       command = ${ghosttyCommand}
       copy-on-select = false

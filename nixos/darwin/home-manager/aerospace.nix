@@ -5,6 +5,52 @@
   ...
 }:
 
+let
+  aerospaceDisplaySync = pkgs.writeShellScript "aerospace-display-sync" ''
+    set -eu
+
+    AEROSPACE="${pkgs.aerospace}/bin/aerospace"
+    GREP="${pkgs.gnugrep}/bin/grep"
+    MKDIR="${pkgs.coreutils}/bin/mkdir"
+    CAT="${pkgs.coreutils}/bin/cat"
+    SORT="${pkgs.coreutils}/bin/sort"
+
+    state_dir="$HOME/.local/state/aerospace"
+    state_file="$state_dir/monitor-topology"
+
+    "$MKDIR" -p "$state_dir"
+
+    if ! current_state="$("$AEROSPACE" list-monitors --format '%{monitor-id}|%{monitor-name}|%{monitor-is-main}' 2>/dev/null | "$SORT")"; then
+      exit 0
+    fi
+
+    force="''${1:-}"
+    previous_state=""
+    if [ -f "$state_file" ]; then
+      previous_state="$("$CAT" "$state_file")"
+    fi
+
+    printf '%s\n' "$current_state" > "$state_file"
+
+    if [ "$force" != "--force" ] && [ "$current_state" = "$previous_state" ]; then
+      exit 0
+    fi
+
+    monitor_count="$("$AEROSPACE" list-monitors --count 2>/dev/null || printf '0')"
+    if [ "$monitor_count" -lt 2 ]; then
+      exit 0
+    fi
+
+    if ! "$AEROSPACE" list-monitors --format '%{monitor-name}' 2>/dev/null | "$GREP" -qi 'built-in'; then
+      exit 0
+    fi
+
+    "$AEROSPACE" focus-monitor built-in
+    "$AEROSPACE" workspace 9
+    "$AEROSPACE" focus-monitor secondary
+    "$AEROSPACE" workspace 1
+  '';
+in
 {
   # Override the aerospace reload activation to handle when AeroSpace isn't running
   home.activation.aerospace-reload-config = lib.mkForce (
@@ -23,13 +69,63 @@
     launchd.enable = true;
 
     userSettings = {
+      config-version = 2;
+
       # Start AeroSpace automatically at login
       start-at-login = true;
 
       # Commands to run after AeroSpace startup
       after-startup-command = [
         "layout tiles"
+        "exec-and-forget ${aerospaceDisplaySync} --force"
       ];
+
+      # Prefer the external monitor for primary workspaces when docked,
+      # while always keeping the built-in display on workspace 9.
+      persistent-workspaces = [ "9" ];
+
+      "workspace-to-monitor-force-assignment" = {
+        "1" = [
+          "secondary"
+          "main"
+        ];
+        "2" = [
+          "secondary"
+          "main"
+        ];
+        "3" = [
+          "secondary"
+          "main"
+        ];
+        "4" = [
+          "secondary"
+          "main"
+        ];
+        "5" = [
+          "secondary"
+          "main"
+        ];
+        "6" = [
+          "secondary"
+          "main"
+        ];
+        "7" = [
+          "secondary"
+          "main"
+        ];
+        "8" = [
+          "secondary"
+          "main"
+        ];
+        "9" = [
+          "built-in"
+          "main"
+        ];
+        "10" = [
+          "secondary"
+          "main"
+        ];
+      };
 
       # Normalization settings
       enable-normalization-flatten-containers = true;
@@ -184,6 +280,18 @@
 
       # Mouse follows focus
       on-focused-monitor-changed = [ "move-mouse monitor-lazy-center" ];
+    };
+  };
+
+  launchd.agents.aerospace-display-sync = {
+    enable = true;
+    config = {
+      Label = "org.hm.aerospace-display-sync";
+      ProgramArguments = [ "${aerospaceDisplaySync}" ];
+      RunAtLoad = true;
+      StartInterval = 5;
+      StandardOutPath = "/tmp/aerospace-display-sync.log";
+      StandardErrorPath = "/tmp/aerospace-display-sync.log";
     };
   };
 }
