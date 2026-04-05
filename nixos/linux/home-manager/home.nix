@@ -1,5 +1,6 @@
 {
   config,
+  lib,
   pkgs,
   inputs,
   xremap-flake,
@@ -11,8 +12,99 @@
   chilla-pkg,
   ...
 }:
+let
+  claudeCodeTargetVersion = "2.1.92";
+  useClaudeCodeOverride = lib.versionOlder pkgs.claude-code.version claudeCodeTargetVersion;
 
+  # nixos-unstable currently points claude-code at 2.1.88, but that tarball was
+  # removed from npm. Pin only this package to the upstream-fixed 2.1.92
+  # package definition so Linux rebuilds keep working without a full nixpkgs bump.
+  claudeCodeFixed = pkgs.callPackage (
+    {
+      lib,
+      stdenv,
+      buildNpmPackage,
+      fetchzip,
+      fetchurl,
+      versionCheckHook,
+      writableTmpDirAsHomeHook,
+      bubblewrap,
+      procps,
+      socat,
+    }:
+    buildNpmPackage (finalAttrs: {
+      pname = "claude-code";
+      version = claudeCodeTargetVersion;
+
+      src = fetchzip {
+        url = "https://registry.npmjs.org/@anthropic-ai/claude-code/-/claude-code-${finalAttrs.version}.tgz";
+        hash = "sha256-CLLCtVK3TeXFZ8wBnRRHNc2MoUt7lTdMJwz8sZHpkFM=";
+      };
+
+      npmDepsHash = "sha256-5LvH7fG5pti2SiXHQqgRxfFpxaXxzrmGxIoPR4dGE+8=";
+
+      strictDeps = true;
+
+      postPatch = ''
+        cp ${
+          fetchurl {
+            url = "https://raw.githubusercontent.com/NixOS/nixpkgs/master/pkgs/by-name/cl/claude-code/package-lock.json";
+            hash = "sha256-4k5WBVwNSHdU8k1oam6QT5NhvHfJ43ZJtmAxIkTxe54=";
+          }
+        } package-lock.json
+
+        substituteInPlace cli.js \
+          --replace-fail '#!/bin/sh' '#!/usr/bin/env sh'
+      '';
+
+      dontNpmBuild = true;
+
+      env.AUTHORIZED = "1";
+
+      postInstall = ''
+        wrapProgram $out/bin/claude \
+          --set DISABLE_AUTOUPDATER 1 \
+          --set-default FORCE_AUTOUPDATE_PLUGINS 1 \
+          --set DISABLE_INSTALLATION_CHECKS 1 \
+          --unset DEV \
+          --prefix PATH : ${
+            lib.makeBinPath (
+              [ procps ]
+              ++ lib.optionals stdenv.hostPlatform.isLinux [
+                bubblewrap
+                socat
+              ]
+            )
+          }
+      '';
+
+      doInstallCheck = true;
+      nativeInstallCheckInputs = [
+        writableTmpDirAsHomeHook
+        versionCheckHook
+      ];
+      versionCheckKeepEnvironment = [ "HOME" ];
+
+      meta = {
+        description = "Agentic coding tool that lives in your terminal, understands your codebase, and helps you code faster";
+        homepage = "https://github.com/anthropics/claude-code";
+        downloadPage = "https://www.npmjs.com/package/@anthropic-ai/claude-code";
+        license = lib.licenses.unfree;
+        mainProgram = "claude";
+        sourceProvenance = with lib.sourceTypes; [ binaryBytecode ];
+      };
+    })
+  ) { };
+
+  claudeCodePackage = if useClaudeCodeOverride then claudeCodeFixed else pkgs.claude-code;
+in
 {
+
+  warnings = lib.optional (!useClaudeCodeOverride) ''
+    nixpkgs now provides claude-code ${pkgs.claude-code.version}, so the local
+    2.1.92 fallback in nixos/linux/home-manager/home.nix is no longer needed.
+    Remove claudeCodeFixed/claudeCodePackage when convenient.
+  '';
 
   imports = [
     # Moved Linux-specific modules from shared to linux/home-manager
@@ -78,7 +170,7 @@
       # firefox - Removed (now managed by home-manager firefox module)
       go-task
       kubectl
-      nodePackages.pm2
+      pm2
 
       networkmanagerapplet # nm-connection-editor
 
@@ -86,7 +178,7 @@
       tokei
       dust
       jq
-      claude-code
+      claudeCodePackage
       (codex.overrideAttrs (oldAttrs: {
         nativeBuildInputs = (oldAttrs.nativeBuildInputs or [ ]) ++ [ pkg-config ];
         buildInputs = (oldAttrs.buildInputs or [ ]) ++ [ libcap ];

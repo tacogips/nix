@@ -71,9 +71,9 @@
         gopls
         lua-language-server
         nil
-        nodePackages.prettier
-        nodePackages.typescript
-        nodePackages.typescript-language-server
+        prettier
+        typescript
+        typescript-language-server
         python3
         ripgrep
         rust-analyzer
