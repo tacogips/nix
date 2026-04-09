@@ -54,8 +54,8 @@ in
     tm = "tmux";
     vim = "nvim";
     n = "nvim";
-    cl = "${claudeBaseCommand} --model sonnet";
-    clo = "${claudeBaseCommand} --model opus";
+    cl = "env CLAUDE_CODE_EFFORT_LEVEL=high ${claudeBaseCommand} --model sonnet";
+    clo = "env CLAUDE_CODE_EFFORT_LEVEL=high ${claudeBaseCommand} --model opus";
 
     # `high` is not part of the model name; configure it via
     # `model_reasoning_effort = "high"` in `~/.codex/config.toml`.
