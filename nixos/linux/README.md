@@ -60,7 +60,7 @@ gh-clone https://github.com/owner/repo.git
 
 ## Agent Loops
 
-The Linux fish configuration provides two iterative agent helpers:
+The shared fish configuration provides these iterative agent helpers on both Linux and Darwin:
 
 ```bash
 codex-loop 3 "prompt"
