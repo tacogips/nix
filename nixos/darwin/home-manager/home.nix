@@ -3,7 +3,6 @@
   pkgs,
   firefox-addons,
   bravesearch-mcp-pkg,
-  chilla-pkg,
   ...
 }:
 
@@ -74,9 +73,6 @@
 
     # ---- mcps -------------------------------
     bravesearch-mcp-pkg
-
-    # ---- apps --------------------------------
-    chilla-pkg
 
   ];
 

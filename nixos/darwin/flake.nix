@@ -27,7 +27,6 @@
     ## --- go tools --------
     ign.url = "github:tacogips/ign";
     kinko.url = "github:tacogips/kinko";
-    chilla.url = "github:tacogips/chilla";
 
     ## --- mcps --------
     bravesearch-mcp.url = "github:tacogips/bravesearch-mcp";
@@ -43,7 +42,6 @@
       firefox-addons,
       ign,
       kinko,
-      chilla,
       bravesearch-mcp,
       ...
     }:
@@ -87,7 +85,6 @@
       bravesearch-mcp-pkg = bravesearch-mcp.packages.${system}.default;
       ign-pkg = ign.packages.${system}.default;
       kinko-pkg = kinko.packages.${system}.default;
-      chilla-pkg = chilla.packages.${system}.default;
 
     in
     {
@@ -180,6 +177,7 @@
                   # GUI applications (casks)
                   casks = [
                     "ghostty" # Ghostty terminal
+                    "chilla" # Chilla markdown viewer
                     # "zed" # Zed Editor
                     "claude-code" # Claude Code CLI
                     "codex" # OpenAI Codex CLI
@@ -238,7 +236,6 @@
                   bravesearch-mcp-pkg
                   ign-pkg
                   kinko-pkg
-                  chilla-pkg
                   ;
               };
               home-manager.users.taco =

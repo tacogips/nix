@@ -8,7 +8,13 @@
 
 let
   cfg = config.taco.yazi;
-  chillaCommand = if chilla-pkg == null then cfg.openCommand else "${chilla-pkg}/bin/chilla";
+  chillaCommand =
+    if chilla-pkg != null then
+      "${chilla-pkg}/bin/chilla"
+    else if pkgs.stdenv.isDarwin then
+      "chilla"
+    else
+      cfg.openCommand;
   enterDirectoryPlugin = ''
     --- @sync entry
     local function entry()
