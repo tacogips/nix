@@ -174,6 +174,11 @@
                     cleanup = "zap"; # Remove unlisted packages
                   };
 
+                  # Declaratively manage custom taps needed by casks below.
+                  taps = [
+                    "tacogips/tap"
+                  ];
+
                   # GUI applications (casks)
                   casks = [
                     "ghostty" # Ghostty terminal
@@ -237,6 +242,7 @@
                   ign-pkg
                   kinko-pkg
                   ;
+                chilla-pkg = null;
               };
               home-manager.users.taco =
                 { ... }:
