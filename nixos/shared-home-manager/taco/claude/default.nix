@@ -1,4 +1,7 @@
 { ... }:
+let
+  secureGithubActionRoot = ../skills/secure-github-action;
+in
 {
   # Copy ope-handover.md to ~/.claude/commands/ for Claude slash commands
   # output to .private.handover/{datetime::format(yyyymmdd_hhmmss)}.md
@@ -39,4 +42,9 @@
   # reads and understands Claude Code slash commands documentation
   home.file.".claude/commands/user-read-claude-slash-commands.md".source =
     ./read-claude-slash-commands.md;
+
+  home.file.".claude/skills/secure-github-action/SKILL.md".source =
+    "${secureGithubActionRoot}/claude-SKILL.md";
+  home.file.".claude/skills/secure-github-action/references/security-rules.md".source =
+    "${secureGithubActionRoot}/references/security-rules.md";
 }

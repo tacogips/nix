@@ -14,6 +14,7 @@
     ./bottom
     ./bun
     ./claude
+    ./codex
     ./cursor
     ./deno
     ./direnv
