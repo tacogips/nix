@@ -23,7 +23,9 @@
 
   # Override any shared settings that need customization for macOS
   programs.git = {
-    userName = lib.mkForce "tacogips";
-    userEmail = lib.mkForce "me+darwin@tacogips.me";
+    settings.user = {
+      name = lib.mkForce "tacogips";
+      email = lib.mkForce "me+darwin@tacogips.me";
+    };
   };
 }

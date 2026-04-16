@@ -3,6 +3,7 @@
 {
   config,
   pkgs,
+  divedra-pkg,
   homeStateVersion ? "24.11",
   ...
 }:
@@ -47,6 +48,11 @@
 
   # Common configuration for all platforms
   programs.home-manager.enable = true;
+
+  home.packages = [
+    # divedra - workflow runtime/tooling shared across Linux and Darwin
+    divedra-pkg
+  ];
 
   # Compatibility version: keep the user's first Home Manager release per machine.
   home.stateVersion = homeStateVersion;
