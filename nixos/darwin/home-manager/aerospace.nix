@@ -68,7 +68,7 @@ in
     enable = true;
     launchd.enable = true;
 
-    userSettings = {
+    settings = {
       config-version = 2;
 
       # Start AeroSpace automatically at login

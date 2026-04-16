@@ -103,71 +103,6 @@ let
     '';
   };
 
-  tmuxStatusFooter = pkgs.writeShellApplication {
-    name = "tmux-status-footer";
-    runtimeInputs = [ pkgs.git ];
-    text = ''
-      set -euo pipefail
-
-      path="''${1:-$PWD}"
-      max_label_length=32
-      max_branch_length=24
-
-      shorten_tail() {
-        local value max_length
-
-        value="$1"
-        max_length="$2"
-
-        if (( ''${#value} <= max_length )); then
-          printf '%s' "$value"
-          return
-        fi
-
-        printf '...%s' "''${value: -$((max_length - 3))}"
-      }
-
-      shorten_label() {
-        shorten_tail "$1" "$max_label_length"
-      }
-
-      shorten_branch() {
-        shorten_tail "$1" "$max_branch_length"
-      }
-
-      repo_root="$(
-        git -C "$path" rev-parse --show-toplevel 2>/dev/null || true
-      )"
-      display_label=""
-      branch=""
-
-      if [[ -n "$repo_root" ]]; then
-        display_label="''${repo_root##*/}"
-        branch="$(
-          git -C "$path" symbolic-ref --quiet --short HEAD 2>/dev/null \
-            || git -C "$path" rev-parse --short HEAD 2>/dev/null \
-            || true
-        )"
-      elif [[ "$path" == "/" ]]; then
-        display_label="/"
-      elif [[ "$path" == "$HOME" ]]; then
-        display_label="~"
-      else
-        display_label="''${path%/}"
-        display_label="''${display_label##*/}"
-      fi
-
-      display_label="$(shorten_label "$display_label")"
-
-      if [[ -n "$branch" ]]; then
-        branch="$(shorten_branch "$branch")"
-        printf '%s @ %s' "$display_label" "$branch"
-      else
-        printf '%s' "$display_label"
-      fi
-    '';
-  };
-
   layoutMenu = ''
     display-menu -T 'Window Layouts' \
       'Shell 2 Pane' e "run-shell '${tmuxLayoutApply}/bin/tmux-layout-apply editor-2pane #{window_id}'" \
@@ -207,7 +142,7 @@ in
       set -g pane-border-style 'fg=#665c54'
       set -g pane-active-border-style 'fg=#fabd2f,bold'
       set -g pane-border-status bottom
-      set -g pane-border-format '#{?pane_active,#[fg=#1d2021,bg=#fabd2f,bold],#[fg=#ebdbb2,bg=#504945]} #(${tmuxStatusFooter}/bin/tmux-status-footer "#{pane_current_path}") #[default]'
+      set -g pane-border-format ' #{pane_current_path} '
 
       # Split panes without a prefix.
       bind -n M-n split-window -h -c '#{pane_current_path}'
