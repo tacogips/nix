@@ -20,6 +20,7 @@
   home.homeDirectory = lib.mkForce "/Users/taco";
   home.stateVersion = lib.mkForce homeStateVersion;
   taco.yazi.openCommand = "/usr/bin/open";
+  programs.eza.extraOptions = [ "--all" ];
 
   # Override any shared settings that need customization for macOS
   programs.git = {
