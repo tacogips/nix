@@ -1,6 +1,7 @@
 { ... }:
 let
   secureGithubActionRoot = ../skills/secure-github-action;
+  envrcGenerateRoot = ../skills/envrc-generate;
 in
 {
   # Copy ope-handover.md to ~/.claude/commands/ for Claude slash commands
@@ -47,4 +48,5 @@ in
     "${secureGithubActionRoot}/claude-SKILL.md";
   home.file.".claude/skills/secure-github-action/references/security-rules.md".source =
     "${secureGithubActionRoot}/references/security-rules.md";
+  home.file.".claude/skills/envrc-generate/SKILL.md".source = "${envrcGenerateRoot}/claude-SKILL.md";
 }
