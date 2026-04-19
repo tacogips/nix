@@ -189,6 +189,7 @@
                     # "zed" # Zed Editor
                     "claude-code" # Claude Code CLI
                     "codex" # OpenAI Codex CLI
+                    "codex-app" # OpenAI Codex desktop app
                   ];
 
                   # Command-line tools (brews)
