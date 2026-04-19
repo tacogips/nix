@@ -147,19 +147,13 @@ let
       set -euo pipefail
 
       file_path="''${1:-}"
+      editor_command="''${EDITOR:-nvim}"
+      editor_program="''${editor_command%% *}"
+      editor_program="''${editor_program##*/}"
 
       if [[ -z "$file_path" ]]; then
         exit 0
       fi
-
-      editor_escape() {
-        local escaped
-
-        escaped="$1"
-        escaped="''${escaped//\\/\\\\}"
-        escaped="''${escaped//\"/\\\"}"
-        printf '%s' "$escaped"
-      }
 
       shell_escape() {
         printf '%q' "$1"
@@ -172,17 +166,24 @@ let
         ${pkgs.coreutils}/bin/dirname -- "$target"
       }
 
-      open_with_nvim() {
+      run_editor() {
+        local target_file
+
+        target_file="$1"
+        eval "exec $editor_command -- $(shell_escape "$target_file")"
+      }
+
+      open_with_editor() {
         local target_file target_dir
 
         target_file="$1"
         target_dir="$(parent_dir "$target_file")"
         cd -- "$target_dir"
-        exec nvim -- "$target_file"
+        run_editor "$target_file"
       }
 
-      tmux_pane_is_nvim() {
-        [[ "$1" == "nvim" ]]
+      tmux_pane_is_editor() {
+        [[ "$1" == "$editor_program" ]]
       }
 
       reset_tmux_pane_to_shell() {
@@ -202,7 +203,7 @@ let
         target_pane="$2"
         pane_command="$3"
 
-        if tmux_pane_is_nvim "$pane_command"; then
+        if tmux_pane_is_editor "$pane_command"; then
           reset_tmux_pane_to_shell "$target_pane" "$target_dir"
           return
         fi
@@ -219,32 +220,33 @@ let
         target_dir="$(parent_dir "$target_file")"
         pane_command="$2"
 
-        if tmux_pane_is_nvim "$pane_command"; then
+        if tmux_pane_is_editor "$pane_command"; then
           reset_tmux_pane_to_shell "$TACO_TMUX_EDITOR_PANE" "$target_dir"
         fi
 
         ${pkgs.tmux}/bin/tmux send-keys -t "$TACO_TMUX_EDITOR_PANE" C-c
         ${pkgs.tmux}/bin/tmux send-keys -t "$TACO_TMUX_EDITOR_PANE" "cd -- $(shell_escape "$target_dir")"
         ${pkgs.tmux}/bin/tmux send-keys -t "$TACO_TMUX_EDITOR_PANE" Enter
-        ${pkgs.tmux}/bin/tmux send-keys -t "$TACO_TMUX_EDITOR_PANE" "nvim -- $(shell_escape "$target_file")"
+        ${pkgs.tmux}/bin/tmux send-keys -t "$TACO_TMUX_EDITOR_PANE" "$editor_command -- $(shell_escape "$target_file")"
         ${pkgs.tmux}/bin/tmux send-keys -t "$TACO_TMUX_EDITOR_PANE" Enter
       }
 
       mime_info="$(${pkgs.file}/bin/file -bL --mime -- "$file_path" 2>/dev/null || true)"
+      mime_type="''${mime_info%%;*}"
 
-      if [[ "$mime_info" == *"charset=binary"* ]]; then
+      if [[ "$mime_type" != "inode/x-empty" && "$mime_info" == *"charset=binary"* ]]; then
         exec ${cfg.openCommand} "$file_path"
       fi
 
       if [[ "''${TACO_IDE_LAYOUT:-0}" != "1" ]]; then
-        open_with_nvim "$file_path"
+        open_with_editor "$file_path"
       fi
 
       if [[ -n "''${TMUX:-}" && -n "''${TACO_TMUX_EDITOR_PANE:-}" ]]; then
         pane_command="$(${pkgs.tmux}/bin/tmux display-message -p -t "$TACO_TMUX_EDITOR_PANE" '#{pane_current_command}' 2>/dev/null || true)"
 
         if [[ -z "$pane_command" ]]; then
-          open_with_nvim "$file_path"
+          open_with_editor "$file_path"
         fi
 
         if [[ -d "$file_path" ]]; then
@@ -264,7 +266,7 @@ let
         exit 0
       fi
 
-      open_with_nvim "$file_path"
+      open_with_editor "$file_path"
     '';
   };
   directoryTerminalOpener = pkgs.writeShellApplication {
@@ -399,18 +401,6 @@ in
             use = "open-terminal";
           }
           {
-            url = "*.md";
-            use = "open-chilla";
-          }
-          {
-            url = "*.markdown";
-            use = "open-chilla";
-          }
-          {
-            mime = "text/markdown";
-            use = "open-chilla";
-          }
-          {
             mime = "application/pdf";
             use = "open-chilla";
           }
@@ -421,6 +411,13 @@ in
           {
             mime = "video/*";
             use = "open-chilla";
+          }
+        ];
+
+        open.append_rules = [
+          {
+            url = "*";
+            use = "edit";
           }
         ];
 
