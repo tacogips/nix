@@ -277,15 +277,24 @@ in
     set prompt (printf '%s\n\n%s' "$prompt" "${agentLoopSuffix}" | string collect)
 
     for i in (seq $n)
+      echo "[$loop_name] iteration $i of $n (agent may stay quiet until it produces text; large repos take longer)..." >&2
+      set -l step_status 0
       switch $runner
         case codex
           command ${codexExecCommand} "$prompt"
+          set step_status $status
         case cursor
           command ${cursorPrintCommand} "$prompt"
+          set step_status $status
         case '*'
           echo "$loop_name: unsupported runner: $runner" >&2
           return 1
       end
+      if test $step_status -ne 0
+        echo "[$loop_name] iteration $i failed (exit $step_status)" >&2
+        return $step_status
+      end
+      echo "[$loop_name] iteration $i of $n finished." >&2
     end
   '';
 

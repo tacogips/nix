@@ -65,9 +65,9 @@ in
     "co-review-today" = "${codexBaseCommand} exec ${lib.escapeShellArg codexReviewTodayFullPrompt}";
     corl = "${codexBaseCommand} resume --last";
     cor = "${codexBaseCommand} resume";
-    ca = "${cursorBaseCommand} --model ${cursorFastModel}";
-    cu = cursorBaseCommand;
-    curl = "${cursorBaseCommand} resume --last";
-    cur = "${cursorBaseCommand} resume";
+    cuf = "${cursorBaseCommand} --model ${cursorFastModel}";
+    cur = cursorBaseCommand;
+    currl = "${cursorBaseCommand} resume --last";
+    curr = "${cursorBaseCommand} resume";
   };
 }
