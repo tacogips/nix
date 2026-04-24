@@ -14,13 +14,13 @@ let
   reviewTodayPrompt = "Review the code changes made today and improve low-quality code. The review and fixes should cover code that is generally considered low quality, unused code, deprecated code that still remains, unnecessary hardcoding, places that can be made DRY, places that are not aligned with SOLID principles without a clear reason, inappropriate variable names, cases not covered by tests, overlooked considerations, and bugs.";
   reviewContinuationPrompt = "Check whether the current architecture/design matches this intended purpose. If it does not, update the design, create an implementation plan, and implement it. This work will be carried out over multiple iterations. If there is a git diff, review it and check whether there is any continuation of the previous task, any bugs, any overlooked considerations, or any areas that can be further improved, and fix them if necessary.";
   codexCursorLoopPrompt = ''
-    Use $code-with-composer for implementation work in this run.
+    Use $code-with-cursor for implementation work in this run.
 
     Within this Codex run, do the following:
     1. Always preserve the user's request verbatim and pass it to Cursor Agent in a section labeled exactly `Original prompt:`.
     2. If there is no impl-plan, synthesize a concrete initial implementation brief yourself and send it to Cursor Agent together with the `Original prompt:` section.
     3. If there is an impl-plan, tell Cursor Agent to read it first, but still include the `Original prompt:` section in the Cursor-facing instruction so the original intent is not lost.
-    4. Delegate implementation through $code-with-composer.
+    4. Delegate implementation through $code-with-cursor.
     5. After Cursor makes changes or reports progress, review the resulting code yourself with a code-review mindset focused on bugs, regressions, missing tests, architectural drift, and weak reasoning.
     6. Return concrete review findings and follow-up instructions back to Cursor Agent so it can continue implementation.
     7. In every follow-up message you send back to Cursor Agent, include both:

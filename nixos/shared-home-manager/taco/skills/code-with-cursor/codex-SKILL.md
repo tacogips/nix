@@ -1,11 +1,11 @@
 ---
-name: code-with-composer
-description: Use only when the user explicitly instructs you to use $code-with-composer, explicitly asks Codex to delegate implementation to Cursor Agent, or explicitly asks for composer-2/composer2 to implement code. This skill packages the current task and optional impl-plan, then runs local Cursor Agent headlessly with model composer-2. Do not use this skill implicitly for normal Codex work.
+name: code-with-cursor
+description: Use only when the user explicitly instructs you to use $code-with-cursor, explicitly asks Codex to delegate implementation to Cursor Agent, or explicitly asks for composer-2/composer2 to implement code. This skill packages the current task and optional impl-plan, then runs local Cursor Agent headlessly with model composer-2. Do not use this skill implicitly for normal Codex work.
 metadata:
-  short-description: Delegate implementation to Cursor Composer 2
+  short-description: Delegate implementation to Cursor Agent
 ---
 
-# Code With Composer
+# Code With Cursor
 
 ## Boundaries
 
