@@ -4,6 +4,7 @@ let
   codexExecCommand = "${agentCommands.codexBaseCommand} exec";
   inherit (agentCommands)
     agentLoopSuffix
+    codexCursorLoopPrompt
     codexReviewTodayPrompt
     cursorPrintCommand
     ;
@@ -308,6 +309,51 @@ in
 
   cursor-loop = ''
     __agent-loop-run cursor-loop cursor input $argv
+  '';
+
+  codex-cursor-loop = ''
+    set -l loop_name codex-cursor-loop
+    set -l n $argv[1]
+
+    if test -z "$n"
+      __agent-loop-print-usage $loop_name input
+      return 1
+    end
+
+    if not string match -qr '^[1-9][0-9]*$' -- $n
+      echo "$loop_name: n must be a positive integer" >&2
+      return 1
+    end
+
+    set argv $argv[2..-1]
+    set -l user_prompt
+
+    if test (count $argv) -gt 0
+      set user_prompt (string join ' ' -- $argv)
+    else if not isatty stdin
+      set user_prompt (cat | string collect)
+    else
+      __agent-loop-print-usage $loop_name input
+      return 1
+    end
+
+    set -l prompt (
+      printf '%s\n%s\n\n%s' \
+        "${codexCursorLoopPrompt}" \
+        "$user_prompt" \
+        "${agentLoopSuffix}" | string collect
+    )
+
+    for i in (seq $n)
+      echo "[$loop_name] iteration $i of $n (Codex delegates implementation to Cursor, then reviews and sends follow-up)..." >&2
+      command ${codexExecCommand} "$prompt"
+      set -l step_status $status
+      if test $step_status -ne 0
+        echo "[$loop_name] iteration $i failed (exit $step_status)" >&2
+        return $step_status
+      end
+      echo "[$loop_name] iteration $i of $n finished." >&2
+    end
   '';
 
   cursor-loop-review-today = ''

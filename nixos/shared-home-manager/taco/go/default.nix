@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, lib, pkgs, ... }:
 
 {
   home.packages = with pkgs; [
@@ -8,8 +8,8 @@
     # Go language server for editor integration
     gopls
 
-    # Go tools
-    gotools # Additional Go tools (goimports, guru, etc.)
+    # `gotools` and `gopls` both provide `bin/modernize` in current nixpkgs; prefer gopls' copy.
+    (lib.lowPrio gotools) # Additional Go tools (goimports, guru, etc.)
     go-tools # Static analysis tools (staticcheck, etc.)
 
     # Delve debugger for Go

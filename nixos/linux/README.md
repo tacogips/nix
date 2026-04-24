@@ -70,6 +70,6 @@ cursor-loop-review-today 3
 cat prompt.md | cursor-loop 3
 ```
 
-Both commands append the same architecture and git-diff review suffix on each iteration. `cursor-loop` uses the same Cursor model selection as the `cuf` alias, which means `composer-2-fast` runs with the shared `--yolo --approve-mcps` flags and non-interactive `--print` output.
+Both commands append the same architecture and git-diff review suffix on each iteration. `cursor-loop` uses the same Cursor model selection as the `cuf` alias, which means `composer-2-fast` runs with the shared `--yolo --approve-mcps` flags and non-interactive `--print` output in `stream-json` form with partial deltas (lines of JSON) so a run does not look stalled before the first model chunk.
 `codex-loop-review-today` produces the same effective review request as `co-review-today`, including the architecture/design check and current-diff continuation review, but runs it through the iterative Codex loop for the number of times you pass as `n`.
 `cursor-loop-review-today` does the same review loop through Cursor with the same fixed review request and continuation suffix.
