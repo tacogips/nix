@@ -345,7 +345,7 @@ in
     )
 
     for i in (seq $n)
-      echo "[$loop_name] iteration $i of $n (Codex delegates implementation to Cursor, then reviews and sends follow-up)..." >&2
+      echo "[$loop_name] iteration $i of $n (Codex delegates one Cursor pass, then reviews locally)..." >&2
       command ${codexExecCommand} "$prompt"
       set -l step_status $status
       if test $step_status -ne 0

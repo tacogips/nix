@@ -1,7 +1,7 @@
 interface:
   display_name: "Code With Cursor"
   short_description: "Delegate implementation to Cursor Agent"
-  default_prompt: "Use $code-with-cursor to have Cursor Agent implement this task with composer-2."
+  default_prompt: "Use $code-with-cursor to delegate a single concrete implementation slice to Cursor Agent. Preserve the original request verbatim in an `Original prompt:` section. For generic impl-plan requests, read `impl-plans/PROGRESS.json` first, select one active task slice, do not enumerate the whole impl-plans tree, and prefer the bundled monitor helper when the parent run needs visible progress."
 
 policy:
   allow_implicit_invocation: false

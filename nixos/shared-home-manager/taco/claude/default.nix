@@ -54,4 +54,10 @@ in
     "${codeWithCursorRoot}/claude-SKILL.md";
   home.file.".claude/skills/code-with-cursor/references/execution-surfaces.md".source =
     "${codeWithCursorRoot}/references/execution-surfaces.md";
+  home.file.".claude/skills/code-with-cursor/scripts/cursor-agent-monitor.sh".source =
+    "${codeWithCursorRoot}/scripts/cursor-agent-monitor.sh";
+  home.file.".claude/skills/code-with-cursor/scripts/cursor-agent-monitor-linux.sh".source =
+    "${codeWithCursorRoot}/scripts/cursor-agent-monitor-linux.sh";
+  home.file.".claude/skills/code-with-cursor/scripts/cursor-agent-monitor-darwin.sh".source =
+    "${codeWithCursorRoot}/scripts/cursor-agent-monitor-darwin.sh";
 }

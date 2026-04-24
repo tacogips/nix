@@ -1,6 +1,6 @@
 # Execution Surfaces
 
-## Preferred: Direct `cursor-agent`
+## Preferred Engine: Direct `cursor-agent`
 
 Use direct local `cursor-agent` when the goal is to have Cursor implement code
 from the current parent session.
@@ -8,8 +8,9 @@ from the current parent session.
 Why this is the default:
 
 - it is installed in this environment
-- it supports `--print`, `--workspace`, and `--model composer-2`
+- it supports `--print`, `--workspace`, `--model composer-2`, and streaming JSON output
 - it is the shortest path from Codex to Cursor execution
+- it can emit early partial output so the parent agent does not look stalled
 
 Typical command shape:
 
@@ -17,6 +18,36 @@ Typical command shape:
 cursor-agent --print --trust --output-format stream-json \
   --stream-partial-output --workspace /repo --model composer-2 "..."
 ```
+
+Avoid plain `--print` text output for long-running implementation runs unless a
+user specifically wants final text only. The streaming JSON form is preferred
+because the first event appears immediately and later deltas make progress
+visible.
+
+## Preferred Parent-Agent Surface: `scripts/cursor-agent-monitor.sh`
+
+When Codex or Claude is delegating to Cursor from inside its own tool loop, the
+parent often cannot rely on child stdout appearing incrementally in the UI even
+if Cursor emits NDJSON immediately.
+
+In that case, wrap direct `cursor-agent` with the bundled monitor helper:
+
+```bash
+~/.codex/skills/code-with-cursor/scripts/cursor-agent-monitor.sh start \
+  --state-dir "$state_dir" \
+  --workspace /repo \
+  --model composer-2-fast \
+  --prompt-file "$prompt_file"
+~/.codex/skills/code-with-cursor/scripts/cursor-agent-monitor.sh poll --state-dir "$state_dir"
+~/.codex/skills/code-with-cursor/scripts/cursor-agent-monitor.sh status --state-dir "$state_dir"
+```
+
+Why this is preferred for parent agents:
+
+- the parent can start Cursor once and then poll progress with short commands
+- progress stays visible even if the parent shell surface buffers child stdout
+- the raw Cursor NDJSON stream is preserved for later inspection
+- the parent can summarize recent tool activity instead of waiting silently
 
 ## Optional: `cursor-cli-agent`
 
@@ -59,3 +90,13 @@ to act:
 
 If an `impl-plan` already captures the work, tell Cursor to read that file
 first and then implement it. Keep the prompt short and concrete.
+
+If the delegated run is expected to take a while, the parent session should
+surface Cursor progress back to the user instead of waiting silently for the
+final summary.
+
+For generic impl-plan requests in repositories that maintain
+`impl-plans/PROGRESS.json`, do not delegate the entire plan set blindly. The
+parent session should first resolve the request into one concrete plan/task
+slice, then pass that bounded slice to Cursor together with the repository's
+native implementation workflow when one exists.

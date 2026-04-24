@@ -55,6 +55,18 @@ in
     install_skill_file \
       "${codeWithCursorRoot}/references/execution-surfaces.md" \
       "$CODEX_SKILLS_DIR/code-with-cursor/references/execution-surfaces.md"
+    install_skill_file \
+      "${codeWithCursorRoot}/scripts/cursor-agent-monitor.sh" \
+      "$CODEX_SKILLS_DIR/code-with-cursor/scripts/cursor-agent-monitor.sh"
+    install_skill_file \
+      "${codeWithCursorRoot}/scripts/cursor-agent-monitor-linux.sh" \
+      "$CODEX_SKILLS_DIR/code-with-cursor/scripts/cursor-agent-monitor-linux.sh"
+    install_skill_file \
+      "${codeWithCursorRoot}/scripts/cursor-agent-monitor-darwin.sh" \
+      "$CODEX_SKILLS_DIR/code-with-cursor/scripts/cursor-agent-monitor-darwin.sh"
+    chmod +x "$CODEX_SKILLS_DIR/code-with-cursor/scripts/cursor-agent-monitor.sh"
+    chmod +x "$CODEX_SKILLS_DIR/code-with-cursor/scripts/cursor-agent-monitor-linux.sh"
+    chmod +x "$CODEX_SKILLS_DIR/code-with-cursor/scripts/cursor-agent-monitor-darwin.sh"
 
     rm -rf "$CODEX_SKILLS_DIR/code-with-composer"
   '';
