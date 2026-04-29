@@ -5,6 +5,12 @@
 Use direct local `cursor-agent` when the goal is to have Cursor implement code
 from the current parent session.
 
+If `code-with-cursor` is already active and the parent run has resolved to an
+implementation pass, direct local `cursor-agent` execution is not optional. It
+is the required execution surface for the implementation itself. Local
+write/edit tools may prepare prompt/state files, but they must not substitute
+for the delegated implementation.
+
 Why this is the default:
 
 - it is installed in this environment
@@ -36,11 +42,14 @@ In that case, wrap direct `cursor-agent` with the bundled monitor helper:
 ~/.codex/skills/code-with-cursor/scripts/cursor-agent-monitor.sh start \
   --state-dir "$state_dir" \
   --workspace /repo \
-  --model composer-2-fast \
+  --model composer-2 \
   --prompt-file "$prompt_file"
 ~/.codex/skills/code-with-cursor/scripts/cursor-agent-monitor.sh poll --state-dir "$state_dir"
 ~/.codex/skills/code-with-cursor/scripts/cursor-agent-monitor.sh status --state-dir "$state_dir"
 ```
+
+For implementation passes under `code-with-cursor`, monitor-helper start output
+and Cursor NDJSON events are acceptable evidence that real delegation occurred.
 
 Why this is preferred for parent agents:
 

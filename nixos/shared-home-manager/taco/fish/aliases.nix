@@ -10,7 +10,7 @@ let
     codexReviewTodayPrompt
     cursorBaseCommand
     cursorCommand
-    cursorFastModel
+    cursorModel
     ;
 in
 {
@@ -65,7 +65,7 @@ in
     "co-review-today" = "${codexBaseCommand} exec ${lib.escapeShellArg codexReviewTodayFullPrompt}";
     corl = "${codexBaseCommand} resume --last";
     cor = "${codexBaseCommand} resume";
-    cuf = "${cursorBaseCommand} --model ${cursorFastModel}";
+    cuf = "${cursorBaseCommand} --model ${cursorModel}";
     cur = cursorBaseCommand;
     currl = "${cursorBaseCommand} resume --last";
     curr = "${cursorBaseCommand} resume";

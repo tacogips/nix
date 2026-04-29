@@ -3,7 +3,7 @@
 let
   codexCommand = "codex";
   cursorCommand = "cursor-agent";
-  cursorFastModel = "composer-2-fast";
+  cursorModel = "composer-2";
   cursorGlobalFlags = "--yolo --approve-mcps";
   # Newer Codex CLI versions reject combining explicit approval policy with
   # the bypass flag, because bypass already disables approvals and sandboxing.
@@ -38,7 +38,7 @@ in
     codexCursorLoopPrompt
     cursorBaseCommand
     cursorCommand
-    cursorFastModel
+    cursorModel
     ;
 
   codexReviewTodayPrompt = reviewTodayPrompt;
@@ -50,5 +50,5 @@ in
   '';
   # stream-json + partial deltas: first line (session init) appears immediately so
   # long tool/model steps do not look like a stall vs --output-format text.
-  cursorPrintCommand = "${cursorBaseCommand} --model ${cursorFastModel} --print --output-format stream-json --stream-partial-output --trust";
+  cursorPrintCommand = "${cursorBaseCommand} --model ${cursorModel} --print --output-format stream-json --stream-partial-output --trust";
 }

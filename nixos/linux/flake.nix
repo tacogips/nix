@@ -154,6 +154,7 @@
               ./programs/hyprland.nix
 
               # System configurations
+              ./configuration/dbus.nix
               ./configuration/fonts.nix
               ./configuration/users.nix
               ./configuration/networking.nix
@@ -167,6 +168,7 @@
                 home-manager.useGlobalPkgs = true;
                 home-manager.useUserPackages = true;
                 home-manager.backupFileExtension = "hmm_backup";
+                home-manager.overwriteBackup = true;
                 home-manager.extraSpecialArgs = {
                   inherit
                     xremap-flake

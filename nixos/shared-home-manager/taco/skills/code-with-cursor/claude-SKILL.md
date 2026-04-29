@@ -10,6 +10,34 @@ user-invocable: true
 
 Use this skill only for explicit Cursor delegation requests. Do not use it implicitly for normal Claude implementation work.
 
+If the user did not explicitly ask for `code-with-cursor`, Cursor Agent, or
+`composer-2` implementation, do not invoke this skill. In that case, normal
+implementation should stay local to Claude.
+
+## Delegation Contract
+
+When this skill is invoked and the resolved branch is an implementation pass,
+the implementation itself must be performed by a real `cursor-agent` run.
+
+That rule applies only to the implementation branch of this skill. It does not
+require a fake Cursor launch when the correct bounded outcome is review-only,
+such as:
+
+- no executable implementation slice can be justified after preflight
+- the task is blocked before delegation by missing dependencies or missing repo context
+- the skill intentionally falls back to review of the current diff
+
+For implementation passes:
+
+- do not use local write/edit tools for the implementation itself
+- local edits are allowed only for temporary prompt/state files needed to launch
+  `cursor-agent`
+- if `cursor-agent` cannot be started, stop and report a blocker instead of
+  implementing locally
+- do not claim implementation success unless you observed actual `cursor-agent`
+  execution output, such as monitor-helper start output or Cursor NDJSON
+  `system/init` or `result` events
+
 ## What To Collect First
 
 Before invoking Cursor Agent, gather the minimum concrete context it needs:
@@ -55,6 +83,9 @@ If `impl-plans/PROGRESS.json` does not exist:
 4. Delegate that single synthesized slice to Cursor immediately.
 5. If no concrete implementation slice can be justified, switch to review of
    the current diff instead of speculative implementation.
+
+When step 5 applies, state clearly that the skill resolved to review mode and
+that no implementation delegation was attempted.
 
 When extracting active plan names from `impl-plans/PROGRESS.json`, use a query
 that returns only plan names, for example:
@@ -123,7 +154,7 @@ Prefer the bundled monitor helper:
 ~/.claude/skills/code-with-cursor/scripts/cursor-agent-monitor.sh start \
   --state-dir "$state_dir" \
   --workspace /abs/workspace/path \
-  --model composer-2-fast \
+  --model composer-2 \
   --prompt-file "$prompt_file"
 ```
 
@@ -144,6 +175,10 @@ The monitor helper writes Cursor NDJSON to a state directory, starts Cursor in
 the background, and lets the parent agent poll concise progress without
 silently blocking on a single shell command.
 
+For an implementation pass, this helper is not just a convenience. Its start
+output and NDJSON stream are valid evidence that a real `cursor-agent` run was
+launched.
+
 ## Prompt Contract
 
 The delegated prompt should contain:
@@ -159,6 +194,7 @@ The delegated prompt should contain:
 9. A requirement to either make concrete file edits or return an explicit blocker that names the blocking plan/task/dependency. Do not allow a silent no-op.
 10. When the parent agent synthesized a narrower brief, preserve the user's original request verbatim in a section labeled exactly `Original prompt:`.
 11. If the parent agent already named target files, treat those files as the mandatory first edit scope. Do not branch into broader cross-surface reads before the first write unless a directly referenced type/test dependency forces it.
+12. For implementation passes, require a real `cursor-agent` launch and forbid satisfying the task via local write/edit tools.
 
 Keep the prompt concrete. Do not paste large repository overviews unless they are required.
 
@@ -168,11 +204,11 @@ Keep the prompt concrete. Do not paste large repository overviews unless they ar
 - Default runner: direct `cursor-agent`
 - Default mode: normal implementation mode, not `plan`
 - Default output mode: `--print --output-format stream-json --stream-partial-output`
-- For a single-pass delegation from another agent, `composer-2-fast` is the preferred default unless the user explicitly asked for `composer-2`.
+- For a single-pass delegation from another agent, keep using `composer-2` unless the user explicitly asked for another Cursor model.
 - Use `--resume <chat-id>` only when continuing an existing Cursor session is clearly better than starting fresh.
 - Keep the command simple unless there is a clear need for resume or wrapper behavior.
-- When the user values responsiveness over maximum depth, `composer-2-fast` is an acceptable fallback, but do not silently swap models unless latency is the actual problem you are trying to solve.
 - Do not let Cursor stop after reading plan files, command docs, or help text. It should either produce a concrete patch, run the requested verification, or return a blocker with exact evidence.
+- If this skill is active and the chosen branch is implementation, do not satisfy the task with Claude local write/edit tools. Launch `cursor-agent` or return a blocker.
 - When the parent prompt already names exact target files and focused tests, Cursor should begin with those files and make the first concrete edit before expanding into unrelated surfaces such as CLI, GraphQL, or TUI unless compilation or failing tests show that expansion is necessary.
 - Do not run package-manager install commands such as `bun install`, `npm install`, `pnpm install`, or `yarn install`, and do not modify lockfiles, unless the user explicitly asked for dependency updates or the task itself is about dependency management. If verification is blocked by missing local dependencies, return that as an explicit environment blocker instead of mutating the workspace.
 
@@ -182,8 +218,9 @@ Keep the prompt concrete. Do not paste large repository overviews unless they ar
 2. Prefer an existing `impl-plan` path when available.
 3. For generic impl-plan requests, resolve them into one concrete plan/task slice before delegating.
 4. When running inside another agent, prefer `~/.claude/skills/code-with-cursor/scripts/cursor-agent-monitor.sh` so the parent can poll progress instead of blocking silently.
-5. Inspect Cursor output and surface visible progress back to the user if the delegated work is taking a while.
-6. Review and verify any resulting code changes in the parent session before reporting back.
+5. Treat observed `cursor-agent` launch/output as a required success condition for implementation passes, not as optional telemetry.
+6. Inspect Cursor output and surface visible progress back to the user if the delegated work is taking a while.
+7. Review and verify any resulting code changes in the parent session before reporting back.
 
 ## Runner Selection
 

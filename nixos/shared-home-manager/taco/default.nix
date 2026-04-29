@@ -17,7 +17,6 @@
     ./claude
     ./codex
     ./cursor
-    ./deno
     ./direnv
     ./eza
     ./fd
