@@ -167,7 +167,6 @@ in
   home.packages =
     with pkgs;
     [
-      # firefox - Removed (now managed by home-manager firefox module)
       go-task
       kubectl
       pm2

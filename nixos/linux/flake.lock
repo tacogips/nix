@@ -318,28 +318,6 @@
         "type": "github"
       }
     },
-    "firefox-addons": {
-      "inputs": {
-        "nixpkgs": [
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "dir": "pkgs/firefox-addons",
-        "lastModified": 1777348977,
-        "narHash": "sha256-9aKuCI5TKHKnP073B1VzBdLRLAQJE7R9rbJWaSFXr3M=",
-        "owner": "rycee",
-        "repo": "nur-expressions",
-        "rev": "a314975f42bfa9665bf77d1586ee0e123790ed27",
-        "type": "gitlab"
-      },
-      "original": {
-        "dir": "pkgs/firefox-addons",
-        "owner": "rycee",
-        "repo": "nur-expressions",
-        "type": "gitlab"
-      }
-    },
     "flake-compat": {
       "flake": false,
       "locked": {
@@ -1101,7 +1079,6 @@
         "cratedocs-mcp": "cratedocs-mcp",
         "divedra": "divedra",
         "fenix": "fenix_4",
-        "firefox-addons": "firefox-addons",
         "gitcodes-mcp": "gitcodes-mcp",
         "hn-mcp": "hn-mcp",
         "home-manager": "home-manager",

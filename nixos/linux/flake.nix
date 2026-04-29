@@ -34,12 +34,6 @@
     ## --- apps --------
     qraftbox.url = "git+https://github.com/tacogips/QraftBox.git";
     chilla.url = "github:tacogips/chilla";
-
-    # Firefox extensions repository from NUR
-    firefox-addons = {
-      url = "gitlab:rycee/nur-expressions?dir=pkgs/firefox-addons";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
   };
 
   outputs =
@@ -60,7 +54,6 @@
       divedra,
       qraftbox,
       chilla,
-      firefox-addons,
       ...
     }:
     let
@@ -183,7 +176,6 @@
                     divedra-pkg
                     qraftbox-pkg
                     chilla-pkg
-                    firefox-addons
                     stablePkgs
                     ;
                 };

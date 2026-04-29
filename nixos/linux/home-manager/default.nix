@@ -10,7 +10,6 @@
   imports = [
     ./home.nix
     ./fish # Import Linux-specific fish functions
-    # ./firefox # Import Linux-specific Firefox configuration
     ./brave # Import Linux-specific Brave configuration
     ./trash # Import Linux-specific trash cleanup
     ../../shared-home-manager/taco # Import shared configurations

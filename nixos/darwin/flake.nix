@@ -18,12 +18,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    # Firefox extensions repository from NUR
-    firefox-addons = {
-      url = "gitlab:rycee/nur-expressions?dir=pkgs/firefox-addons";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
     ## --- go tools --------
     ign.url = "github:tacogips/ign";
     kinko.url = "github:tacogips/kinko";
@@ -40,7 +34,6 @@
       darwin,
       home-manager,
       nvf,
-      firefox-addons,
       ign,
       kinko,
       divedra,
@@ -241,7 +234,6 @@
               home-manager.extraSpecialArgs = {
                 inherit
                   homeStateVersion
-                  firefox-addons
                   bravesearch-mcp-pkg
                   ign-pkg
                   kinko-pkg
