@@ -178,7 +178,7 @@
                   # GUI applications (casks)
                   casks = [
                     "ghostty" # Ghostty terminal
-                    "chilla" # Chilla markdown viewer
+                    "tacogips/tap/chilla" # Chilla markdown viewer
                     # "zed" # Zed Editor
                     "claude-code" # Claude Code CLI
                     "codex" # OpenAI Codex CLI
