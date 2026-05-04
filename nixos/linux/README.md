@@ -8,11 +8,10 @@ This repository is now public, so `GITHUB_TOKEN` is not required before the init
 
 You still need to register `GITHUB_TOKEN` in `kinko` shared secrets if you want to clone or fetch other private GitHub repositories from the configured environment.
 
-Before any `nix shell nixpkgs#...` command here, enable flakes once for your user:
+After you apply the Linux configuration, flake commands are enabled system-wide, so commands like this work directly:
 
 ```bash
-mkdir -p ~/.config/nix
-printf 'experimental-features = nix-command flakes\n' >> ~/.config/nix/nix.conf
+nix shell nixpkgs#mdadm nixpkgs#util-linux -c bash
 ```
 
 Then move to the Linux configuration directory:
@@ -21,7 +20,7 @@ Then move to the Linux configuration directory:
 cd ~/nix/nixos/linux
 ```
 
-If you want a task that keeps the same setting in place after flakes already work, run:
+If you are bootstrapping a machine before the first rebuild and flakes are not enabled yet for the current user, run:
 
 ```bash
 nix shell nixpkgs#go-task --command task enable-flakes-user
@@ -60,19 +59,24 @@ gh-clone https://github.com/owner/repo.git
 
 ## Agent Loops
 
-The shared fish configuration provides these iterative agent helpers on both Linux and Darwin:
+The shared fish configuration provides these iterative agent helpers on both Linux and Darwin. `codex-step-loop` is a dedicated wrapper in `nixos/shared-home-manager/taco/fish/functions.nix` that mirrors the Codex loop flow and inserts a sleep between successful iterations. The other loop helpers use the shared `__agent-loop-run` implementation in the same file, and long-form prompt text lives in `nixos/shared-home-manager/taco/fish/agent-commands.nix`.
 
 ```bash
 codex-loop 3 "prompt"
+codex-step-loop 3 10 "prompt"
 codex-loop-review-today 3
+codex-cursor-loop 3 "prompt"
 cursor-loop 3 "prompt"
 cursor-loop-review-today 3
 cat prompt.md | cursor-loop 3
+cat prompt.md | codex-step-loop 3 10
 ```
 
-Both commands append the same architecture and git-diff review suffix on each iteration. `cursor-loop` uses the same Cursor model selection as the `cuf` alias, which means `composer-2` runs with the shared `--yolo --approve-mcps` flags and non-interactive `--print` output in `stream-json` form with partial deltas (lines of JSON) so a run does not look stalled before the first model chunk.
+The general-purpose loops (`codex-loop`, `codex-step-loop`, `cursor-loop`, and `codex-cursor-loop`) append only a short suffix asking the agent to also review and consider the current `git diff`. `codex-cursor-loop` prepends the Codex-to-Cursor delegation brief from `agent-commands.nix` before that same short suffix. `cursor-loop` uses the same Cursor model selection as the `cuf` alias, which means `composer-2` runs with the shared `--yolo --approve-mcps` flags and non-interactive `--print` output in `stream-json` form with partial deltas (lines of JSON) so a run does not look stalled before the first model chunk.
+`codex-step-loop` mirrors `codex-loop`, but sleeps for the specified number of minutes between successful iterations and skips the final post-run sleep.
+The Codex-backed helpers (`codex-loop`, `codex-step-loop`, `codex-loop-review-today`, and `codex-cursor-loop`) pin their Codex runs to `gpt-5.5` with `model_reasoning_effort="high"` via CLI config override.
 `codex-loop-review-today` produces the same effective review request as `co-review-today`, including the architecture/design check and current-diff continuation review, but runs it through the iterative Codex loop for the number of times you pass as `n`.
-`cursor-loop-review-today` does the same review loop through Cursor with the same fixed review request and continuation suffix.
+`cursor-loop-review-today` does the same review loop through Cursor with the same fixed review request and the same short `git diff` suffix.
 
 ## Home Manager Backups
 

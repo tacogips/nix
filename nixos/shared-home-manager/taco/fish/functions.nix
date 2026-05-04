@@ -1,12 +1,14 @@
 { pkgs, ... }:
 let
   agentCommands = import ./agent-commands.nix { };
-  codexExecCommand = "${agentCommands.codexBaseCommand} exec";
+  codexExecCommand = "${agentCommands.codexBaseCommand55High} exec";
   inherit (agentCommands)
-    agentLoopSuffix
     codexCursorLoopPrompt
+    codexReviewTodayFullPrompt
     codexReviewTodayPrompt
     cursorPrintCommand
+    implementationLoopSuffix
+    reviewLoopSuffix
     ;
 in
 {
@@ -115,6 +117,10 @@ in
     ${pkgs.gh}/bin/gh pr view --web
   '';
 
+  co-review-today = ''
+    command ${codexExecCommand} "${codexReviewTodayFullPrompt}"
+  '';
+
   gh-token-refresh = ''
     # Save old token for comparison
     set -l old_token (${pkgs.gh}/bin/gh auth token 2>/dev/null)
@@ -218,11 +224,14 @@ in
     set -l prompt_mode $argv[2]
 
     switch $prompt_mode
-      case input
+      case input codex_delegate_input
         echo "usage: $loop_name n [prompt]" >&2
         echo "   or: cat prompt.md | $loop_name n" >&2
       case fixed
         echo "usage: $loop_name n" >&2
+      case '*'
+        echo "$loop_name: internal error: unknown prompt_mode for usage: $prompt_mode" >&2
+        return 1
     end
   '';
 
@@ -230,14 +239,25 @@ in
     set -l loop_name $argv[1]
     set -l runner $argv[2]
     set -l prompt_mode $argv[3]
+    set -l loop_intent $argv[4]
     set -l fixed_prompt
 
-    switch $prompt_mode
-      case fixed
-        set fixed_prompt $argv[4]
-        set argv $argv[5..-1]
+    switch $loop_intent
+      case implement review
       case '*'
-        set argv $argv[4..-1]
+        echo "$loop_name: internal error: unknown loop_intent: $loop_intent" >&2
+        return 1
+    end
+
+    switch $prompt_mode
+      case input codex_delegate_input
+        set argv $argv[5..-1]
+      case fixed
+        set fixed_prompt $argv[5]
+        set argv $argv[6..-1]
+      case '*'
+        echo "$loop_name: internal error: unknown prompt_mode for setup: $prompt_mode" >&2
+        return 1
     end
 
     set -l n $argv[1]
@@ -252,10 +272,11 @@ in
     end
 
     set argv $argv[2..-1]
+
     set -l prompt
 
     switch $prompt_mode
-      case input
+      case input codex_delegate_input
         if test (count $argv) -gt 0
           set prompt (string join ' ' -- $argv)
         else if not isatty stdin
@@ -271,14 +292,42 @@ in
         end
         set prompt $fixed_prompt
       case '*'
-        echo "$loop_name: unsupported prompt mode: $prompt_mode" >&2
+        echo "$loop_name: internal error: unknown prompt_mode for prompt collection: $prompt_mode" >&2
         return 1
     end
 
-    set prompt (printf '%s\n\n%s' "$prompt" "${agentLoopSuffix}" | string collect)
+    # prompt_mode: input | fixed | codex_delegate_input (see __agent-loop-print-usage / wrappers)
+    set -l progress_note
+    set -l loop_suffix
+    switch $loop_intent
+      case implement
+        set loop_suffix "${implementationLoopSuffix}"
+      case review
+        set loop_suffix "${reviewLoopSuffix}"
+      case '*'
+        echo "$loop_name: internal error: unknown loop_intent for finalization: $loop_intent" >&2
+        return 1
+    end
+
+    switch $prompt_mode
+      case codex_delegate_input
+        set prompt (
+          printf '%s\n%s\n\n%s' \
+            "${codexCursorLoopPrompt}" \
+            "$prompt" \
+            "$loop_suffix" | string collect
+        )
+        set progress_note "(Codex delegates one Cursor pass, then reviews locally)..."
+      case input fixed
+        set prompt (printf '%s\n\n%s' "$prompt" "$loop_suffix" | string collect)
+        set progress_note "(agent may stay quiet until it produces text; large repos take longer)..."
+      case '*'
+        echo "$loop_name: internal error: unknown prompt_mode for finalization: $prompt_mode" >&2
+        return 1
+    end
 
     for i in (seq $n)
-      echo "[$loop_name] iteration $i of $n (agent may stay quiet until it produces text; large repos take longer)..." >&2
+      echo "[$loop_name] iteration $i of $n $progress_note" >&2
       set -l step_status 0
       switch $runner
         case codex
@@ -288,7 +337,7 @@ in
           command ${cursorPrintCommand} "$prompt"
           set step_status $status
         case '*'
-          echo "$loop_name: unsupported runner: $runner" >&2
+          echo "$loop_name: internal error: unknown runner for iteration: $runner" >&2
           return 1
       end
       if test $step_status -ne 0
@@ -300,23 +349,17 @@ in
   '';
 
   codex-loop = ''
-    __agent-loop-run codex-loop codex input $argv
+    __agent-loop-run codex-loop codex input implement $argv
   '';
 
-  codex-loop-review-today = ''
-    __agent-loop-run codex-loop-review-today codex fixed "${codexReviewTodayPrompt}" $argv
-  '';
-
-  cursor-loop = ''
-    __agent-loop-run cursor-loop cursor input $argv
-  '';
-
-  codex-cursor-loop = ''
-    set -l loop_name codex-cursor-loop
+  codex-step-loop = ''
+    set -l loop_name codex-step-loop
     set -l n $argv[1]
+    set -l sleep_minutes $argv[2]
 
-    if test -z "$n"
-      __agent-loop-print-usage $loop_name input
+    if test -z "$n" -o -z "$sleep_minutes"
+      echo "usage: $loop_name n sleep_minutes [prompt]" >&2
+      echo "   or: cat prompt.md | $loop_name n sleep_minutes" >&2
       return 1
     end
 
@@ -325,27 +368,30 @@ in
       return 1
     end
 
-    set argv $argv[2..-1]
-    set -l user_prompt
-
-    if test (count $argv) -gt 0
-      set user_prompt (string join ' ' -- $argv)
-    else if not isatty stdin
-      set user_prompt (cat | string collect)
-    else
-      __agent-loop-print-usage $loop_name input
+    if not string match -qr '^(0|[1-9][0-9]*)(\.[0-9]+)?$' -- $sleep_minutes
+      echo "$loop_name: sleep_minutes must be a non-negative number" >&2
       return 1
     end
 
-    set -l prompt (
-      printf '%s\n%s\n\n%s' \
-        "${codexCursorLoopPrompt}" \
-        "$user_prompt" \
-        "${agentLoopSuffix}" | string collect
-    )
+    set argv $argv[3..-1]
+    set -l prompt
+
+    if test (count $argv) -gt 0
+      set prompt (string join ' ' -- $argv)
+    else if not isatty stdin
+      set prompt (cat | string collect)
+    else
+      echo "usage: $loop_name n sleep_minutes [prompt]" >&2
+      echo "   or: cat prompt.md | $loop_name n sleep_minutes" >&2
+      return 1
+    end
+
+    set prompt (printf '%s\n\n%s' "$prompt" "${implementationLoopSuffix}" | string collect)
+    set -l progress_note "(agent may stay quiet until it produces text; large repos take longer)..."
+    set -l sleep_seconds (math "$sleep_minutes * 60")
 
     for i in (seq $n)
-      echo "[$loop_name] iteration $i of $n (Codex delegates one Cursor pass, then reviews locally)..." >&2
+      echo "[$loop_name] iteration $i of $n $progress_note" >&2
       command ${codexExecCommand} "$prompt"
       set -l step_status $status
       if test $step_status -ne 0
@@ -353,11 +399,28 @@ in
         return $step_status
       end
       echo "[$loop_name] iteration $i of $n finished." >&2
+      if test $i -lt $n
+        set -l next_iteration (math "$i + 1")
+        echo "[$loop_name] sleeping for $sleep_minutes minute(s) before iteration $next_iteration." >&2
+        sleep $sleep_seconds
+      end
     end
   '';
 
+  codex-loop-review-today = ''
+    __agent-loop-run codex-loop-review-today codex fixed review "${codexReviewTodayPrompt}" $argv
+  '';
+
+  cursor-loop = ''
+    __agent-loop-run cursor-loop cursor input implement $argv
+  '';
+
+  codex-cursor-loop = ''
+    __agent-loop-run codex-cursor-loop codex codex_delegate_input implement $argv
+  '';
+
   cursor-loop-review-today = ''
-    __agent-loop-run cursor-loop-review-today cursor fixed "${codexReviewTodayPrompt}" $argv
+    __agent-loop-run cursor-loop-review-today cursor fixed review "${codexReviewTodayPrompt}" $argv
   '';
 
 }

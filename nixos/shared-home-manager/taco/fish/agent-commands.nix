@@ -7,12 +7,19 @@ let
   cursorGlobalFlags = "--yolo --approve-mcps";
   # Newer Codex CLI versions reject combining explicit approval policy with
   # the bypass flag, because bypass already disables approvals and sandboxing.
-  codexGlobalFlags = "--dangerously-bypass-approvals-and-sandbox --model gpt-5.4";
+  codexBypassFlags = "--dangerously-bypass-approvals-and-sandbox";
+  codexHighReasoningConfig = "-c 'model_reasoning_effort=\"high\"'";
+  codexGlobalFlags = "${codexBypassFlags} --model gpt-5.4";
+  codexGlobalFlags55 = "${codexBypassFlags} --model gpt-5.5";
+  codexGlobalFlags55High = "${codexGlobalFlags55} ${codexHighReasoningConfig}";
   codexBaseCommand = "${codexCommand} ${codexGlobalFlags}";
+  codexBaseCommand55 = "${codexCommand} ${codexGlobalFlags55}";
+  codexBaseCommand55High = "${codexCommand} ${codexGlobalFlags55High}";
   cursorBaseCommand = "${cursorCommand} ${cursorGlobalFlags}";
   claudeBaseCommand = "env NODE_OPTIONS='--max-old-space-size=16384' CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1 claude --permission-mode bypassPermissions --dangerously-skip-permissions";
   reviewTodayPrompt = "Review the code changes made today and improve low-quality code. The review and fixes should cover code that is generally considered low quality, unused code, deprecated code that still remains, unnecessary hardcoding, places that can be made DRY, places that are not aligned with SOLID principles without a clear reason, inappropriate variable names, cases not covered by tests, overlooked considerations, and bugs.";
-  reviewContinuationPrompt = "Check whether the current architecture/design matches this intended purpose. If it does not, update the design, create an implementation plan, and implement it. This work will be carried out over multiple iterations. If there is a git diff, review it and check whether there is any continuation of the previous task, any bugs, any overlooked considerations, or any areas that can be further improved, and fix them if necessary.";
+  implementationContinuationPrompt = "Also review the current git diff and take it into account.";
+  reviewContinuationPrompt = "Also review the current git diff and take it into account.";
   codexCursorLoopPrompt = ''
     Use \$code-with-cursor for implementation work in this run.
 
@@ -34,6 +41,8 @@ in
   inherit
     claudeBaseCommand
     codexBaseCommand
+    codexBaseCommand55
+    codexBaseCommand55High
     codexCommand
     codexCursorLoopPrompt
     cursorBaseCommand
@@ -42,7 +51,8 @@ in
     ;
 
   codexReviewTodayPrompt = reviewTodayPrompt;
-  agentLoopSuffix = reviewContinuationPrompt;
+  implementationLoopSuffix = implementationContinuationPrompt;
+  reviewLoopSuffix = reviewContinuationPrompt;
   codexReviewTodayFullPrompt = ''
     ${reviewTodayPrompt}
 

@@ -1,11 +1,11 @@
-{ lib, pkgs, ... }:
+{ pkgs, ... }:
 
 let
   agentCommands = import ./agent-commands.nix { };
   inherit (agentCommands)
     claudeBaseCommand
     codexBaseCommand
-    codexReviewTodayFullPrompt
+    codexBaseCommand55
     codexCommand
     codexReviewTodayPrompt
     cursorBaseCommand
@@ -62,7 +62,7 @@ in
     # Keep the shared flags in Nix so aliases and functions do not depend on
     # another fish alias being present.
     co = codexBaseCommand;
-    "co-review-today" = "${codexBaseCommand} exec ${lib.escapeShellArg codexReviewTodayFullPrompt}";
+    coo = codexBaseCommand55;
     corl = "${codexBaseCommand} resume --last";
     cor = "${codexBaseCommand} resume";
     cuf = "${cursorBaseCommand} --model ${cursorModel}";

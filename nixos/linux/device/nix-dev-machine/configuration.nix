@@ -24,12 +24,6 @@ in
     else
       throw "Missing private config. Set NIXOS_PRIVATE_CONFIG to an absolute private.nix path and run with --impure."
   );
-  nix.settings = {
-    experimental-features = [
-      "nix-command"
-      "flakes"
-    ];
-  };
 
   # Bootloader.
   boot.loader.systemd-boot = {
