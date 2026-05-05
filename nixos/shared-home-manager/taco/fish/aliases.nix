@@ -5,7 +5,7 @@ let
   inherit (agentCommands)
     claudeBaseCommand
     codexBaseCommand
-    codexBaseCommand55
+    codexBaseCommand54
     codexCommand
     codexReviewTodayPrompt
     cursorBaseCommand
@@ -62,7 +62,7 @@ in
     # Keep the shared flags in Nix so aliases and functions do not depend on
     # another fish alias being present.
     co = codexBaseCommand;
-    coo = codexBaseCommand55;
+    coo = codexBaseCommand54;
     corl = "${codexBaseCommand} resume --last";
     cor = "${codexBaseCommand} resume";
     cuf = "${cursorBaseCommand} --model ${cursorModel}";

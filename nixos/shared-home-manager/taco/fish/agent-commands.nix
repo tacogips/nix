@@ -9,12 +9,12 @@ let
   # the bypass flag, because bypass already disables approvals and sandboxing.
   codexBypassFlags = "--dangerously-bypass-approvals-and-sandbox";
   codexHighReasoningConfig = "-c 'model_reasoning_effort=\"high\"'";
-  codexGlobalFlags = "${codexBypassFlags} --model gpt-5.4";
-  codexGlobalFlags55 = "${codexBypassFlags} --model gpt-5.5";
-  codexGlobalFlags55High = "${codexGlobalFlags55} ${codexHighReasoningConfig}";
+  codexGlobalFlags = "${codexBypassFlags} --model gpt-5.5";
+  codexGlobalFlags54 = "${codexBypassFlags} --model gpt-5.4";
+  codexGlobalFlagsHigh = "${codexGlobalFlags} ${codexHighReasoningConfig}";
   codexBaseCommand = "${codexCommand} ${codexGlobalFlags}";
-  codexBaseCommand55 = "${codexCommand} ${codexGlobalFlags55}";
-  codexBaseCommand55High = "${codexCommand} ${codexGlobalFlags55High}";
+  codexBaseCommand54 = "${codexCommand} ${codexGlobalFlags54}";
+  codexBaseCommandHigh = "${codexCommand} ${codexGlobalFlagsHigh}";
   cursorBaseCommand = "${cursorCommand} ${cursorGlobalFlags}";
   claudeBaseCommand = "env NODE_OPTIONS='--max-old-space-size=16384' CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1 claude --permission-mode bypassPermissions --dangerously-skip-permissions";
   reviewTodayPrompt = "Review the code changes made today and improve low-quality code. The review and fixes should cover code that is generally considered low quality, unused code, deprecated code that still remains, unnecessary hardcoding, places that can be made DRY, places that are not aligned with SOLID principles without a clear reason, inappropriate variable names, cases not covered by tests, overlooked considerations, and bugs.";
@@ -41,8 +41,8 @@ in
   inherit
     claudeBaseCommand
     codexBaseCommand
-    codexBaseCommand55
-    codexBaseCommand55High
+    codexBaseCommand54
+    codexBaseCommandHigh
     codexCommand
     codexCursorLoopPrompt
     cursorBaseCommand

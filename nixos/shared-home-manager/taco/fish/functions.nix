@@ -1,7 +1,7 @@
 { pkgs, ... }:
 let
   agentCommands = import ./agent-commands.nix { };
-  codexExecCommand = "${agentCommands.codexBaseCommand55High} exec";
+  codexExecCommand = "${agentCommands.codexBaseCommandHigh} exec";
   inherit (agentCommands)
     codexCursorLoopPrompt
     codexReviewTodayFullPrompt
