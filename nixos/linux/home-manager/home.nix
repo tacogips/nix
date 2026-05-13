@@ -33,6 +33,7 @@
   i18n.inputMethod = {
     enable = true;
     type = "fcitx5";
+    # Mozc Romaji/Kana input style can be changed manually with `mozc_config`.
     fcitx5.addons = [
       pkgs.fcitx5-mozc
       pkgs.fcitx5-gtk

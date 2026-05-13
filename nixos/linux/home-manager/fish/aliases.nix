@@ -2,6 +2,7 @@
 
 {
   # Linux-specific aliases
+  # Open Mozc settings to switch Japanese input style, such as Kana to Romaji.
   mozc_config = "${pkgs.mozc}/lib/mozc/mozc_tool --mode=config_dialog";
 
   # NixOS rebuild alias
