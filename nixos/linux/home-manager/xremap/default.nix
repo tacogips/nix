@@ -62,4 +62,14 @@
       ];
     };
   };
+
+  systemd.user.services.xremap = {
+    Unit = {
+      StartLimitIntervalSec = 0;
+    };
+
+    Service = {
+      RestartSec = 3;
+    };
+  };
 }
