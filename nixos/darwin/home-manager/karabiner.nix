@@ -208,8 +208,9 @@ in
                 manipulators = [
                   # Under JIS virtual keyboard, US `=` natively → へ, US `]`
                   # natively → ゜/「, and US `\` natively → む in kana mode, so
-                  # no remap is needed for those.
-                  (mkKanaKeyRemapWithModifiers "grave_accent_and_tilde" "quote" [ "shift" ])
+                  # no remap is needed for those. The JIS ろ key is
+                  # international1.
+                  (mkKanaKeyRemap "grave_accent_and_tilde" "international1")
                   (mkKanaShiftRemap "equal_sign" "backslash" [ "shift" ])
                   # JIS Yen/pipe key emits the kana long vowel mark.
                   (mkKanaShiftRemap "hyphen" "international3" [ ])

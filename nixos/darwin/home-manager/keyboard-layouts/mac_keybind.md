@@ -17,6 +17,7 @@ Each row shows:
 - Linux entries below ignore `<esc>` and `<blank>` because those keys are not part of the comparable typing area in the Mac table.
 - ASCII mapping should be identical on both.
 - Differences are in Japanese kana assignment, especially `む`, punctuation, and some shifted kana.
+- Karabiner maps US `` ` `` to the JIS `international1` key in kana mode so it inputs `ろ`.
 
 ## Mac
 
