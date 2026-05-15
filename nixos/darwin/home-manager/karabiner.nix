@@ -72,10 +72,15 @@ in
   # The custom .keylayout attempt is kept as reference. The active solution is
   # Karabiner remapping against the standard Japanese KANA input source.
   #
-  # All kana keys are remapped via direct key_code emission so the IME receives
-  # them as composition input (not committed text). む is produced by the JIS
-  # international1 (RO/_) HID code, which Kotoeri's kana layout maps to む even
-  # on an ANSI virtual keyboard.
+  # virtual_hid_keyboard.keyboard_type_v2 is set to "jis" so that macOS
+  # interprets the `backslash` HID code as the JIS `]` position. In Kotoeri
+  # kana mode this position is む — which is the character missing on the
+  # ANSI kana layout. As a side effect, `equal_sign` also natively produces
+  # へ under JIS, matching the Linux layout in mac_keybind.md.
+  #
+  # Note: switching the virtual keyboard to JIS changes a few shifted
+  # ASCII symbols system-wide (e.g. Shift+2 → " instead of @). Add
+  # restoration rules below if those become a problem in non-kana mode.
 
   # Karabiner-Elements configuration
   home.file.".config/karabiner/karabiner.json" = {
@@ -102,8 +107,8 @@ in
               {
                 description = "match Linux kana layout on US keyboard";
                 manipulators = [
-                  (mkKanaKeyRemap "equal_sign" "backslash")
-                  (mkKanaKeyRemap "backslash" "international1")
+                  # Under JIS virtual keyboard, US `=` natively → へ and US `\`
+                  # natively → む in kana mode, so no remap is needed for those.
                   (mkKanaKeyRemapWithModifiers "grave_accent_and_tilde" "quote" [ "shift" ])
                   (mkKanaKeyRemap "close_bracket" "equal_sign")
                   (mkKanaShiftRemap "equal_sign" "backslash" [ "shift" ])
@@ -126,7 +131,7 @@ in
             }
           ];
           virtual_hid_keyboard = {
-            keyboard_type_v2 = "ansi";
+            keyboard_type_v2 = "jis";
           };
         }
       ];
