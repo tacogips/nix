@@ -6,73 +6,6 @@
 }:
 
 let
-  typeMuSource = pkgs.writeText "karabiner-type-mu.swift" ''
-    import AppKit
-    import CoreGraphics
-    import Foundation
-
-    func postKey(
-        virtualKey: CGKeyCode,
-        keyDown: Bool,
-        flags: CGEventFlags = []
-    ) {
-        guard let event = CGEvent(
-            keyboardEventSource: nil,
-            virtualKey: virtualKey,
-            keyDown: keyDown
-        ) else {
-            fputs("failed to create CGEvent\n", stderr)
-            exit(1)
-        }
-
-        event.flags = flags
-        event.post(tap: .cghidEventTap)
-    }
-
-    let pasteboard = NSPasteboard.general
-    let originalItems = pasteboard.pasteboardItems?.map { item in
-        let clone = NSPasteboardItem()
-        for type in item.types {
-            if let data = item.data(forType: type) {
-                clone.setData(data, forType: type)
-            }
-        }
-        return clone
-    }
-
-    pasteboard.clearContents()
-    pasteboard.setString("む", forType: .string)
-
-    let commandFlag: CGEventFlags = .maskCommand
-    let vKey: CGKeyCode = 9
-    postKey(virtualKey: vKey, keyDown: true, flags: commandFlag)
-    postKey(virtualKey: vKey, keyDown: false, flags: commandFlag)
-
-    usleep(150_000)
-
-    pasteboard.clearContents()
-    if let originalItems {
-        pasteboard.writeObjects(originalItems)
-    }
-  '';
-
-  typeMuBinary = pkgs.stdenv.mkDerivation {
-    pname = "karabiner-type-mu";
-    version = "1.0.0";
-    src = typeMuSource;
-    dontUnpack = true;
-    nativeBuildInputs = [ pkgs.swift ];
-    meta.mainProgram = "karabiner-type-mu";
-
-    buildPhase = ''
-      swiftc -O "$src" -o karabiner-type-mu
-    '';
-
-    installPhase = ''
-      install -Dm755 karabiner-type-mu "$out/bin/karabiner-type-mu"
-    '';
-  };
-
   jaKanaCondition = [
     {
       type = "input_source_if";
@@ -139,9 +72,10 @@ in
   # The custom .keylayout attempt is kept as reference. The active solution is
   # Karabiner remapping against the standard Japanese KANA input source.
   #
-  # Direct key-event remaps are used where possible. shell_command with
-  # a compiled Swift helper is used only for characters absent from the Mac
-  # kana layout.
+  # All kana keys are remapped via direct key_code emission so the IME receives
+  # them as composition input (not committed text). む is produced by the JIS
+  # international1 (RO/_) HID code, which Kotoeri's kana layout maps to む even
+  # on an ANSI virtual keyboard.
 
   # Karabiner-Elements configuration
   home.file.".config/karabiner/karabiner.json" = {
@@ -169,21 +103,7 @@ in
                 description = "match Linux kana layout on US keyboard";
                 manipulators = [
                   (mkKanaKeyRemap "equal_sign" "backslash")
-                  {
-                    type = "basic";
-                    from = {
-                      key_code = "backslash";
-                      modifiers = {
-                        optional = [ "caps_lock" ];
-                      };
-                    };
-                    to = [
-                      {
-                        shell_command = lib.getExe typeMuBinary;
-                      }
-                    ];
-                    conditions = jaKanaCondition;
-                  }
+                  (mkKanaKeyRemap "backslash" "international1")
                   (mkKanaKeyRemapWithModifiers "grave_accent_and_tilde" "quote" [ "shift" ])
                   (mkKanaKeyRemap "close_bracket" "equal_sign")
                   (mkKanaShiftRemap "equal_sign" "backslash" [ "shift" ])
