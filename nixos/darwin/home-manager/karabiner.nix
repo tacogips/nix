@@ -204,18 +204,17 @@ in
                 ];
               }
               {
-                description = "match Linux kana layout on US keyboard";
+                description = "customize kana layout on US keyboard";
                 manipulators = [
-                  # Under JIS virtual keyboard, US `=` natively → へ and US `\`
-                  # natively → む in kana mode, so no remap is needed for those.
+                  # Under JIS virtual keyboard, US `=` natively → へ, US `]`
+                  # natively → ゜/「, and US `\` natively → む in kana mode, so
+                  # no remap is needed for those.
                   (mkKanaKeyRemapWithModifiers "grave_accent_and_tilde" "quote" [ "shift" ])
-                  (mkKanaKeyRemap "close_bracket" "equal_sign")
                   (mkKanaShiftRemap "equal_sign" "backslash" [ "shift" ])
                   # JIS Yen/pipe key emits the kana long vowel mark.
                   (mkKanaShiftRemap "hyphen" "international3" [ ])
                   (mkKanaShiftRemap "backslash" "open_bracket" [ "shift" ])
                   (mkKanaShiftRemap "grave_accent_and_tilde" "quote" [ "shift" ])
-                  (mkKanaShiftRemap "close_bracket" "equal_sign" [ "shift" ])
                 ];
               }
             ];

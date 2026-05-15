@@ -1,4 +1,35 @@
-{ mkLuaInline, ... }:
+{ ... }:
+let
+  cwdStatuslineComponent = ''
+    {
+      function()
+        local cwd = vim.fn.fnamemodify(vim.fn.getcwd(), ":~")
+        if cwd == "" then
+          cwd = "."
+        end
+
+        local label = "cwd "
+        local max_width = math.max(math.floor(vim.o.columns * 0.28), 24)
+        local available = max_width - vim.fn.strdisplaywidth(label)
+
+        if vim.fn.strdisplaywidth(cwd) > available then
+          cwd = vim.fn.pathshorten(cwd)
+        end
+
+        while vim.fn.strdisplaywidth(cwd) > available and #cwd > 1 do
+          local shortened = cwd:gsub("^%.%.%.", "", 1):gsub("^~/?", "", 1):gsub("^/+", "", 1)
+          shortened = shortened:gsub("^[^/]+/+", "", 1)
+          if shortened == cwd or shortened == "" then
+            shortened = cwd:sub(2)
+          end
+          cwd = "..." .. shortened
+        end
+
+        return label .. cwd
+      end,
+    }
+  '';
+in
 {
   settings.vim = {
     luaConfigRC.ui = ''
@@ -58,19 +89,7 @@
       alwaysDivideMiddle = true;
       activeSection = {
         a = [ "mode" ];
-        b = [
-          ''
-            {
-              function()
-                local cwd = vim.fn.fnamemodify(vim.fn.getcwd(), ":~")
-                if cwd == "" then
-                  return "cwd ."
-                end
-                return "cwd " .. cwd
-              end,
-            }
-          ''
-        ];
+        b = [ cwdStatuslineComponent ];
         c = [
           ''
             {
@@ -96,17 +115,7 @@
         a = [ ];
         b = [ ];
         c = [
-          ''
-            {
-              function()
-                local cwd = vim.fn.fnamemodify(vim.fn.getcwd(), ":~")
-                if cwd == "" then
-                  return "cwd ."
-                end
-                return "cwd " .. cwd
-              end,
-            }
-          ''
+          cwdStatuslineComponent
           ''
             {
               "filename",
