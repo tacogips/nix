@@ -38,10 +38,15 @@ let
       };
     };
     to = [
-      {
-        key_code = toKey;
-        modifiers = toModifiers;
-      }
+      (
+        if toModifiers == [ ] then
+          { key_code = toKey; }
+        else
+          {
+            key_code = toKey;
+            modifiers = toModifiers;
+          }
+      )
     ];
     conditions = jaKanaCondition;
   };
@@ -56,10 +61,15 @@ let
       };
     };
     to = [
-      {
-        key_code = toKey;
-        modifiers = toModifiers;
-      }
+      (
+        if toModifiers == [ ] then
+          { key_code = toKey; }
+        else
+          {
+            key_code = toKey;
+            modifiers = toModifiers;
+          }
+      )
     ];
     conditions = jaKanaCondition;
   };
@@ -201,7 +211,8 @@ in
                   (mkKanaKeyRemapWithModifiers "grave_accent_and_tilde" "quote" [ "shift" ])
                   (mkKanaKeyRemap "close_bracket" "equal_sign")
                   (mkKanaShiftRemap "equal_sign" "backslash" [ "shift" ])
-                  (mkKanaShiftRemap "hyphen" "close_bracket" [ "shift" ])
+                  # JIS Yen/pipe key emits the kana long vowel mark.
+                  (mkKanaShiftRemap "hyphen" "international3" [ ])
                   (mkKanaShiftRemap "backslash" "open_bracket" [ "shift" ])
                   (mkKanaShiftRemap "grave_accent_and_tilde" "quote" [ "shift" ])
                   (mkKanaShiftRemap "close_bracket" "equal_sign" [ "shift" ])
