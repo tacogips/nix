@@ -8,6 +8,14 @@
   # Some historical or low-level exceptions remain, such as `Q`/`gQ`, `<Esc><Esc>`,
   # Ctrl-based diagnostic shortcuts, insert/visual `kj` escape mappings, and the
   # Helix-like `z` view-mode aliases below.
+  settings.vim.luaConfigRC.lspDefaultKeymapCleanup = ''
+    for _, mode in ipairs({ "n", "x" }) do
+      for _, lhs in ipairs({ "gra", "gri", "grn", "grr", "grt", "grx" }) do
+        pcall(vim.keymap.del, mode, lhs)
+      end
+    end
+  '';
+
   settings.vim.keymaps = [
     {
       # Cancel the current command-line input.
@@ -404,7 +412,7 @@
     {
       # Force-quit the current window.
       mode = "n";
-      key = "<Space><Space>q";
+      key = "<Space>q";
       desc = "Force-quit current window";
       action = ":q!<CR>";
     }
@@ -503,8 +511,15 @@
       # Helix-like `Space ,`: open a smart file picker across history, buffers, and cwd files.
       mode = "n";
       key = "<Space>,";
-      desc = "Open smart file picker";
+      desc = "Open smart files/buffers/history picker";
       action = "<CMD>lua taco_smart_open()<Cr>";
+    }
+    {
+      # Helix-like `Space h`: show recently opened files through Telescope.
+      mode = "n";
+      key = "<Space>h";
+      desc = "Open file history picker";
+      action = "<CMD>lua require'telescope.builtin'.oldfiles{}<Cr>";
     }
     {
       # Helix-like `Space b`: pick from open buffers.
@@ -644,6 +659,7 @@
       mode = "n";
       key = "gr";
       desc = "[lsp] Open references picker";
+      nowait = true;
       action = "<CMD>lua require'telescope.builtin'.lsp_references{}<Cr>";
     }
     {
