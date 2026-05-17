@@ -12,6 +12,7 @@
     ./brave.nix # Import Darwin-specific Brave configuration
     ./fish # Import Darwin-specific fish configuration
     ./aerospace.nix # AeroSpace window manager configuration
+    ./divedra-dev-workflows.nix # Link local divedra development workflows into user scope
     # Add any other Darwin-specific modules here
   ];
 

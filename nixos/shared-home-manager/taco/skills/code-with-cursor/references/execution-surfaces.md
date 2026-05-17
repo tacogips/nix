@@ -39,13 +39,23 @@ if Cursor emits NDJSON immediately.
 In that case, wrap direct `cursor-agent` with the bundled monitor helper:
 
 ```bash
-~/.codex/skills/code-with-cursor/scripts/cursor-agent-monitor.sh start \
+# Codex parent
+~/.agents/skills/code-with-cursor/scripts/cursor-agent-monitor.sh start \
   --state-dir "$state_dir" \
   --workspace /repo \
   --model composer-2 \
   --prompt-file "$prompt_file"
-~/.codex/skills/code-with-cursor/scripts/cursor-agent-monitor.sh poll --state-dir "$state_dir"
-~/.codex/skills/code-with-cursor/scripts/cursor-agent-monitor.sh status --state-dir "$state_dir"
+~/.agents/skills/code-with-cursor/scripts/cursor-agent-monitor.sh poll --state-dir "$state_dir"
+~/.agents/skills/code-with-cursor/scripts/cursor-agent-monitor.sh status --state-dir "$state_dir"
+
+# Claude parent
+~/.claude/skills/code-with-cursor/scripts/cursor-agent-monitor.sh start \
+  --state-dir "$state_dir" \
+  --workspace /repo \
+  --model composer-2 \
+  --prompt-file "$prompt_file"
+~/.claude/skills/code-with-cursor/scripts/cursor-agent-monitor.sh poll --state-dir "$state_dir"
+~/.claude/skills/code-with-cursor/scripts/cursor-agent-monitor.sh status --state-dir "$state_dir"
 ```
 
 For implementation passes under `code-with-cursor`, monitor-helper start output
