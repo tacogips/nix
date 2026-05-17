@@ -17,6 +17,7 @@ let
     "divedra-workflow-reference"
     "divedra-workflow-run"
     "divedra-workflow-test"
+    "git-new-branch"
     "ts-coding-standards"
     "ts-review"
   ];
