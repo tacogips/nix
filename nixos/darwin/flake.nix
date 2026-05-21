@@ -237,6 +237,7 @@
                   kinko-pkg
                   ;
                 chilla-pkg = null;
+                divedra-pkg = null;
               };
               home-manager.users.taco =
                 { ... }:
