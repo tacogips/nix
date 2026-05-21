@@ -3,7 +3,8 @@
 {
   config,
   pkgs,
-  divedra-pkg,
+  lib,
+  divedra-pkg ? null,
   homeStateVersion ? "24.11",
   ...
 }:
@@ -48,7 +49,7 @@
   # Common configuration for all platforms
   programs.home-manager.enable = true;
 
-  home.packages = [
+  home.packages = lib.optionals (divedra-pkg != null) [
     # divedra - workflow runtime/tooling shared across Linux and Darwin
     divedra-pkg
   ];

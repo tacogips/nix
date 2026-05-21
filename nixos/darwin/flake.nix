@@ -21,7 +21,6 @@
     ## --- go tools --------
     ign.url = "github:tacogips/ign";
     kinko.url = "github:tacogips/kinko";
-    divedra.url = "github:tacogips/divedra";
 
     ## --- mcps --------
     bravesearch-mcp.url = "github:tacogips/bravesearch-mcp";
@@ -36,7 +35,6 @@
       nvf,
       ign,
       kinko,
-      divedra,
       bravesearch-mcp,
       ...
     }:
@@ -80,7 +78,6 @@
       bravesearch-mcp-pkg = bravesearch-mcp.packages.${system}.default;
       ign-pkg = ign.packages.${system}.default;
       kinko-pkg = kinko.packages.${system}.default;
-      divedra-pkg = divedra.packages.${system}.default;
 
     in
     {
@@ -188,6 +185,7 @@
                   # Command-line tools (brews)
                   brews = [
                     "colima"
+                    "tacogips/tap/divedra"
                     "docker"
                   ];
 
@@ -237,7 +235,6 @@
                   bravesearch-mcp-pkg
                   ign-pkg
                   kinko-pkg
-                  divedra-pkg
                   ;
                 chilla-pkg = null;
               };
