@@ -175,7 +175,14 @@
                   # GUI applications (casks)
                   casks = [
                     "ghostty" # Ghostty terminal
-                    "tacogips/tap/chilla" # Chilla markdown viewer
+                    {
+                      name = "tacogips/tap/chilla"; # Chilla markdown viewer
+                      # Chilla's private cask currently ships an unsigned,
+                      # unnotarized app. Homebrew removed the old
+                      # --no-quarantine bypass, so keep this workaround scoped
+                      # to Chilla and run it only after cask install/upgrade.
+                      postinstall = "app=/Applications/chilla.app; if [ -d $app ]; then /usr/bin/xattr -rd com.apple.quarantine $app 2>/dev/null || true; /usr/bin/codesign --force --deep --sign - $app >/dev/null; fi";
+                    }
                     # "zed" # Zed Editor
                     "claude-code" # Claude Code CLI
                     "codex" # OpenAI Codex CLI

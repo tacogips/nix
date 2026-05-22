@@ -8,6 +8,7 @@ let
   envrcGenerateRoot = ../skills/envrc-generate;
   codeWithCursorRoot = ../skills/code-with-cursor;
   gitPrecommitSafetyCheckRoot = ../skills/git-precommit-safety-check;
+  improveRoot = ../skills/improve;
 in
 {
   home.activation.codexSkills = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
@@ -79,6 +80,13 @@ in
     install_skill_file \
       "${gitPrecommitSafetyCheckRoot}/references/security.md" \
       "$AGENTS_SKILLS_DIR/git-precommit-safety-check/references/security.md"
+
+    install_skill_file \
+      "${improveRoot}/codex-SKILL.md" \
+      "$AGENTS_SKILLS_DIR/improve/SKILL.md"
+    install_skill_file \
+      "${improveRoot}/agents/openai.yaml" \
+      "$AGENTS_SKILLS_DIR/improve/agents/openai.yaml"
 
     rm -rf "$AGENTS_SKILLS_DIR/code-with-composer"
     rm -rf "$OLD_CODEX_SKILLS_DIR/secure-github-action"
