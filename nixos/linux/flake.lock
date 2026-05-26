@@ -167,6 +167,37 @@
         "type": "github"
       }
     },
+    "divedra": {
+      "inputs": {
+        "flake-utils": [
+          "ign",
+          "flake-utils"
+        ],
+        "git-hooks": "git-hooks",
+        "nixpkgs": [
+          "ign",
+          "nixpkgs"
+        ],
+        "nixpkgs-unstable": [
+          "ign",
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1778662434,
+        "narHash": "sha256-CKaIrxtCMoNmZVFtGQFWw7271IRZIFfdco2DNgRerRE=",
+        "owner": "tacogips",
+        "repo": "divedra",
+        "rev": "c141361b89b5c0af3e9aee9dbaa1049cc4d1c185",
+        "type": "github"
+      },
+      "original": {
+        "owner": "tacogips",
+        "ref": "c141361",
+        "repo": "divedra",
+        "type": "github"
+      }
+    },
     "fenix": {
       "inputs": {
         "nixpkgs": [
@@ -569,7 +600,7 @@
       "inputs": {
         "flake-compat": "flake-compat",
         "gitignore": "gitignore",
-        "nixpkgs": "nixpkgs_8"
+        "nixpkgs": "nixpkgs_7"
       },
       "locked": {
         "lastModified": 1776796298,
@@ -630,7 +661,7 @@
       "inputs": {
         "nixpkgs": [
           "ign",
-          "rielflow",
+          "divedra",
           "git-hooks",
           "nixpkgs"
         ]
@@ -713,16 +744,16 @@
     },
     "ign": {
       "inputs": {
+        "divedra": "divedra",
         "flake-utils": "flake-utils_6",
-        "nixpkgs": "nixpkgs_7",
-        "rielflow": "rielflow"
+        "nixpkgs": "nixpkgs_8"
       },
       "locked": {
-        "lastModified": 1778756296,
-        "narHash": "sha256-c0NPENcCm+erueSnFxeFHWtGpCdFUxD4XsGo1m9poO4=",
+        "lastModified": 1779586986,
+        "narHash": "sha256-S6RGcpuTpAbfhd5dMhacHvidzxRSYbJSyl2JWYW2pFk=",
         "owner": "tacogips",
         "repo": "ign",
-        "rev": "9b02336de0d392af51f347419ca07933ecd44eba",
+        "rev": "04d4d8ebefae808f9e0be2bcd2a6483ef6c3884e",
         "type": "github"
       },
       "original": {
@@ -1110,11 +1141,11 @@
     },
     "nixpkgs_7": {
       "locked": {
-        "lastModified": 1764611609,
-        "narHash": "sha256-yU9BNcP0oadUKupw0UKmO9BKDOVIg9NStdJosEbXf8U=",
+        "lastModified": 1770073757,
+        "narHash": "sha256-Vy+G+F+3E/Tl+GMNgiHl9Pah2DgShmIUBJXmbiQPHbI=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "8c29968b3a942f2903f90797f9623737c215737c",
+        "rev": "47472570b1e607482890801aeaf29bfb749884f6",
         "type": "github"
       },
       "original": {
@@ -1126,11 +1157,11 @@
     },
     "nixpkgs_8": {
       "locked": {
-        "lastModified": 1770073757,
-        "narHash": "sha256-Vy+G+F+3E/Tl+GMNgiHl9Pah2DgShmIUBJXmbiQPHbI=",
+        "lastModified": 1764611609,
+        "narHash": "sha256-yU9BNcP0oadUKupw0UKmO9BKDOVIg9NStdJosEbXf8U=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "47472570b1e607482890801aeaf29bfb749884f6",
+        "rev": "8c29968b3a942f2903f90797f9623737c215737c",
         "type": "github"
       },
       "original": {
@@ -1204,37 +1235,6 @@
     },
     "rielflow": {
       "inputs": {
-        "flake-utils": [
-          "ign",
-          "flake-utils"
-        ],
-        "git-hooks": "git-hooks",
-        "nixpkgs": [
-          "ign",
-          "nixpkgs"
-        ],
-        "nixpkgs-unstable": [
-          "ign",
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "lastModified": 1778662434,
-        "narHash": "sha256-CKaIrxtCMoNmZVFtGQFWw7271IRZIFfdco2DNgRerRE=",
-        "owner": "tacogips",
-        "repo": "rielflow",
-        "rev": "c141361b89b5c0af3e9aee9dbaa1049cc4d1c185",
-        "type": "github"
-      },
-      "original": {
-        "owner": "tacogips",
-        "ref": "c141361",
-        "repo": "rielflow",
-        "type": "github"
-      }
-    },
-    "rielflow_2": {
-      "inputs": {
         "flake-utils": "flake-utils_9",
         "git-hooks": "git-hooks_2",
         "nixpkgs": "nixpkgs_14",
@@ -1270,7 +1270,7 @@
         "nixpkgs-stable": "nixpkgs-stable",
         "nvf": "nvf",
         "qraftbox": "qraftbox",
-        "rielflow": "rielflow_2",
+        "rielflow": "rielflow",
         "xremap-flake": "xremap-flake"
       }
     },

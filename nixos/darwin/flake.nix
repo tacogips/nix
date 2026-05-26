@@ -198,7 +198,9 @@
 
                   # Mac App Store apps (requires mas-cli)
                   masApps = {
+                    "AdGuard for Safari" = 1440147259;
                     Amphetamine = 937984704;
+                    "Apple Developer" = 640199958;
                     Xcode = 497799835;
                   };
                 };

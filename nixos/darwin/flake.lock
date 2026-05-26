@@ -40,7 +40,7 @@
         "type": "github"
       }
     },
-    "rielflow": {
+    "divedra": {
       "inputs": {
         "flake-utils": [
           "ign",
@@ -60,14 +60,14 @@
         "lastModified": 1778662434,
         "narHash": "sha256-CKaIrxtCMoNmZVFtGQFWw7271IRZIFfdco2DNgRerRE=",
         "owner": "tacogips",
-        "repo": "rielflow",
+        "repo": "divedra",
         "rev": "c141361b89b5c0af3e9aee9dbaa1049cc4d1c185",
         "type": "github"
       },
       "original": {
         "owner": "tacogips",
         "ref": "c141361",
-        "repo": "rielflow",
+        "repo": "divedra",
         "type": "github"
       }
     },
@@ -224,7 +224,7 @@
       "inputs": {
         "nixpkgs": [
           "ign",
-          "rielflow",
+          "divedra",
           "git-hooks",
           "nixpkgs"
         ]
@@ -265,16 +265,16 @@
     },
     "ign": {
       "inputs": {
-        "rielflow": "rielflow",
+        "divedra": "divedra",
         "flake-utils": "flake-utils_2",
         "nixpkgs": "nixpkgs_3"
       },
       "locked": {
-        "lastModified": 1778756296,
-        "narHash": "sha256-c0NPENcCm+erueSnFxeFHWtGpCdFUxD4XsGo1m9poO4=",
+        "lastModified": 1779586986,
+        "narHash": "sha256-S6RGcpuTpAbfhd5dMhacHvidzxRSYbJSyl2JWYW2pFk=",
         "owner": "tacogips",
         "repo": "ign",
-        "rev": "9b02336de0d392af51f347419ca07933ecd44eba",
+        "rev": "04d4d8ebefae808f9e0be2bcd2a6483ef6c3884e",
         "type": "github"
       },
       "original": {
