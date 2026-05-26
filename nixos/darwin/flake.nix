@@ -192,6 +192,8 @@
                   # Command-line tools (brews)
                   brews = [
                     "colima"
+                    "podman"
+                    "podman-compose"
                     "tacogips/tap/rielflow"
                     "docker"
                   ];
