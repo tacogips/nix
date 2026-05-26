@@ -4,7 +4,7 @@
   config,
   pkgs,
   lib,
-  divedra-pkg ? null,
+  rielflow-pkg ? null,
   homeStateVersion ? "24.11",
   ...
 }:
@@ -49,9 +49,9 @@
   # Common configuration for all platforms
   programs.home-manager.enable = true;
 
-  home.packages = lib.optionals (divedra-pkg != null) [
-    # divedra - workflow runtime/tooling shared across Linux and Darwin
-    divedra-pkg
+  home.packages = lib.optionals (rielflow-pkg != null) [
+    # rielflow - workflow runtime/tooling shared across Linux and Darwin
+    rielflow-pkg
   ];
 
   # Compatibility version: keep the user's first Home Manager release per machine.

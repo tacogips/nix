@@ -29,7 +29,7 @@
     ## --- go tools --------
     ign.url = "github:tacogips/ign";
     kinko.url = "github:tacogips/kinko";
-    divedra.url = "github:tacogips/divedra";
+    rielflow.url = "github:tacogips/rielflow/rename-rielflow";
 
     ## --- apps --------
     qraftbox.url = "git+https://github.com/tacogips/QraftBox.git";
@@ -51,7 +51,7 @@
       fenix,
       ign,
       kinko,
-      divedra,
+      rielflow,
       qraftbox,
       chilla,
       ...
@@ -92,7 +92,7 @@
           ./patches/kinko-explosion-password-mask.patch
         ];
       });
-      divedra-pkg = divedra.packages.${system}.default;
+      rielflow-pkg = rielflow.packages.${system}.default;
       qraftbox-pkg = qraftbox.packages.${system}.default;
       chilla-pkg = chilla.packages.${system}.default;
 
@@ -173,7 +173,7 @@
                     gitcode-mcp-pkg
                     ign-pkg
                     kinko-pkg
-                    divedra-pkg
+                    rielflow-pkg
                     qraftbox-pkg
                     chilla-pkg
                     stablePkgs
