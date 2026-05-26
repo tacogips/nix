@@ -192,7 +192,7 @@
                   # Command-line tools (brews)
                   brews = [
                     "colima"
-                    "tacogips/tap/divedra"
+                    "tacogips/tap/rielflow"
                     "docker"
                   ];
 
@@ -245,7 +245,7 @@
                   kinko-pkg
                   ;
                 chilla-pkg = null;
-                divedra-pkg = null;
+                rielflow-pkg = null;
               };
               home-manager.users.taco =
                 { ... }:

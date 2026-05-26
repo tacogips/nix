@@ -12,7 +12,7 @@
     ./brave.nix # Import Darwin-specific Brave configuration
     ./fish # Import Darwin-specific fish configuration
     ./aerospace.nix # AeroSpace window manager configuration
-    ./divedra-dev-workflows.nix # Install Nix-managed Codex-agent divedra workflows into user scope
+    ./rielflow-dev-workflows.nix # Install Nix-managed Codex-agent rielflow workflows into user scope
     # Add any other Darwin-specific modules here
   ];
 
