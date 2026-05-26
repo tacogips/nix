@@ -198,6 +198,7 @@
 
                   # Mac App Store apps (requires mas-cli)
                   masApps = {
+                    Amphetamine = 937984704;
                     Xcode = 497799835;
                   };
                 };

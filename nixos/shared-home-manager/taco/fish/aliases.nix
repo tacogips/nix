@@ -10,7 +10,9 @@ let
     codexReviewTodayPrompt
     cursorBaseCommand
     cursorCommand
-    cursorModel
+    cursorModelClaudeOpus
+    cursorModelComposer
+    cursorModelGpt55Medium
     ;
 in
 {
@@ -65,9 +67,12 @@ in
     coo = codexBaseCommand54;
     corl = "${codexBaseCommand} resume --last";
     cor = "${codexBaseCommand} resume";
-    cuf = "${cursorBaseCommand} --model ${cursorModel}";
-    cur = cursorBaseCommand;
-    currl = "${cursorBaseCommand} resume --last";
-    curr = "${cursorBaseCommand} resume";
+    cr = "${cursorBaseCommand} --model ${cursorModelComposer}";
+    cro = "${cursorBaseCommand} --model ${cursorModelGpt55Medium}";
+    crc = "${cursorBaseCommand} --model ${cursorModelClaudeOpus}";
+    # Codex uses `resume --last`; Cursor has no `--last` on `resume`. Use `ls` to
+    # pick a session (`cor`) and the `resume` subcommand for the latest (`corl`).
+    crr = "${cursorBaseCommand} ls";
+    crrl = "${cursorBaseCommand} resume";
   };
 }

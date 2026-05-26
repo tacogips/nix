@@ -3,7 +3,10 @@
 let
   codexCommand = "codex";
   cursorCommand = "cursor-agent";
-  cursorModel = "composer-2";
+  cursorModelComposer = "composer-2.5";
+  cursorModelGpt55Medium = "gpt-5.5-medium";
+  cursorModelClaudeOpus = "claude-4.6-opus-high";
+  cursorModel = cursorModelComposer;
   cursorGlobalFlags = "--yolo --approve-mcps";
   # Newer Codex CLI versions reject combining explicit approval policy with
   # the bypass flag, because bypass already disables approvals and sandboxing.
@@ -48,6 +51,9 @@ in
     cursorBaseCommand
     cursorCommand
     cursorModel
+    cursorModelClaudeOpus
+    cursorModelComposer
+    cursorModelGpt55Medium
     ;
 
   codexReviewTodayPrompt = reviewTodayPrompt;
