@@ -169,6 +169,10 @@
 
                   # Declaratively manage custom taps needed by casks below.
                   taps = [
+                    # Podman 5.8's AppleHV provider fails to keep the machine
+                    # reachable on this macOS setup; libkrun via krunkit is the
+                    # working Podman machine provider.
+                    "slp/krunkit"
                     "tacogips/tap"
                   ];
 
@@ -192,6 +196,8 @@
                   # Command-line tools (brews)
                   brews = [
                     "colima"
+                    # Provides the libkrun Podman machine provider on macOS.
+                    "krunkit"
                     "podman"
                     "podman-compose"
                     "tacogips/tap/rielflow"
