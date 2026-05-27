@@ -196,6 +196,7 @@
                     "podman-compose"
                     "tacogips/tap/rielflow"
                     "docker"
+                    "docker-compose"
                   ];
 
                   # Mac App Store apps (requires mas-cli)
@@ -221,6 +222,14 @@
                     echo ""
                     echo "After installation, run 'darwin-rebuild switch' again."
                     exit 1
+                  fi
+                '';
+
+                system.activationScripts.podmanMacHelper.text = ''
+                  if [ -x /opt/homebrew/bin/podman-mac-helper ]; then
+                    if ! /opt/homebrew/bin/podman-mac-helper install; then
+                      echo "Podman macOS helper install failed; Podman machine socket forwarding may not work"
+                    fi
                   fi
                 '';
 

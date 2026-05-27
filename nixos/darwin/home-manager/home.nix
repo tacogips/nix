@@ -1,6 +1,7 @@
 {
   config,
   pkgs,
+  lib,
   bravesearch-mcp-pkg,
   ...
 }:
@@ -80,6 +81,30 @@
 
   # Enable home-manager
   programs.home-manager.enable = true;
+
+  home.activation.dockerCliPluginsConfig = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+    docker_config_dir="$HOME/.docker"
+    docker_config_file="$docker_config_dir/config.json"
+    docker_config_tmp="$docker_config_file.tmp"
+    docker_cli_plugin_dirs='["/opt/homebrew/lib/docker/cli-plugins","/usr/local/lib/docker/cli-plugins"]'
+
+    $DRY_RUN_CMD ${pkgs.coreutils}/bin/mkdir -p "$docker_config_dir"
+
+    if [ -f "$docker_config_file" ]; then
+      if ${pkgs.jq}/bin/jq -e . "$docker_config_file" >/dev/null; then
+        ${pkgs.jq}/bin/jq --argjson dirs "$docker_cli_plugin_dirs" \
+          '.cliPluginsExtraDirs = (((.cliPluginsExtraDirs // []) + $dirs) | unique)' \
+          "$docker_config_file" > "$docker_config_tmp"
+        $DRY_RUN_CMD ${pkgs.coreutils}/bin/mv "$docker_config_tmp" "$docker_config_file"
+      else
+        echo "Skipping Docker CLI plugin config because $docker_config_file is not valid JSON"
+      fi
+    else
+      printf '%s\n' "$docker_cli_plugin_dirs" \
+        | ${pkgs.jq}/bin/jq '{cliPluginsExtraDirs: .}' > "$docker_config_tmp"
+      $DRY_RUN_CMD ${pkgs.coreutils}/bin/mv "$docker_config_tmp" "$docker_config_file"
+    fi
+  '';
 
   # Disable manual pages on Darwin as man-db has Linux-specific dependencies (libcap)
   manual.manpages.enable = false;
