@@ -26,7 +26,7 @@
   programs.git = {
     settings.user = {
       name = lib.mkForce "tacogips";
-      email = lib.mkForce "me+darwin@tacogips.me";
+      email = lib.mkForce "me@tacogips.me";
     };
   };
 }
