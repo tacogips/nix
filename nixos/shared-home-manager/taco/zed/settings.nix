@@ -15,7 +15,7 @@
   features = {
     edit_prediction_provider = "zed";
   };
-  buffer_font_family = "Iosevka";
+  buffer_font_family = "Hasklig";
   buffer_font_size = 12;
   ui_font_size = 12;
   cursor_blink = true;
@@ -34,7 +34,7 @@
   };
 
   terminal = {
-    font_family = "Iosevka";
+    font_family = "Hasklig";
     font_size = 12;
     dock = "bottom";
   };

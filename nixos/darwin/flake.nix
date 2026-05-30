@@ -132,7 +132,7 @@
                 fonts.packages = with pkgs; [
                   jetbrains-mono
                   nerd-fonts.jetbrains-mono
-                  iosevka
+                  hasklig
                 ];
 
                 # Allow unfree packages

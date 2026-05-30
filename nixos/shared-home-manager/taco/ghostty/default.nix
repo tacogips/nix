@@ -46,7 +46,7 @@ in
 
     fontFamily = lib.mkOption {
       type = lib.types.str;
-      default = "iosevka";
+      default = "Hasklig";
       description = "Ghostty font family.";
     };
 

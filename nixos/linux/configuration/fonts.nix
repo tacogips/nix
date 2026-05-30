@@ -14,9 +14,9 @@
       noto-fonts-cjk-sans
       noto-fonts-cjk-serif
       noto-fonts-color-emoji
-      iosevka
+      hasklig
       helvetica-neue-lt-std
-      nerd-fonts.iosevka
+      nerd-fonts.hasklug
     ];
     fontconfig = {
       defaultFonts = {
@@ -29,7 +29,7 @@
           "Noto Color Emoji"
         ];
         monospace = [
-          "Iosevka Nerd Font"
+          "Hasklug Nerd Font Mono"
           "Noto Color Emoji"
         ];
         emoji = [ "Noto Color Emoji" ];

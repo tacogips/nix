@@ -171,8 +171,8 @@
     #  noto-fonts-cjk-sans
     #  noto-fonts-cjk-serif
     #  noto-fonts-emoji
-    #  iosevka
-    #  nerd-fonts.iosevka
+    #  hasklig
+    #  nerd-fonts.hasklug
 
     #];
   };
