@@ -15,14 +15,14 @@ let
     "codex-refactoring-slice-review"
   ];
   rielflowDevSkillNames = [
-    "rielflow-codex-impl-workflow"
-    "rielflow-codex-refactoring-workflow"
-    "rielflow-workflow"
-    "rielflow-workflow-checkout"
-    "rielflow-workflow-organizer"
-    "rielflow-workflow-reference"
-    "rielflow-workflow-run"
-    "rielflow-workflow-test"
+    "riel-codex-impl-workflow"
+    "riel-codex-refactoring-workflow"
+    "riel-workflow"
+    "riel-workflow-checkout"
+    "riel-workflow-organizer"
+    "riel-workflow-reference"
+    "riel-workflow-run"
+    "riel-workflow-test"
     "git-new-branch"
   ];
   obsoleteRielflowDevWorkflowNames = [
@@ -33,19 +33,17 @@ let
     "refactoring-divide-and-conquer"
     "refactoring-slice-review"
   ];
-  legacyDivedraDevSkillNames = [
-    "divedra-codex-impl-workflow"
-    "divedra-codex-refactoring-workflow"
-    "divedra-workflow"
-    "divedra-workflow-checkout"
-    "divedra-workflow-organizer"
-    "divedra-workflow-reference"
-    "divedra-workflow-run"
-    "divedra-workflow-test"
-  ];
   # Legacy names only: remove old managed copies from ~/.agents/skills on activation.
   # ts-coding-standards and ts-review are not installed as user skills.
   obsoleteRielflowDevSkillNames = [
+    "rielflow-codex-impl-workflow"
+    "rielflow-codex-refactoring-workflow"
+    "rielflow-workflow"
+    "rielflow-workflow-checkout"
+    "rielflow-workflow-organizer"
+    "rielflow-workflow-reference"
+    "rielflow-workflow-run"
+    "rielflow-workflow-test"
     "rielflow-impl-workflow"
     "rielflow-refactoring-workflow"
     "rielflow-auto-improve"
@@ -62,7 +60,6 @@ let
   workflowList = lib.concatStringsSep " " rielflowDevWorkflowNames;
   obsoleteWorkflowList = lib.concatStringsSep " " obsoleteRielflowDevWorkflowNames;
   skillList = lib.concatStringsSep " " rielflowDevSkillNames;
-  legacyDivedraSkillList = lib.concatStringsSep " " legacyDivedraDevSkillNames;
   obsoleteSkillList = lib.concatStringsSep " " obsoleteRielflowDevSkillNames;
 in
 {
@@ -86,16 +83,6 @@ in
 
       if [ -e "$target_path/.nix-managed-rielflow-dev-workflow" ]; then
         make_managed_tree_writable "$target_path" ".nix-managed-rielflow-dev-workflow"
-        rm -rf "$target_path"
-      fi
-    done
-
-    LEGACY_DIVEDRA_WORKFLOWS_DIR="$HOME/.divedra/workflows"
-    for workflow_name in ${workflowList} ${obsoleteWorkflowList}; do
-      target_path="$LEGACY_DIVEDRA_WORKFLOWS_DIR/$workflow_name"
-
-      if [ -e "$target_path/.nix-managed-divedra-dev-workflow" ]; then
-        make_managed_tree_writable "$target_path" ".nix-managed-divedra-dev-workflow"
         rm -rf "$target_path"
       fi
     done
@@ -146,15 +133,6 @@ in
 
       if [ -e "$target_path/.nix-managed-rielflow-dev-skill" ]; then
         make_managed_tree_writable "$target_path" ".nix-managed-rielflow-dev-skill"
-        rm -rf "$target_path"
-      fi
-    done
-
-    for skill_name in ${legacyDivedraSkillList}; do
-      target_path="$TARGET_SKILLS_DIR/$skill_name"
-
-      if [ -e "$target_path/.nix-managed-divedra-dev-skill" ]; then
-        make_managed_tree_writable "$target_path" ".nix-managed-divedra-dev-skill"
         rm -rf "$target_path"
       fi
     done

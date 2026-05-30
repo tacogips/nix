@@ -1,5 +1,5 @@
 ---
-name: rielflow-workflow
+name: riel-workflow
 description: Use when creating, modifying, reviewing, or validating rielflow workflow bundles. Applies to step-addressed workflow.json authoring, node payload files, prompt files, built-in node add-ons, cross-workflow transitions, manager/worker routing, and portable workflows under a workflow root.
 metadata:
   short-description: Create rielflow workflow bundles

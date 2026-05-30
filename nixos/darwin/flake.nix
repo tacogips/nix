@@ -164,7 +164,10 @@
                   onActivation = {
                     autoUpdate = true;
                     upgrade = true;
-                    cleanup = "zap"; # Remove unlisted packages
+                    # Homebrew cleanup can misclassify krunkit's tapped runtime
+                    # dependencies as removable and then fail because krunkit
+                    # still needs them.
+                    cleanup = "none";
                   };
 
                   # Declaratively manage custom taps needed by casks below.

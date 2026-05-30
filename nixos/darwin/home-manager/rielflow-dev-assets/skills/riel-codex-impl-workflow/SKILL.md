@@ -1,5 +1,5 @@
 ---
-name: rielflow-codex-impl-workflow
+name: riel-codex-impl-workflow
 description: Use when Codex-agent implementation work in this repository changes behavior, adds functionality, or fixes bugs and the user has not explicitly asked to avoid workflows. Routes the work through the user-scope Codex development workflow `~/.rielflow/workflows/codex-design-and-implement-review-loop` (executionBackend codex-agent), including design/plan alignment, implementation, review, user-facing documentation refresh, commit-message generation, and built-in git commit/push steps. For Cursor-agent workflows, use the future cursor-* workflow and skill names instead.
 ---
 
@@ -21,10 +21,10 @@ Use this skill as the default Codex-agent path for implementation work in this r
 
 - the user explicitly says not to use a workflow
 - the task is documentation-only or planning-only with no implementation
-- the task is specifically to debug or repair `rielflow` itself; use `rielflow-fix`
+- the task is specifically to debug or repair `rielflow` itself; use `riel-fix`
 - the task is to operate or troubleshoot live `workflow run --auto-improve`
   supervision rather than implement repository behavior; use
-  `rielflow-auto-improve`
+  `riel-auto-improve`
 
 ## Default Codex Workflow
 
@@ -102,4 +102,4 @@ After the workflow finishes, report:
 - pushed remote and branch
 
 If the workflow fails because `rielflow` appears incorrect, switch to the
-`rielflow-fix` skill.
+`riel-fix` skill.

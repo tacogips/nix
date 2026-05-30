@@ -17,12 +17,18 @@ let
         end
 
         while vim.fn.strdisplaywidth(cwd) > available and #cwd > 1 do
+          local before = cwd
           local shortened = cwd:gsub("^%.%.%.", "", 1):gsub("^~/?", "", 1):gsub("^/+", "", 1)
           shortened = shortened:gsub("^[^/]+/+", "", 1)
           if shortened == cwd or shortened == "" then
             shortened = cwd:sub(2)
           end
           cwd = "..." .. shortened
+
+          if cwd == before then
+            cwd = "..." .. cwd:sub(math.max(#cwd - available + 4, 1))
+            break
+          end
         end
 
         return label .. cwd

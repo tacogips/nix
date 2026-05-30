@@ -1,5 +1,5 @@
 ---
-name: rielflow-codex-refactoring-workflow
+name: riel-codex-refactoring-workflow
 description: Use when planning, running, monitoring, or troubleshooting the user-scope Codex-agent divide-and-conquer refactoring workflows. Applies to `~/.rielflow/workflows/codex-refactoring-divide-and-conquer` and `codex-refactoring-slice-review` (executionBackend codex-agent), duplicate-scavenge refactoring, generated refactoring implementation plans, implementation/review loop handling, blocked verification, dependency-owned agent mocks, and final plan archival. For Cursor-agent workflows, use the future cursor-* workflow and skill names instead.
 ---
 

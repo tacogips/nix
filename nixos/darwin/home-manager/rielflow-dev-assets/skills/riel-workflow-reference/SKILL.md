@@ -1,5 +1,5 @@
 ---
-name: rielflow-workflow-reference
+name: riel-workflow-reference
 description: Use when helping developers integrate with rielflow workflows programmatically. Applies to the rielflow package API, createWorkflowExecutionClient, inspectWorkflow, executeWorkflow, resumeWorkflow, rerunWorkflow, getRuntimeSessionView, callWorkflowStep, executeGraphqlRequest, createGraphqlSchema, executeGraphqlDocument, GraphQL control-plane queries and mutations, rielflow graphql, manager-session auth, and choosing between local library calls and remote GraphQL endpoint calls.
 metadata:
   short-description: Use rielflow workflow APIs
@@ -7,7 +7,7 @@ metadata:
 
 # Rielflow Workflow Reference
 
-Use this skill for developer-facing references and integrations. For end-user CLI operation, use `rielflow-workflow-run`. For authoring workflow bundles, use `rielflow-workflow`.
+Use this skill for developer-facing references and integrations. For end-user CLI operation, use `riel-workflow-run`. For authoring workflow bundles, use `riel-workflow`.
 
 ## Choose The Integration Surface
 
@@ -59,8 +59,8 @@ Remote GraphQL execution:
 const client = createWorkflowExecutionClient({
   workflowName: "example-workflow",
   endpoint: "http://127.0.0.1:43173/graphql",
-  authToken: process.env.DIVEDRA_MANAGER_AUTH_TOKEN,
-  managerSessionId: process.env.DIVEDRA_MANAGER_SESSION_ID,
+  authToken: process.env.RIEL_MANAGER_AUTH_TOKEN,
+  managerSessionId: process.env.RIEL_MANAGER_SESSION_ID,
 });
 
 const result = await client.execute({
@@ -160,7 +160,7 @@ rielflow graphql '
 ## Integration Rules
 
 - Without `--endpoint`, the GraphQL CLI executes in-process against local project-scoped workflow/session storage.
-- Endpoint resolution for remote CLI transport is `--endpoint`, then `DIVEDRA_GRAPHQL_ENDPOINT`.
+- Endpoint resolution for remote CLI transport is `--endpoint`, then `RIEL_GRAPHQL_ENDPOINT`.
 - `executeGraphqlRequest()` sends standard `{ query, variables }` JSON and returns `{ data, errors }`.
 - `authToken` becomes `Authorization: Bearer <token>`.
 - `managerSessionId` becomes the manager-session header used by rielflow GraphQL.

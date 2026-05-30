@@ -9,6 +9,8 @@ let
   abbrs = import ./abbrs.nix;
 in
 {
+  home.packages = [ fishAliases.tmuxWindowNameUpdate ];
+
   programs.fish = {
     enable = true;
     shellAliases = aliases;

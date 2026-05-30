@@ -1,5 +1,5 @@
 ---
-name: rielflow-workflow-test
+name: riel-workflow-test
 description: Use when testing or verifying rielflow workflow bundles. Applies to deterministic mock-scenario runs, workflow validate/inspect/run checks, EXPECTED_RESULTS.md updates, regression assertions, session output verification, and CI-style workflow fixture validation.
 metadata:
   short-description: Test rielflow workflows
@@ -7,7 +7,7 @@ metadata:
 
 # Rielflow Workflow Test
 
-Use this skill to verify existing rielflow workflows reproducibly. For authoring use `rielflow-workflow`; for normal operation use `rielflow-workflow-run`.
+Use this skill to verify existing rielflow workflows reproducibly. For authoring use `riel-workflow`; for normal operation use `riel-workflow-run`.
 
 ## Standard Verification
 

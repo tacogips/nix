@@ -2,6 +2,76 @@
 
 let
   agentCommands = import ./agent-commands.nix { };
+  tmuxWindowNameUpdate = pkgs.writeShellApplication {
+    name = "tmux-window-name-update";
+    runtimeInputs = [
+      pkgs.coreutils
+      pkgs.git
+      pkgs.tmux
+    ];
+    text = ''
+      set -euo pipefail
+
+      usage() {
+        printf 'Usage: tmux-window-name-update [--auto-all]\n' >&2
+      }
+
+      window_title_for_path() {
+        local path repo_root title
+
+        path="$1"
+        repo_root="$(git -C "$path" rev-parse --show-toplevel 2>/dev/null || true)"
+
+        if [[ -n "$repo_root" ]]; then
+          title="$(basename "$repo_root")"
+        else
+          title="$(basename "$path")"
+        fi
+
+        if [[ -z "$title" || "$title" == "/" ]]; then
+          title="shell"
+        fi
+
+        printf '%s\n' "$title"
+      }
+
+      rename_window() {
+        local target path title
+
+        target="$1"
+        path="$(tmux display-message -p -t "$target" '#{pane_current_path}' 2>/dev/null || true)"
+
+        if [[ -z "$path" || ! -d "$path" ]]; then
+          return 0
+        fi
+
+        title="$(window_title_for_path "$path")"
+        tmux rename-window -t "$target" "$title"
+      }
+
+      case "''${1:-}" in
+        "")
+          if [[ -z "''${TMUX:-}" ]]; then
+            printf 'tmux-window-name-update: not inside tmux\n' >&2
+            exit 1
+          fi
+          rename_window "$(tmux display-message -p '#{window_id}')"
+          ;;
+        --auto-all)
+          while IFS= read -r target; do
+            rename_window "$target"
+          done < <(tmux list-windows -a -F '#{window_id}')
+          ;;
+        -h|--help)
+          usage
+          ;;
+        *)
+          usage
+          exit 2
+          ;;
+      esac
+    '';
+  };
   inherit (agentCommands)
     claudeBaseCommand
     codexBaseCommand
@@ -22,6 +92,7 @@ in
     codexReviewTodayPrompt
     cursorBaseCommand
     cursorCommand
+    tmuxWindowNameUpdate
     ;
 
   aliases = {
@@ -54,6 +125,7 @@ in
 
     pyac = "source ./venv/bin/activate.fish";
     tm = "tmux";
+    wnu = "${tmuxWindowNameUpdate}/bin/tmux-window-name-update --auto-all";
     vim = "nvim";
     n = "nvim";
     cl = "env CLAUDE_CODE_EFFORT_LEVEL=high ${claudeBaseCommand} --model sonnet";

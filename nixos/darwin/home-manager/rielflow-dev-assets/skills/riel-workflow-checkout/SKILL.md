@@ -1,5 +1,5 @@
 ---
-name: rielflow-workflow-checkout
+name: riel-workflow-checkout
 description: Use when installing a rielflow workflow bundle from a public GitHub directory URL with workflow checkout. Covers project/user scope destinations, duplicate handling, overwrite behavior, registry metadata, validation, and checkout troubleshooting.
 metadata:
   short-description: Checkout GitHub workflow bundles
@@ -9,7 +9,7 @@ metadata:
 
 Use this skill when the user wants to install, import, check out, replace, or troubleshoot a rielflow workflow bundle from GitHub with `workflow checkout`.
 
-For running, listing, validating, inspecting, or monitoring existing workflows, use `rielflow-workflow-run` instead.
+For running, listing, validating, inspecting, or monitoring existing workflows, use `riel-workflow-run` instead.
 
 ## Command
 
@@ -55,14 +55,14 @@ https://github.com/<owner>/<repo>/tree/<ref>/.rielflow/workflows/<workflow-name>
 <cwd>/.rielflow/workflows/<workflow-name>
 ```
 
-- `--project-root <path>` or `DIVEDRA_PROJECT_ROOT` can make the project scope explicit.
+- `--project-root <path>` or `RIEL_PROJECT_ROOT` can make the project scope explicit.
 - Add `--user-scope` to install under:
 
 ```text
 <user-root>/workflows/<workflow-name>
 ```
 
-- `--user-root <path>` or `DIVEDRA_USER_ROOT` can override the user root. The checkout registry is always written under the resolved user root, including project-scope checkouts.
+- `--user-root <path>` or `RIEL_USER_ROOT` can override the user root. The checkout registry is always written under the resolved user root, including project-scope checkouts.
 - Duplicate checkouts fail when the destination directory or registry record already exists.
 - Add `--overwrite` only when the user explicitly wants replacement. The implementation validates the newly staged bundle before replacing the existing destination.
 - Each successful checkout writes provenance under:

@@ -1,5 +1,5 @@
 ---
-name: rielflow-workflow-organizer
+name: riel-workflow-organizer
 description: Use when organizing, deduplicating, or refactoring rielflow workflow bundles. Applies to reducing duplicate workflows, extracting reusable called workflows through cross-workflow transitions, using called-workflow composition, consolidating repeated prompts/nodes/add-ons, reviewing historical runtime artifacts, and improving workflow structure or input/output contracts from observed execution failures.
 metadata:
   short-description: Refactor rielflow workflows
@@ -9,7 +9,7 @@ metadata:
 
 Use this skill to make existing rielflow workflow bundles more DRY, maintainable, and effective without changing their intended behavior.
 
-Use `rielflow-workflow` for exact workflow schema rules while editing. Use `rielflow-workflow-run` or `rielflow-troubleshooting` when inspecting sessions, artifacts, or run failures.
+Use `riel-workflow` for exact workflow schema rules while editing. Use `riel-workflow-run` or `riel-troubleshooting` when inspecting sessions, artifacts, or run failures.
 
 ## Organizing Workflow
 
