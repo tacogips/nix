@@ -37,6 +37,7 @@
     # Re-enable after upstream/package fix.
     # ./marktext
     ./ripgrep
+    ./rielflow
     ./ssh
     ./tmux
     ./yazi
@@ -48,11 +49,6 @@
 
   # Common configuration for all platforms
   programs.home-manager.enable = true;
-
-  home.packages = lib.optionals (rielflow-pkg != null) [
-    # rielflow - workflow runtime/tooling shared across Linux and Darwin
-    rielflow-pkg
-  ];
 
   # Compatibility version: keep the user's first Home Manager release per machine.
   home.stateVersion = homeStateVersion;

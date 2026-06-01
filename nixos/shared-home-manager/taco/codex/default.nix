@@ -7,6 +7,7 @@ let
   secureGithubActionRoot = ../skills/secure-github-action;
   envrcGenerateRoot = ../skills/envrc-generate;
   codeWithCursorRoot = ../skills/code-with-cursor;
+  braveBrowserComputerUseRoot = ../skills/brave-browser-computer-use;
   gitPrecommitSafetyCheckRoot = ../skills/git-precommit-safety-check;
   improveRoot = ../skills/improve;
 in
@@ -72,6 +73,13 @@ in
     chmod +x "$AGENTS_SKILLS_DIR/code-with-cursor/scripts/cursor-agent-monitor-darwin.sh"
 
     install_skill_file \
+      "${braveBrowserComputerUseRoot}/codex-SKILL.md" \
+      "$AGENTS_SKILLS_DIR/brave-browser-computer-use/SKILL.md"
+    install_skill_file \
+      "${braveBrowserComputerUseRoot}/agents/openai.yaml" \
+      "$AGENTS_SKILLS_DIR/brave-browser-computer-use/agents/openai.yaml"
+
+    install_skill_file \
       "${gitPrecommitSafetyCheckRoot}/codex-SKILL.md" \
       "$AGENTS_SKILLS_DIR/git-precommit-safety-check/SKILL.md"
     install_skill_file \
@@ -93,5 +101,6 @@ in
     rm -rf "$OLD_CODEX_SKILLS_DIR/envrc-generate"
     rm -rf "$OLD_CODEX_SKILLS_DIR/code-with-cursor"
     rm -rf "$OLD_CODEX_SKILLS_DIR/code-with-composer"
+    rm -rf "$OLD_CODEX_SKILLS_DIR/brave-browser-computer-use"
   '';
 }

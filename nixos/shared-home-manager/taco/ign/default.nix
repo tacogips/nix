@@ -1,7 +1,11 @@
-{ config, pkgs, ign-pkg, ... }:
+{
+  lib,
+  ign-pkg ? null,
+  ...
+}:
 
 {
-  home.packages = [
+  home.packages = lib.optionals (ign-pkg != null) [
     # ign - Template-based code generation CLI tool
     ign-pkg
   ];

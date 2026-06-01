@@ -9,6 +9,17 @@ in
 
     settings = {
       notARepository = "quit";
+      os = {
+        # Standalone lazygit opens files in nvim; lazygit inside Neovim opens
+        # selected files in the parent Neovim instance.
+        editPreset = "nvim-remote";
+      };
+      keybinding = {
+        universal = {
+          edit = "<enter>";
+        };
+      };
+
       gui = {
         theme = {
           activeBorderColor = [

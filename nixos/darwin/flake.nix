@@ -19,7 +19,6 @@
     };
 
     ## --- go tools --------
-    ign.url = "github:tacogips/ign";
     kinko.url = "github:tacogips/kinko";
 
     ## --- mcps --------
@@ -33,7 +32,6 @@
       darwin,
       home-manager,
       nvf,
-      ign,
       kinko,
       bravesearch-mcp,
       ...
@@ -76,7 +74,6 @@
       };
       # Get the original packages
       bravesearch-mcp-pkg = bravesearch-mcp.packages.${system}.default;
-      ign-pkg = ign.packages.${system}.default;
       kinko-pkg = kinko.packages.${system}.default;
 
     in
@@ -203,6 +200,7 @@
                     "krunkit"
                     "podman"
                     "podman-compose"
+                    "tacogips/tap/ign"
                     "tacogips/tap/rielflow"
                     "docker"
                     "docker-compose"
@@ -265,10 +263,10 @@
                 inherit
                   homeStateVersion
                   bravesearch-mcp-pkg
-                  ign-pkg
                   kinko-pkg
                   ;
                 chilla-pkg = null;
+                ign-pkg = null;
                 rielflow-pkg = null;
               };
               home-manager.users.taco =
