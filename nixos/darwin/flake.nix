@@ -89,6 +89,8 @@
           };
           modules = [
             # Basic Darwin configuration
+            ./modules/apps
+            ./profiles/taco-apps.nix
             (
               {
                 config,
@@ -130,6 +132,7 @@
                   jetbrains-mono
                   nerd-fonts.jetbrains-mono
                   hasklig
+                  noto-fonts-cjk-sans
                 ];
 
                 # Allow unfree packages
@@ -141,7 +144,6 @@
                   vim
                   curl
                   wget
-                  # zed - Installed via Homebrew (see homebrew.casks below)
                 ];
 
                 # Enable shells
@@ -152,93 +154,6 @@
                 users.users.taco = {
                   shell = pkgs.fish;
                 };
-
-                # Homebrew configuration
-                homebrew = {
-                  enable = true;
-
-                  # Update Homebrew and upgrade packages on activation
-                  onActivation = {
-                    autoUpdate = true;
-                    upgrade = true;
-                    # Homebrew cleanup can misclassify krunkit's tapped runtime
-                    # dependencies as removable and then fail because krunkit
-                    # still needs them.
-                    cleanup = "none";
-                  };
-
-                  # Declaratively manage custom taps needed by casks below.
-                  taps = [
-                    # Podman 5.8's AppleHV provider fails to keep the machine
-                    # reachable on this macOS setup; libkrun via krunkit is the
-                    # working Podman machine provider.
-                    "slp/krunkit"
-                    "tacogips/tap"
-                  ];
-
-                  # GUI applications (casks)
-                  casks = [
-                    "ghostty" # Ghostty terminal
-                    {
-                      name = "tacogips/tap/chilla"; # Chilla markdown viewer
-                      # Chilla's private cask currently ships an unsigned,
-                      # unnotarized app. Homebrew removed the old
-                      # --no-quarantine bypass, so keep this workaround scoped
-                      # to Chilla and run it only after cask install/upgrade.
-                      postinstall = "app=/Applications/chilla.app; if [ -d $app ]; then /usr/bin/xattr -rd com.apple.quarantine $app 2>/dev/null || true; /usr/bin/codesign --force --deep --sign - $app >/dev/null; fi";
-                    }
-                    # "zed" # Zed Editor
-                    "claude-code" # Claude Code CLI
-                    "codex" # OpenAI Codex CLI
-                    "codex-app" # OpenAI Codex desktop app
-                  ];
-
-                  # Command-line tools (brews)
-                  brews = [
-                    "colima"
-                    # Provides the libkrun Podman machine provider on macOS.
-                    "krunkit"
-                    "podman"
-                    "podman-compose"
-                    "tacogips/tap/ign"
-                    "tacogips/tap/rielflow"
-                    "docker"
-                    "docker-compose"
-                  ];
-
-                  # Mac App Store apps (requires mas-cli)
-                  masApps = {
-                    "AdGuard for Safari" = 1440147259;
-                    Amphetamine = 937984704;
-                    "Apple Developer" = 640199958;
-                    Bitwarden = 1352778147;
-                    "Just Press Record" = 1033342465;
-                    Xcode = 497799835;
-                  };
-                };
-
-                # Check for Homebrew (installation must be done manually)
-                system.activationScripts.preActivation.text = ''
-                  # Check for Homebrew in expected locations
-                  if [ -f /opt/homebrew/bin/brew ] || [ -f /usr/local/bin/brew ]; then
-                    echo "✅ Homebrew is installed"
-                  else
-                    echo "⚠️  Homebrew not found!"
-                    echo "Please install Homebrew manually:"
-                    echo "  /bin/bash -c \"\$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)\""
-                    echo ""
-                    echo "After installation, run 'darwin-rebuild switch' again."
-                    exit 1
-                  fi
-                '';
-
-                system.activationScripts.podmanMacHelper.text = ''
-                  if [ -x /opt/homebrew/bin/podman-mac-helper ]; then
-                    if ! /opt/homebrew/bin/podman-mac-helper install; then
-                      echo "Podman macOS helper install failed; Podman machine socket forwarding may not work"
-                    fi
-                  fi
-                '';
 
                 # Add activation script to set shell for the user
                 system.activationScripts.postActivation.text =
