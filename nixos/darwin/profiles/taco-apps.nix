@@ -11,6 +11,7 @@
     ghostty.enable = true;
     ign.enable = true;
     just-press-record.enable = true;
+    kindle.enable = true;
     rielflow.enable = true;
     xcode.enable = true;
   };

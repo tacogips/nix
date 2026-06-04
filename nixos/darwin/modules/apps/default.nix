@@ -12,6 +12,7 @@
     ./homebrew.nix
     ./ign.nix
     ./just-press-record.nix
+    ./kindle.nix
     ./rielflow.nix
     ./xcode.nix
   ];
