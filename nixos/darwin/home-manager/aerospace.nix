@@ -17,12 +17,14 @@ let
 
     state_dir="$HOME/.local/state/aerospace"
     state_file="$state_dir/monitor-topology"
+    state_version="external-workspace-assignment-v2"
 
     "$MKDIR" -p "$state_dir"
 
-    if ! current_state="$("$AEROSPACE" list-monitors --format '%{monitor-id}|%{monitor-name}|%{monitor-is-main}' 2>/dev/null | "$SORT")"; then
+    if ! monitor_lines="$("$AEROSPACE" list-monitors --format '%{monitor-id}|%{monitor-name}|%{monitor-is-main}' 2>/dev/null)"; then
       exit 0
     fi
+    current_state="$(printf '%s\n%s\n' "$state_version" "$monitor_lines" | "$SORT")"
 
     force="''${1:-}"
     previous_state=""
@@ -41,13 +43,46 @@ let
       exit 0
     fi
 
-    if ! "$AEROSPACE" list-monitors --format '%{monitor-name}' 2>/dev/null | "$GREP" -qi 'built-in'; then
+    external_ids=""
+    built_in_id=""
+    while IFS='|' read -r monitor_id monitor_name monitor_is_main; do
+      if [ -z "$monitor_id" ]; then
+        continue
+      fi
+
+      if printf '%s\n' "$monitor_name" | "$GREP" -qi 'built-in'; then
+        built_in_id="$monitor_id"
+      else
+        external_ids="$external_ids $monitor_id"
+      fi
+    done <<EOF
+    $monitor_lines
+    EOF
+
+    external_count=0
+    external_one=""
+    external_two=""
+    for external_id in $external_ids; do
+      external_count=$((external_count + 1))
+      if [ "$external_count" -eq 1 ]; then
+        external_one="$external_id"
+      elif [ "$external_count" -eq 2 ]; then
+        external_two="$external_id"
+      fi
+    done
+
+    if [ "$external_count" -lt 1 ]; then
       exit 0
     fi
 
-    "$AEROSPACE" workspace 9
+    if [ -n "$built_in_id" ]; then
+      "$AEROSPACE" workspace 9
+    fi
+
+    "$AEROSPACE" move-workspace-to-monitor --workspace 1 "$external_one"
     "$AEROSPACE" workspace 1
-    if [ "$monitor_count" -ge 3 ]; then
+    if [ "$external_count" -ge 2 ]; then
+      "$AEROSPACE" move-workspace-to-monitor --workspace 2 "$external_two"
       "$AEROSPACE" workspace 2
     fi
   '';
@@ -56,9 +91,10 @@ in
   # Override the aerospace reload activation to handle when AeroSpace isn't running
   home.activation.aerospace-reload-config = lib.mkForce (
     lib.hm.dag.entryAfter [ "writeBoundary" ] ''
-      # Only reload if AeroSpace is running
-      if ${pkgs.darwin.ps}/bin/ps aux | ${pkgs.gnugrep}/bin/grep -q "[A]eroSpace"; then
+      # Only reload if AeroSpace is running and responding to CLI commands.
+      if ${pkgs.aerospace}/bin/aerospace list-monitors --count >/dev/null 2>&1; then
         $DRY_RUN_CMD ${pkgs.aerospace}/bin/aerospace reload-config || echo "AeroSpace reload failed, continuing..."
+        $DRY_RUN_CMD ${aerospaceDisplaySync} --force || echo "AeroSpace display sync failed, continuing..."
       else
         echo "AeroSpace not running, skipping reload"
       fi
@@ -81,8 +117,9 @@ in
         "exec-and-forget ${aerospaceDisplaySync} --force"
       ];
 
-      # Prefer external monitors for primary workspaces when docked,
-      # while always keeping the built-in display on workspace 9.
+      # The sync agent assigns workspaces 1 and 2 to external monitor IDs
+      # after topology changes. Keep only workspace 9 force-pinned here so
+      # dynamic external assignment is not blocked by AeroSpace.
       persistent-workspaces = [
         "1"
         "2"
@@ -90,16 +127,6 @@ in
       ];
 
       "workspace-to-monitor-force-assignment" = {
-        "1" = [
-          2
-          "secondary"
-          "main"
-        ];
-        "2" = [
-          3
-          "secondary"
-          "main"
-        ];
         "3" = [
           "secondary"
           "main"
@@ -217,6 +244,7 @@ in
       mode.service.binding = {
         "esc" = [
           "reload-config"
+          "exec-and-forget ${aerospaceDisplaySync} --force"
           "mode main"
         ];
         "r" = [
