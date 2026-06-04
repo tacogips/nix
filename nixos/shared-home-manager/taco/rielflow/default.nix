@@ -7,10 +7,17 @@ let
   rielflowBinary = if rielflow-pkg != null then "${rielflow-pkg}/bin/rielflow" else "rielflow";
 
   devWorkflowPackages = [
+    "codex-deepdesign"
+    "codex-design-and-implement-review-loop"
     "codex-impl-plan-completion-loop"
     "codex-recent-change-quality-loop"
     "codex-refactoring-divide-and-conquer"
+    "codex-refactoring-slice-review"
+    "codex-task-watchdog"
+    "codex-worker-only-single-step"
+    "rielflow-package-installer-skill"
     "rielflow-temporary-workflow-skill"
+    "rielflow-workflow-creator-skill"
   ];
 in
 {

@@ -1,5 +1,6 @@
 **/*.private
 **/*.secure
 **/llm-log
+.rielflow/
 
 **/.claude/settings.local.json
