@@ -19,7 +19,10 @@ in
         "krunkit"
         "podman"
         "podman-compose"
-        "docker"
+        {
+          name = "docker";
+          conflicts_with = [ "docker-completion" ];
+        }
         "docker-compose"
       ];
     };
@@ -30,6 +33,14 @@ in
           echo "Podman macOS helper install failed; Podman machine socket forwarding may not work"
         fi
       fi
+    '';
+
+    system.activationScripts.preActivation.text = ''
+      for brew in /opt/homebrew/bin/brew /usr/local/bin/brew; do
+        if [ -x "$brew" ] && "$brew" list --formula docker-completion >/dev/null 2>&1; then
+          "$brew" unlink docker-completion || true
+        fi
+      done
     '';
   };
 }

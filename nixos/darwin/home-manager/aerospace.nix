@@ -45,10 +45,11 @@ let
       exit 0
     fi
 
-    "$AEROSPACE" focus-monitor built-in
     "$AEROSPACE" workspace 9
-    "$AEROSPACE" focus-monitor secondary
     "$AEROSPACE" workspace 1
+    if [ "$monitor_count" -ge 3 ]; then
+      "$AEROSPACE" workspace 2
+    fi
   '';
 in
 {
@@ -80,16 +81,22 @@ in
         "exec-and-forget ${aerospaceDisplaySync} --force"
       ];
 
-      # Prefer the external monitor for primary workspaces when docked,
+      # Prefer external monitors for primary workspaces when docked,
       # while always keeping the built-in display on workspace 9.
-      persistent-workspaces = [ "9" ];
+      persistent-workspaces = [
+        "1"
+        "2"
+        "9"
+      ];
 
       "workspace-to-monitor-force-assignment" = {
         "1" = [
+          2
           "secondary"
           "main"
         ];
         "2" = [
+          3
           "secondary"
           "main"
         ];
