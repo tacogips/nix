@@ -18,6 +18,7 @@ let
     "rielflow-package-installer-skill"
     "rielflow-temporary-workflow-skill"
     "rielflow-workflow-creator-skill"
+    "rielflow-workflow-skill-creator-skill"
   ];
 in
 {

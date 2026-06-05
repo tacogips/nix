@@ -4,6 +4,7 @@
     amphetamine.enable = true;
     apple-developer.enable = true;
     bitwarden.enable = true;
+    brave.enable = true;
     chilla.enable = true;
     claude-code.enable = true;
     codex.enable = true;

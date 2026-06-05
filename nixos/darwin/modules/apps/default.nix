@@ -4,6 +4,7 @@
     ./amphetamine.nix
     ./apple-developer.nix
     ./bitwarden.nix
+    ./brave.nix
     ./chilla.nix
     ./claude-code.nix
     ./codex.nix

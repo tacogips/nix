@@ -10,7 +10,6 @@
   imports = [
     # Darwin-specific modules
     ./ghostty.nix
-    ./brave.nix # Import Darwin-specific Brave configuration
     ./fish # Import Darwin-specific fish configuration
     ./aerospace.nix # AeroSpace window manager configuration
     # Add any other Darwin-specific modules here
