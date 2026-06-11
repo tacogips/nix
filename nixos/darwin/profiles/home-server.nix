@@ -1,9 +1,15 @@
 {
-  taco.darwin.apps.home-server = {
-    enable = true;
-    dataRoot = "/Volumes/Data";
-    backupRoot = "/Volumes/Backup";
-    installJellyfinCask = true;
-    startNetworkServices = true;
+  taco.darwin.apps = {
+    claude-code.enable = true;
+    codex.enable = true;
+    cursor.enable = true;
+
+    home-server = {
+      enable = true;
+      dataRoot = "/Volumes/Data";
+      backupRoot = "/Volumes/Backup";
+      installJellyfinCask = true;
+      startNetworkServices = true;
+    };
   };
 }

@@ -77,6 +77,10 @@ remote access.
 
 It imports `profiles/home-server.nix`, which enables:
 
+- Agent and editor tooling matching the main Darwin host: Homebrew-managed
+  Codex, Claude Code, Cursor, and Cursor CLI. Fish and the NVF-backed Neovim
+  configuration are inherited from the shared Darwin base and Home Manager
+  modules.
 - Homebrew-managed host dependencies: `caddy`, `tailscale`, `ffmpeg`, `rclone`,
   `restic`, `filebrowser`, `smartmontools`, `rsync`, `jq`, and `yq`.
 - Homebrew-managed container tools through `taco.darwin.apps.container-tools`:
