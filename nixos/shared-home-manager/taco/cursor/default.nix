@@ -1,10 +1,13 @@
 {
   pkgs,
   lib,
+  osConfig ? null,
   ...
 }:
 
 let
+  peekabooSkillRoot = ../skills/peekaboo;
+
   cursorCliPackage =
     if pkgs.stdenv.isLinux then
       pkgs.symlinkJoin {
@@ -99,16 +102,44 @@ let
       pkgs.cursor-cli
     else
       null;
+
+  peekabooMcpEnabled =
+    pkgs.stdenv.isDarwin && osConfig != null && (osConfig.taco.darwin.apps.peekaboo.enable or false);
+
+  cursorBrewEnabled =
+    pkgs.stdenv.isDarwin && osConfig != null && (osConfig.taco.darwin.apps.cursor.enable or false);
 in
 {
-  home.file.".cursor/cli-config.json".text =
-    builtins.toJSON {
-      version = 1;
-      editor = {
-        vimMode = true;
-      };
-    }
-    + "\n";
+  home.file = {
+    ".cursor/cli-config.json".text =
+      builtins.toJSON {
+        version = 1;
+        editor = {
+          vimMode = true;
+        };
+      }
+      + "\n";
+  }
+  // lib.optionalAttrs peekabooMcpEnabled {
+    ".cursor/mcp.json".text =
+      builtins.toJSON {
+        mcpServers = {
+          peekaboo = {
+            command = "peekaboo";
+            args = [
+              "mcp"
+              "serve"
+              "--transport"
+              "stdio"
+            ];
+            env = { };
+          };
+        };
+      }
+      + "\n";
 
-  home.packages = lib.optional (cursorCliPackage != null) cursorCliPackage;
+    ".cursor/skills/peekaboo/SKILL.md".source = "${peekabooSkillRoot}/cursor-SKILL.md";
+  };
+
+  home.packages = lib.optional (cursorCliPackage != null && !cursorBrewEnabled) cursorCliPackage;
 }

@@ -56,6 +56,13 @@
             ./hosts/taco-mac
           ];
         };
+
+        darwin-mac-home-server = mkDarwinConfiguration {
+          hostName = "darwin-mac-home-server";
+          modules = [
+            ./hosts/darwin-mac-home-server
+          ];
+        };
       };
     };
 }

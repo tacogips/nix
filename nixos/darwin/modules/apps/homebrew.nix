@@ -1,10 +1,28 @@
 { config, lib, ... }:
 
+let
+  trustedTaps = lib.unique config.taco.darwin.homebrew.trustedTaps;
+  trustedTapCommands = lib.concatMapStringsSep "\n" (trustedTap: ''
+    PATH="${config.homebrew.prefix}/bin:$PATH" \
+    sudo \
+      --preserve-env=PATH \
+      --user=${lib.escapeShellArg config.homebrew.user} \
+      --set-home \
+      env HOMEBREW_NO_AUTO_UPDATE=1 \
+      brew trust --tap ${lib.escapeShellArg trustedTap}
+  '') trustedTaps;
+in
 {
   options.taco.darwin.homebrew.taps = lib.mkOption {
     type = lib.types.listOf lib.types.str;
     default = [ ];
     description = "Homebrew taps required by reusable Darwin app modules.";
+  };
+
+  options.taco.darwin.homebrew.trustedTaps = lib.mkOption {
+    type = lib.types.listOf lib.types.str;
+    default = [ ];
+    description = "Homebrew taps to trust before running Homebrew Bundle.";
   };
 
   config = lib.mkIf config.homebrew.enable {
@@ -28,6 +46,13 @@
         echo "After installation, run 'darwin-rebuild switch' again."
         exit 1
       fi
+
+      ${lib.optionalString (trustedTaps != [ ]) ''
+        echo "Trusting Homebrew taps..."
+        if [ -f "${config.homebrew.prefix}/bin/brew" ]; then
+          ${trustedTapCommands}
+        fi
+      ''}
     '';
   };
 }

@@ -7,15 +7,27 @@ in
   options.taco.darwin.apps.container-tools.enable =
     lib.mkEnableOption "Docker and Podman tools installed with Homebrew";
 
+  options.taco.darwin.apps.container-tools.startColimaService =
+    lib.mkEnableOption "Colima Homebrew service startup";
+
   config = lib.mkIf cfg.enable {
     # Podman 5.8's AppleHV provider fails to keep the machine reachable on
     # this macOS setup; libkrun via krunkit is the working provider.
     taco.darwin.homebrew.taps = [ "slp/krunkit" ];
+    taco.darwin.homebrew.trustedTaps = [ "slp/krunkit" ];
 
     homebrew = {
       enable = true;
       brews = [
-        "colima"
+        (
+          {
+            name = "colima";
+          }
+          // lib.optionalAttrs cfg.startColimaService {
+            start_service = true;
+          }
+        )
+        "container"
         "krunkit"
         "podman"
         "podman-compose"

@@ -9,11 +9,14 @@
     ./claude-code.nix
     ./codex.nix
     ./container-tools.nix
+    ./cursor.nix
     ./ghostty.nix
+    ./home-server.nix
     ./homebrew.nix
     ./ign.nix
     ./just-press-record.nix
     ./kindle.nix
+    ./peekaboo.nix
     ./rielflow.nix
     ./xcode.nix
   ];

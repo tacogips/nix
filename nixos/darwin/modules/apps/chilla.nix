@@ -9,6 +9,7 @@ in
 
   config = lib.mkIf cfg.enable {
     taco.darwin.homebrew.taps = [ "tacogips/tap" ];
+    taco.darwin.homebrew.trustedTaps = [ "tacogips/tap" ];
 
     homebrew = {
       enable = true;

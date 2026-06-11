@@ -71,10 +71,21 @@ tasks:
       - nix build --impure .#darwinConfigurations.taco-mac.system
       - sudo ./result/sw/bin/darwin-rebuild switch --impure --flake .#taco-mac
 
+  build-home-server:
+    desc: Build Darwin Mac home server configuration (use for initial bootstrap)
+    cmds:
+      - nix build --impure .#darwinConfigurations.darwin-mac-home-server.system
+      - sudo ./result/sw/bin/darwin-rebuild switch --impure --flake .#darwin-mac-home-server
+
   rebuild:
     desc: Rebuild and switch Darwin system configuration
     cmds:
       - sudo /run/current-system/sw/bin/darwin-rebuild switch --impure --flake ~/nix/nixos/darwin#taco-mac
+
+  rebuild-home-server:
+    desc: Rebuild and switch Darwin Mac home server configuration
+    cmds:
+      - sudo /run/current-system/sw/bin/darwin-rebuild switch --impure --flake ~/nix/nixos/darwin#darwin-mac-home-server
 
   clean:
     desc: Delete rebuild generations older than the latest 5 and garbage-collect unused Nix store paths
