@@ -7,18 +7,38 @@ let
   rielflowBinary = if rielflow-pkg != null then "${rielflow-pkg}/bin/rielflow" else "rielflow";
 
   devWorkflowPackages = [
+    "claude-code-adversarial-implementation-review-loop"
+    "claude-code-deepdesign"
+    "claude-code-design-and-implement-review-loop"
+    "claude-code-goal"
+    "claude-code-impl-plan-completion-loop"
+    "claude-code-recent-change-quality-loop"
+    "claude-code-refactoring-divide-and-conquer"
+    "claude-code-refactoring-slice-review"
+    "claude-code-simple-work-package"
+    "claude-code-source-security-check-loop"
+    "claude-code-task-watchdog"
+    "claude-code-website-builder"
+    "codex-adversarial-implementation-review-loop"
     "codex-deep-creation"
     "codex-deepdesign"
     "codex-design-and-implement-review-loop"
+    "codex-goal"
     "codex-impl-plan-completion-loop"
     "codex-impl-plan-completion-review-loop"
     "codex-recent-change-quality-loop"
     "codex-refactoring-divide-and-conquer"
     "codex-refactoring-slice-review"
     "codex-simple-work-package"
+    "codex-source-security-check-loop"
     "codex-task-watchdog"
+    "codex-website-builder"
+    "cursor-cli-hydra-claude-design-and-implement-review-loop"
+    "cursor-cli-hydra-codex-design-and-implement-review-loop"
+    "cursor-cli-goal"
     "cursor-cli-developer-workflows"
-    "rielflow-package-installer-skill"
+    "rielflow-package-manager-skill"
+    "rielflow-package-release-skill"
     "rielflow-temporary-workflow-skill"
     "rielflow-workflow-creator-skill"
     "rielflow-workflow-skill-creator-skill"
@@ -52,6 +72,82 @@ in
       return 1
     }
 
+    sync_cursor_rielflow_skills() {
+      AGENTS_SKILLS_DIR="$HOME/.agents/skills"
+      CURSOR_RULES_DIR="$HOME/.cursor/rules"
+      CURSOR_SKILLS_DIR="$HOME/.cursor/skills"
+      RIELFLOW_MANAGED_PACKAGES_DIR="$HOME/.rielflow-managed/packages"
+      NIX_REPO_DIR="$HOME/nix"
+
+      rm -rf \
+        "$HOME/.claude/skills/rielflow-package-installer" \
+        "$HOME/.codex/skills/rielflow-package-installer"
+
+      if [ -d "$NIX_REPO_DIR" ]; then
+        for project_skill_dir in \
+          "$NIX_REPO_DIR/.agents/skills" \
+          "$NIX_REPO_DIR/.claude/skills" \
+          "$NIX_REPO_DIR/.codex/skills" \
+          "$NIX_REPO_DIR/.cursor/skills"; do
+          if [ -d "$project_skill_dir" ]; then
+            find "$project_skill_dir" -mindepth 1 -maxdepth 1 \
+              \( -name 'riel-*' -o -name 'rielflow-*' -o -name 'cursor-cli-*' -o -name 'Riel*' -o -name 'Rielflow*' \) \
+              -exec rm -rf {} + 2>/dev/null || true
+          fi
+        done
+      fi
+
+      if [ -d "$AGENTS_SKILLS_DIR" ]; then
+        find "$AGENTS_SKILLS_DIR" -mindepth 1 -maxdepth 1 \
+          \( -name 'riel-*' -o -name 'rielflow-*' \) \
+          -exec rm -rf {} + 2>/dev/null || true
+      fi
+
+      if [ -d "$CURSOR_RULES_DIR" ]; then
+        find "$CURSOR_RULES_DIR" -mindepth 1 -maxdepth 1 -type f \
+          \( -name 'Riel*.mdc' -o -name 'Rielflow*.mdc' -o -name 'riel-*.mdc' -o -name 'rielflow-*.mdc' -o -name 'cursor-cli-*.mdc' \) \
+          -exec rm -f {} + 2>/dev/null || true
+      fi
+
+      mkdir -p "$CURSOR_SKILLS_DIR"
+      find "$CURSOR_SKILLS_DIR" -mindepth 1 -maxdepth 1 -type d \
+        \( -name 'Riel*' -o -name 'Rielflow*' -o -name 'riel-*' -o -name 'rielflow-*' -o -name 'cursor-cli-*' \) \
+        -exec rm -rf {} + 2>/dev/null || true
+      find "$CURSOR_SKILLS_DIR" -mindepth 2 -maxdepth 2 -type f -name 'SKILL.md.tmp.*' \
+        -exec rm -f {} + 2>/dev/null || true
+
+      if [ -d "$RIELFLOW_MANAGED_PACKAGES_DIR" ]; then
+        find "$RIELFLOW_MANAGED_PACKAGES_DIR" -path '*/skills/skills/agents/AGENTS.md' \
+          -exec rm -f {} + 2>/dev/null || true
+
+        for skill_file in "$RIELFLOW_MANAGED_PACKAGES_DIR"/*/*/skills/skills/cursor/*.mdc; do
+          if [ ! -f "$skill_file" ]; then
+            continue
+          fi
+
+          skill_name="$(basename "$skill_file" .mdc)"
+          case "$skill_name" in
+            riel-*|rielflow-*|cursor-cli-*) ;;
+            *) continue ;;
+          esac
+
+          skill_dir="$CURSOR_SKILLS_DIR/$skill_name"
+          mkdir -p "$skill_dir"
+          tmp_file="$(mktemp "''${TMPDIR:-/tmp}/cursor-skill.XXXXXX")"
+          awk -v skill_name="$skill_name" '
+            /^# / && !renamed {
+              print "# " skill_name
+              renamed = 1
+              next
+            }
+            { print }
+          ' "$skill_file" > "$tmp_file"
+          install -m 0644 "$tmp_file" "$skill_dir/SKILL.md"
+          rm -f "$tmp_file"
+        done
+      fi
+    }
+
     if RIELFLOW_BIN="$(find_rielflow)"; then
       echo "Installing rielflow development workflow packages..."
 
@@ -70,6 +166,8 @@ in
           echo "Warning: failed to install rielflow package '$package_id'; continuing activation"
         fi
       done
+
+      sync_cursor_rielflow_skills
     else
       echo "Warning: rielflow command not found; skipping rielflow development workflow package install"
     fi
