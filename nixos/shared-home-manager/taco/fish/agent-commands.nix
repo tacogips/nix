@@ -5,7 +5,7 @@ let
   cursorCommand = "cursor-agent";
   cursorModelComposer = "composer-2.5";
   cursorModelGpt55Medium = "gpt-5.5-medium";
-  cursorModelClaudeOpus = "claude-4.6-opus-high";
+  cursorModelClaudeOpus = "claude-opus-4-8-high";
   cursorModel = cursorModelComposer;
   cursorGlobalFlags = "--yolo --approve-mcps";
   # Newer Codex CLI versions reject combining explicit approval policy with
