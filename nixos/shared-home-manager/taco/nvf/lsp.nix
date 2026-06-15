@@ -1,4 +1,4 @@
-{ mkLuaInline, pkgs, ... }:
+{ mkLuaInline, sourcekitLspCommand, ... }:
 {
   settings.vim.lsp = {
     enable = true;
@@ -31,14 +31,11 @@
       nil_ls = { };
       pyright = { };
       sourcekit = {
-        cmd =
-          if pkgs.stdenv.isDarwin then
-            [
-              "/usr/bin/xcrun"
-              "sourcekit-lsp"
-            ]
-          else
-            [ "sourcekit-lsp" ];
+        cmd = [ sourcekitLspCommand ];
+        root_markers = [
+          "Package.swift"
+          ".git"
+        ];
       };
       rust_analyzer = {
         settings = {

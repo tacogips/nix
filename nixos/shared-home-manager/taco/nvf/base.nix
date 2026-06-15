@@ -4,6 +4,7 @@
   runtimePath,
   openCommand,
   mermaidPlugin,
+  sourcekitLspPackage,
   ...
 }:
 {
@@ -83,8 +84,8 @@
         taplo
         zls
       ]
-      ++ lib.optionals (!pkgs.stdenv.isDarwin) [
-        sourcekit-lsp
+      ++ [
+        sourcekitLspPackage
       ]
       ++ lib.optionals pkgs.stdenv.isLinux [
         xdg-utils

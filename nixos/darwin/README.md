@@ -67,14 +67,15 @@ Xcode from the Mac App Store and selects
 `/Applications/Xcode.app/Contents/Developer` during activation when the app is
 present. Nix does not package the full Swift/Xcode toolchain on Darwin; it
 supplies repository utilities such as `git`, `jq`, `ripgrep`, and
-`shellcheck`, while `swift`, `swift test`, `xcodebuild`, and iOS
-Simulator/SDK access come from the host Xcode install.
+`shellcheck`, while `swift`, `swift test`, `sourcekit-lsp`, `xcodebuild`, and
+iOS Simulator/SDK access come from the host Xcode install.
 
 Check the host toolchain with:
 
 ```bash
 xcode-select -p
 xcrun --find swift
+xcrun --find sourcekit-lsp
 xcodebuild -version
 ```
 

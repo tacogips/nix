@@ -46,6 +46,26 @@ let
     sha256 = "1ksih50xlzqrp5vgx2ix8sa1qs4h087nsrpfymkg1hm6aq4aw6rd";
   };
 
+  sourcekitLspPackage =
+    if pkgs.stdenv.isDarwin then
+      pkgs.writeShellApplication {
+        name = "sourcekit-lsp";
+        text = ''
+          export DEVELOPER_DIR="''${DEVELOPER_DIR:-/Applications/Xcode.app/Contents/Developer}"
+
+          if ! /usr/bin/xcrun --find sourcekit-lsp >/dev/null 2>&1; then
+            echo "sourcekit-lsp is not available from Xcode at $DEVELOPER_DIR" >&2
+            echo "Install Xcode, open it once to finish setup, then run xcode-select -s $DEVELOPER_DIR." >&2
+            exit 127
+          fi
+
+          exec /usr/bin/xcrun sourcekit-lsp "$@"
+        '';
+      }
+    else
+      pkgs.sourcekit-lsp;
+  sourcekitLspCommand = "${sourcekitLspPackage}/bin/sourcekit-lsp";
+
   commonArgs = {
     inherit
       lib
@@ -55,6 +75,8 @@ let
       chillaCommand
       mkLuaInline
       mermaidPlugin
+      sourcekitLspCommand
+      sourcekitLspPackage
       ;
   };
 in

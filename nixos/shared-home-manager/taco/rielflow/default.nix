@@ -23,6 +23,7 @@ let
     "codex-deep-creation"
     "codex-deepdesign"
     "codex-design-and-implement-review-loop"
+    "codex-goal"
     "codex-impl-plan-completion-loop"
     "codex-impl-plan-completion-review-loop"
     "codex-recent-change-quality-loop"
