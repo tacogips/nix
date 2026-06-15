@@ -1,4 +1,4 @@
-{ mkLuaInline, ... }:
+{ mkLuaInline, pkgs, ... }:
 {
   settings.vim.lsp = {
     enable = true;
@@ -30,6 +30,16 @@
       };
       nil_ls = { };
       pyright = { };
+      sourcekit = {
+        cmd =
+          if pkgs.stdenv.isDarwin then
+            [
+              "/usr/bin/xcrun"
+              "sourcekit-lsp"
+            ]
+          else
+            [ "sourcekit-lsp" ];
+      };
       rust_analyzer = {
         settings = {
           rust-analyzer = {

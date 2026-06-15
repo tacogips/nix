@@ -168,6 +168,9 @@ export GOPRIVATE=github.com/your-org/*
 - Conflicting shared settings may need `lib.mkForce`.
 - Build first with
   `nix build .#darwinConfigurations.taco-mac.system` when appropriate.
+- Darwin supplies repository utilities such as `jq`, `ripgrep`, and
+  `shellcheck`; `swift`, `xcodebuild`, and iOS Simulator/SDK access still come
+  from the host Xcode install selected by `xcode-select`.
 
 ## Documentation
 

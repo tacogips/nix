@@ -23,7 +23,6 @@ let
     "codex-deep-creation"
     "codex-deepdesign"
     "codex-design-and-implement-review-loop"
-    "codex-goal"
     "codex-impl-plan-completion-loop"
     "codex-impl-plan-completion-review-loop"
     "codex-recent-change-quality-loop"
@@ -72,11 +71,10 @@ in
       return 1
     }
 
-    sync_cursor_rielflow_skills() {
+    cleanup_rielflow_skill_artifacts() {
       AGENTS_SKILLS_DIR="$HOME/.agents/skills"
       CURSOR_RULES_DIR="$HOME/.cursor/rules"
       CURSOR_SKILLS_DIR="$HOME/.cursor/skills"
-      RIELFLOW_MANAGED_PACKAGES_DIR="$HOME/.rielflow-managed/packages"
       NIX_REPO_DIR="$HOME/nix"
 
       rm -rf \
@@ -115,37 +113,6 @@ in
         -exec rm -rf {} + 2>/dev/null || true
       find "$CURSOR_SKILLS_DIR" -mindepth 2 -maxdepth 2 -type f -name 'SKILL.md.tmp.*' \
         -exec rm -f {} + 2>/dev/null || true
-
-      if [ -d "$RIELFLOW_MANAGED_PACKAGES_DIR" ]; then
-        find "$RIELFLOW_MANAGED_PACKAGES_DIR" -path '*/skills/skills/agents/AGENTS.md' \
-          -exec rm -f {} + 2>/dev/null || true
-
-        for skill_file in "$RIELFLOW_MANAGED_PACKAGES_DIR"/*/*/skills/skills/cursor/*.mdc; do
-          if [ ! -f "$skill_file" ]; then
-            continue
-          fi
-
-          skill_name="$(basename "$skill_file" .mdc)"
-          case "$skill_name" in
-            riel-*|rielflow-*|cursor-cli-*) ;;
-            *) continue ;;
-          esac
-
-          skill_dir="$CURSOR_SKILLS_DIR/$skill_name"
-          mkdir -p "$skill_dir"
-          tmp_file="$(mktemp "''${TMPDIR:-/tmp}/cursor-skill.XXXXXX")"
-          awk -v skill_name="$skill_name" '
-            /^# / && !renamed {
-              print "# " skill_name
-              renamed = 1
-              next
-            }
-            { print }
-          ' "$skill_file" > "$tmp_file"
-          install -m 0644 "$tmp_file" "$skill_dir/SKILL.md"
-          rm -f "$tmp_file"
-        done
-      fi
     }
 
     if RIELFLOW_BIN="$(find_rielflow)"; then
@@ -154,6 +121,8 @@ in
       if ! "$RIELFLOW_BIN" package search codex --registry default --refresh >/dev/null 2>&1; then
         echo "Warning: failed to refresh rielflow default package registry; continuing activation"
       fi
+
+      cleanup_rielflow_skill_artifacts
 
       for package_id in ${lib.concatStringsSep " " devWorkflowPackages}; do
         if ! "$RIELFLOW_BIN" package install "$package_id" \
@@ -166,8 +135,6 @@ in
           echo "Warning: failed to install rielflow package '$package_id'; continuing activation"
         fi
       done
-
-      sync_cursor_rielflow_skills
     else
       echo "Warning: rielflow command not found; skipping rielflow development workflow package install"
     fi

@@ -117,6 +117,7 @@ in
         editor = {
           vimMode = true;
         };
+        approvalMode = "unrestricted";
       }
       + "\n";
   }

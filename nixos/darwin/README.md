@@ -62,6 +62,26 @@ for the app and `cursor-cli` for `cursor-agent`. When that app module is
 enabled, shared Home Manager does not install the Nixpkgs `cursor-cli` package
 on Darwin, so the active CLI comes from Homebrew.
 
+The desktop app profile also enables `taco.darwin.apps.xcode`, which installs
+Xcode from the Mac App Store and selects
+`/Applications/Xcode.app/Contents/Developer` during activation when the app is
+present. Nix does not package the full Swift/Xcode toolchain on Darwin; it
+supplies repository utilities such as `git`, `jq`, `ripgrep`, and
+`shellcheck`, while `swift`, `swift test`, `xcodebuild`, and iOS
+Simulator/SDK access come from the host Xcode install.
+
+Check the host toolchain with:
+
+```bash
+xcode-select -p
+xcrun --find swift
+xcodebuild -version
+```
+
+For iOS app repositories that provide their own `flake.nix` dev shell, use
+`nix develop` for lint and verification utilities and rely on host Xcode for
+builds, tests, and Simulator work.
+
 App modules that use private Homebrew taps should add the tap to both
 `taco.darwin.homebrew.taps` and `taco.darwin.homebrew.trustedTaps`. The shared
 Homebrew wrapper trusts those taps as the configured Homebrew user before

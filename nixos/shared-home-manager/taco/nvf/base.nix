@@ -83,6 +83,9 @@
         taplo
         zls
       ]
+      ++ lib.optionals (!pkgs.stdenv.isDarwin) [
+        sourcekit-lsp
+      ]
       ++ lib.optionals pkgs.stdenv.isLinux [
         xdg-utils
       ];
