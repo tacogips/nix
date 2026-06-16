@@ -3,6 +3,7 @@ let
   agentCommands = import ./agent-commands.nix { };
   codexExecCommand = "${agentCommands.codexBaseCommandHigh} exec";
   inherit (agentCommands)
+    claudeBaseCommand
     codexCursorLoopPrompt
     codexReviewTodayFullPrompt
     codexReviewTodayPrompt
@@ -91,6 +92,27 @@ in
   setup-claude-mcps-global = ''
     claude mcp add -s user bravesearch-mcp bravesearch-mcp stdio
     and claude mcp add -s user hn-mcp hn-mcp stdio
+  '';
+
+  __claude-bifrost-run = ''
+    set -l model $argv[1]
+    set -e argv[1]
+
+    if test -z "$BIFROST_VK_PERSONAL"
+      echo "BIFROST_VK_PERSONAL is not set. Run 'kinko unlock' or export the virtual key before using cl/clo." >&2
+      return 1
+    end
+
+    set -lx ANTHROPIC_CUSTOM_HEADERS "x-bf-vk: $BIFROST_VK_PERSONAL"
+    command env CLAUDE_CODE_EFFORT_LEVEL=high ${claudeBaseCommand} --model $model $argv
+  '';
+
+  cl = ''
+    __claude-bifrost-run sonnet $argv
+  '';
+
+  clo = ''
+    __claude-bifrost-run opus $argv
   '';
 
   ppp = ''

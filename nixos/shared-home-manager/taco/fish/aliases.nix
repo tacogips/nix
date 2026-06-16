@@ -73,7 +73,6 @@ let
     '';
   };
   inherit (agentCommands)
-    claudeBaseCommand
     codexBaseCommand
     codexBaseCommand54
     codexCommand
@@ -128,9 +127,6 @@ in
     wnu = "${tmuxWindowNameUpdate}/bin/tmux-window-name-update --auto-all";
     vim = "nvim";
     n = "nvim";
-    cl = "env CLAUDE_CODE_EFFORT_LEVEL=high ${claudeBaseCommand} --model sonnet";
-    clo = "env CLAUDE_CODE_EFFORT_LEVEL=high ${claudeBaseCommand} --model opus";
-
     # `high` is not part of the model name; configure it via
     # `model_reasoning_effort = "high"` in `~/.codex/config.toml`.
     # Keep the shared flags in Nix so aliases and functions do not depend on
