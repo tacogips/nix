@@ -19,7 +19,8 @@ let
   codexBaseCommand54 = "${codexCommand} ${codexGlobalFlags54}";
   codexBaseCommandHigh = "${codexCommand} ${codexGlobalFlagsHigh}";
   cursorBaseCommand = "${cursorCommand} ${cursorGlobalFlags}";
-  claudeBaseCommand = "env NODE_OPTIONS='--max-old-space-size=16384' CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1 claude --permission-mode bypassPermissions --dangerously-skip-permissions";
+  claudeBifrostEnv = "ANTHROPIC_BASE_URL=http://127.0.0.1:18080/v1 ANTHROPIC_AUTH_TOKEN=$BIFROST_VK_PERSONAL";
+  claudeBaseCommand = "env NODE_OPTIONS='--max-old-space-size=16384' CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1 ${claudeBifrostEnv} claude --permission-mode bypassPermissions --dangerously-skip-permissions";
   reviewTodayPrompt = "Review the code changes made today and improve low-quality code. The review and fixes should cover code that is generally considered low quality, unused code, deprecated code that still remains, unnecessary hardcoding, places that can be made DRY, places that are not aligned with SOLID principles without a clear reason, inappropriate variable names, cases not covered by tests, overlooked considerations, and bugs.";
   implementationContinuationPrompt = "Also review the current git diff and take it into account.";
   reviewContinuationPrompt = "Also review the current git diff and take it into account.";
@@ -43,6 +44,7 @@ in
 {
   inherit
     claudeBaseCommand
+    claudeBifrostEnv
     codexBaseCommand
     codexBaseCommand54
     codexBaseCommandHigh
