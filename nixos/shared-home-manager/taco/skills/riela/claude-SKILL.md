@@ -1,6 +1,6 @@
 ---
 name: riela
-description: Use when the user invokes `/riela "{instruction}"` or explicitly asks Claude Code to handle an instruction through Riela, Rielflow, Riela-related skills, or Riela workflows. This skill routes the instruction to the most appropriate installed Riela/Rielflow skill or workflow instead of treating it as ordinary local work.
+description: Use when the user invokes `/riela "{instruction}"` or explicitly asks Claude Code to handle an instruction through Riela, Riela-related skills, or Riela workflows. This skill routes the instruction to the most appropriate installed Riela skill or workflow instead of treating it as ordinary local work.
 argument-hint: "{instruction}"
 user-invocable: true
 ---
@@ -13,32 +13,32 @@ Use this skill as a dispatcher for `/riela "{instruction}"`.
 
 1. Extract the quoted instruction exactly. If the user provided no instruction,
    ask for one concise clarification.
-2. Choose the narrowest relevant installed Riela/Rielflow skill or Riela
-   workflow for that instruction.
+2. Choose the narrowest relevant installed Riela skill or workflow for that
+   instruction.
 3. Use that selected skill or workflow according to its own instructions.
 4. Preserve the user's instruction as the task input when invoking another
    skill or workflow.
-5. Report which Riela/Rielflow path was selected and the outcome.
+5. Report which Riela path was selected and the outcome.
 
 Do not satisfy a `/riela` request as normal local Claude Code work unless no
-relevant Riela/Rielflow skill, workflow, or `riela` CLI path is available. If
-fallback is needed, state that explicitly.
+relevant Riela skill, workflow, or `riela` CLI path is available. If fallback is
+needed, state that explicitly.
 
 ## Routing
 
 Prefer an installed skill when one clearly matches:
 
-- package search/install/update/remove/list: use `rielflow-package`
+- package search/install/update/remove/list: use `riela-package`
 - workflow run/status/resume/rerun/inspect/validate: use
-  `rielflow-workflow-run`
+  `riela-workflow-run`
 - failed, paused, stalled, or surprising workflow sessions: use
-  `rielflow-troubleshooting`
-- workflow authoring or modification: use `rielflow-workflow`
-- temporary inline or JSON workflow execution: use `rielflow-temporary-workflow`
+  `riela-troubleshooting`
+- workflow authoring or modification: use `riela-workflow`
+- temporary inline or JSON workflow execution: use `riela-temporary-workflow`
 - workflow tests, mock scenarios, or expected results: use
-  `rielflow-workflow-test`
+  `riela-workflow-test`
 - packaged workflow skill creation or updates: use
-  `rielflow-workflow-use-skill`
+  `riela-workflow-use-skill`
 - source security checks: use `claude-code-source-security-check-loop`
 - implementation work with design/review loop: use
   `claude-code-design-and-implement-review-loop`
@@ -49,9 +49,9 @@ Prefer an installed skill when one clearly matches:
   implementation workflow when appropriate
 - generic goal-driven work: use `claude-code-goal`
 
-If multiple routes seem plausible, prefer the most specific Riela/Rielflow
-skill over a generic goal workflow. For implementation requests, prefer a
-Riela/Claude implementation workflow over direct local edits.
+If multiple routes seem plausible, prefer the most specific Riela skill over a
+generic goal workflow. For implementation requests, prefer a Riela/Claude
+implementation workflow over direct local edits.
 
 ## CLI Fallback
 

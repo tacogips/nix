@@ -79,9 +79,7 @@ in
       NIX_REPO_DIR="$HOME/nix"
 
       rm -rf \
-        "$HOME/.claude/skills/rielflow-package-installer" \
         "$HOME/.claude/skills/riela-package-installer" \
-        "$HOME/.codex/skills/rielflow-package-installer" \
         "$HOME/.codex/skills/riela-package-installer"
 
       if [ -d "$NIX_REPO_DIR" ]; then
@@ -92,7 +90,7 @@ in
           "$NIX_REPO_DIR/.cursor/skills"; do
           if [ -d "$project_skill_dir" ]; then
             find "$project_skill_dir" -mindepth 1 -maxdepth 1 \
-              \( -name 'riel-*' -o -name 'rielflow-*' -o -name 'riela-*' -o -name 'Riel*' -o -name 'Rielflow*' -o -name 'Riela*' -o -name 'cursor-cli-*' \) \
+              \( -name 'riela-*' -o -name 'Riela*' -o -name 'cursor-cli-*' \) \
               -exec rm -rf {} + 2>/dev/null || true
           fi
         done
@@ -100,19 +98,19 @@ in
 
       if [ -d "$AGENTS_SKILLS_DIR" ]; then
         find "$AGENTS_SKILLS_DIR" -mindepth 1 -maxdepth 1 \
-          \( -name 'riel-*' -o -name 'rielflow-*' -o -name 'riela-*' -o -name 'Riel*' -o -name 'Rielflow*' -o -name 'Riela*' \) \
+          \( -name 'riela-*' -o -name 'Riela*' \) \
           -exec rm -rf {} + 2>/dev/null || true
       fi
 
       if [ -d "$CURSOR_RULES_DIR" ]; then
         find "$CURSOR_RULES_DIR" -mindepth 1 -maxdepth 1 -type f \
-          \( -name 'Riel*.mdc' -o -name 'Rielflow*.mdc' -o -name 'Riela*.mdc' -o -name 'riel-*.mdc' -o -name 'rielflow-*.mdc' -o -name 'riela-*.mdc' -o -name 'cursor-cli-*.mdc' \) \
+          \( -name 'Riela*.mdc' -o -name 'riela-*.mdc' -o -name 'cursor-cli-*.mdc' \) \
           -exec rm -f {} + 2>/dev/null || true
       fi
 
       mkdir -p "$CURSOR_SKILLS_DIR"
       find "$CURSOR_SKILLS_DIR" -mindepth 1 -maxdepth 1 -type d \
-        \( -name 'Riel*' -o -name 'Rielflow*' -o -name 'Riela*' -o -name 'riel-*' -o -name 'rielflow-*' -o -name 'riela-*' -o -name 'cursor-cli-*' \) \
+        \( -name 'Riela*' -o -name 'riela-*' -o -name 'cursor-cli-*' \) \
         -exec rm -rf {} + 2>/dev/null || true
       find "$CURSOR_SKILLS_DIR" -mindepth 2 -maxdepth 2 -type f -name 'SKILL.md.tmp.*' \
         -exec rm -f {} + 2>/dev/null || true
