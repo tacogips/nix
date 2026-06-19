@@ -41,12 +41,14 @@ Prefer an installed skill when one clearly matches:
   `riela-workflow-test`
 - packaged workflow skill creation or updates: use
   `riela-workflow-use-skill`
-- source security checks: use `codex-source-security-check-loop`
-- implementation work with design/review loop: use `riel-codex-impl-workflow`
+- source security checks: use the `codex-source-security-check-loop` workflow
+- implementation work with design/review loop: use the
+  `codex-design-and-implement-review-loop` workflow
 - small scoped code or documentation changes: use
-  `riel-codex-simple-work-package`
-- deep design/implementation/security work: use `riel-codex-deep-creation`
-- generic goal-driven work: use `riel-codex-goal`
+  the `codex-simple-work-package` workflow
+- deep design/implementation/security work: use the `codex-deep-creation`
+  workflow
+- generic goal-driven work: use the `codex-goal` workflow
 
 If multiple routes seem plausible, prefer the most specific Riela skill over a
 generic goal workflow. For implementation requests, prefer a Riela/Codex
