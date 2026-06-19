@@ -2,7 +2,6 @@
   bravesearch-mcp,
   darwin,
   home-manager,
-  kinko,
   nixpkgs,
   nvf,
 }:
@@ -33,7 +32,6 @@ let
   flakeInputPackages = import ../packages/flake-inputs.nix {
     inherit
       bravesearch-mcp
-      kinko
       system
       ;
   };

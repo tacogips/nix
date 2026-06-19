@@ -4,7 +4,8 @@
     ./amphetamine.nix
     ./apple-developer.nix
     ./bitwarden.nix
-    ./bifrost-gauge.nix
+    # Example only; Bifrost Gauge/Bifrost are not installed by default.
+    # ./bifrost-gauge.nix
     ./brave.nix
     ./chilla.nix
     ./claude-code.nix
@@ -16,9 +17,10 @@
     ./homebrew.nix
     ./ign.nix
     ./just-press-record.nix
+    ./kinko.nix
     ./kindle.nix
     ./peekaboo.nix
-    ./rielflow.nix
+    ./riela.nix
     ./xcode.nix
   ];
 }

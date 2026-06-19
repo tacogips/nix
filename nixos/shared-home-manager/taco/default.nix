@@ -4,7 +4,7 @@
   config,
   pkgs,
   lib,
-  rielflow-pkg ? null,
+  riela-pkg ? null,
   homeStateVersion ? "24.11",
   ...
 }:
@@ -37,7 +37,7 @@
     # Re-enable after upstream/package fix.
     # ./marktext
     ./ripgrep
-    ./rielflow
+    ./riela
     ./ssh
     ./tmux
     ./yazi

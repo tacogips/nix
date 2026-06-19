@@ -1,11 +1,10 @@
 { config, lib, ... }:
 
 let
-  cfg = config.taco.darwin.apps.rielflow;
+  cfg = config.taco.darwin.apps.riela;
 in
 {
-  options.taco.darwin.apps.rielflow.enable =
-    lib.mkEnableOption "Rielflow CLI installed with Homebrew";
+  options.taco.darwin.apps.riela.enable = lib.mkEnableOption "Riela CLI installed with Homebrew";
 
   config = lib.mkIf cfg.enable {
     taco.darwin.homebrew.taps = [ "tacogips/tap" ];
@@ -13,7 +12,7 @@ in
 
     homebrew = {
       enable = true;
-      brews = [ "tacogips/tap/rielflow" ];
+      brews = [ "tacogips/tap/riela" ];
     };
   };
 }

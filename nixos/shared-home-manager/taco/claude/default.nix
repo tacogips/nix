@@ -4,6 +4,7 @@ let
   envrcGenerateRoot = ../skills/envrc-generate;
   codeWithCursorRoot = ../skills/code-with-cursor;
   gitPrecommitSafetyCheckRoot = ../skills/git-precommit-safety-check;
+  rielaRoot = ../skills/riela;
 in
 {
   # Copy ope-handover.md to ~/.claude/commands/ for Claude slash commands
@@ -65,4 +66,5 @@ in
     "${gitPrecommitSafetyCheckRoot}/claude-SKILL.md";
   home.file.".claude/skills/git-precommit-safety-check/references/security.md".source =
     "${gitPrecommitSafetyCheckRoot}/references/security.md";
+  home.file.".claude/skills/riela/SKILL.md".source = "${rielaRoot}/claude-SKILL.md";
 }

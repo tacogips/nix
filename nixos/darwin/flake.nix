@@ -19,9 +19,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    ## --- go tools --------
-    kinko.url = "github:tacogips/kinko";
-
     ## --- mcps --------
     bravesearch-mcp.url = "github:tacogips/bravesearch-mcp";
   };
@@ -31,7 +28,6 @@
       bravesearch-mcp,
       darwin,
       home-manager,
-      kinko,
       nixpkgs,
       nvf,
       ...
@@ -42,7 +38,6 @@
           bravesearch-mcp
           darwin
           home-manager
-          kinko
           nixpkgs
           nvf
           ;

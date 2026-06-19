@@ -45,7 +45,8 @@ Example server-oriented host module:
   taco.darwin.apps = {
     container-tools.enable = true;
     ghostty.enable = true;
-    rielflow.enable = true;
+    kinko.enable = true;
+    riela.enable = true;
   };
 }
 ```
@@ -147,8 +148,9 @@ Common packages and fonts are intentionally kept out of host modules:
 - `packages/base.nix` is for baseline CLI packages that every Darwin host should
   have.
 - `packages/fonts.nix` is for shared font packages.
-- `packages/flake-inputs.nix` converts flake inputs such as `kinko` and
-  `bravesearch-mcp` into package arguments for Home Manager.
+- `packages/flake-inputs.nix` converts flake inputs such as `bravesearch-mcp`
+  into package arguments for Home Manager. Homebrew-managed tools such as
+  `kinko`, `ign`, and `riela` are exposed through app modules instead.
 - `packages/overlays.nix` contains Darwin-only nixpkgs overlays.
 
 Server-specific packages for a future `darwin-home-server` host should be added

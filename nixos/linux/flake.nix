@@ -27,9 +27,8 @@
     };
 
     ## --- go tools --------
-    ign.url = "github:tacogips/ign";
     kinko.url = "github:tacogips/kinko";
-    rielflow.url = "github:tacogips/rielflow/rename-rielflow";
+    riela.url = "github:tacogips/riela";
 
     ## --- apps --------
     qraftbox.url = "git+https://github.com/tacogips/QraftBox.git";
@@ -49,9 +48,8 @@
       bravesearch-mcp,
       hn-mcp,
       fenix,
-      ign,
       kinko,
-      rielflow,
+      riela,
       qraftbox,
       chilla,
       ...
@@ -86,13 +84,13 @@
       bravesearch-mcp-pkg = bravesearch-mcp.packages.${system}.default;
       hn-mcp-pkg = hn-mcp.packages.${system}.default;
       gitcode-mcp-pkg = gitcodes-mcp.packages.${system}.default;
-      ign-pkg = ign.packages.${system}.default;
+      ign-pkg = null;
       kinko-pkg = kinko.packages.${system}.default.overrideAttrs (old: {
         patches = (old.patches or [ ]) ++ [
           ./patches/kinko-explosion-password-mask.patch
         ];
       });
-      rielflow-pkg = rielflow.packages.${system}.default;
+      riela-pkg = riela.packages.${system}.default;
       qraftbox-pkg = qraftbox.packages.${system}.default;
       chilla-pkg = chilla.packages.${system}.default;
 
@@ -173,7 +171,7 @@
                     gitcode-mcp-pkg
                     ign-pkg
                     kinko-pkg
-                    rielflow-pkg
+                    riela-pkg
                     qraftbox-pkg
                     chilla-pkg
                     stablePkgs

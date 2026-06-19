@@ -4,7 +4,8 @@
     amphetamine.enable = true;
     apple-developer.enable = true;
     bitwarden.enable = true;
-    bifrost-gauge.enable = true;
+    # Example only; Bifrost Gauge/Bifrost are not used.
+    # bifrost-gauge.enable = true;
     brave.enable = true;
     chilla.enable = true;
     claude-code.enable = true;
@@ -14,9 +15,10 @@
     ghostty.enable = true;
     ign.enable = true;
     just-press-record.enable = true;
+    kinko.enable = true;
     kindle.enable = true;
     peekaboo.enable = true;
-    rielflow.enable = true;
+    riela.enable = true;
     xcode.enable = true;
   };
 }

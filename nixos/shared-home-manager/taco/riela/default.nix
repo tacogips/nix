@@ -1,10 +1,10 @@
 {
   lib,
-  rielflow-pkg ? null,
+  riela-pkg ? null,
   ...
 }:
 let
-  rielflowBinary = if rielflow-pkg != null then "${rielflow-pkg}/bin/rielflow" else "rielflow";
+  rielaBinary = if riela-pkg != null then "${riela-pkg}/bin/riela" else "riela";
 
   devWorkflowPackages = [
     "claude-code-adversarial-implementation-review-loop"
@@ -37,32 +37,32 @@ let
     "cursor-cli-hydra-codex-design-and-implement-review-loop"
     "cursor-cli-goal"
     "cursor-cli-developer-workflows"
-    "rielflow-package-manager-skill"
-    "rielflow-package-release-skill"
-    "rielflow-temporary-workflow-skill"
-    "rielflow-workflow-creator-skill"
-    "rielflow-workflow-skill-creator-skill"
+    "riela-package-manager-skill"
+    "riela-package-release-skill"
+    "riela-temporary-workflow-skill"
+    "riela-workflow-creator-skill"
+    "riela-workflow-skill-creator-skill"
   ];
 in
 {
-  home.packages = lib.optionals (rielflow-pkg != null) [
-    # rielflow - workflow runtime/tooling shared across Linux and Darwin.
-    rielflow-pkg
+  home.packages = lib.optionals (riela-pkg != null) [
+    # riela - workflow runtime/tooling shared across Linux and Darwin.
+    riela-pkg
   ];
 
-  home.activation.rielflowDevPackages = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
-    find_rielflow() {
-      if [ -x "${rielflowBinary}" ]; then
-        printf '%s\n' "${rielflowBinary}"
+  home.activation.rielaDevPackages = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+    find_riela() {
+      if [ -x "${rielaBinary}" ]; then
+        printf '%s\n' "${rielaBinary}"
         return 0
       fi
 
-      if command -v rielflow >/dev/null 2>&1; then
-        command -v rielflow
+      if command -v riela >/dev/null 2>&1; then
+        command -v riela
         return 0
       fi
 
-      for candidate in /opt/homebrew/bin/rielflow /usr/local/bin/rielflow; do
+      for candidate in /opt/homebrew/bin/riela /usr/local/bin/riela; do
         if [ -x "$candidate" ]; then
           printf '%s\n' "$candidate"
           return 0
@@ -72,7 +72,7 @@ in
       return 1
     }
 
-    cleanup_rielflow_skill_artifacts() {
+    cleanup_riela_skill_artifacts() {
       AGENTS_SKILLS_DIR="$HOME/.agents/skills"
       CURSOR_RULES_DIR="$HOME/.cursor/rules"
       CURSOR_SKILLS_DIR="$HOME/.cursor/skills"
@@ -80,7 +80,9 @@ in
 
       rm -rf \
         "$HOME/.claude/skills/rielflow-package-installer" \
-        "$HOME/.codex/skills/rielflow-package-installer"
+        "$HOME/.claude/skills/riela-package-installer" \
+        "$HOME/.codex/skills/rielflow-package-installer" \
+        "$HOME/.codex/skills/riela-package-installer"
 
       if [ -d "$NIX_REPO_DIR" ]; then
         for project_skill_dir in \
@@ -90,7 +92,7 @@ in
           "$NIX_REPO_DIR/.cursor/skills"; do
           if [ -d "$project_skill_dir" ]; then
             find "$project_skill_dir" -mindepth 1 -maxdepth 1 \
-              \( -name 'riel-*' -o -name 'rielflow-*' -o -name 'cursor-cli-*' -o -name 'Riel*' -o -name 'Rielflow*' \) \
+              \( -name 'riel-*' -o -name 'rielflow-*' -o -name 'riela-*' -o -name 'Riel*' -o -name 'Rielflow*' -o -name 'Riela*' -o -name 'cursor-cli-*' \) \
               -exec rm -rf {} + 2>/dev/null || true
           fi
         done
@@ -98,46 +100,46 @@ in
 
       if [ -d "$AGENTS_SKILLS_DIR" ]; then
         find "$AGENTS_SKILLS_DIR" -mindepth 1 -maxdepth 1 \
-          \( -name 'riel-*' -o -name 'rielflow-*' \) \
+          \( -name 'riel-*' -o -name 'rielflow-*' -o -name 'riela-*' -o -name 'Riel*' -o -name 'Rielflow*' -o -name 'Riela*' \) \
           -exec rm -rf {} + 2>/dev/null || true
       fi
 
       if [ -d "$CURSOR_RULES_DIR" ]; then
         find "$CURSOR_RULES_DIR" -mindepth 1 -maxdepth 1 -type f \
-          \( -name 'Riel*.mdc' -o -name 'Rielflow*.mdc' -o -name 'riel-*.mdc' -o -name 'rielflow-*.mdc' -o -name 'cursor-cli-*.mdc' \) \
+          \( -name 'Riel*.mdc' -o -name 'Rielflow*.mdc' -o -name 'Riela*.mdc' -o -name 'riel-*.mdc' -o -name 'rielflow-*.mdc' -o -name 'riela-*.mdc' -o -name 'cursor-cli-*.mdc' \) \
           -exec rm -f {} + 2>/dev/null || true
       fi
 
       mkdir -p "$CURSOR_SKILLS_DIR"
       find "$CURSOR_SKILLS_DIR" -mindepth 1 -maxdepth 1 -type d \
-        \( -name 'Riel*' -o -name 'Rielflow*' -o -name 'riel-*' -o -name 'rielflow-*' -o -name 'cursor-cli-*' \) \
+        \( -name 'Riel*' -o -name 'Rielflow*' -o -name 'Riela*' -o -name 'riel-*' -o -name 'rielflow-*' -o -name 'riela-*' -o -name 'cursor-cli-*' \) \
         -exec rm -rf {} + 2>/dev/null || true
       find "$CURSOR_SKILLS_DIR" -mindepth 2 -maxdepth 2 -type f -name 'SKILL.md.tmp.*' \
         -exec rm -f {} + 2>/dev/null || true
     }
 
-    if RIELFLOW_BIN="$(find_rielflow)"; then
-      echo "Installing rielflow development workflow packages..."
+    if RIELA_BIN="$(find_riela)"; then
+      echo "Installing riela development workflow packages..."
 
-      if ! "$RIELFLOW_BIN" package search codex --registry default --refresh >/dev/null 2>&1; then
-        echo "Warning: failed to refresh rielflow default package registry; continuing activation"
+      if ! "$RIELA_BIN" package search codex --registry default --refresh >/dev/null 2>&1; then
+        echo "Warning: failed to refresh riela default package registry; continuing activation"
       fi
 
-      cleanup_rielflow_skill_artifacts
+      cleanup_riela_skill_artifacts
 
       for package_id in ${lib.concatStringsSep " " devWorkflowPackages}; do
-        if ! "$RIELFLOW_BIN" package install "$package_id" \
+        if ! "$RIELA_BIN" package install "$package_id" \
           --registry default \
           --user-scope \
           --pre-install-check \
           --overwrite \
           --yes \
           --output json >/dev/null; then
-          echo "Warning: failed to install rielflow package '$package_id'; continuing activation"
+          echo "Warning: failed to install riela package '$package_id'; continuing activation"
         fi
       done
     else
-      echo "Warning: rielflow command not found; skipping rielflow development workflow package install"
+      echo "Warning: riela command not found; skipping riela development workflow package install"
     fi
   '';
 }

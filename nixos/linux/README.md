@@ -34,6 +34,8 @@ nix shell nixpkgs#gh nixpkgs#go-task github:tacogips/kinko --command task setup-
 
 After applying the Home Manager or NixOS configuration, open a new fish shell. Fish will import shared kinko secrets automatically when `kinko` is available, and it will warn when the shell starts and whenever `cd` changes directories if `kinko` is installed but currently locked.
 
+The shared Home Manager activation installs `ign` from `tacogips/tap/ign` when a Homebrew `brew` command is available. If Homebrew is not installed on Linux, activation skips that install with a warning.
+
 If you only want to populate the current shell from GitHub CLI without updating kinko, use:
 
 ```bash

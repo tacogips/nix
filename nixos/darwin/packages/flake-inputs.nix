@@ -1,13 +1,12 @@
 {
   bravesearch-mcp,
-  kinko,
   system,
 }:
 
 {
   bravesearch-mcp-pkg = bravesearch-mcp.packages.${system}.default;
-  kinko-pkg = kinko.packages.${system}.default;
+  kinko-pkg = null;
   chilla-pkg = null;
   ign-pkg = null;
-  rielflow-pkg = null;
+  riela-pkg = null;
 }

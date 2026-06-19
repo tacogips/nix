@@ -1,7 +1,11 @@
-{ config, pkgs, kinko-pkg, ... }:
+{
+  lib,
+  kinko-pkg ? null,
+  ...
+}:
 
 {
-  home.packages = [
+  home.packages = lib.optionals (kinko-pkg != null) [
     # kinko - CLI for issue/workflow operations
     kinko-pkg
   ];

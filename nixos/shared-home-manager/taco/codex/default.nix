@@ -10,6 +10,7 @@ let
   braveBrowserComputerUseRoot = ../skills/brave-browser-computer-use;
   gitPrecommitSafetyCheckRoot = ../skills/git-precommit-safety-check;
   improveRoot = ../skills/improve;
+  rielaRoot = ../skills/riela;
 in
 {
   home.activation.codexSkills = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
@@ -95,6 +96,13 @@ in
     install_skill_file \
       "${improveRoot}/agents/openai.yaml" \
       "$AGENTS_SKILLS_DIR/improve/agents/openai.yaml"
+
+    install_skill_file \
+      "${rielaRoot}/codex-SKILL.md" \
+      "$AGENTS_SKILLS_DIR/riela/SKILL.md"
+    install_skill_file \
+      "${rielaRoot}/agents/openai.yaml" \
+      "$AGENTS_SKILLS_DIR/riela/agents/openai.yaml"
 
     rm -rf "$AGENTS_SKILLS_DIR/code-with-composer"
     rm -rf "$OLD_CODEX_SKILLS_DIR/secure-github-action"

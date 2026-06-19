@@ -126,7 +126,7 @@ You still need to seed `kinko` shared secrets with `GITHUB_TOKEN` if you want th
 cd ~/nix/nixos/linux
 ```
 
-2. When you want to register `GITHUB_TOKEN` in `kinko` shared secrets, temporarily install `gh`, `kinko`, and `go-task` with Nix flakes, then run the Taskfile target:
+2. When you want to register `GITHUB_TOKEN` in `kinko` shared secrets, temporarily install `gh`, `kinko`, and `go-task`, then run the Taskfile target:
 ```bash
 nix shell nixpkgs#gh nixpkgs#go-task github:tacogips/kinko --command task setup-github-token
 ```
@@ -142,9 +142,14 @@ nix shell nixpkgs#gh nixpkgs#go-task github:tacogips/kinko --command task setup-
 cd ~/nix/nixos/darwin
 ```
 
-2. When you want to register `GITHUB_TOKEN` in `kinko` shared secrets, temporarily install `gh`, `kinko`, and `go-task` with Nix flakes, then run the Taskfile target:
+2. When you want to register `GITHUB_TOKEN` in `kinko` shared secrets, install `kinko` with Homebrew, then temporarily install `gh` and `go-task` with Nix flakes and run the Taskfile target:
+
 ```bash
-nix shell nixpkgs#gh nixpkgs#go-task github:tacogips/kinko --command task setup-github-token
+brew install tacogips/tap/kinko
+```
+
+```bash
+nix shell nixpkgs#gh nixpkgs#go-task --command task setup-github-token
 ```
 
 3. Apply the nix-darwin configuration, then open a new fish shell so shared kinko secrets are exported automatically.
