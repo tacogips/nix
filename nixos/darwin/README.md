@@ -66,10 +66,13 @@ on Darwin, so the active CLI comes from Homebrew.
 The desktop app profile also enables `taco.darwin.apps.xcode`, which installs
 Xcode from the Mac App Store and selects
 `/Applications/Xcode.app/Contents/Developer` during activation when the app is
-present. Nix does not package the full Swift/Xcode toolchain on Darwin; it
-supplies repository utilities such as `git`, `jq`, `ripgrep`, and
-`shellcheck`, while `swift`, `swift test`, `sourcekit-lsp`, `xcodebuild`, and
-iOS Simulator/SDK access come from the host Xcode install.
+present. The same module exports `DEVELOPER_DIR`, `SDKROOT`, and `TOOLCHAINS`
+for the fixed Mac App Store Xcode install and prepends Xcode's default
+toolchain `bin` directory to the system path. Nix does not package the full
+Swift/Xcode toolchain on Darwin; it supplies repository utilities such as
+`git`, `jq`, `ripgrep`, and `shellcheck`, while `swift`, `swift test`,
+`sourcekit-lsp`, `xcodebuild`, and iOS Simulator/SDK access come from the host
+Xcode install.
 
 Check the host toolchain with:
 

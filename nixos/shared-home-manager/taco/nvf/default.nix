@@ -6,6 +6,7 @@
 }:
 let
   runtimePath = ./runtime;
+  xcodeToolchain = import ../../../lib/apple-xcode-toolchain.nix;
   openCommand = if pkgs.stdenv.isDarwin then "open" else "xdg-open";
   chillaCommand =
     if chilla-pkg != null then
@@ -51,15 +52,18 @@ let
       pkgs.writeShellApplication {
         name = "sourcekit-lsp";
         text = ''
-          export DEVELOPER_DIR="''${DEVELOPER_DIR:-/Applications/Xcode.app/Contents/Developer}"
+          export DEVELOPER_DIR="${xcodeToolchain.developerDir}"
+          export SDKROOT="${xcodeToolchain.sdkRoot}"
+          export TOOLCHAINS="${xcodeToolchain.toolchainIdentifier}"
+          export PATH="${xcodeToolchain.toolchainBin}:$PATH"
 
-          if ! /usr/bin/xcrun --find sourcekit-lsp >/dev/null 2>&1; then
+          if ! ${xcodeToolchain.xcrun} --find sourcekit-lsp >/dev/null 2>&1; then
             echo "sourcekit-lsp is not available from Xcode at $DEVELOPER_DIR" >&2
             echo "Install Xcode, open it once to finish setup, then run xcode-select -s $DEVELOPER_DIR." >&2
             exit 127
           fi
 
-          exec /usr/bin/xcrun sourcekit-lsp "$@"
+          exec ${xcodeToolchain.xcrun} sourcekit-lsp "$@"
         '';
       }
     else

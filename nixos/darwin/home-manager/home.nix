@@ -6,6 +6,9 @@
   ...
 }:
 
+let
+  xcodeToolchain = import ../../lib/apple-xcode-toolchain.nix;
+in
 {
   imports = [
     # Darwin-specific modules
@@ -24,6 +27,9 @@
     # Add any macOS-specific environment variables here
     LANG = "en_US.UTF-8";
     LC_ALL = "en_US.UTF-8";
+    DEVELOPER_DIR = xcodeToolchain.developerDir;
+    SDKROOT = xcodeToolchain.sdkRoot;
+    TOOLCHAINS = xcodeToolchain.toolchainIdentifier;
 
     # XDG Base Directory settings for macOS
     XDG_CACHE_HOME = "$HOME/.cache";
@@ -34,6 +40,7 @@
 
   # Add Homebrew to PATH for all shells
   home.sessionPath = [
+    xcodeToolchain.toolchainBin
     "/opt/homebrew/bin" # Apple Silicon
     "/usr/local/bin" # Intel Mac
   ];

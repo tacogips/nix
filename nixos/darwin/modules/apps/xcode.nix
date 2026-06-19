@@ -2,7 +2,7 @@
 
 let
   cfg = config.taco.darwin.apps.xcode;
-  xcodeDeveloperDir = "/Applications/Xcode.app/Contents/Developer";
+  xcodeToolchain = import ../../../lib/apple-xcode-toolchain.nix;
 in
 {
   options.taco.darwin.apps.xcode.enable = lib.mkEnableOption "Xcode installed from the Mac App Store";
@@ -10,22 +10,24 @@ in
   config = lib.mkIf cfg.enable {
     homebrew.enable = true;
     homebrew.masApps.Xcode = 497799835;
+    environment.variables = xcodeToolchain.environmentVariables;
+    environment.systemPath = [ xcodeToolchain.toolchainBin ];
 
     system.activationScripts.xcodeToolchain.text = ''
-      xcode_app="/Applications/Xcode.app"
-      developer_dir="${xcodeDeveloperDir}"
+      xcode_app="${xcodeToolchain.appPath}"
+      developer_dir="${xcodeToolchain.developerDir}"
 
       if [ -d "$developer_dir" ]; then
-        current="$(/usr/bin/xcode-select -p 2>/dev/null || true)"
+        current="$(${xcodeToolchain.xcodeSelect} -p 2>/dev/null || true)"
         if [ "$current" != "$developer_dir" ]; then
           echo "Selecting Xcode developer directory at $developer_dir..."
-          /usr/bin/sudo /usr/bin/xcode-select -s "$developer_dir"
+          /usr/bin/sudo ${xcodeToolchain.xcodeSelect} -s "$developer_dir"
         fi
 
-        if ! /usr/bin/xcrun --find swift >/dev/null 2>&1; then
+        if ! ${xcodeToolchain.xcrun} --find swift >/dev/null 2>&1; then
           echo "Warning: swift is not available from the selected Xcode toolchain."
           echo "Open Xcode once to finish first-run setup."
-        elif ! /usr/bin/xcrun xcodebuild -version >/dev/null 2>&1; then
+        elif ! ${xcodeToolchain.xcrun} xcodebuild -version >/dev/null 2>&1; then
           echo "Warning: xcodebuild is not usable yet."
           echo "Open Xcode once to finish first-run setup."
         else
