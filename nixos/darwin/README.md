@@ -63,6 +63,12 @@ for the app and `cursor-cli` for `cursor-agent`. When that app module is
 enabled, shared Home Manager does not install the Nixpkgs `cursor-cli` package
 on Darwin, so the active CLI comes from Homebrew.
 
+The desktop app profile installs Riela through the `tacogips/tap/riela`
+Homebrew Cask. Riela 0.1.5 split delivery so the Homebrew Formula is CLI-only,
+while the Cask installs both `RielaApp.app` and the `riela` CLI. The app module
+removes the old formula during activation when present so the cask can link its
+CLI binary cleanly.
+
 The desktop app profile also enables `taco.darwin.apps.xcode`, which installs
 Xcode from the Mac App Store and selects
 `/Applications/Xcode.app/Contents/Developer` during activation when the app is
@@ -153,7 +159,7 @@ Common packages and fonts are intentionally kept out of host modules:
 - `packages/fonts.nix` is for shared font packages.
 - `packages/flake-inputs.nix` converts flake inputs such as `bravesearch-mcp`
   into package arguments for Home Manager. Homebrew-managed tools such as
-  `kinko`, `ign`, and `riela` are exposed through app modules instead.
+  `kinko`, `ign`, and the Riela Cask are exposed through app modules instead.
 - `packages/overlays.nix` contains Darwin-only nixpkgs overlays.
 
 Server-specific packages for a future `darwin-home-server` host should be added

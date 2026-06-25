@@ -17,7 +17,7 @@ let
 
     state_dir="$HOME/.local/state/aerospace"
     state_file="$state_dir/monitor-topology"
-    state_version="external-workspace-assignment-v2"
+    state_version="external-workspace-assignment-v4"
 
     "$MKDIR" -p "$state_dir"
 
@@ -69,6 +69,8 @@ let
       elif [ "$external_count" -eq 2 ]; then
         external_two="$external_id"
       fi
+      # Additional external monitors are intentionally left without dedicated
+      # persistent workspaces so external workspaces stay fixed to 1 and 2.
     done
 
     if [ "$external_count" -lt 1 ]; then
@@ -155,10 +157,6 @@ in
           "built-in"
           "main"
         ];
-        "10" = [
-          "secondary"
-          "main"
-        ];
       };
 
       # Normalization settings
@@ -211,7 +209,6 @@ in
         "alt-shift-7" = "workspace 7";
         "alt-shift-8" = "workspace 8";
         "alt-shift-9" = "workspace 9";
-        "alt-shift-0" = "workspace 10";
 
         # Move window to workspace
         "alt-ctrl-1" = "move-node-to-workspace 1";
@@ -223,7 +220,6 @@ in
         "alt-ctrl-7" = "move-node-to-workspace 7";
         "alt-ctrl-8" = "move-node-to-workspace 8";
         "alt-ctrl-9" = "move-node-to-workspace 9";
-        "alt-ctrl-0" = "move-node-to-workspace 10";
 
         # Layout management
         "alt-shift-space" = "layout floating tiling";
@@ -309,7 +305,7 @@ in
           "if" = {
             app-id = "md.obsidian";
           };
-          run = "move-node-to-workspace 10";
+          run = "move-node-to-workspace 8";
         }
       ];
 
