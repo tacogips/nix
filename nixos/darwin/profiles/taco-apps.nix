@@ -9,6 +9,7 @@
     brave.enable = true;
     chilla.enable = true;
     claude-code.enable = true;
+    cline.enable = true;
     codex.enable = true;
     container-tools.enable = true;
     cursor.enable = true;

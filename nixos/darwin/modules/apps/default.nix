@@ -9,6 +9,7 @@
     ./brave.nix
     ./chilla.nix
     ./claude-code.nix
+    ./cline.nix
     ./codex.nix
     ./container-tools.nix
     ./cursor.nix
