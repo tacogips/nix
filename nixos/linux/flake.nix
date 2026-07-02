@@ -16,7 +16,6 @@
     xremap-flake.url = "github:xremap/nix-flake";
     ## --- mcps --------
     cratedocs-mcp.url = "github:tacogips/cratedocs-mcp";
-    bravesearch-mcp.url = "github:tacogips/bravesearch-mcp";
     hn-mcp.url = "github:tacogips/hn-mcp";
     gitcodes-mcp.url = "github:tacogips/gitcodes-mcp";
 
@@ -45,7 +44,6 @@
       xremap-flake,
       cratedocs-mcp,
       gitcodes-mcp,
-      bravesearch-mcp,
       hn-mcp,
       fenix,
       kinko,
@@ -81,7 +79,6 @@
 
       # Get the original packages
       cratedocs-mcp-pkg = cratedocs-mcp.packages.${system}.default;
-      bravesearch-mcp-pkg = bravesearch-mcp.packages.${system}.default;
       hn-mcp-pkg = hn-mcp.packages.${system}.default;
       gitcode-mcp-pkg = gitcodes-mcp.packages.${system}.default;
       ign-pkg = null;
@@ -166,7 +163,6 @@
                     fenix
                     homeStateVersion
                     cratedocs-mcp-pkg
-                    bravesearch-mcp-pkg
                     hn-mcp-pkg
                     gitcode-mcp-pkg
                     ign-pkg

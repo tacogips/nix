@@ -2,7 +2,6 @@
   config,
   pkgs,
   lib,
-  bravesearch-mcp-pkg,
   ...
 }:
 
@@ -74,9 +73,6 @@ in
     mas # Mac App Store CLI
     iterm2
     rectangle # Window management
-
-    # ---- mcps -------------------------------
-    bravesearch-mcp-pkg
 
   ];
 

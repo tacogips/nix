@@ -19,13 +19,10 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    ## --- mcps --------
-    bravesearch-mcp.url = "github:tacogips/bravesearch-mcp";
   };
 
   outputs =
     {
-      bravesearch-mcp,
       darwin,
       home-manager,
       nixpkgs,
@@ -35,7 +32,6 @@
     let
       mkDarwinConfiguration = import ./lib/mkDarwinConfiguration.nix {
         inherit
-          bravesearch-mcp
           darwin
           home-manager
           nixpkgs

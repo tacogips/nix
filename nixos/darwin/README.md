@@ -66,6 +66,15 @@ on Darwin, so the active CLI comes from Homebrew.
 The desktop app profile installs the Cline client through the Homebrew formula
 `cline`.
 
+The desktop app profile installs Claude Desktop through the Homebrew Cask
+`claude`. This is separate from `claude-code`, which installs the terminal-based
+Claude Code tool.
+
+The shared Neovim configuration enables the Java `jdtls` LSP server, but on
+Darwin the server binary is installed through Homebrew's bottled `jdtls`
+formula instead of Nixpkgs `jdt-language-server` to avoid a large local Nix
+toolchain closure during rebuilds.
+
 The desktop app profile installs Riela through the `tacogips/tap/riela`
 Homebrew Cask. Riela 0.1.5 split delivery so the Homebrew Formula is CLI-only,
 while the Cask installs both `RielaApp.app` and the `riela` CLI. The app module
@@ -160,9 +169,9 @@ Common packages and fonts are intentionally kept out of host modules:
 - `packages/base.nix` is for baseline CLI packages that every Darwin host should
   have.
 - `packages/fonts.nix` is for shared font packages.
-- `packages/flake-inputs.nix` converts flake inputs such as `bravesearch-mcp`
-  into package arguments for Home Manager. Homebrew-managed tools such as
-  `kinko`, `ign`, and the Riela Cask are exposed through app modules instead.
+- `packages/flake-inputs.nix` converts flake inputs into package arguments for
+  Home Manager when needed. Homebrew-managed tools such as `kinko`, `ign`, and
+  the Riela Cask are exposed through app modules instead.
 - `packages/overlays.nix` contains Darwin-only nixpkgs overlays.
 
 Server-specific packages for a future `darwin-home-server` host should be added

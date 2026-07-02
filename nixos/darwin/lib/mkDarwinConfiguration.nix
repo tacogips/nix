@@ -1,5 +1,4 @@
 {
-  bravesearch-mcp,
   darwin,
   home-manager,
   nixpkgs,
@@ -30,10 +29,7 @@ let
   };
 
   flakeInputPackages = import ../packages/flake-inputs.nix {
-    inherit
-      bravesearch-mcp
-      system
-      ;
+    inherit system;
   };
 in
 darwin.lib.darwinSystem {

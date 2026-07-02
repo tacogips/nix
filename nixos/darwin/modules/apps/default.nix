@@ -8,6 +8,7 @@
     # ./bifrost-gauge.nix
     ./brave.nix
     ./chilla.nix
+    ./claude.nix
     ./claude-code.nix
     ./cline.nix
     ./codex.nix
@@ -17,6 +18,7 @@
     ./home-server.nix
     ./homebrew.nix
     ./ign.nix
+    ./jdtls.nix
     ./just-press-record.nix
     ./kinko.nix
     ./kindle.nix

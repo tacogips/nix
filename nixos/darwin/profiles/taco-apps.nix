@@ -8,6 +8,7 @@
     # bifrost-gauge.enable = true;
     brave.enable = true;
     chilla.enable = true;
+    claude.enable = true;
     claude-code.enable = true;
     cline.enable = true;
     codex.enable = true;
@@ -15,6 +16,7 @@
     cursor.enable = true;
     ghostty.enable = true;
     ign.enable = true;
+    jdtls.enable = true;
     just-press-record.enable = true;
     kinko.enable = true;
     kindle.enable = true;

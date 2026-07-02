@@ -118,13 +118,6 @@
       "args" = [ "stdio" ];
       "env" = { };
     };
-
-    "bravesearch-mcp" = {
-      "source" = "custom";
-      "command" = "bravesearch-mcp";
-      "args" = [ "stdio" ];
-      "env" = { };
-    };
   };
 
   edit_predictions = {

@@ -89,11 +89,6 @@ in
     end
   '';
 
-  setup-claude-mcps-global = ''
-    claude mcp add -s user bravesearch-mcp bravesearch-mcp stdio
-    and claude mcp add -s user hn-mcp hn-mcp stdio
-  '';
-
   __claude-bifrost-run = ''
     set -l model $argv[1]
     set -e argv[1]

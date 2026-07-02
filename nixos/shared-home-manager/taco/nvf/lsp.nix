@@ -19,6 +19,7 @@
 
       ccls = { };
       gopls = { };
+      jdtls = { };
       julials = { };
       move_analyzer = {
         cmd = [ "move-analyzer" ];

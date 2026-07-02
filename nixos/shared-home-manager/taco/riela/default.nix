@@ -37,6 +37,7 @@ let
     "cursor-cli-hydra-codex-design-and-implement-review-loop"
     "cursor-cli-goal"
     "cursor-cli-developer-workflows"
+    "fable-and-improve"
     "riela-package-manager-skill"
     "riela-package-release-skill"
     "riela-temporary-workflow-skill"
