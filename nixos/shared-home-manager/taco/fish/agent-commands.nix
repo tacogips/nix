@@ -19,8 +19,10 @@ let
   codexBaseCommand54 = "${codexCommand} ${codexGlobalFlags54}";
   codexBaseCommandHigh = "${codexCommand} ${codexGlobalFlagsHigh}";
   cursorBaseCommand = "${cursorCommand} ${cursorGlobalFlags}";
-  claudeBifrostEnv = "-u ANTHROPIC_AUTH_TOKEN -u ANTHROPIC_API_KEY -u CLAUDE_CODE_OAUTH_TOKEN ANTHROPIC_BASE_URL=http://127.0.0.1:18080/anthropic";
-  claudeBaseCommand = "env ${claudeBifrostEnv} NODE_OPTIONS='--max-old-space-size=16384' CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1 claude --permission-mode bypassPermissions --dangerously-skip-permissions";
+  # Bifrost is disabled; keep this commented so Claude Code uses its normal
+  # authentication and upstream endpoint instead of the local Bifrost proxy.
+  # claudeBifrostEnv = "-u ANTHROPIC_AUTH_TOKEN -u ANTHROPIC_API_KEY -u CLAUDE_CODE_OAUTH_TOKEN ANTHROPIC_BASE_URL=http://127.0.0.1:18080/anthropic";
+  claudeBaseCommand = "env NODE_OPTIONS='--max-old-space-size=16384' CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1 claude --permission-mode bypassPermissions --dangerously-skip-permissions";
   reviewTodayPrompt = "Review the code changes made today and improve low-quality code. The review and fixes should cover code that is generally considered low quality, unused code, deprecated code that still remains, unnecessary hardcoding, places that can be made DRY, places that are not aligned with SOLID principles without a clear reason, inappropriate variable names, cases not covered by tests, overlooked considerations, and bugs.";
   implementationContinuationPrompt = "Also review the current git diff and take it into account.";
   reviewContinuationPrompt = "Also review the current git diff and take it into account.";
@@ -44,7 +46,7 @@ in
 {
   inherit
     claudeBaseCommand
-    claudeBifrostEnv
+    # claudeBifrostEnv
     codexBaseCommand
     codexBaseCommand54
     codexBaseCommandHigh

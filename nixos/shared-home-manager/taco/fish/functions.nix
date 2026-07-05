@@ -89,25 +89,34 @@ in
     end
   '';
 
-  __claude-bifrost-run = ''
+  # Bifrost is disabled. Keep the old helper commented as a reminder of the
+  # removed proxy dependency for cl/clo.
+  # __claude-bifrost-run = ''
+  #   set -l model $argv[1]
+  #   set -e argv[1]
+  #
+  #   if test -z "$BIFROST_VK_PERSONAL"
+  #     echo "BIFROST_VK_PERSONAL is not set. Run 'kinko unlock' or export the virtual key before using cl/clo." >&2
+  #     return 1
+  #   end
+  #
+  #   set -lx ANTHROPIC_CUSTOM_HEADERS "x-bf-vk: $BIFROST_VK_PERSONAL"
+  #   command env CLAUDE_CODE_EFFORT_LEVEL=high ${claudeBaseCommand} --model $model $argv
+  # '';
+
+  __claude-run = ''
     set -l model $argv[1]
     set -e argv[1]
 
-    if test -z "$BIFROST_VK_PERSONAL"
-      echo "BIFROST_VK_PERSONAL is not set. Run 'kinko unlock' or export the virtual key before using cl/clo." >&2
-      return 1
-    end
-
-    set -lx ANTHROPIC_CUSTOM_HEADERS "x-bf-vk: $BIFROST_VK_PERSONAL"
     command env CLAUDE_CODE_EFFORT_LEVEL=high ${claudeBaseCommand} --model $model $argv
   '';
 
   cl = ''
-    __claude-bifrost-run sonnet $argv
+    __claude-run sonnet $argv
   '';
 
   clo = ''
-    __claude-bifrost-run opus $argv
+    __claude-run opus $argv
   '';
 
   ppp = ''
