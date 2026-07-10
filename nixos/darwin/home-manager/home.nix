@@ -89,6 +89,21 @@ in
     echo "Installing latest Codex CLI with the official standalone installer..."
     $DRY_RUN_CMD ${pkgs.coreutils}/bin/mkdir -p "$HOME/.local/bin"
     if [ -z "''${DRY_RUN_CMD:-}" ]; then
+      # The upstream installer currently shells out to standard text/archive
+      # tools while resolving and unpacking release assets. This PATH can be
+      # trimmed if a future installer no longer depends on these external tools.
+      export PATH="${
+        lib.makeBinPath [
+          pkgs.coreutils
+          pkgs.curl
+          pkgs.findutils
+          pkgs.gawk
+          pkgs.gnugrep
+          pkgs.gnused
+          pkgs.gnutar
+          pkgs.gzip
+        ]
+      }:$PATH"
       ${pkgs.curl}/bin/curl -fsSL https://chatgpt.com/codex/install.sh \
         | CODEX_NON_INTERACTIVE=1 \
           CODEX_RELEASE=latest \
