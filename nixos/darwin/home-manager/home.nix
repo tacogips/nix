@@ -85,6 +85,9 @@ in
   # Enable home-manager
   programs.home-manager.enable = true;
 
+  # Temporary workaround for Codex CLI package layouts that do not include
+  # codex-code-mode-host next to the Homebrew-installed codex binary. Revisit
+  # this when a newer Codex/Homebrew release consistently ships a working host.
   home.activation.codexCliStandalone = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
     echo "Installing latest Codex CLI with the official standalone installer..."
     $DRY_RUN_CMD ${pkgs.coreutils}/bin/mkdir -p "$HOME/.local/bin"
