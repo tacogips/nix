@@ -4,7 +4,7 @@ let
   codexCommand = "codex";
   cursorCommand = "cursor-agent";
   cursorModelComposer = "composer-2.5";
-  cursorModelGpt55Medium = "gpt-5.5-medium";
+  cursorModelGpt56Sol = "gpt-5.6-sol";
   cursorModelClaudeOpus = "claude-opus-4-8-high";
   cursorModel = cursorModelComposer;
   cursorGlobalFlags = "--yolo --approve-mcps";
@@ -12,12 +12,16 @@ let
   # the bypass flag, because bypass already disables approvals and sandboxing.
   codexBypassFlags = "--dangerously-bypass-approvals-and-sandbox";
   codexHighReasoningConfig = "-c 'model_reasoning_effort=\"high\"'";
-  codexGlobalFlags = "${codexBypassFlags} --model gpt-5.5";
+  codexGlobalFlags = "${codexBypassFlags} --model gpt-5.6-sol";
   codexGlobalFlags54 = "${codexBypassFlags} --model gpt-5.4";
   codexGlobalFlagsHigh = "${codexGlobalFlags} ${codexHighReasoningConfig}";
   codexBaseCommand = "${codexCommand} ${codexGlobalFlags}";
   codexBaseCommand54 = "${codexCommand} ${codexGlobalFlags54}";
   codexBaseCommandHigh = "${codexCommand} ${codexGlobalFlagsHigh}";
+  codexSakanaProviderFlags = "-c 'model_provider=\"sakana\"' -c 'model_providers.sakana.name=\"Sakana API\"' -c 'model_providers.sakana.base_url=\"https://api.sakana.ai/v1\"' -c 'model_providers.sakana.env_key=\"SAKANA_API_KEY\"' -c 'model_providers.sakana.wire_api=\"responses\"' -c model_providers.sakana.stream_idle_timeout_ms=7200000 -c model_providers.sakana.stream_max_retries=5 -c model_providers.sakana.request_max_retries=4 -c 'model_reasoning_effort=\"high\"' -c features.image_generation=false -c features.apps=false";
+  codexSakanaEnvBridge = ''set -q SAKANA_API_KEY; or set -lx SAKANA_API_KEY "$SAKANA_AI_API_KEY";'';
+  codexSakanaBaseCommand = "${codexSakanaEnvBridge} ${codexCommand} ${codexBypassFlags} --model fugu ${codexSakanaProviderFlags}";
+  codexSakanaUltraBaseCommand = "${codexSakanaEnvBridge} ${codexCommand} ${codexBypassFlags} --model fugu-ultra ${codexSakanaProviderFlags}";
   cursorBaseCommand = "${cursorCommand} ${cursorGlobalFlags}";
   # Bifrost is disabled; keep this commented so Claude Code uses its normal
   # authentication and upstream endpoint instead of the local Bifrost proxy.
@@ -57,7 +61,9 @@ in
     cursorModel
     cursorModelClaudeOpus
     cursorModelComposer
-    cursorModelGpt55Medium
+    cursorModelGpt56Sol
+    codexSakanaBaseCommand
+    codexSakanaUltraBaseCommand
     ;
 
   codexReviewTodayPrompt = reviewTodayPrompt;

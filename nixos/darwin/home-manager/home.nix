@@ -39,6 +39,7 @@ in
 
   # Add Homebrew to PATH for all shells
   home.sessionPath = [
+    "${config.home.homeDirectory}/.local/bin"
     xcodeToolchain.toolchainBin
     "/opt/homebrew/bin" # Apple Silicon
     "/usr/local/bin" # Intel Mac
@@ -58,7 +59,8 @@ in
     nixfmt
     nixd # nix lsp
 
-    # claude-code and codex: installed via Homebrew on Darwin
+    # claude-code: installed via Homebrew on Darwin
+    # codex: installed by the activation hook below through the official installer
     # cursor-cli: installed via shared Home Manager config on Darwin
 
     # macOS applications
@@ -82,6 +84,18 @@ in
 
   # Enable home-manager
   programs.home-manager.enable = true;
+
+  home.activation.codexCliStandalone = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+    echo "Installing latest Codex CLI with the official standalone installer..."
+    $DRY_RUN_CMD ${pkgs.coreutils}/bin/mkdir -p "$HOME/.local/bin"
+    if [ -z "''${DRY_RUN_CMD:-}" ]; then
+      ${pkgs.curl}/bin/curl -fsSL https://chatgpt.com/codex/install.sh \
+        | CODEX_NON_INTERACTIVE=1 \
+          CODEX_RELEASE=latest \
+          CODEX_INSTALL_DIR="$HOME/.local/bin" \
+          sh
+    fi
+  '';
 
   home.activation.dockerCliPluginsConfig = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
     docker_config_dir="$HOME/.docker"

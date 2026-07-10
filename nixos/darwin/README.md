@@ -120,8 +120,8 @@ remote access.
 
 It imports `profiles/home-server.nix`, which enables:
 
-- Agent and editor tooling matching the main Darwin host: Homebrew-managed
-  Codex, Claude Code, Cursor, and Cursor CLI. Fish and the NVF-backed Neovim
+- Agent and editor tooling matching the main Darwin host: standalone-installed
+  Codex CLI, Homebrew-managed Codex app, Claude Code, Cursor, and Cursor CLI. Fish and the NVF-backed Neovim
   configuration are inherited from the shared Darwin base and Home Manager
   modules.
 - Homebrew-managed host dependencies: `caddy`, `tailscale`, `ffmpeg`, `rclone`,

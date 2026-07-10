@@ -77,11 +77,13 @@ let
     codexBaseCommand54
     codexCommand
     codexReviewTodayPrompt
+    codexSakanaBaseCommand
+    codexSakanaUltraBaseCommand
     cursorBaseCommand
     cursorCommand
     cursorModelClaudeOpus
     cursorModelComposer
-    cursorModelGpt55Medium
+    cursorModelGpt56Sol
     ;
 in
 {
@@ -133,10 +135,13 @@ in
     # another fish alias being present.
     co = codexBaseCommand;
     coo = codexBaseCommand54;
+    cof = codexSakanaBaseCommand;
+    cofu = codexSakanaUltraBaseCommand;
+    codex-fugu = codexSakanaBaseCommand;
     corl = "${codexBaseCommand} resume --last";
     cor = "${codexBaseCommand} resume";
     cr = "${cursorBaseCommand} --model ${cursorModelComposer}";
-    cro = "${cursorBaseCommand} --model ${cursorModelGpt55Medium}";
+    cro = "${cursorBaseCommand} --model ${cursorModelGpt56Sol}";
     crc = "${cursorBaseCommand} --model ${cursorModelClaudeOpus}";
     # Codex uses `resume --last`; Cursor has no `--last` on `resume`. Use `ls` to
     # pick a session (`cor`) and the `resume` subcommand for the latest (`corl`).
