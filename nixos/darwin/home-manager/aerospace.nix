@@ -14,38 +14,38 @@ let
     MKDIR="${pkgs.coreutils}/bin/mkdir"
     CAT="${pkgs.coreutils}/bin/cat"
     SORT="${pkgs.coreutils}/bin/sort"
+    TIMEOUT="${pkgs.coreutils}/bin/timeout"
 
     state_dir="$HOME/.local/state/aerospace"
     state_file="$state_dir/monitor-topology"
-    state_version="external-workspace-assignment-v4"
+    state_version="external-workspace-assignment-v6"
+
+    run_aerospace() {
+      "$TIMEOUT" 5 "$AEROSPACE" "$@"
+    }
 
     "$MKDIR" -p "$state_dir"
 
-    if ! monitor_lines="$("$AEROSPACE" list-monitors --format '%{monitor-id}|%{monitor-name}|%{monitor-is-main}' 2>/dev/null)"; then
+    if ! monitor_lines="$(run_aerospace list-monitors --format '%{monitor-id}|%{monitor-name}' 2>/dev/null)"; then
       exit 0
     fi
     current_state="$(printf '%s\n%s\n' "$state_version" "$monitor_lines" | "$SORT")"
 
-    force="''${1:-}"
-    previous_state=""
-    if [ -f "$state_file" ]; then
-      previous_state="$("$CAT" "$state_file")"
-    fi
-
-    printf '%s\n' "$current_state" > "$state_file"
-
-    if [ "$force" != "--force" ] && [ "$current_state" = "$previous_state" ]; then
+    if ! workspace_lines="$(run_aerospace list-workspaces --all --format '%{workspace}|%{monitor-id}' 2>/dev/null)"; then
       exit 0
     fi
 
-    monitor_count="$("$AEROSPACE" list-monitors --count 2>/dev/null || printf '0')"
-    if [ "$monitor_count" -lt 2 ]; then
-      exit 0
-    fi
+    invalid_workspaces=""
+    while IFS='|' read -r workspace monitor_id; do
+      case "$workspace" in
+        [1-9]) ;;
+        *) invalid_workspaces="$invalid_workspaces $workspace" ;;
+      esac
+    done <<< "$workspace_lines"
 
     external_ids=""
     built_in_id=""
-    while IFS='|' read -r monitor_id monitor_name monitor_is_main; do
+    while IFS='|' read -r monitor_id monitor_name; do
       if [ -z "$monitor_id" ]; then
         continue
       fi
@@ -55,9 +55,7 @@ let
       else
         external_ids="$external_ids $monitor_id"
       fi
-    done <<EOF
-    $monitor_lines
-    EOF
+    done <<< "$monitor_lines"
 
     external_count=0
     external_one=""
@@ -74,19 +72,97 @@ let
     done
 
     if [ "$external_count" -lt 1 ]; then
+      if [ -z "$built_in_id" ]; then
+        exit 0
+      fi
+    fi
+
+    workspace_is_on_monitor() {
+      wanted_workspace="$1"
+      wanted_monitor="$2"
+
+      while IFS='|' read -r listed_workspace listed_monitor; do
+        if [ "$listed_workspace" = "$wanted_workspace" ]; then
+          [ "$listed_monitor" = "$wanted_monitor" ] && return 0
+          return 1
+        fi
+      done <<< "$workspace_lines"
+
+      return 1
+    }
+
+    assignment_mismatch=""
+    if [ -n "$built_in_id" ] && ! workspace_is_on_monitor "9" "$built_in_id"; then
+      assignment_mismatch="1"
+    fi
+    if [ -n "$external_one" ] && ! workspace_is_on_monitor "1" "$external_one"; then
+      assignment_mismatch="1"
+    fi
+    if [ -n "$external_two" ]; then
+      if ! workspace_is_on_monitor "2" "$external_two"; then
+        assignment_mismatch="1"
+      fi
+    elif [ -n "$external_one" ] && ! workspace_is_on_monitor "2" "$external_one"; then
+      assignment_mismatch="1"
+    fi
+
+    force="''${1:-}"
+    previous_state=""
+    if [ -f "$state_file" ]; then
+      previous_state="$("$CAT" "$state_file")"
+    fi
+
+    if [ "$force" != "--force" ] && [ "$current_state" = "$previous_state" ] && [ -z "$invalid_workspaces" ] && [ -z "$assignment_mismatch" ]; then
       exit 0
     fi
 
-    if [ -n "$built_in_id" ]; then
-      "$AEROSPACE" workspace 9
+    # AeroSpace creates fallback workspaces when displays are attached. Move
+    # windows out of multi-digit or non-numeric fallbacks before selecting the
+    # stable one-digit workspace assigned to each display.
+    if [ -n "$invalid_workspaces" ]; then
+      if ! window_lines="$(run_aerospace list-windows --all --format '%{window-id}|%{workspace}|%{monitor-id}' 2>/dev/null)"; then
+        exit 0
+      fi
+
+      while IFS='|' read -r window_id workspace monitor_id; do
+        case "$workspace" in
+          [1-9]) continue ;;
+        esac
+
+        target_workspace=""
+        if [ -n "$built_in_id" ] && [ "$monitor_id" = "$built_in_id" ]; then
+          target_workspace="9"
+        elif [ -n "$external_one" ] && [ "$monitor_id" = "$external_one" ]; then
+          target_workspace="1"
+        elif [ -n "$external_two" ] && [ "$monitor_id" = "$external_two" ]; then
+          target_workspace="2"
+        fi
+
+        if [ -n "$window_id" ] && [ -n "$target_workspace" ]; then
+          run_aerospace move-node-to-workspace --window-id "$window_id" "$target_workspace"
+        fi
+      done <<< "$window_lines"
     fi
 
-    "$AEROSPACE" move-workspace-to-monitor --workspace 1 "$external_one"
-    "$AEROSPACE" workspace 1
-    if [ "$external_count" -ge 2 ]; then
-      "$AEROSPACE" move-workspace-to-monitor --workspace 2 "$external_two"
-      "$AEROSPACE" workspace 2
+    if [ -n "$built_in_id" ]; then
+      run_aerospace move-workspace-to-monitor --workspace 9 "$built_in_id"
+      run_aerospace workspace 9
     fi
+
+    if [ -n "$external_one" ]; then
+      run_aerospace move-workspace-to-monitor --workspace 1 "$external_one"
+      if [ -n "$external_two" ]; then
+        run_aerospace move-workspace-to-monitor --workspace 2 "$external_two"
+      else
+        run_aerospace move-workspace-to-monitor --workspace 2 "$external_one"
+      fi
+      run_aerospace workspace 1
+    fi
+    if [ "$external_count" -ge 2 ]; then
+      run_aerospace workspace 2
+    fi
+
+    printf '%s\n' "$current_state" > "$state_file"
   '';
 in
 {
@@ -94,7 +170,7 @@ in
   home.activation.aerospace-reload-config = lib.mkForce (
     lib.hm.dag.entryAfter [ "writeBoundary" ] ''
       # Only reload if AeroSpace is running and responding to CLI commands.
-      if ${pkgs.aerospace}/bin/aerospace list-monitors --count >/dev/null 2>&1; then
+      if ${pkgs.coreutils}/bin/timeout 5 ${pkgs.aerospace}/bin/aerospace list-monitors --count >/dev/null 2>&1; then
         $DRY_RUN_CMD ${pkgs.aerospace}/bin/aerospace reload-config || echo "AeroSpace reload failed, continuing..."
         $DRY_RUN_CMD ${aerospaceDisplaySync} --force || echo "AeroSpace display sync failed, continuing..."
       else

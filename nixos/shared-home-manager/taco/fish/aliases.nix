@@ -74,7 +74,8 @@ let
   };
   inherit (agentCommands)
     codexBaseCommand
-    codexBaseCommand54
+    codexBaseCommandMedium
+    codexBaseCommandLunaMedium
     codexCommand
     codexReviewTodayPrompt
     codexSakanaBaseCommand
@@ -129,12 +130,12 @@ in
     wnu = "${tmuxWindowNameUpdate}/bin/tmux-window-name-update --auto-all";
     vim = "nvim";
     n = "nvim";
-    # `high` is not part of the model name; configure it via
-    # `model_reasoning_effort = "high"` in `~/.codex/config.toml`.
+    # `high` is not part of the model name; set `co`'s reasoning effort
+    # explicitly so it does not inherit a higher default from Codex config.
     # Keep the shared flags in Nix so aliases and functions do not depend on
     # another fish alias being present.
-    co = codexBaseCommand;
-    coo = codexBaseCommand54;
+    co = codexBaseCommandMedium;
+    coo = codexBaseCommandLunaMedium;
     cof = codexSakanaBaseCommand;
     cofu = codexSakanaUltraBaseCommand;
     codex-fugu = codexSakanaBaseCommand;

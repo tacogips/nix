@@ -22,6 +22,7 @@
     kindle.enable = true;
     peekaboo.enable = true;
     riela.enable = true;
+    tailscale.enable = true;
     xcode.enable = true;
   };
 }

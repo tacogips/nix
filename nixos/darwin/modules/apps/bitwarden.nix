@@ -5,10 +5,16 @@ let
 in
 {
   options.taco.darwin.apps.bitwarden.enable =
-    lib.mkEnableOption "Bitwarden installed from the Mac App Store";
+    lib.mkEnableOption "Bitwarden and the Secrets Manager CLI";
 
   config = lib.mkIf cfg.enable {
-    homebrew.enable = true;
-    homebrew.masApps.Bitwarden = 1352778147;
+    taco.darwin.homebrew.taps = [ "tonyxiao/tap" ];
+    taco.darwin.homebrew.trustedTaps = [ "tonyxiao/tap" ];
+
+    homebrew = {
+      enable = true;
+      brews = [ "tonyxiao/tap/bws" ];
+      masApps.Bitwarden = 1352778147;
+    };
   };
 }

@@ -24,6 +24,7 @@
     ./kindle.nix
     ./peekaboo.nix
     ./riela.nix
+    ./tailscale.nix
     ./xcode.nix
   ];
 }

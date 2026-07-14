@@ -9,7 +9,6 @@
       dataRoot = "/Volumes/Data";
       backupRoot = "/Volumes/Backup";
       installJellyfinCask = true;
-      startNetworkServices = true;
     };
   };
 }

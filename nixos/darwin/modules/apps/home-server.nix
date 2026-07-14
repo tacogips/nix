@@ -54,12 +54,6 @@ in
       default = true;
       description = "Install the Jellyfin macOS app with Homebrew Cask.";
     };
-
-    startNetworkServices = lib.mkOption {
-      type = lib.types.bool;
-      default = true;
-      description = "Start network-facing Homebrew services that are safe without app-specific secrets.";
-    };
   };
 
   config = lib.mkIf cfg.enable {
@@ -68,13 +62,11 @@ in
       startColimaService = true;
     };
 
+    taco.darwin.apps.tailscale.enable = true;
+
     homebrew = {
       enable = true;
       brews = [
-        {
-          name = "tailscale";
-          start_service = cfg.startNetworkServices;
-        }
         "caddy"
         "ffmpeg"
         "filebrowser"
@@ -144,8 +136,11 @@ in
       - restic
       - rsync
       - smartmontools
-      - tailscale
       - yq
+
+      ## Installed from the Mac App Store
+
+      - Tailscale
 
       ## Runtime layout
 

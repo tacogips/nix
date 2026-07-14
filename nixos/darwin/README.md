@@ -54,6 +54,15 @@ Example server-oriented host module:
 The `profiles/taco-apps.nix` profile enables the full app set currently used by
 `taco-mac`.
 
+The desktop app profile installs Bitwarden from the Mac App Store and the
+Bitwarden Secrets Manager CLI (`bws`) from the `tonyxiao/tap/bws` Homebrew
+formula.
+
+The desktop app profile installs Tailscale from the Mac App Store. The
+home-server profile uses the same App Store variant rather than the Homebrew
+formula. During activation, the Tailscale module stops and removes an existing
+Homebrew formula installation before installing the App Store app.
+
 The desktop app profile includes Peekaboo from `steipete/tap/peekaboo`. Shared
 Home Manager Cursor configuration exposes that Homebrew-installed binary as a
 Cursor MCP server with `peekaboo mcp serve --transport stdio`.
@@ -124,8 +133,9 @@ It imports `profiles/home-server.nix`, which enables:
   Codex CLI, Homebrew-managed Codex app, Claude Code, Cursor, and Cursor CLI. Fish and the NVF-backed Neovim
   configuration are inherited from the shared Darwin base and Home Manager
   modules.
-- Homebrew-managed host dependencies: `caddy`, `tailscale`, `ffmpeg`, `rclone`,
+- Homebrew-managed host dependencies: `caddy`, `ffmpeg`, `rclone`,
   `restic`, `filebrowser`, `smartmontools`, `rsync`, `jq`, and `yq`.
+- Tailscale through the Mac App Store.
 - Homebrew-managed container tools through `taco.darwin.apps.container-tools`:
   `container`, `colima`, `docker`, `docker-compose`, `podman`, and
   `podman-compose`.

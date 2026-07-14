@@ -11,12 +11,16 @@ let
   # Newer Codex CLI versions reject combining explicit approval policy with
   # the bypass flag, because bypass already disables approvals and sandboxing.
   codexBypassFlags = "--dangerously-bypass-approvals-and-sandbox";
+  codexMediumReasoningConfig = "-c 'model_reasoning_effort=\"medium\"'";
   codexHighReasoningConfig = "-c 'model_reasoning_effort=\"high\"'";
   codexGlobalFlags = "${codexBypassFlags} --model gpt-5.6-sol";
-  codexGlobalFlags54 = "${codexBypassFlags} --model gpt-5.4";
+  codexGlobalFlagsLuna = "${codexBypassFlags} --model gpt-5.6-luna";
+  codexGlobalFlagsMedium = "${codexGlobalFlags} ${codexMediumReasoningConfig}";
+  codexGlobalFlagsLunaMedium = "${codexGlobalFlagsLuna} ${codexMediumReasoningConfig}";
   codexGlobalFlagsHigh = "${codexGlobalFlags} ${codexHighReasoningConfig}";
   codexBaseCommand = "${codexCommand} ${codexGlobalFlags}";
-  codexBaseCommand54 = "${codexCommand} ${codexGlobalFlags54}";
+  codexBaseCommandMedium = "${codexCommand} ${codexGlobalFlagsMedium}";
+  codexBaseCommandLunaMedium = "${codexCommand} ${codexGlobalFlagsLunaMedium}";
   codexBaseCommandHigh = "${codexCommand} ${codexGlobalFlagsHigh}";
   codexSakanaProviderFlags = "-c 'model_provider=\"sakana\"' -c 'model_providers.sakana.name=\"Sakana API\"' -c 'model_providers.sakana.base_url=\"https://api.sakana.ai/v1\"' -c 'model_providers.sakana.env_key=\"SAKANA_API_KEY\"' -c 'model_providers.sakana.wire_api=\"responses\"' -c model_providers.sakana.stream_idle_timeout_ms=7200000 -c model_providers.sakana.stream_max_retries=5 -c model_providers.sakana.request_max_retries=4 -c 'model_reasoning_effort=\"high\"' -c features.image_generation=false -c features.apps=false";
   codexSakanaEnvBridge = ''set -q SAKANA_API_KEY; or set -lx SAKANA_API_KEY "$SAKANA_AI_API_KEY";'';
@@ -52,7 +56,8 @@ in
     claudeBaseCommand
     # claudeBifrostEnv
     codexBaseCommand
-    codexBaseCommand54
+    codexBaseCommandMedium
+    codexBaseCommandLunaMedium
     codexBaseCommandHigh
     codexCommand
     codexCursorLoopPrompt
