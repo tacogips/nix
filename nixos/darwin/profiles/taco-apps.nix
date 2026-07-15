@@ -7,6 +7,7 @@
     # Example only; Bifrost Gauge/Bifrost are not used.
     # bifrost-gauge.enable = true;
     brave.enable = true;
+    ccusage.enable = true;
     chilla.enable = true;
     claude.enable = true;
     claude-code.enable = true;

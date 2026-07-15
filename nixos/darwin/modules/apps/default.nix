@@ -7,6 +7,7 @@
     # Example only; Bifrost Gauge/Bifrost are not installed by default.
     # ./bifrost-gauge.nix
     ./brave.nix
+    ./ccusage.nix
     ./chilla.nix
     ./claude.nix
     ./claude-code.nix
