@@ -20,6 +20,7 @@
     just-press-record.enable = true;
     kinko.enable = true;
     kindle.enable = true;
+    libreoffice.enable = true;
     peekaboo.enable = true;
     riela.enable = true;
     tailscale.enable = true;

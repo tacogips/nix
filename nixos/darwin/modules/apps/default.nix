@@ -22,6 +22,7 @@
     ./just-press-record.nix
     ./kinko.nix
     ./kindle.nix
+    ./libreoffice.nix
     ./peekaboo.nix
     ./riela.nix
     ./tailscale.nix
