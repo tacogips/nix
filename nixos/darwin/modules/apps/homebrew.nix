@@ -32,6 +32,7 @@ in
       autoUpdate = lib.mkDefault true;
       upgrade = lib.mkDefault true;
       cleanup = lib.mkDefault "none";
+      extraEnv.HOMEBREW_AUTO_UPDATE_SECS = lib.mkDefault "0";
     };
 
     system.activationScripts.preActivation.text = ''
