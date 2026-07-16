@@ -8,6 +8,7 @@
     # ./bifrost-gauge.nix
     ./brave.nix
     ./ccusage.nix
+    ./ccusage-gauge.nix
     ./chilla.nix
     ./claude.nix
     ./claude-code.nix

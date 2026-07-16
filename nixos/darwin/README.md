@@ -54,6 +54,10 @@ Example server-oriented host module:
 The `profiles/taco-apps.nix` profile enables the full app set currently used by
 `taco-mac`.
 
+The desktop app profile installs CCUsage Gauge from the
+`tacogips/tap/ccusage-gauge` Homebrew Cask. The existing `ccusage` app module
+installs the CLI that CCUsage Gauge reads for its usage data.
+
 The desktop app profile installs Bitwarden from the Mac App Store and the
 Bitwarden Secrets Manager CLI (`bws`) from the `tonyxiao/tap/bws` Homebrew
 formula.
