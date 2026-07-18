@@ -3,6 +3,7 @@
     adguard-for-safari.enable = true;
     amphetamine.enable = true;
     apple-developer.enable = true;
+    apple-gateway.enable = true;
     bitwarden.enable = true;
     # Example only; Bifrost Gauge/Bifrost are not used.
     # bifrost-gauge.enable = true;
@@ -23,9 +24,11 @@
     kinko.enable = true;
     kindle.enable = true;
     libreoffice.enable = true;
+    mail-gateway.enable = true;
     peekaboo.enable = true;
     riela.enable = true;
     tailscale.enable = true;
+    x-gateway.enable = true;
     xcode.enable = true;
   };
 }

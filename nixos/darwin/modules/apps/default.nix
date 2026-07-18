@@ -3,6 +3,7 @@
     ./adguard-for-safari.nix
     ./amphetamine.nix
     ./apple-developer.nix
+    ./apple-gateway.nix
     ./bitwarden.nix
     # Example only; Bifrost Gauge/Bifrost are not installed by default.
     # ./bifrost-gauge.nix
@@ -25,9 +26,11 @@
     ./kinko.nix
     ./kindle.nix
     ./libreoffice.nix
+    ./mail-gateway.nix
     ./peekaboo.nix
     ./riela.nix
     ./tailscale.nix
+    ./x-gateway.nix
     ./xcode.nix
   ];
 }

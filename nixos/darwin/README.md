@@ -124,6 +124,13 @@ Homebrew wrapper trusts those taps as the configured Homebrew user before
 `brew bundle` runs, which avoids activation failures when
 `HOMEBREW_REQUIRE_TAP_TRUST` is enforced.
 
+The `taco-apps` profile installs the published `apple-gateway`,
+`x-gateway-reader`, `x-gateway-writer`, `mail-gateway-reader`,
+`mail-gateway-draft`, and `mail-gateway-sender` formulae from `tacogips/tap`.
+Their authentication keys belong in Kinko shared scope so the commands work
+outside their source checkouts; interactive Fish shells import shared Kinko
+secrets automatically.
+
 ## Home Server Host
 
 `darwin-mac-home-server` is a server-oriented host for the Mac home-server
