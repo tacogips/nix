@@ -11,6 +11,7 @@ in
 {
   imports = [
     # Darwin-specific modules
+    ./apple-gateway
     ./ghostty.nix
     ./fish # Import Darwin-specific fish configuration
     ./aerospace.nix # AeroSpace window manager configuration

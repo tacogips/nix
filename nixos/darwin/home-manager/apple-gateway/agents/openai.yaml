@@ -1,0 +1,7 @@
+interface:
+  display_name: "Apple Gateway"
+  short_description: "Use Apple apps through the apple-gateway CLI"
+  default_prompt: "Use $apple-gateway to inspect my Apple data with the installed CLI."
+
+policy:
+  allow_implicit_invocation: true

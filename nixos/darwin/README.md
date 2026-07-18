@@ -131,6 +131,13 @@ Their authentication keys belong in Kinko shared scope so the commands work
 outside their source checkouts; interactive Fish shells import shared Kinko
 secrets automatically.
 
+Darwin Home Manager also installs the `apple-gateway` Codex user skill as real
+files under `~/.agents/skills/apple-gateway/`. The skill uses the installed CLI
+and its live GraphQL schema to work with Calendar, Reminders, Notes, Mail,
+notifications, and Clock alarms, while the source checkout at
+`~/gits/tacogips/apple-gateway` remains available for implementation details and
+troubleshooting.
+
 ## Home Server Host
 
 `darwin-mac-home-server` is a server-oriented host for the Mac home-server
