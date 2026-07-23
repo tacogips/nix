@@ -10,6 +10,7 @@ let
   braveBrowserComputerUseRoot = ../skills/brave-browser-computer-use;
   gitPrecommitSafetyCheckRoot = ../skills/git-precommit-safety-check;
   improveRoot = ../skills/improve;
+  productHuntReleaseRoot = ../skills/product-hunt-release;
   rielaRoot = ../skills/riela;
 in
 {
@@ -96,6 +97,13 @@ in
     install_skill_file \
       "${improveRoot}/agents/openai.yaml" \
       "$AGENTS_SKILLS_DIR/improve/agents/openai.yaml"
+
+    install_skill_file \
+      "${productHuntReleaseRoot}/codex-SKILL.md" \
+      "$AGENTS_SKILLS_DIR/product-hunt-release/SKILL.md"
+    install_skill_file \
+      "${productHuntReleaseRoot}/agents/openai.yaml" \
+      "$AGENTS_SKILLS_DIR/product-hunt-release/agents/openai.yaml"
 
     install_skill_file \
       "${rielaRoot}/codex-SKILL.md" \

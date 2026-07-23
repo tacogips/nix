@@ -1,13 +1,16 @@
 ---
 name: apple-gateway
-description: Use the installed apple-gateway macOS CLI to inspect or modify Apple Calendar events, Reminders, Notes, Mail, notifications, and Clock alarms; diagnose Apple app permissions; print the GraphQL schema; download materialized files; or prune the gateway cache. Use when Codex needs to work with the user's Apple app data through apple-gateway on Darwin.
+description: Diagnose and administer the installed apple-gateway macOS CLI, including permission status and requests, live GraphQL schema inspection, materialized file downloads, configuration validation, and cache pruning. Use for apple-gateway setup, troubleshooting, permissions, or cross-domain CLI administration on Darwin; use the dedicated Apple app skill for Calendar, Reminders, Notes, Mail, notifications, or Clock alarm tasks.
 ---
 
 # Apple Gateway
 
-Use the installed `apple-gateway` commands as the interface to Apple apps. Treat
-the live CLI schema and help as authoritative because the source project can
-evolve independently of this skill.
+Use the installed `apple-gateway` commands for cross-domain administration and
+diagnostics. Delegate app data work to `apple-calendar`, `apple-reminders`,
+`apple-schedule`, `apple-notes`, `apple-mail`, `apple-notifications`, or
+`apple-clock-alarms`.
+Treat the live CLI schema and help as authoritative because the source project
+can evolve independently of this skill.
 
 ## Workflow
 
