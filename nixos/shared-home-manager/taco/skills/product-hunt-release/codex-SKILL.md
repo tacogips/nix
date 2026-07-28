@@ -1,6 +1,6 @@
 ---
 name: product-hunt-release
-description: Prepare, create, review, and schedule Product Hunt launches from a product repository. Use when Codex needs to submit a product to Product Hunt, build or update a Product Hunt draft, choose launch copy and media, associate makers, select pricing or tags, recommend an audience-aware launch date, schedule a launch, or verify Product Hunt launch status.
+description: Prepare, create, review, and schedule Product Hunt launches from a product repository. Use when Codex needs to submit a product to Product Hunt, build or update a Product Hunt draft, choose launch copy and media, configure Built With or Shoutouts, associate makers, select pricing or tags, assess Product Hunt API support, recommend an audience-aware launch date, schedule a launch, or verify Product Hunt launch status.
 ---
 
 # Product Hunt Release
@@ -44,6 +44,7 @@ sources, including:
 - package or application metadata;
 - license and pricing evidence;
 - current release and installation instructions;
+- dependency manifests, build configuration, and runtime integrations;
 - logo, app icon, screenshots, and demo links;
 - website, repository, store, and social links.
 
@@ -78,6 +79,18 @@ Draft concise, factual content:
 Avoid unsupported superlatives, fabricated adoption, and security or privacy
 claims not supported by the product.
 
+Prepare Built With/Shoutouts from repository evidence:
+
+- include only products that materially power the shipped product and have a
+  genuine Product Hunt product entry;
+- prioritize a required runtime or data source, the primary implementation
+  platform, and a substantial user-facing framework;
+- do not use incidental developer tools, optional install channels, or popular
+  products merely for exposure;
+- search Product Hunt for each candidate and verify the exact product identity
+  before selecting it;
+- omit a candidate when its Product Hunt identity is ambiguous or unavailable.
+
 Select media in this order:
 
 1. a square logo or app icon for the thumbnail;
@@ -99,10 +112,13 @@ or low-value images. Generate new promotional artwork only when the user asks.
 4. Before entering content that Product Hunt may auto-save, present the proposed
    launch package and request action-time confirmation.
 5. Enter the approved details and upload only approved assets.
-6. Verify tags, open-source state, pricing, maker attribution, gallery order,
-   and first comment.
-7. Create a draft or open the scheduler according to the requested outcome.
-8. Inspect the completion page or status banner after the action.
+6. Search and add the approved Built With/Shoutout products. Treat selecting a
+   result as an immediate representational change unless the UI clearly defers
+   it to a later save action.
+7. Verify tags, open-source state, pricing, maker attribution, Built
+   With/Shoutouts, gallery order, and first comment.
+8. Create a draft or open the scheduler according to the requested outcome.
+9. Inspect the completion page or status banner after the action.
 
 Do not schedule or publish while the user asked only for preparation or a
 draft. Do not call a draft or scheduled launch "published."
@@ -128,6 +144,26 @@ confirmation button. Explain that confirmation will publicly schedule the
 launch, name the exact date and time, and request action-time approval. After
 approval, confirm the schedule and verify the resulting banner.
 
+## Product Hunt API decision
+
+Check the current official Product Hunt API documentation before choosing an
+automation path. The existence of GraphQL write scope does not by itself mean
+that product launch creation or scheduling is supported.
+
+Use the API only when all of the following are true:
+
+- the current official schema documents the exact required mutation;
+- the user's application has Product Hunt-approved write access;
+- the mutation covers every required field and the desired draft, schedule, or
+  publish state;
+- using the API complies with Product Hunt's current terms and the user's
+  authorization.
+
+Do not create an OAuth application, request credentials, or solicit expanded API
+access without explicit user authorization. When the public documented API lacks
+the launch mutation or approved scope, use Product Hunt's visible submission UI.
+Never infer an undocumented mutation or automate a private endpoint.
+
 ## Completion checks
 
 Verify and report:
@@ -138,6 +174,7 @@ Verify and report:
 - product name and tagline;
 - thumbnail and gallery image count;
 - pricing, open-source state, tags, and maker attribution;
+- Built With/Shoutouts, including intentionally omitted candidates;
 - any intentionally omitted optional fields.
 
 Report only state visibly confirmed by Product Hunt.
