@@ -75,6 +75,7 @@ let
   inherit (agentCommands)
     codexBaseCommand
     codexBaseCommandMedium
+    codexBaseCommandTerraMedium
     codexBaseCommandLunaMedium
     codexCommand
     codexReviewTodayPrompt
@@ -134,8 +135,9 @@ in
     # explicitly so it does not inherit a higher default from Codex config.
     # Keep the shared flags in Nix so aliases and functions do not depend on
     # another fish alias being present.
-    co = codexBaseCommandMedium;
-    coo = codexBaseCommandLunaMedium;
+    co = codexBaseCommandTerraMedium;
+    coo = codexBaseCommandMedium;
+    col = codexBaseCommandLunaMedium;
     cof = codexSakanaBaseCommand;
     cofu = codexSakanaUltraBaseCommand;
     codex-fugu = codexSakanaBaseCommand;

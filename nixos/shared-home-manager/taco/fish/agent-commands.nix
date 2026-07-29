@@ -14,12 +14,15 @@ let
   codexMediumReasoningConfig = "-c 'model_reasoning_effort=\"medium\"'";
   codexHighReasoningConfig = "-c 'model_reasoning_effort=\"high\"'";
   codexGlobalFlags = "${codexBypassFlags} --model gpt-5.6-sol";
+  codexGlobalFlagsTerra = "${codexBypassFlags} --model gpt-5.6-terra";
   codexGlobalFlagsLuna = "${codexBypassFlags} --model gpt-5.6-luna";
   codexGlobalFlagsMedium = "${codexGlobalFlags} ${codexMediumReasoningConfig}";
+  codexGlobalFlagsTerraMedium = "${codexGlobalFlagsTerra} ${codexMediumReasoningConfig}";
   codexGlobalFlagsLunaMedium = "${codexGlobalFlagsLuna} ${codexMediumReasoningConfig}";
   codexGlobalFlagsHigh = "${codexGlobalFlags} ${codexHighReasoningConfig}";
   codexBaseCommand = "${codexCommand} ${codexGlobalFlags}";
   codexBaseCommandMedium = "${codexCommand} ${codexGlobalFlagsMedium}";
+  codexBaseCommandTerraMedium = "${codexCommand} ${codexGlobalFlagsTerraMedium}";
   codexBaseCommandLunaMedium = "${codexCommand} ${codexGlobalFlagsLunaMedium}";
   codexBaseCommandHigh = "${codexCommand} ${codexGlobalFlagsHigh}";
   codexSakanaProviderFlags = "-c 'model_provider=\"sakana\"' -c 'model_providers.sakana.name=\"Sakana API\"' -c 'model_providers.sakana.base_url=\"https://api.sakana.ai/v1\"' -c 'model_providers.sakana.env_key=\"SAKANA_API_KEY\"' -c 'model_providers.sakana.wire_api=\"responses\"' -c model_providers.sakana.stream_idle_timeout_ms=7200000 -c model_providers.sakana.stream_max_retries=5 -c model_providers.sakana.request_max_retries=4 -c 'model_reasoning_effort=\"high\"' -c features.image_generation=false -c features.apps=false";
@@ -57,6 +60,7 @@ in
     # claudeBifrostEnv
     codexBaseCommand
     codexBaseCommandMedium
+    codexBaseCommandTerraMedium
     codexBaseCommandLunaMedium
     codexBaseCommandHigh
     codexCommand
