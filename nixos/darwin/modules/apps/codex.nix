@@ -5,12 +5,13 @@ let
 in
 {
   options.taco.darwin.apps.codex.enable =
-    lib.mkEnableOption "OpenAI Codex desktop app installed with Homebrew";
+    lib.mkEnableOption "OpenAI Codex CLI and desktop app installed with Homebrew";
 
   config = lib.mkIf cfg.enable {
     homebrew = {
       enable = true;
       casks = [
+        "codex"
         "codex-app"
       ];
     };

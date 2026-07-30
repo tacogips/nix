@@ -61,7 +61,7 @@ in
     nixd # nix lsp
 
     # claude-code: installed via Homebrew on Darwin
-    # codex: installed by the activation hook below through the official installer
+    # codex: installed via Homebrew on Darwin
     # cursor-cli: installed via shared Home Manager config on Darwin
 
     # macOS applications
@@ -86,34 +86,12 @@ in
   # Enable home-manager
   programs.home-manager.enable = true;
 
-  # Temporary workaround for Codex CLI package layouts that do not include
-  # codex-code-mode-host next to the Homebrew-installed codex binary. Revisit
-  # this when a newer Codex/Homebrew release consistently ships a working host.
-  home.activation.codexCliStandalone = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
-    echo "Installing latest Codex CLI with the official standalone installer..."
-    $DRY_RUN_CMD ${pkgs.coreutils}/bin/mkdir -p "$HOME/.local/bin"
-    if [ -z "''${DRY_RUN_CMD:-}" ]; then
-      # The upstream installer currently shells out to standard text/archive
-      # tools while resolving and unpacking release assets. This PATH can be
-      # trimmed if a future installer no longer depends on these external tools.
-      export PATH="${
-        lib.makeBinPath [
-          pkgs.coreutils
-          pkgs.curl
-          pkgs.findutils
-          pkgs.gawk
-          pkgs.gnugrep
-          pkgs.gnused
-          pkgs.gnutar
-          pkgs.gzip
-        ]
-      }:$PATH"
-      ${pkgs.curl}/bin/curl -fsSL https://chatgpt.com/codex/install.sh \
-        | CODEX_NON_INTERACTIVE=1 \
-          CODEX_RELEASE=latest \
-          CODEX_INSTALL_DIR="$HOME/.local/bin" \
-          sh
-    fi
+  # Remove the links left by the retired standalone installer so that the
+  # Homebrew-managed Codex CLI wins even though ~/.local/bin remains on PATH.
+  home.activation.removeStandaloneCodexCli = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+    $DRY_RUN_CMD ${pkgs.coreutils}/bin/rm -f \
+      "$HOME/.local/bin/codex" \
+      "$HOME/.local/bin/codex-code-mode-host"
   '';
 
   home.activation.dockerCliPluginsConfig = lib.hm.dag.entryAfter [ "writeBoundary" ] ''

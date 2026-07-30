@@ -81,7 +81,9 @@ The desktop app profile installs the Cline client through the Homebrew formula
 
 The desktop app profile installs Claude Desktop through the Homebrew Cask
 `claude`. This is separate from `claude-code`, which installs the terminal-based
-Claude Code tool.
+Claude Code tool from the rolling `claude-code@latest` Cask. During activation,
+the Claude Code module removes an existing stable `claude-code` Cask before
+Homebrew installs the latest release channel.
 
 The shared Neovim configuration enables the Java `jdtls` LSP server, but on
 Darwin the server binary is installed through Homebrew's bottled `jdtls`
@@ -150,10 +152,10 @@ remote access.
 
 It imports `profiles/home-server.nix`, which enables:
 
-- Agent and editor tooling matching the main Darwin host: standalone-installed
-  Codex CLI, Homebrew-managed Codex app, Claude Code, Cursor, and Cursor CLI. Fish and the NVF-backed Neovim
-  configuration are inherited from the shared Darwin base and Home Manager
-  modules.
+- Agent and editor tooling matching the main Darwin host: Homebrew-managed
+  Codex CLI and app, Claude Code, Cursor, and Cursor CLI. Fish and the
+  NVF-backed Neovim configuration are inherited from the shared Darwin base and
+  Home Manager modules.
 - Homebrew-managed host dependencies: `caddy`, `ffmpeg`, `rclone`,
   `restic`, `filebrowser`, `smartmontools`, `rsync`, `jq`, and `yq`.
 - Tailscale through the Mac App Store.

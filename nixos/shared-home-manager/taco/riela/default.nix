@@ -6,6 +6,10 @@
 let
   rielaBinary = if riela-pkg != null then "${riela-pkg}/bin/riela" else "riela";
 
+  requiredCodexSkillPackages = [
+    "fable-and-improve"
+  ];
+
   devWorkflowPackages = [
     "claude-code-adversarial-implementation-review-loop"
     "claude-code-deepdesign"
@@ -37,7 +41,9 @@ let
     "cursor-cli-hydra-codex-design-and-implement-review-loop"
     "cursor-cli-goal"
     "cursor-cli-developer-workflows"
-    "fable-and-improve"
+  ]
+  ++ requiredCodexSkillPackages
+  ++ [
     "riela-package-manager-skill"
     "riela-package-release-skill"
     "riela-temporary-workflow-skill"
@@ -174,6 +180,15 @@ in
       done
 
       cleanup_riela_skill_artifacts
+
+      for package_id in ${lib.concatStringsSep " " requiredCodexSkillPackages}; do
+        skill_file="$HOME/.codex/skills/$package_id/SKILL.md"
+
+        if [ ! -f "$skill_file" ]; then
+          echo "Error: riela package '$package_id' did not install its required Codex skill at '$skill_file'" >&2
+          exit 1
+        fi
+      done
     else
       echo "Warning: riela command not found; skipping riela development workflow package install"
     fi
