@@ -135,8 +135,8 @@ in
     # explicitly so it does not inherit a higher default from Codex config.
     # Keep the shared flags in Nix so aliases and functions do not depend on
     # another fish alias being present.
-    co = codexBaseCommandTerraMedium;
-    coo = codexBaseCommandMedium;
+    co = codexBaseCommandMedium;
+    cot = codexBaseCommandTerraMedium;
     col = codexBaseCommandLunaMedium;
     cof = codexSakanaBaseCommand;
     cofu = codexSakanaUltraBaseCommand;
