@@ -66,7 +66,11 @@
     enable = true;
     onActivation.autoUpdate = true;
     onActivation.cleanup = "none";
-    taps = [ ];
+    taps = [ "tacogips/tap" ];
+    brews = [
+      # Wrike API CLI: installs wrike-gateway-reader/-writer/-admin
+      "tacogips/tap/wrike-gateway"
+    ];
     casks = [
     ];
   };
