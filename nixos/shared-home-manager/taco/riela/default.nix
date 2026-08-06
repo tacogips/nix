@@ -10,6 +10,13 @@ let
     "fable-and-improve"
   ];
 
+  requiredClaudeSkillPackages = [
+    "fable-and-improve"
+    "fable-and-improve-opus"
+  ];
+
+  requiredWorkflowPackages = lib.unique (requiredCodexSkillPackages ++ requiredClaudeSkillPackages);
+
   devWorkflowPackages = [
     "claude-code-adversarial-implementation-review-loop"
     "claude-code-deepdesign"
@@ -42,7 +49,7 @@ let
     "cursor-cli-goal"
     "cursor-cli-developer-workflows"
   ]
-  ++ requiredCodexSkillPackages
+  ++ requiredWorkflowPackages
   ++ [
     "riela-package-manager-skill"
     "riela-package-release-skill"
@@ -186,6 +193,15 @@ in
 
         if [ ! -f "$skill_file" ]; then
           echo "Error: riela package '$package_id' did not install its required Codex skill at '$skill_file'" >&2
+          exit 1
+        fi
+      done
+
+      for package_id in ${lib.concatStringsSep " " requiredClaudeSkillPackages}; do
+        skill_file="$HOME/.claude/skills/$package_id/SKILL.md"
+
+        if [ ! -f "$skill_file" ]; then
+          echo "Error: riela package '$package_id' did not install its required Claude skill at '$skill_file'" >&2
           exit 1
         fi
       done

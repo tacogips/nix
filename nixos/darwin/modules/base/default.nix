@@ -35,6 +35,25 @@
     trusted-users = [ "@admin" ];
   };
 
+  # Nix is installed outside nix-darwin, so invoke its stable profile path.
+  launchd.daemons.nix-garbage-collector = {
+    serviceConfig = {
+      Label = "org.nixos.nix-garbage-collector";
+      ProgramArguments = [
+        "/nix/var/nix/profiles/default/bin/nix-collect-garbage"
+      ];
+      StartCalendarInterval = {
+        Weekday = 0;
+        Hour = 3;
+        Minute = 15;
+      };
+      ProcessType = "Background";
+      LowPriorityIO = true;
+      StandardOutPath = "/var/log/nix-garbage-collector.log";
+      StandardErrorPath = "/var/log/nix-garbage-collector.log";
+    };
+  };
+
   fonts.packages = import ../../packages/fonts.nix { inherit pkgs; };
 
   nixpkgs.config.allowUnfree = true;

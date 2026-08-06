@@ -12,6 +12,15 @@ let
   improveRoot = ../skills/improve;
   productHuntReleaseRoot = ../skills/product-hunt-release;
   rielaRoot = ../skills/riela;
+  # Upstream: https://github.com/cathrynlavery/diagram-design
+  diagramDesignRoot =
+    (pkgs.fetchFromGitHub {
+      owner = "cathrynlavery";
+      repo = "diagram-design";
+      rev = "a157f7616473d966d6f433cf0b4d4f1880603504";
+      hash = "sha256-tJVDM9Ujeu4mXLB6SHk62zxIJ0m+VqJu6xX7fJ8IwAo=";
+    })
+    + "/skills/diagram-design";
 in
 {
   home.activation.codexSkills = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
@@ -112,11 +121,16 @@ in
       "${rielaRoot}/agents/openai.yaml" \
       "$AGENTS_SKILLS_DIR/riela/agents/openai.yaml"
 
+    rm -rf "$AGENTS_SKILLS_DIR/diagram-design"
+    cp -R "${diagramDesignRoot}" "$AGENTS_SKILLS_DIR/diagram-design"
+    chmod -R u+w "$AGENTS_SKILLS_DIR/diagram-design"
+
     rm -rf "$AGENTS_SKILLS_DIR/code-with-composer"
     rm -rf "$OLD_CODEX_SKILLS_DIR/secure-github-action"
     rm -rf "$OLD_CODEX_SKILLS_DIR/envrc-generate"
     rm -rf "$OLD_CODEX_SKILLS_DIR/code-with-cursor"
     rm -rf "$OLD_CODEX_SKILLS_DIR/code-with-composer"
     rm -rf "$OLD_CODEX_SKILLS_DIR/brave-browser-computer-use"
+    rm -rf "$OLD_CODEX_SKILLS_DIR/diagram-design"
   '';
 }

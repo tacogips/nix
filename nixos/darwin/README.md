@@ -28,6 +28,13 @@ profiles/
 Add a new host by creating `hosts/<host-name>/default.nix` and registering it in
 `flake.nix` through `lib/mkDarwinConfiguration.nix`.
 
+## Nix maintenance
+
+The shared base module registers the system launchd daemon
+`org.nixos.nix-garbage-collector`. It runs `nix-collect-garbage` every Sunday
+at 03:15 and writes its output to `/var/log/nix-garbage-collector.log`. It only
+removes unreferenced store paths; it does not delete profile generations.
+
 ## App modules
 
 Reusable app installation modules live in `modules/apps/`. Each app exposes a
@@ -139,9 +146,11 @@ diagnostics and permissions; `apple-calendar`, `apple-reminders`, `apple-notes`,
 `apple-schedule`, `apple-mail`, `apple-notifications`, and
 `apple-clock-alarms` provide focused workflows for each Apple app domain.
 Calendar containers and scheduled events are deliberately separate skills.
-They use the installed CLI and its live GraphQL schema, while the source
-checkout at `~/gits/tacogips/apple-gateway` remains available for implementation
-details and troubleshooting.
+Skill files are replaced atomically during Home Manager activation so agent
+skill discovery never observes a removed intermediate path. They use the
+installed CLI and its live GraphQL schema, while the source checkout at
+`~/gits/tacogips/apple-gateway` remains available for implementation details
+and troubleshooting.
 
 ## Home Server Host
 

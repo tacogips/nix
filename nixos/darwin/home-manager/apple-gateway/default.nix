@@ -28,15 +28,20 @@ in
       local source_path="$1"
       local target_path="$2"
       local target_dir
+      local target_name
+      local target_tmp
 
       target_dir="$(dirname "$target_path")"
+      target_name="$(basename "$target_path")"
+      target_tmp="$target_dir/.$target_name.tmp.$$"
       mkdir -p "$target_dir"
 
-      if [ -L "$target_path" ] || [ -e "$target_path" ]; then
-        rm -f "$target_path"
+      if ! cp "$source_path" "$target_tmp"; then
+        rm -f "$target_tmp"
+        return 1
       fi
 
-      cp "$source_path" "$target_path"
+      mv -f "$target_tmp" "$target_path"
     }
 
     install_skill_file \
