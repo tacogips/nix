@@ -29,6 +29,8 @@ in
     new_cwd = "follow"
 
     [keys]
+    new_workspace = "alt+t"
+    new_tab = "alt+n"
     switch_tab = "alt+1..9"
     zoom = "alt+f"
   '';
