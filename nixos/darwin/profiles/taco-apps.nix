@@ -18,6 +18,7 @@
     container-tools.enable = true;
     cursor.enable = true;
     ghostty.enable = true;
+    herdr.enable = true;
     ign.enable = true;
     jdtls.enable = true;
     just-press-record.enable = true;

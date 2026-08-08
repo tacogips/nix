@@ -182,54 +182,56 @@ let
         run_editor "$target_file"
       }
 
-      tmux_pane_is_editor() {
-        [[ "$1" == "$editor_program" ]]
-      }
+      ${lib.optionalString (!pkgs.stdenv.hostPlatform.isDarwin) ''
+        tmux_pane_is_editor() {
+          [[ "$1" == "$editor_program" ]]
+        }
 
-      reset_tmux_pane_to_shell() {
-        local target_pane target_dir shell_path
+        reset_tmux_pane_to_shell() {
+          local target_pane target_dir shell_path
 
-        target_pane="$1"
-        target_dir="$2"
-        shell_path="''${SHELL:-${pkgs.fish}/bin/fish}"
+          target_pane="$1"
+          target_dir="$2"
+          shell_path="''${SHELL:-${pkgs.fish}/bin/fish}"
 
-        ${pkgs.tmux}/bin/tmux respawn-pane -k -t "$target_pane" -c "$target_dir" "$shell_path -l"
-      }
+          ${pkgs.tmux}/bin/tmux respawn-pane -k -t "$target_pane" -c "$target_dir" "$shell_path -l"
+        }
 
-      open_in_tmux_directory() {
-        local target_dir target_pane pane_command
+        open_in_tmux_directory() {
+          local target_dir target_pane pane_command
 
-        target_dir="$1"
-        target_pane="$2"
-        pane_command="$3"
+          target_dir="$1"
+          target_pane="$2"
+          pane_command="$3"
 
-        if tmux_pane_is_editor "$pane_command"; then
-          reset_tmux_pane_to_shell "$target_pane" "$target_dir"
-          return
-        fi
+          if tmux_pane_is_editor "$pane_command"; then
+            reset_tmux_pane_to_shell "$target_pane" "$target_dir"
+            return
+          fi
 
-        ${pkgs.tmux}/bin/tmux send-keys -t "$target_pane" C-c
-        ${pkgs.tmux}/bin/tmux send-keys -t "$target_pane" "cd -- $(shell_escape "$target_dir")"
-        ${pkgs.tmux}/bin/tmux send-keys -t "$target_pane" Enter
-      }
+          ${pkgs.tmux}/bin/tmux send-keys -t "$target_pane" C-c
+          ${pkgs.tmux}/bin/tmux send-keys -t "$target_pane" "cd -- $(shell_escape "$target_dir")"
+          ${pkgs.tmux}/bin/tmux send-keys -t "$target_pane" Enter
+        }
 
-      open_in_tmux_file() {
-        local target_file target_dir pane_command
+        open_in_tmux_file() {
+          local target_file target_dir pane_command
 
-        target_file="$1"
-        target_dir="$(parent_dir "$target_file")"
-        pane_command="$2"
+          target_file="$1"
+          target_dir="$(parent_dir "$target_file")"
+          pane_command="$2"
 
-        if tmux_pane_is_editor "$pane_command"; then
-          reset_tmux_pane_to_shell "$TACO_TMUX_EDITOR_PANE" "$target_dir"
-        fi
+          if tmux_pane_is_editor "$pane_command"; then
+            reset_tmux_pane_to_shell "$TACO_TMUX_EDITOR_PANE" "$target_dir"
+          fi
 
-        ${pkgs.tmux}/bin/tmux send-keys -t "$TACO_TMUX_EDITOR_PANE" C-c
-        ${pkgs.tmux}/bin/tmux send-keys -t "$TACO_TMUX_EDITOR_PANE" "cd -- $(shell_escape "$target_dir")"
-        ${pkgs.tmux}/bin/tmux send-keys -t "$TACO_TMUX_EDITOR_PANE" Enter
-        ${pkgs.tmux}/bin/tmux send-keys -t "$TACO_TMUX_EDITOR_PANE" "$editor_command -- $(shell_escape "$target_file")"
-        ${pkgs.tmux}/bin/tmux send-keys -t "$TACO_TMUX_EDITOR_PANE" Enter
-      }
+          ${pkgs.tmux}/bin/tmux send-keys -t "$TACO_TMUX_EDITOR_PANE" C-c
+          ${pkgs.tmux}/bin/tmux send-keys -t "$TACO_TMUX_EDITOR_PANE" "cd -- $(shell_escape "$target_dir")"
+          ${pkgs.tmux}/bin/tmux send-keys -t "$TACO_TMUX_EDITOR_PANE" Enter
+          ${pkgs.tmux}/bin/tmux send-keys -t "$TACO_TMUX_EDITOR_PANE" "$editor_command -- $(shell_escape "$target_file")"
+          ${pkgs.tmux}/bin/tmux send-keys -t "$TACO_TMUX_EDITOR_PANE" Enter
+        }
+      ''}
 
       mime_info="$(${pkgs.file}/bin/file -bL --mime -- "$file_path" 2>/dev/null || true)"
       mime_type="''${mime_info%%;*}"
@@ -242,29 +244,31 @@ let
         open_with_editor "$file_path"
       fi
 
-      if [[ -n "''${TMUX:-}" && -n "''${TACO_TMUX_EDITOR_PANE:-}" ]]; then
-        pane_command="$(${pkgs.tmux}/bin/tmux display-message -p -t "$TACO_TMUX_EDITOR_PANE" '#{pane_current_command}' 2>/dev/null || true)"
+      ${lib.optionalString (!pkgs.stdenv.hostPlatform.isDarwin) ''
+        if [[ -n "''${TMUX:-}" && -n "''${TACO_TMUX_EDITOR_PANE:-}" ]]; then
+          pane_command="$(${pkgs.tmux}/bin/tmux display-message -p -t "$TACO_TMUX_EDITOR_PANE" '#{pane_current_command}' 2>/dev/null || true)"
 
-        if [[ -z "$pane_command" ]]; then
-          open_with_editor "$file_path"
-        fi
-
-        if [[ -d "$file_path" ]]; then
-          target_pane="''${TACO_TMUX_DIRECTORY_PANE:-$TACO_TMUX_EDITOR_PANE}"
-          target_pane_command="$(${pkgs.tmux}/bin/tmux display-message -p -t "$target_pane" '#{pane_current_command}' 2>/dev/null || true)"
-
-          if [[ -z "$target_pane_command" ]]; then
-            target_pane="$TACO_TMUX_EDITOR_PANE"
-            target_pane_command="$pane_command"
+          if [[ -z "$pane_command" ]]; then
+            open_with_editor "$file_path"
           fi
 
-          open_in_tmux_directory "$file_path" "$target_pane" "$target_pane_command"
+          if [[ -d "$file_path" ]]; then
+            target_pane="''${TACO_TMUX_DIRECTORY_PANE:-$TACO_TMUX_EDITOR_PANE}"
+            target_pane_command="$(${pkgs.tmux}/bin/tmux display-message -p -t "$target_pane" '#{pane_current_command}' 2>/dev/null || true)"
+
+            if [[ -z "$target_pane_command" ]]; then
+              target_pane="$TACO_TMUX_EDITOR_PANE"
+              target_pane_command="$pane_command"
+            fi
+
+            open_in_tmux_directory "$file_path" "$target_pane" "$target_pane_command"
+            exit 0
+          fi
+
+          open_in_tmux_file "$file_path" "$pane_command"
           exit 0
         fi
-
-        open_in_tmux_file "$file_path" "$pane_command"
-        exit 0
-      fi
+      ''}
 
       open_with_editor "$file_path"
     '';
@@ -278,13 +282,6 @@ let
 
           for target_path in "$@"; do
             if [[ -d "$target_path" ]]; then
-              if [[ -n "''${TMUX:-}" && -n "''${TACO_TMUX_DIRECTORY_PANE:-}" ]]; then
-                ${pkgs.tmux}/bin/tmux send-keys -t "$TACO_TMUX_DIRECTORY_PANE" C-c
-                ${pkgs.tmux}/bin/tmux send-keys -t "$TACO_TMUX_DIRECTORY_PANE" "cd -- $(printf '%q' "$target_path")"
-                ${pkgs.tmux}/bin/tmux send-keys -t "$TACO_TMUX_DIRECTORY_PANE" Enter
-                continue
-              fi
-
               /usr/bin/open -na Ghostty.app --args --working-directory="$target_path"
             fi
           done

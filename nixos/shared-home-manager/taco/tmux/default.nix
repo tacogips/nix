@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ lib, pkgs, ... }:
 let
   tmuxLayoutApply = pkgs.writeShellApplication {
     name = "tmux-layout-apply";
@@ -112,7 +112,7 @@ let
   '';
 in
 {
-  programs.tmux = {
+  programs.tmux = lib.mkIf (!pkgs.stdenv.hostPlatform.isDarwin) {
     enable = true;
     clock24 = true;
     keyMode = "vi";

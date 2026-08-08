@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ lib, pkgs, ... }:
 
 let
   agentCommands = import ./agent-commands.nix { };
@@ -127,8 +127,7 @@ in
     kin = "kinko unlock ";
 
     pyac = "source ./venv/bin/activate.fish";
-    tm = "tmux";
-    wnu = "${tmuxWindowNameUpdate}/bin/tmux-window-name-update --auto-all";
+    tm = if pkgs.stdenv.hostPlatform.isDarwin then "herdr" else "tmux";
     vim = "nvim";
     n = "nvim";
     # `high` is not part of the model name; set `co`'s reasoning effort
@@ -150,5 +149,8 @@ in
     # pick a session (`cor`) and the `resume` subcommand for the latest (`corl`).
     crr = "${cursorBaseCommand} ls";
     crrl = "${cursorBaseCommand} resume";
+  }
+  // lib.optionalAttrs (!pkgs.stdenv.hostPlatform.isDarwin) {
+    wnu = "${tmuxWindowNameUpdate}/bin/tmux-window-name-update --auto-all";
   };
 }

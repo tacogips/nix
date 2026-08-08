@@ -34,8 +34,6 @@
   security.pam.services.sudo_local = {
     # This enables Touch ID for sudo using the new sudo_local file
     touchIdAuth = true;
-    # Enable pam_reattach for proper Touch ID support in tmux/screen
-    pamReattach = true;
   };
 
   # Preserve HOME environment variable when using sudo

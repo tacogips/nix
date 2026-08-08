@@ -9,7 +9,7 @@ let
   abbrs = import ./abbrs.nix;
 in
 {
-  home.packages = [ fishAliases.tmuxWindowNameUpdate ];
+  home.packages = lib.optional (!pkgs.stdenv.hostPlatform.isDarwin) fishAliases.tmuxWindowNameUpdate;
 
   programs.fish = {
     enable = true;

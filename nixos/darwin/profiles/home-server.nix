@@ -3,6 +3,7 @@
     claude-code.enable = true;
     codex.enable = true;
     cursor.enable = true;
+    herdr.enable = true;
 
     home-server = {
       enable = true;
