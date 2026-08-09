@@ -64,7 +64,8 @@ The `profiles/taco-apps.nix` profile enables the full app set currently used by
 The Darwin profiles use Herdr as their terminal multiplexer. Homebrew installs
 the `herdr` formula, Ghostty starts or attaches to Herdr automatically, and Home
 Manager writes `~/.config/herdr/config.toml`. `Alt+T` creates a workspace,
-`Alt+J` and `Alt+K` move to the previous and next workspace, and `Alt+1`
+`Alt+J` moves down to the next workspace, `Alt+K` moves up to the previous
+workspace, and `Alt+1`
 through `Alt+9` switch tabs directly. New tabs use Herdr's default `Prefix+C`
 binding, and `Alt+R` renames the current tab. `Alt+F` toggles the focused pane
 between zoomed and normal size.
