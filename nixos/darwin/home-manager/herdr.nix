@@ -30,7 +30,9 @@ in
 
     [keys]
     new_workspace = "alt+t"
-    new_tab = "alt+n"
+    previous_workspace = "alt+p"
+    next_workspace = "alt+n"
+    rename_tab = "alt+r"
     switch_tab = "alt+1..9"
     zoom = "alt+f"
   '';

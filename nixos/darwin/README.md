@@ -64,10 +64,12 @@ The `profiles/taco-apps.nix` profile enables the full app set currently used by
 The Darwin profiles use Herdr as their terminal multiplexer. Homebrew installs
 the `herdr` formula, Ghostty starts or attaches to Herdr automatically, and Home
 Manager writes `~/.config/herdr/config.toml`. `Alt+T` creates a workspace,
-`Alt+N` creates a tab, and `Alt+1` through `Alt+9` switch tabs directly.
-`Alt+F` toggles the focused pane between zoomed and normal size. Darwin no
-longer enables tmux or its `pam_reattach` support, and activation removes the
-retired `com.taco.tmux-window-title` launch agent.
+`Alt+P` and `Alt+N` move to the previous and next workspace, and `Alt+1`
+through `Alt+9` switch tabs directly. New tabs use Herdr's default `Prefix+C`
+binding, and `Alt+R` renames the current tab. `Alt+F` toggles the focused pane
+between zoomed and normal size.
+Darwin no longer enables tmux or its `pam_reattach` support, and activation
+removes the retired `com.taco.tmux-window-title` launch agent.
 
 The desktop app profile installs CCUsage Gauge from the
 `tacogips/tap/ccusage-gauge` Homebrew Cask. The existing `ccusage` app module
