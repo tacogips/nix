@@ -8,7 +8,9 @@
 let
   cfg = config.taco.ghostty;
   ghosttyCommand =
-    if cfg.autoStartTmux then
+    if cfg.startupCommand != null then
+      "direct:${cfg.startupCommand}"
+    else if cfg.autoStartTmux then
       let
         launchTmux = pkgs.writeShellScript "ghostty-launch-tmux" ''
           session_name="${cfg.tmuxSessionName}-$$-$(${pkgs.coreutils}/bin/date +%s)"
@@ -58,8 +60,14 @@ in
 
     autoStartTmux = lib.mkOption {
       type = lib.types.bool;
-      default = true;
+      default = !pkgs.stdenv.hostPlatform.isDarwin;
       description = "Whether Ghostty should launch directly into tmux.";
+    };
+
+    startupCommand = lib.mkOption {
+      type = with lib.types; nullOr str;
+      default = null;
+      description = "Optional executable Ghostty should launch instead of the login shell or tmux.";
     };
 
     tmuxSessionName = lib.mkOption {
@@ -88,7 +96,7 @@ in
       # When Ghostty launches tmux directly, Ghostty's shell integration hooks do
       # not attach to the interactive shell process. Disable integration in that
       # mode so fullscreen TUIs receive key input normally.
-      shell-integration = ${if cfg.autoStartTmux then "none" else "fish"}
+      shell-integration = ${if cfg.autoStartTmux || cfg.startupCommand != null then "none" else "fish"}
       initial-command = ${ghosttyCommand}
       command = ${ghosttyCommand}
       copy-on-select = false

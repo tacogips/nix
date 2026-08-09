@@ -20,6 +20,7 @@
     ./ghostty.nix
     ./home-server.nix
     ./homebrew.nix
+    ./herdr.nix
     ./ign.nix
     ./jdtls.nix
     ./just-press-record.nix
