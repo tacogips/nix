@@ -2,6 +2,12 @@
 
 This flake defines nix-darwin hosts for macOS.
 
+> Migration status: non-Homebrew/Cask packages and Darwin Home Manager tools
+> are commented out in the active module graph. Their replacements live in
+> `tacogips/mise-darwin`. This flake temporarily retains only the Homebrew/MAS
+> app declarations and system state needed while each host is verified before
+> Nix is uninstalled.
+
 ## Layout
 
 Reusable Darwin components are split by responsibility:

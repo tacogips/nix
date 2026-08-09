@@ -12,7 +12,9 @@
   user ? "taco",
   homeModules ? [ ],
   extraSpecialArgs ? { },
-  overlays ? import ../packages/overlays.nix,
+  # Darwin-only package overlays were needed by Nix-installed tools such as
+  # direnv. Those tools now come from mise/Homebrew.
+  overlays ? [ ],
 }:
 
 let
@@ -61,7 +63,8 @@ darwin.lib.darwinSystem {
         {
           imports = [
             ../home-manager
-            nvf.homeManagerModules.default
+            # Neovim moved to tacogips/mise-darwin as Lua + lazy.nvim.
+            # nvf.homeManagerModules.default
           ]
           ++ homeModules;
         };

@@ -50,14 +50,14 @@
     trusted-users = [ "@admin" ];
   };
 
-  # Configure fonts
-  fonts = {
-    fontDir.enable = true;
-    packages = with pkgs; [
-      jetbrains-mono
-      nerd-fonts.jetbrains-mono # Updated syntax for nerd-fonts
-    ];
-  };
+  # Migrated to tacogips/mise-darwin/Brewfile.common.
+  # fonts = {
+  #   fontDir.enable = true;
+  #   packages = with pkgs; [
+  #     jetbrains-mono
+  #     nerd-fonts.jetbrains-mono
+  #   ];
+  # };
 
   # Enable homebrew
   homebrew = {
@@ -84,44 +84,33 @@
   environment.pathsToLink = [ "/Applications" ];
   environment.variables.NIX_IGNORE_COLLISIONS = "1";
 
-  # Install basic system packages
-  environment.systemPackages = with pkgs; [
-    git
-    vim
-    curl
-    wget
-  ];
+  # Migrated to tacogips/mise-darwin ([bootstrap.packages]).
+  # environment.systemPackages = with pkgs; [
+  #   git
+  #   vim
+  #   curl
+  #   wget
+  # ];
 
   # Auto upgrade nix package and the daemon service
   nix.enable = true; # This replaces services.nix-daemon.enable which is deprecated
 
   # Create /etc/zshrc that loads the nix-darwin environment
-  programs.zsh.enable = true;
-  programs.fish.enable = true;
+  # Shell binaries and activation are managed by mise-darwin/Homebrew.
+  # programs.zsh.enable = true;
+  # programs.fish.enable = true;
 
   # Add fish to available shells and /etc/shells
-  environment.shells = [ pkgs.fish ];
+  # environment.shells = [ pkgs.fish ];
 
   # Add shell to /etc/shells
-  environment.etc."shells".text = ''
-    # List of acceptable shells for chpass(1).
-    # Ftpd will not allow users to connect who are not using
-    # one of these shells.
-
-    /bin/bash
-    /bin/csh
-    /bin/dash
-    /bin/ksh
-    /bin/sh
-    /bin/tcsh
-    /bin/zsh
-    ${pkgs.fish}/bin/fish
-  '';
+  # mise bootstrap adds Homebrew Fish to /etc/shells.
+  # environment.etc."shells".text = ''...'';
 
   # Set fish as default shell
-  users.users.taco = {
-    shell = pkgs.fish;
-  };
+  # users.users.taco = {
+  #   shell = pkgs.fish;
+  # };
 
   # Used for backwards compatibility, please read the changelog before changing
   system.stateVersion = darwinStateVersion; # nix-darwin uses integer compatibility versions.

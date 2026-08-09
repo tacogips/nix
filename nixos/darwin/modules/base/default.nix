@@ -54,26 +54,31 @@
     };
   };
 
-  fonts.packages = import ../../packages/fonts.nix { inherit pkgs; };
+  # Migrated to tacogips/mise-darwin (Brewfile.common).
+  # fonts.packages = import ../../packages/fonts.nix { inherit pkgs; };
 
   nixpkgs.config.allowUnfree = true;
 
-  environment.systemPackages = import ../../packages/base.nix { inherit pkgs; };
+  # Migrated to tacogips/mise-darwin ([bootstrap.packages]). Keep Darwin's
+  # active package surface Homebrew/Cask-only during the Nix removal period.
+  # environment.systemPackages = import ../../packages/base.nix { inherit pkgs; };
 
-  programs.zsh.enable = true;
-  programs.fish.enable = true;
+  # Shell binaries and activation now come from mise-darwin/Homebrew.
+  # programs.zsh.enable = true;
+  # programs.fish.enable = true;
 
-  users.users.${user} = {
-    shell = pkgs.fish;
-  };
+  # mise bootstrap owns /etc/shells and the login shell.
+  # users.users.${user} = {
+  #   shell = pkgs.fish;
+  # };
 
-  system.activationScripts.postActivation.text =
-    let
-      primaryUser = config.system.primaryUser;
-    in
-    ''
-      # Set fish shell for current user.
-      echo "Setting fish as default shell for user ${primaryUser}..."
-      sudo chsh -s ${pkgs.fish}/bin/fish ${primaryUser}
-    '';
+  # mise bootstrap owns /etc/shells and selects /opt/homebrew/bin/fish.
+  # system.activationScripts.postActivation.text =
+  #   let
+  #     primaryUser = config.system.primaryUser;
+  #   in
+  #   ''
+  #     echo "Setting fish as default shell for user ${primaryUser}..."
+  #     sudo chsh -s ${pkgs.fish}/bin/fish ${primaryUser}
+  #   '';
 }

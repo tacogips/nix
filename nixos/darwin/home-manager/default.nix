@@ -10,23 +10,28 @@
   # Darwin-specific Home Manager configurations
 
   imports = [
-    ./home.nix # Import Darwin-specific home settings
-    ./karabiner.nix # Import Karabiner configuration
-    ../../shared-home-manager/taco # Import shared configurations
+    # All Darwin Home Manager tools and dotfiles have moved to
+    # tacogips/mise-darwin. Leave these commented during the transition so a
+    # darwin-rebuild removes the old profile links without changing Linux.
+    # ./home.nix
+    # ./karabiner.nix
+    # ../../shared-home-manager/taco
   ];
 
   # Darwin-specific user settings
   home.username = lib.mkForce "taco";
   home.homeDirectory = lib.mkForce "/Users/taco";
   home.stateVersion = lib.mkForce homeStateVersion;
-  taco.yazi.openCommand = "/usr/bin/open";
-  programs.eza.extraOptions = [ "--all" ];
+  manual.manpages.enable = false;
+  programs.man.enable = false;
+  # taco.yazi.openCommand = "/usr/bin/open";
+  # programs.eza.extraOptions = [ "--all" ];
 
   # Override any shared settings that need customization for macOS
-  programs.git = {
-    settings.user = {
-      name = lib.mkForce "tacogips";
-      email = lib.mkForce "me@tacogips.me";
-    };
-  };
+  # programs.git = {
+  #   settings.user = {
+  #     name = lib.mkForce "tacogips";
+  #     email = lib.mkForce "me@tacogips.me";
+  #   };
+  # };
 }
