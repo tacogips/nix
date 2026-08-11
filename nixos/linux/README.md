@@ -23,13 +23,14 @@ cd ~/nix/nixos/linux
 If you are bootstrapping a machine before the first rebuild and flakes are not enabled yet for the current user, run:
 
 ```bash
-nix shell nixpkgs#go-task --command task enable-flakes-user
+mise run enable-flakes-user
 ```
 
-When you want to register the token, temporarily install `gh`, `kinko`, and `go-task` with Nix flakes and run the Taskfile target:
+When you want to register the token, install the mise tools and run the setup task:
 
 ```bash
-nix shell nixpkgs#gh nixpkgs#go-task github:tacogips/kinko --command task setup-github-token
+mise install
+mise run setup-github-token
 ```
 
 After applying the Home Manager or NixOS configuration, open a new fish shell. Fish will import shared kinko secrets automatically when `kinko` is available, and it will warn when the shell starts and whenever `cd` changes directories if `kinko` is installed but currently locked.

@@ -1,0 +1,93 @@
+min_version = "2026.8.3"
+
+[[hooks.enter]]
+shell = "bash"
+script = '''
+if command -v kinko >/dev/null 2>&1 && kinko hook --help >/dev/null 2>&1; then
+  eval "$(kinko --path "$MISE_PROJECT_ROOT" hook enter bash)"
+fi
+'''
+
+[[hooks.leave]]
+shell = "bash"
+script = '''
+if command -v kinko >/dev/null 2>&1 && kinko hook --help >/dev/null 2>&1; then
+  eval "$(kinko hook leave bash)"
+fi
+'''
+
+[tools]
+github-cli = "latest"
+
+[tasks."enable-flakes-user"]
+description = "Ensure nix-command and flakes are enabled in ~/.config/nix/nix.conf"
+run = '''
+mkdir -p "${HOME}/.config/nix"
+if [ -f "${HOME}/.config/nix/nix.conf" ] && grep -Eq '^[[:space:]]*experimental-features[[:space:]]*=.*(nix-command.*flakes|flakes.*nix-command)' "${HOME}/.config/nix/nix.conf"; then
+  echo "experimental-features already enabled in ${HOME}/.config/nix/nix.conf"
+else
+  printf '\nexperimental-features = nix-command flakes\n' >> "${HOME}/.config/nix/nix.conf"
+  echo "Enabled nix-command and flakes in ${HOME}/.config/nix/nix.conf"
+fi
+
+'''
+
+[tasks."setup-github-token"]
+description = "Authenticate with GitHub CLI and save the token to kinko shared secrets"
+run = '''
+gh auth login
+kinko set-key GITHUB_TOKEN --shared --value "$(gh auth token)"
+echo "Saved GITHUB_TOKEN to kinko shared secrets"
+'''
+
+[tasks."update"]
+description = "Update all Nix flake dependencies"
+run = '''
+nix flake update
+'''
+
+[tasks."update-input"]
+description = "Update a specific Nix flake input"
+run = '''
+: "${package:?package is required}"
+nix flake lock --update-input "${package}"
+'''
+
+[tasks."rebuild"]
+description = "Rebuild and switch NixOS system configuration"
+run = '''
+sudo env \
+  NIXOS_PRIVATE_CONFIG="${HOME}/nix/nixos/linux/device/nix-dev-machine/.private/private.nix" \
+  nixos-rebuild switch --impure --flake ~/nix/nixos/linux#nix-dev-machine
+
+'''
+
+[tasks."update-and-rebuild"]
+description = "Update all Nix flake dependencies and then rebuild the NixOS system configuration"
+run = '''
+mise run update
+mise run rebuild
+'''
+
+[tasks."clean"]
+description = "Delete rebuild generations older than the latest 5 and garbage-collect unused Nix store paths"
+run = '''
+# Get all system generations except the latest 5.
+old_generations=$(sudo nixos-rebuild list-generations | head -n -5 | awk '{print $1}')
+if [ -n "$old_generations" ]; then
+  echo "Deleting old system generations: $old_generations"
+  sudo nixos-rebuild delete-generations $old_generations
+else
+  echo "No old system generations to delete (5 or fewer generations exist)"
+fi
+echo "Running garbage collection..."
+sudo nix-collect-garbage -d
+echo "Cleanup completed"
+
+'''
+
+[tasks."clean-old-generations"]
+description = "Backward-compatible alias for mise run clean"
+run = '''
+mise run clean
+'''

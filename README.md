@@ -9,14 +9,14 @@ mkdir -p ~/.config/nix
 printf 'experimental-features = nix-command flakes\n' >> ~/.config/nix/nix.conf
 ```
 
-The `nix shell` commands below install `go-task` temporarily. After flakes are enabled, you can also normalize this setting with a task from either platform directory:
+After mise is installed, you can also normalize this setting with the task from either platform directory:
 
 ```bash
 cd ~/nix/nixos/linux
-nix shell nixpkgs#go-task --command task enable-flakes-user
+mise run enable-flakes-user
 
 cd ~/nix/nixos/darwin
-nix shell nixpkgs#go-task --command task enable-flakes-user
+mise run enable-flakes-user
 ```
 
 ## NixOS
@@ -54,25 +54,25 @@ cd ~/nix/nixos/darwin
 2. Install Homebrew first, because the nix-darwin flake checks for it during activation:
 
 ```bash
-nix shell nixpkgs#go-task --command task first-time-setup
+mise run first-time-setup
 ```
 
 3. Back up the `/etc` files that nix-darwin will replace:
 
 ```bash
-nix shell nixpkgs#go-task --command task backup-etc
+mise run backup-etc
 ```
 
 4. Run the first nix-darwin activation from the repository checkout:
 
 ```bash
-nix shell nixpkgs#go-task --command task build
+mise run build
 ```
 
 5. Later updates can use:
 
 ```bash
-nix shell nixpkgs#go-task --command task rebuild
+mise run rebuild
 ```
 
 If a GUI terminal such as Ghostty opens `fish` and shows `fish: Unknown command: nix`, apply the nix-darwin configuration again and open a fresh Ghostty window so fish reloads the Nix profile script.
@@ -80,7 +80,7 @@ If a GUI terminal such as Ghostty opens `fish` and shows `fish: Unknown command:
 6. To remove rebuild generations older than the latest 5 and garbage-collect unused Nix store paths:
 
 ```bash
-nix shell nixpkgs#go-task --command task clean
+mise run clean
 ```
 
 ## State Versions
@@ -126,9 +126,10 @@ You still need to seed `kinko` shared secrets with `GITHUB_TOKEN` if you want th
 cd ~/nix/nixos/linux
 ```
 
-2. When you want to register `GITHUB_TOKEN` in `kinko` shared secrets, temporarily install `gh`, `kinko`, and `go-task`, then run the Taskfile target:
+2. When you want to register `GITHUB_TOKEN` in `kinko` shared secrets, install the mise tools and run the setup task:
 ```bash
-nix shell nixpkgs#gh nixpkgs#go-task github:tacogips/kinko --command task setup-github-token
+mise install
+mise run setup-github-token
 ```
 
 3. After Home Manager is applied, open a new shell so fish can export shared kinko secrets automatically.
@@ -142,20 +143,21 @@ nix shell nixpkgs#gh nixpkgs#go-task github:tacogips/kinko --command task setup-
 cd ~/nix/nixos/darwin
 ```
 
-2. When you want to register `GITHUB_TOKEN` in `kinko` shared secrets, install `kinko` with Homebrew, then temporarily install `gh` and `go-task` with Nix flakes and run the Taskfile target:
+2. When you want to register `GITHUB_TOKEN` in `kinko` shared secrets, install `kinko` with Homebrew, then install the mise tools and run the setup task:
 
 ```bash
 brew install tacogips/tap/kinko
 ```
 
 ```bash
-nix shell nixpkgs#gh nixpkgs#go-task --command task setup-github-token
+mise install
+mise run setup-github-token
 ```
 
 3. Apply the nix-darwin configuration, then open a new fish shell so shared kinko secrets are exported automatically.
    If you only want to populate the current shell from GitHub CLI, use `gh-token-export`.
 
-For routine cleanup on either platform, run `nix shell nixpkgs#go-task --command task clean` from `~/nix/nixos/linux` or `~/nix/nixos/darwin`.
+For routine cleanup on either platform, run `mise run clean` from `~/nix/nixos/linux` or `~/nix/nixos/darwin`.
 
 ## How It Works
 

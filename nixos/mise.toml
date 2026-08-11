@@ -1,0 +1,107 @@
+min_version = "2026.8.3"
+
+[[hooks.enter]]
+shell = "bash"
+script = '''
+if command -v kinko >/dev/null 2>&1 && kinko hook --help >/dev/null 2>&1; then
+  eval "$(kinko --path "$MISE_PROJECT_ROOT" hook enter bash)"
+fi
+'''
+
+[[hooks.leave]]
+shell = "bash"
+script = '''
+if command -v kinko >/dev/null 2>&1 && kinko hook --help >/dev/null 2>&1; then
+  eval "$(kinko hook leave bash)"
+fi
+'''
+
+[tools]
+github-cli = "latest"
+
+[tasks."update"]
+description = "Update all Nix flake dependencies (cross-platform)"
+run = '''
+mise run update-linux
+mise run update-darwin
+'''
+
+[tasks."update-input"]
+description = "Update a specific Nix flake input (cross-platform)"
+run = '''
+: "${package:?package is required}"
+mise run update-input-linux
+mise run update-input-darwin
+'''
+
+[tasks."update-input-linux"]
+description = "Update a specific Nix flake input in Linux"
+dir = "./linux"
+run = '''
+: "${package:?package is required}"
+nix flake lock --update-input "${package}"
+'''
+
+[tasks."update-input-darwin"]
+description = "Update a specific Nix flake input in Darwin"
+dir = "./darwin"
+run = '''
+: "${package:?package is required}"
+nix flake lock --update-input "${package}"
+'''
+
+[tasks."update-linux"]
+description = "Update Linux-specific flake dependencies"
+dir = "./linux"
+run = '''
+nix flake update
+'''
+
+[tasks."update-darwin"]
+description = "Update Darwin-specific flake dependencies"
+dir = "./darwin"
+run = '''
+nix flake update
+'''
+
+[tasks."check"]
+description = "Check all flake configurations (cross-platform)"
+run = '''
+mise run check-linux
+mise run check-darwin
+'''
+
+[tasks."clean"]
+description = "Clean old rebuild generations and unused Nix store paths (cross-platform)"
+run = '''
+mise run clean-linux
+mise run clean-darwin
+'''
+
+[tasks."check-linux"]
+description = "Check Linux flake configuration"
+dir = "./linux"
+run = '''
+NIXOS_PRIVATE_CONFIG="${HOME}/nix/nixos/linux/device/nix-dev-machine/.private/private.nix" nix flake check --impure
+'''
+
+[tasks."clean-linux"]
+description = "Clean old Linux rebuild generations and unused Nix store paths"
+dir = "./linux"
+run = '''
+mise run clean
+'''
+
+[tasks."check-darwin"]
+description = "Check Darwin flake configuration"
+dir = "./darwin"
+run = '''
+nix flake check
+'''
+
+[tasks."clean-darwin"]
+description = "Clean old Darwin rebuild generations and unused Nix store paths"
+dir = "./darwin"
+run = '''
+mise run clean
+'''
