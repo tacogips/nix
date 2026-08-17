@@ -3,7 +3,6 @@ let
   secureGithubActionRoot = ../skills/secure-github-action;
   envrcGenerateRoot = ../skills/envrc-generate;
   codeWithCursorRoot = ../skills/code-with-cursor;
-  gitPrecommitSafetyCheckRoot = ../skills/git-precommit-safety-check;
   rielaRoot = ../skills/riela;
 in
 {
@@ -62,9 +61,5 @@ in
     "${codeWithCursorRoot}/scripts/cursor-agent-monitor-linux.sh";
   home.file.".claude/skills/code-with-cursor/scripts/cursor-agent-monitor-darwin.sh".source =
     "${codeWithCursorRoot}/scripts/cursor-agent-monitor-darwin.sh";
-  home.file.".claude/skills/git-precommit-safety-check/SKILL.md".source =
-    "${gitPrecommitSafetyCheckRoot}/claude-SKILL.md";
-  home.file.".claude/skills/git-precommit-safety-check/references/security.md".source =
-    "${gitPrecommitSafetyCheckRoot}/references/security.md";
   home.file.".claude/skills/riela/SKILL.md".source = "${rielaRoot}/claude-SKILL.md";
 }

@@ -8,7 +8,6 @@ let
   envrcGenerateRoot = ../skills/envrc-generate;
   codeWithCursorRoot = ../skills/code-with-cursor;
   braveBrowserComputerUseRoot = ../skills/brave-browser-computer-use;
-  gitPrecommitSafetyCheckRoot = ../skills/git-precommit-safety-check;
   improveRoot = ../skills/improve;
   productHuntReleaseRoot = ../skills/product-hunt-release;
   rielaRoot = ../skills/riela;
@@ -89,16 +88,6 @@ in
     install_skill_file \
       "${braveBrowserComputerUseRoot}/agents/openai.yaml" \
       "$AGENTS_SKILLS_DIR/brave-browser-computer-use/agents/openai.yaml"
-
-    install_skill_file \
-      "${gitPrecommitSafetyCheckRoot}/codex-SKILL.md" \
-      "$AGENTS_SKILLS_DIR/git-precommit-safety-check/SKILL.md"
-    install_skill_file \
-      "${gitPrecommitSafetyCheckRoot}/agents/openai.yaml" \
-      "$AGENTS_SKILLS_DIR/git-precommit-safety-check/agents/openai.yaml"
-    install_skill_file \
-      "${gitPrecommitSafetyCheckRoot}/references/security.md" \
-      "$AGENTS_SKILLS_DIR/git-precommit-safety-check/references/security.md"
 
     install_skill_file \
       "${improveRoot}/codex-SKILL.md" \
