@@ -57,8 +57,6 @@
       # Import our library collision fix function
       fixLibraryCollision = import ./lib/fixLibraryCollision.nix { inherit pkgs; };
 
-      ign-pkg = null;
-
     in
     {
       nixosConfigurations =
@@ -130,7 +128,6 @@
                     xremap-flake
                     fenix
                     homeStateVersion
-                    ign-pkg
                     stablePkgs
                     ;
                 };

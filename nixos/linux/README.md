@@ -38,8 +38,6 @@ After applying the Home Manager or NixOS configuration, export the GitHub CLI to
 gh-token-export
 ```
 
-The shared Home Manager activation installs `ign` from `tacogips/tap/ign` when a Homebrew `brew` command is available. If Homebrew is not installed on Linux, activation skips that install with a warning.
-
 Git reads the token through the Home Manager generated Git configuration, which installs the GitHub credential helper inline in `.gitconfig`.
 
 If you want an explicit fish command that clones with GitHub credentials, use:

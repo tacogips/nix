@@ -4,7 +4,6 @@
   config,
   pkgs,
   lib,
-  riela-pkg ? null,
   homeStateVersion ? "24.11",
   ...
 }:
@@ -26,10 +25,8 @@
     ./git
     ./go
     ./ghostty
-    ./ign
     ./jj
     ./julia
-    ./kinko
     ./lazydocker
     ./lazygit
     ./nvf
@@ -37,7 +34,6 @@
     # Re-enable after upstream/package fix.
     # ./marktext
     ./ripgrep
-    ./riela
     ./ssh
     ./tmux
     ./yazi
@@ -45,6 +41,11 @@
     ./zoxide
     ../extends/mutability
     # Other platform-independent modules can be added here
+  ]
+  ++ lib.optionals pkgs.stdenv.isDarwin [
+    ./ign
+    ./kinko
+    ./riela
   ];
 
   # Common configuration for all platforms
