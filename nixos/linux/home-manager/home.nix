@@ -136,7 +136,6 @@
       # Ensure coreutils is available for the nix_diff function
       coreutils
 
-    ]
     ];
 
   #  home.file.".config/zoomus.conf" = {
