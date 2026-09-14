@@ -26,7 +26,6 @@
     };
 
     ## --- go tools --------
-    kinko.url = "github:tacogips/kinko";
     riela.url = "github:tacogips/riela";
 
     ## --- apps --------
@@ -45,7 +44,6 @@
       gitcodes-mcp,
       hn-mcp,
       fenix,
-      kinko,
       riela,
       qraftbox,
       ...
@@ -80,11 +78,6 @@
       hn-mcp-pkg = hn-mcp.packages.${system}.default;
       gitcode-mcp-pkg = gitcodes-mcp.packages.${system}.default;
       ign-pkg = null;
-      kinko-pkg = kinko.packages.${system}.default.overrideAttrs (old: {
-        patches = (old.patches or [ ]) ++ [
-          ./patches/kinko-explosion-password-mask.patch
-        ];
-      });
       riela-pkg = riela.packages.${system}.default;
       qraftbox-pkg = qraftbox.packages.${system}.default;
 
@@ -163,7 +156,6 @@
                     hn-mcp-pkg
                     gitcode-mcp-pkg
                     ign-pkg
-                    kinko-pkg
                     riela-pkg
                     qraftbox-pkg
                     stablePkgs

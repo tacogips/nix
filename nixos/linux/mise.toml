@@ -1,21 +1,5 @@
 min_version = "2026.8.3"
 
-[[hooks.enter]]
-shell = "bash"
-script = '''
-if command -v kinko >/dev/null 2>&1 && kinko hook --help >/dev/null 2>&1; then
-  eval "$(kinko --path "$MISE_PROJECT_ROOT" hook enter bash)"
-fi
-'''
-
-[[hooks.leave]]
-shell = "bash"
-script = '''
-if command -v kinko >/dev/null 2>&1 && kinko hook --help >/dev/null 2>&1; then
-  eval "$(kinko hook leave bash)"
-fi
-'''
-
 [tools]
 github-cli = "latest"
 
@@ -30,14 +14,6 @@ else
   echo "Enabled nix-command and flakes in ${HOME}/.config/nix/nix.conf"
 fi
 
-'''
-
-[tasks."setup-github-token"]
-description = "Authenticate with GitHub CLI and save the token to kinko shared secrets"
-run = '''
-gh auth login
-kinko set-key GITHUB_TOKEN --shared --value "$(gh auth token)"
-echo "Saved GITHUB_TOKEN to kinko shared secrets"
 '''
 
 [tasks."update"]

@@ -6,7 +6,7 @@ This Linux configuration uses HTTPS GitHub authentication with the `GITHUB_TOKEN
 
 This repository is now public, so `GITHUB_TOKEN` is not required before the initial rebuild just to check out and apply this repository itself.
 
-You still need to register `GITHUB_TOKEN` in `kinko` shared secrets if you want to clone or fetch other private GitHub repositories from the configured environment.
+Authenticate with GitHub CLI when you need to clone or fetch private GitHub repositories from the configured environment.
 
 After you apply the Linux configuration, flake commands are enabled system-wide, so commands like this work directly:
 
@@ -26,28 +26,19 @@ If you are bootstrapping a machine before the first rebuild and flakes are not e
 mise run enable-flakes-user
 ```
 
-When you want to register the token, install the mise tools and run the setup task:
+Authenticate with GitHub CLI:
 
 ```bash
-mise install
-mise run setup-github-token
+gh auth login
 ```
 
-After applying the Home Manager or NixOS configuration, open a new fish shell. Fish will import shared kinko secrets automatically when `kinko` is available, and it will warn when the shell starts and whenever `cd` changes directories if `kinko` is installed but currently locked.
-
-The shared Home Manager activation installs `ign` from `tacogips/tap/ign` when a Homebrew `brew` command is available. If Homebrew is not installed on Linux, activation skips that install with a warning.
-
-If you only want to populate the current shell from GitHub CLI without updating kinko, use:
+After applying the Home Manager or NixOS configuration, export the GitHub CLI token into the current fish shell:
 
 ```bash
 gh-token-export
 ```
 
-If you are already inside the configured fish environment and want to both save the token to kinko and export it in the current shell, use:
-
-```bash
-gh-token-save-shared
-```
+The shared Home Manager activation installs `ign` from `tacogips/tap/ign` when a Homebrew `brew` command is available. If Homebrew is not installed on Linux, activation skips that install with a warning.
 
 Git reads the token through the Home Manager generated Git configuration, which installs the GitHub credential helper inline in `.gitconfig`.
 
@@ -58,7 +49,7 @@ gh-clone git@github.com:owner/repo.git
 gh-clone https://github.com/owner/repo.git
 ```
 
-`gh-clone` rewrites GitHub SSH clone URLs to HTTPS, prefers the current shell's `GITHUB_TOKEN`, falls back to `kinko` if needed, and injects that token as the credential for the clone command.
+`gh-clone` rewrites GitHub SSH clone URLs to HTTPS and injects the current shell's `GITHUB_TOKEN` as the credential for the clone command.
 
 ## Agent Loops
 

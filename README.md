@@ -116,7 +116,7 @@ This configuration uses HTTPS GitHub authentication with the `GITHUB_TOKEN` envi
 
 Because this repository is now public, you do not need `GITHUB_TOKEN` before the initial `nixos-rebuild` or `darwin-rebuild` just to check out and apply this repository itself.
 
-You still need to seed `kinko` shared secrets with `GITHUB_TOKEN` if you want this environment to clone or fetch other private GitHub repositories later.
+Authenticate with GitHub CLI when you want this environment to clone or fetch private GitHub repositories later. Darwin can additionally keep the token in `kinko` shared secrets.
 
 ## NixOS
 
@@ -126,14 +126,12 @@ You still need to seed `kinko` shared secrets with `GITHUB_TOKEN` if you want th
 cd ~/nix/nixos/linux
 ```
 
-2. When you want to register `GITHUB_TOKEN` in `kinko` shared secrets, install the mise tools and run the setup task:
+2. Authenticate with GitHub CLI:
 ```bash
-mise install
-mise run setup-github-token
+gh auth login
 ```
 
-3. After Home Manager is applied, open a new shell so fish can export shared kinko secrets automatically.
-   If you only want to populate the current shell from GitHub CLI, use `gh-token-export`.
+3. After Home Manager is applied, run `gh-token-export` to populate the current shell.
 
 ## nix-darwin
 
@@ -163,7 +161,7 @@ For routine cleanup on either platform, run `mise run clean` from `~/nix/nixos/l
 
 - **No SSH keys required**: Git operations use HTTPS with a git credential helper
 - **Automatic URL conversion**: SSH URLs (`git@github.com:`) are automatically converted to HTTPS (`https://github.com/`)
-- **Credential source**: Git reads `GITHUB_TOKEN`, which can be exported from kinko shared secrets or set with `gh-token-export`
+- **Credential source**: Git reads `GITHUB_TOKEN`, which can be set with `gh-token-export`; Darwin can also export it from `kinko` shared secrets
 - **Works for private repositories**: Full access to private repositories with proper token scopes (repo, read:org, gist)
 
 ## Configuration Files

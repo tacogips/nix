@@ -13,13 +13,6 @@ tasks:
           echo "Enabled nix-command and flakes in ${HOME}/.config/nix/nix.conf"
         fi
 
-  setup-github-token:
-    desc: Authenticate with GitHub CLI and save the token to kinko shared secrets
-    cmds:
-      - gh auth login
-      - kinko set-key GITHUB_TOKEN --shared --value "$(gh auth token)"
-      - echo "Saved GITHUB_TOKEN to kinko shared secrets"
-
   update:
     desc: Update all Nix flake dependencies
     cmds:
