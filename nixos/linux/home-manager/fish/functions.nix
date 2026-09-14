@@ -28,26 +28,4 @@
     ${pkgs.coreutils}/bin/rm -rf $temp_dir
   '';
 
-  # QraftBox daemon management via pm2
-  qraftbox-daemon = ''
-    set -l qraftbox_dir /g/gits/tacogips/QraftBox
-    set -l cmd $argv[1]
-
-    switch "$cmd"
-      case stop
-        pm2 stop qraftbox
-      case restart
-        pm2 restart qraftbox
-      case delete
-        pm2 delete qraftbox
-      case status
-        pm2 status qraftbox
-      case logs
-        pm2 logs qraftbox
-      case '*'
-        cd $qraftbox_dir
-        pm2 start src/main.ts --name qraftbox --interpreter (command -v bun) -- --port 7144 --host 0.0.0.0
-      end
-  '';
-
 }

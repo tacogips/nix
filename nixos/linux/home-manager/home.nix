@@ -7,7 +7,6 @@
   cratedocs-mcp-pkg,
   hn-mcp-pkg,
   gitcode-mcp-pkg,
-  qraftbox-pkg,
   ...
 }:
 {
@@ -75,7 +74,6 @@
     [
       go-task
       kubectl
-      pm2
 
       networkmanagerapplet # nm-connection-editor
 
@@ -149,8 +147,6 @@
       hn-mcp-pkg
       gitcode-mcp-pkg
 
-      # ---- apps --------------------------------
-      qraftbox-pkg
     ];
 
   #  home.file.".config/zoomus.conf" = {

@@ -28,8 +28,6 @@
     ## --- go tools --------
     riela.url = "github:tacogips/riela";
 
-    ## --- apps --------
-    qraftbox.url = "git+https://github.com/tacogips/QraftBox.git";
   };
 
   outputs =
@@ -45,7 +43,6 @@
       hn-mcp,
       fenix,
       riela,
-      qraftbox,
       ...
     }:
     let
@@ -79,7 +76,6 @@
       gitcode-mcp-pkg = gitcodes-mcp.packages.${system}.default;
       ign-pkg = null;
       riela-pkg = riela.packages.${system}.default;
-      qraftbox-pkg = qraftbox.packages.${system}.default;
 
     in
     {
@@ -157,7 +153,6 @@
                     gitcode-mcp-pkg
                     ign-pkg
                     riela-pkg
-                    qraftbox-pkg
                     stablePkgs
                     ;
                 };
