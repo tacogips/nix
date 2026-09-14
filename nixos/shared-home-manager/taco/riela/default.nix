@@ -1,5 +1,6 @@
 {
   lib,
+  pkgs,
   riela-pkg ? null,
   ...
 }:
@@ -58,7 +59,7 @@ let
     "riela-workflow-skill-creator-skill"
   ];
 in
-{
+lib.mkIf pkgs.stdenv.isDarwin {
   home.packages = lib.optionals (riela-pkg != null) [
     # riela - workflow runtime/tooling shared across Linux and Darwin.
     riela-pkg
