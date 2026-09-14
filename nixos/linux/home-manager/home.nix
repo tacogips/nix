@@ -8,7 +8,6 @@
   hn-mcp-pkg,
   gitcode-mcp-pkg,
   qraftbox-pkg,
-  chilla-pkg,
   ...
 }:
 {
@@ -152,7 +151,6 @@
 
       # ---- apps --------------------------------
       qraftbox-pkg
-      chilla-pkg
     ];
 
   #  home.file.".config/zoomus.conf" = {

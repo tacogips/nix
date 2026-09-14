@@ -31,7 +31,6 @@
 
     ## --- apps --------
     qraftbox.url = "git+https://github.com/tacogips/QraftBox.git";
-    chilla.url = "github:tacogips/chilla";
   };
 
   outputs =
@@ -49,7 +48,6 @@
       kinko,
       riela,
       qraftbox,
-      chilla,
       ...
     }:
     let
@@ -89,7 +87,6 @@
       });
       riela-pkg = riela.packages.${system}.default;
       qraftbox-pkg = qraftbox.packages.${system}.default;
-      chilla-pkg = chilla.packages.${system}.default;
 
     in
     {
@@ -169,7 +166,6 @@
                     kinko-pkg
                     riela-pkg
                     qraftbox-pkg
-                    chilla-pkg
                     stablePkgs
                     ;
                 };

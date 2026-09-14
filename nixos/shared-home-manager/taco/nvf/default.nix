@@ -1,20 +1,12 @@
 {
   lib,
   pkgs,
-  chilla-pkg ? null,
   ...
 }:
 let
   runtimePath = ./runtime;
   xcodeToolchain = import ../../../lib/apple-xcode-toolchain.nix;
   openCommand = if pkgs.stdenv.isDarwin then "open" else "xdg-open";
-  chillaCommand =
-    if chilla-pkg != null then
-      "${chilla-pkg}/bin/chilla"
-    else if pkgs.stdenv.isDarwin then
-      "chilla"
-    else
-      openCommand;
   mkLuaInline = lib.generators.mkLuaInline;
 
   mkGithubPlugin =
@@ -76,7 +68,6 @@ let
       pkgs
       runtimePath
       openCommand
-      chillaCommand
       mkLuaInline
       mermaidPlugin
       sourcekitLspCommand

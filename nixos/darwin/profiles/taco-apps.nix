@@ -10,7 +10,6 @@
     brave.enable = true;
     ccusage.enable = true;
     ccusage-gauge.enable = true;
-    chilla.enable = true;
     claude.enable = true;
     claude-code.enable = true;
     cline.enable = true;

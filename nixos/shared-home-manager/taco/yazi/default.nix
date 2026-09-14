@@ -2,19 +2,11 @@
   config,
   lib,
   pkgs,
-  chilla-pkg ? null,
   ...
 }:
 
 let
   cfg = config.taco.yazi;
-  chillaCommand =
-    if chilla-pkg != null then
-      "${chilla-pkg}/bin/chilla"
-    else if pkgs.stdenv.isDarwin then
-      "chilla"
-    else
-      cfg.openCommand;
   enterDirectoryPlugin = ''
     --- @sync entry
     local function entry()
@@ -304,18 +296,6 @@ let
           done
         '';
   };
-  chillaOpener = pkgs.writeShellApplication {
-    name = "yazi-open-chilla";
-    text = ''
-      set -euo pipefail
-
-      for target_path in "$@"; do
-        if [[ -n "$target_path" ]]; then
-          ${chillaCommand} "$target_path" >/dev/null 2>&1 &
-        fi
-      done
-    '';
-  };
   keymap = import ./keymap.nix;
 in
 {
@@ -397,18 +377,6 @@ in
             mime = "inode/directory";
             use = "open-terminal";
           }
-          {
-            mime = "application/pdf";
-            use = "open-chilla";
-          }
-          {
-            mime = "image/*";
-            use = "open-chilla";
-          }
-          {
-            mime = "video/*";
-            use = "open-chilla";
-          }
         ];
 
         open.append_rules = [
@@ -432,14 +400,6 @@ in
               run = ''${cfg.openCommand} "$@"'';
               orphan = true;
               desc = "Open";
-            }
-          ];
-
-          open-chilla = [
-            {
-              run = ''${chillaOpener}/bin/yazi-open-chilla "$@"'';
-              orphan = true;
-              desc = "Open in Chilla";
             }
           ];
 

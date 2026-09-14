@@ -53,7 +53,6 @@ in
     gh # GitHub CLI
     gnumake
     jq
-    go-task
     tokei
     dust
 
