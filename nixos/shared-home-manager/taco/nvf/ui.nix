@@ -1,41 +1,4 @@
 { ... }:
-let
-  cwdStatuslineComponent = ''
-    {
-      function()
-        local cwd = vim.fn.fnamemodify(vim.fn.getcwd(), ":~")
-        if cwd == "" then
-          cwd = "."
-        end
-
-        local label = "cwd "
-        local max_width = math.max(math.floor(vim.o.columns * 0.28), 24)
-        local available = max_width - vim.fn.strdisplaywidth(label)
-
-        if vim.fn.strdisplaywidth(cwd) > available then
-          cwd = vim.fn.pathshorten(cwd)
-        end
-
-        while vim.fn.strdisplaywidth(cwd) > available and #cwd > 1 do
-          local before = cwd
-          local shortened = cwd:gsub("^%.%.%.", "", 1):gsub("^~/?", "", 1):gsub("^/+", "", 1)
-          shortened = shortened:gsub("^[^/]+/+", "", 1)
-          if shortened == cwd or shortened == "" then
-            shortened = cwd:sub(2)
-          end
-          cwd = "..." .. shortened
-
-          if cwd == before then
-            cwd = "..." .. cwd:sub(math.max(#cwd - available + 4, 1))
-            break
-          end
-        end
-
-        return label .. cwd
-      end,
-    }
-  '';
-in
 {
   settings.vim = {
     luaConfigRC.ui = ''
@@ -80,61 +43,6 @@ in
         vim.fn.winrestview(view)
       end
     '';
-
-    statusline.lualine = {
-      enable = true;
-      theme = "gruvbox";
-      componentSeparator = {
-        left = "";
-        right = "|";
-      };
-      sectionSeparator = {
-        left = "";
-        right = "";
-      };
-      alwaysDivideMiddle = true;
-      activeSection = {
-        a = [ "mode" ];
-        b = [ cwdStatuslineComponent ];
-        c = [
-          ''
-            {
-              "filename",
-              path = 0,
-              symbols = { modified = " [+]", readonly = " [ro]", unnamed = "[No Name]" },
-            }
-          ''
-        ];
-        x = [
-          "branch"
-          "diff"
-          "diagnostics"
-        ];
-        y = [
-          "filetype"
-          "encoding"
-          "fileformat"
-        ];
-        z = [ "location" ];
-      };
-      inactiveSection = {
-        a = [ ];
-        b = [ ];
-        c = [
-          cwdStatuslineComponent
-          ''
-            {
-              "filename",
-              path = 0,
-              symbols = { modified = " [+]", readonly = " [ro]", unnamed = "[No Name]" },
-            }
-          ''
-        ];
-        x = [ "location" ];
-        y = [ ];
-        z = [ ];
-      };
-    };
 
     treesitter.highlight = {
       enable = true;
