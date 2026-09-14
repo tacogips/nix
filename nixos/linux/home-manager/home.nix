@@ -4,9 +4,6 @@
   pkgs,
   inputs,
   xremap-flake,
-  cratedocs-mcp-pkg,
-  hn-mcp-pkg,
-  gitcode-mcp-pkg,
   ...
 }:
 {
@@ -140,13 +137,6 @@
       coreutils
 
     ]
-    ++ [
-
-      # ---- mcps -------------------------------
-      cratedocs-mcp-pkg
-      hn-mcp-pkg
-      gitcode-mcp-pkg
-
     ];
 
   #  home.file.".config/zoomus.conf" = {

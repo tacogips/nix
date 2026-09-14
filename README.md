@@ -107,7 +107,7 @@ whose first-install release differs from the default.
 
 # update
 
-nix flake lock --update-input cratedocs-mcp
+nix flake lock --update-input home-manager
 nix flake update
 
 # GitHub Authentication Setup

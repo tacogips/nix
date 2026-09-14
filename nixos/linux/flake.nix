@@ -14,20 +14,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     xremap-flake.url = "github:xremap/nix-flake";
-    ## --- mcps --------
-    cratedocs-mcp.url = "github:tacogips/cratedocs-mcp";
-    hn-mcp.url = "github:tacogips/hn-mcp";
-    gitcodes-mcp.url = "github:tacogips/gitcodes-mcp";
-
     ## --- rust --------
     fenix = {
       url = "github:nix-community/fenix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-
-    ## --- go tools --------
-    riela.url = "github:tacogips/riela";
-
   };
 
   outputs =
@@ -38,11 +29,7 @@
       home-manager,
       nvf,
       xremap-flake,
-      cratedocs-mcp,
-      gitcodes-mcp,
-      hn-mcp,
       fenix,
-      riela,
       ...
     }:
     let
@@ -70,12 +57,7 @@
       # Import our library collision fix function
       fixLibraryCollision = import ./lib/fixLibraryCollision.nix { inherit pkgs; };
 
-      # Get the original packages
-      cratedocs-mcp-pkg = cratedocs-mcp.packages.${system}.default;
-      hn-mcp-pkg = hn-mcp.packages.${system}.default;
-      gitcode-mcp-pkg = gitcodes-mcp.packages.${system}.default;
       ign-pkg = null;
-      riela-pkg = riela.packages.${system}.default;
 
     in
     {
@@ -148,11 +130,7 @@
                     xremap-flake
                     fenix
                     homeStateVersion
-                    cratedocs-mcp-pkg
-                    hn-mcp-pkg
-                    gitcode-mcp-pkg
                     ign-pkg
-                    riela-pkg
                     stablePkgs
                     ;
                 };

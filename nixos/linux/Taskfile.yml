@@ -24,8 +24,8 @@ tasks:
       Update a specific Nix flake input to its latest version.
 
       Examples:
-        task update-input package=hn-mcp
-        task update-input package=gitcodes-mcp
+        task update-input package=home-manager
+        task update-input package=nixpkgs
     vars:
       package: '{{.package}}'
     cmds:
