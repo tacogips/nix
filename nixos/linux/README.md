@@ -73,3 +73,20 @@ The Codex-backed helpers (`codex-loop`, `codex-step-loop`, `codex-loop-review-to
 ## Home Manager Backups
 
 Linux enables Home Manager file backups with the `hmm_backup` suffix during activation and also allows replacing an older backup with the same name. That prevents rebuilds from failing when a managed file such as `~/.cursor/cli-config.json` has already been backed up once on a previous activation.
+
+## Security input update (2026-10-27)
+
+The flake pins the reviewed `tacogips/nixpkgs-security` revision
+`4a5495d1c0a7c62200b55deeeecb64f03b093056`, including patched Node.js,
+shared Brotli, Bun and the NSS 3.131.1 trust store. Home Manager follows
+the matching 26.05 release and transitive inputs share the patched package set.
+
+Full host evaluation requires the machine's real private configuration:
+
+```bash
+NIXOS_PRIVATE_CONFIG=/absolute/path/to/private.nix nix flake check --impure --no-build
+```
+
+The lock update was generated, but host evaluation has not passed: the private
+configuration was unavailable on the audit host. Keep this update pending until
+the real configuration has been evaluated. No host rebuild or activation was run.

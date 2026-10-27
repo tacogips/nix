@@ -3,10 +3,10 @@
   description = "nixos system";
 
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-unstable";
-    nixpkgs-stable.url = "github:nixos/nixpkgs?ref=nixos-25.05";
+    nixpkgs.url = "github:tacogips/nixpkgs-security/4a5495d1c0a7c62200b55deeeecb64f03b093056";
+    nixpkgs-stable.follows = "nixpkgs";
     home-manager = {
-      url = "github:nix-community/home-manager";
+      url = "github:nix-community/home-manager/release-26.05";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     nvf = {
@@ -20,6 +20,9 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
+
+  # Share the patched Node.js and CA bundle across transitive development inputs.
+  inputs.xremap-flake.inputs.nixpkgs.follows = "nixpkgs";
 
   outputs =
     {
