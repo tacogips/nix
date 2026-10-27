@@ -235,3 +235,15 @@ Common packages and fonts are intentionally kept out of host modules:
 
 Server-specific packages for a future `darwin-home-server` host should be added
 as a new package file or profile instead of extending `profiles/taco-apps.nix`.
+
+## Security input baseline (2026-10-27)
+
+Both Darwin flakes pin the reviewed `tacogips/nixpkgs-security` revision
+`4a5495d1c0a7c62200b55deeeecb64f03b093056`. It supplies patched Node.js
+22/24/26, shared Brotli, Bun 1.4.4 and the NSS 3.131.1 root bundle.
+Matching nix-darwin and Home Manager 26.05 branches preserve platform support.
+The minimal flake uses current font and daemon settings.
+
+Validation: both configured host system derivations and the minimal system
+evaluate; `nix flake check --no-build --all-systems` passes. These source changes
+do not activate the configuration or rebuild existing installed applications.
