@@ -2,7 +2,7 @@
   description = "Darwin minimal system flake";
 
   inputs = {
-    nixpkgs.url = "github:tacogips/nixpkgs-security/d2a93d2fe7820d90eaa10af53891412ec3614f56";
+    nixpkgs.url = "github:tacogips/nixpkgs-security/51712f4618983456364dc94f66736f6a9f942f6c";
 
     darwin = {
       url = "github:nix-darwin/nix-darwin/nix-darwin-26.05";
