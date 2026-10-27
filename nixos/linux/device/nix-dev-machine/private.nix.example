@@ -15,18 +15,22 @@
 
   # Override disk UUIDs from public templates
   fileSystems."/" = {
+    fsType = lib.mkDefault "ext4";
     device = lib.mkForce "/dev/disk/by-uuid/PUT_ROOT_FS_UUID_HERE";
   };
 
   fileSystems."/boot" = {
+    fsType = lib.mkDefault "vfat";
     device = lib.mkForce "/dev/disk/by-uuid/PUT_BOOT_FS_UUID_HERE";
   };
 
   fileSystems."/d" = {
+    fsType = lib.mkDefault "ext4";
     device = lib.mkForce "/dev/disk/by-uuid/PUT_D_DRIVE_UUID_HERE";
   };
 
   fileSystems."/g" = {
+    fsType = lib.mkDefault "ext4";
     device = lib.mkForce "/dev/disk/by-uuid/PUT_G_DRIVE_UUID_HERE";
   };
 
