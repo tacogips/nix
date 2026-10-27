@@ -77,7 +77,7 @@ Linux enables Home Manager file backups with the `hmm_backup` suffix during acti
 ## Security input update (2026-10-27)
 
 The flake pins the reviewed `tacogips/nixpkgs-security` revision
-`d2a93d2fe7820d90eaa10af53891412ec3614f56`, including patched Node.js,
+`51712f4618983456364dc94f66736f6a9f942f6c`, including patched Node.js,
 shared Brotli, Bun and the NSS 3.131.1 trust store. Home Manager follows
 the matching 26.05 release and transitive inputs share the patched package set.
 

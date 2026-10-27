@@ -3,7 +3,7 @@
   description = "nixos system";
 
   inputs = {
-    nixpkgs.url = "github:tacogips/nixpkgs-security/d2a93d2fe7820d90eaa10af53891412ec3614f56";
+    nixpkgs.url = "github:tacogips/nixpkgs-security/51712f4618983456364dc94f66736f6a9f942f6c";
     nixpkgs-stable.follows = "nixpkgs";
     home-manager = {
       url = "github:nix-community/home-manager/release-26.05";
