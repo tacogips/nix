@@ -239,7 +239,7 @@ as a new package file or profile instead of extending `profiles/taco-apps.nix`.
 ## Security input baseline (2026-10-27)
 
 Both Darwin flakes pin the reviewed `tacogips/nixpkgs-security` revision
-`4a5495d1c0a7c62200b55deeeecb64f03b093056`. It supplies patched Node.js
+`51712f4618983456364dc94f66736f6a9f942f6c`. It supplies patched Node.js
 22/24/26, shared Brotli, Bun 1.4.4 and the NSS 3.131.1 root bundle.
 Matching nix-darwin and Home Manager 26.05 branches preserve platform support.
 The minimal flake uses current font and daemon settings.
