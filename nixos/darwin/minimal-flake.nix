@@ -2,15 +2,15 @@
   description = "Darwin minimal system flake";
 
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
+    nixpkgs.url = "github:tacogips/nixpkgs-security/4a5495d1c0a7c62200b55deeeecb64f03b093056";
 
     darwin = {
-      url = "github:lnl7/nix-darwin";
+      url = "github:nix-darwin/nix-darwin/nix-darwin-26.05";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
     home-manager = {
-      url = "github:nix-community/home-manager";
+      url = "github:nix-community/home-manager/release-26.05";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
@@ -60,10 +60,9 @@
               };
 
               # Configure fonts
-              fonts.fontDir.enable = true;
-              fonts.fonts = with pkgs; [
+              fonts.packages = with pkgs; [
                 jetbrains-mono
-                (nerdfonts.override { fonts = [ "JetBrainsMono" ]; })
+                nerd-fonts.jetbrains-mono
               ];
 
               # Allow unfree packages
@@ -78,14 +77,16 @@
               ];
 
               # Enable services
-              services.nix-daemon.enable = true;
+              nix.enable = true;
 
               # Enable shells
               programs.zsh.enable = true;
               programs.fish.enable = true;
 
               # Set fish as default shell
+              system.primaryUser = "taco";
               users.users.taco = {
+                home = "/Users/taco";
                 shell = pkgs.fish;
               };
             }
