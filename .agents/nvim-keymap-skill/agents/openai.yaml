@@ -1,0 +1,7 @@
+interface:
+  display_name: "Nvim Keymap Skill"
+  short_description: "Maintain this repo's Neovim keymap layout"
+  default_prompt: "Use $nvim-keymap-skill to add, move, remove, or explain Neovim keymaps in this repository while preserving the Helix-like Space and g layout."
+
+policy:
+  allow_implicit_invocation: true

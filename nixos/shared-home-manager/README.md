@@ -1,0 +1,65 @@
+# Home Manager Configuration
+
+This directory contains only shared, platform-independent Home Manager configurations that can be used by both Linux and macOS/Darwin.
+
+## Directory Structure
+
+- `/home-manager/taco/`: Contains shared, platform-independent configuration modules for the user "taco"
+- `/home-manager/default.nix`: Root entry point (doesn't directly import anything)
+
+The platform-specific configurations are located in their respective OS directories:
+- `/linux/home-manager/`: Linux-specific Home Manager configuration
+- `/darwin/home-manager/`: Darwin-specific Home Manager configuration
+
+## Usage
+
+### For Linux
+
+In your Linux NixOS configuration, import the Linux-specific Home Manager configuration:
+
+```nix
+home-manager.users.taco = { ... }: {
+  imports = [
+    ./home-manager
+  ];
+};
+```
+
+### For Darwin
+
+In your Darwin configuration, import the Darwin-specific Home Manager configuration:
+
+```nix
+home-manager.users.taco = { ... }: {
+  imports = [
+    ./home-manager
+  ];
+};
+```
+
+## Configuration Organization
+
+- **Platform-Independent Configs**: Add to `home-manager/taco/` directory modules
+  - Examples: git, jj (jujutsu), lazyjj, fish, bat, ssh, ghostty, and yazi configurations that work on any platform
+- **Platform-Specific Configs**: Add to the respective OS directories
+  - Linux-specific configs: `linux/home-manager/`
+  - Darwin-specific configs: `darwin/home-manager/`
+
+This separation makes it easy to maintain consistent configurations across platforms while allowing for platform-specific customizations in their appropriate locations.
+
+The shared editor environment uses the shared Yazi integration together with platform-specific `taco.yazi.openCommand` values so files can be handed off to the correct GUI opener on Linux and Darwin. Yazi keeps directories opening in a terminal and sends other files through Yazi's editor opener so Markdown, text files, and source code open in `$EDITOR` (currently `nvim`) while true binary files still fall back to the platform GUI opener. Lazygit uses the `nvim-remote` editor preset and maps its edit action to `Enter`, so selecting a changed file opens it in `nvim` from standalone lazygit and opens it in the parent Neovim instance when lazygit is running inside Neovim. In the shared Yazi config, pressing `Enter` on a directory exits Yazi into that directory in the current terminal instead of handing it to the GUI file opener. Yazi also shows Git status markers directly in the file list via `git.yazi`, and `, g` opens a synthetic view that contains only files with `git diff` changes plus the directories that contain them. When Yazi is launched from fish as `yazi` or `y`, exiting Yazi updates the current shell to the last directory you visited.
+
+The shared fish prompt keeps the existing vi-mode indicator and shows Git context only when the current directory is inside a Git repository. In that case, the prompt appends the current branch together with informative repository state markers such as staged, dirty, untracked, and upstream status. On interactive startup, fish also attempts to import shared `kinko` secrets when `kinko` is installed and shows a warning if the vault is currently locked, including after later `cd` directory changes.
+The shared fish aliases pin `co` to Codex `gpt-5.6-sol`, `cot` to `gpt-5.6-terra`, and `col` to `gpt-5.6-luna`, each with `model_reasoning_effort="medium"`. The `codex-fugu` and `cof` aliases run the Codex CLI through Sakana AI Fugu, while `cofu` selects `fugu-ultra`; these aliases bridge the kinko-exported `SAKANA_AI_API_KEY` into Codex's provider `SAKANA_API_KEY` environment variable and use the OpenAI-compatible Responses API at `https://api.sakana.ai/v1`. Cursor aliases use `cr` for Composer 2.5, `cro` for GPT-5.6 Sol, and `crc` for Claude Opus 4.8 High. The shared fish functions also include `co-review-today`, which runs Codex with a fixed English review prompt for the code changes made today and asks it to both review and improve low-quality code, unused code, deprecated leftovers, unnecessary hardcoding, missed DRY opportunities, unjustified SOLID violations, poor variable names, missing test coverage, overlooked considerations, and bugs, while also checking whether the current architecture/design still matches the intended purpose and whether the current git diff suggests any unfinished follow-up work. The shared Codex exec-based functions pin their Codex runs to `gpt-5.6-sol` with `model_reasoning_effort="high"` through the command line, instead of relying on external user config.
+The shared fish functions also provide iterative agent loops on both Linux and Darwin: `codex-loop`, `codex-step-loop`, `codex-loop-review-today`, `codex-cursor-loop`, `cursor-loop`, and `cursor-loop-review-today`. `codex-step-loop` is a dedicated wrapper in `fish/functions.nix` that mirrors the Codex loop flow and inserts a sleep between successful iterations. The other loop helpers use the shared `__agent-loop-run` implementation in the same file, with prompt text centralized in `fish/agent-commands.nix`. The Codex-backed loop helpers (`codex-loop`, `codex-step-loop`, `codex-loop-review-today`, and `codex-cursor-loop`) use that same `gpt-5.6-sol` plus `high` reasoning configuration. The general-purpose loops append only a short suffix asking the agent to also review and consider the current `git diff`. `codex-cursor-loop` prepends the Codex-to-Cursor delegation brief from `fish/agent-commands.nix` before that same short suffix. `codex-step-loop` waits the requested number of minutes between successful iterations and does not sleep after the last one. The fixed `*-review-today` variants reuse the same review prompt as `co-review-today` and append the same short `git diff` suffix, and `codex-cursor-loop` specifically tells Codex to delegate implementation through the `code-with-cursor` skill, pass the user's request to Cursor under an explicit `Original prompt:` label, wait for a single delegated Cursor pass, and then review the result locally without starting another delegated cycle unless the user explicitly asks for one.
+The shared agent configuration now installs the `secure-github-action`, `envrc-generate`, `code-with-cursor`, and `riela` user skills for both Codex and Claude on Linux and Darwin. Codex also gets the `improve` user skill, which asks the active AI session to self-review its recent work and fix concrete issues before handoff, the `brave-browser-computer-use` user skill, which directs visible browser UI tasks through Computer Use MCP against Brave Browser, and the Nix-pinned `diagram-design` user skill for producing editorial HTML and SVG diagrams. The Codex copies are materialized as real files under `~/.agents/skills/`, which Codex loads as user-scope skills, and activation removes the old managed copies from `~/.codex/skills/`. That keeps workflow hardening guidance, standard `.envrc` generation, explicit Cursor delegation through Composer 2, `/riela "{instruction}"` routing to appropriate Riela skills or workflows, self-review improvement, Brave-backed browser operation, and editorial diagram generation available in Codex. The `code-with-cursor` skill now narrows generic impl-plan requests into one concrete executable plan/task slice before delegating, and it ships a `scripts/cursor-agent-monitor.sh` dispatcher plus explicit `scripts/cursor-agent-monitor-linux.sh` and `scripts/cursor-agent-monitor-darwin.sh` backends so parent Codex or Claude runs can launch Cursor in the background and poll NDJSON progress instead of appearing hung behind one blocking shell command. The Linux backend prefers transient `systemd-run --user` units, while the macOS backend prefers a temporary `launchctl` LaunchAgent in the caller's GUI domain before falling back to plain background execution.
+Linux leaves the shared personal-tool modules for `ign`, `kinko`, and `riela` disabled, and no longer installs personal `tacogips` flake packages. Darwin enables those modules and installs `ign` and `kinko` from the `tacogips/tap` Homebrew formulas, while Riela 0.1.5 uses the `tacogips/tap/riela` Homebrew Cask so `RielaApp.app` and the `riela` CLI are installed together. Riela workflow bundle contents, provenance records, and projected package skills remain owned by the Riela package manager. Home Manager activation installs shared development packages from the local `<riela-packages-checkout>/packages` checkout with `riela package install --source <package-dir> --scope user --overwrite --yes` after the CLI is available: the explicit `claude-code-*` and `codex-*` developer workflow sets, including the generic `claude-code-goal` and `codex-goal` workflows; `cursor-cli-developer-workflows` as the standard Cursor CLI developer workflow meta package; `cursor-cli-goal` and the Cursor Hydra design/implementation/review workflows; `fable-and-improve` as the Fable-orchestrated Codex implementation/review workflow; `fable-and-improve-opus` as the Fable-planned, Claude Opus 5 implementation/review workflow; and the package-management/authoring skills `riela-package-manager-skill`, `riela-package-release-skill`, `riela-temporary-workflow-skill`, `riela-workflow-creator-skill`, and `riela-workflow-skill-creator-skill`. Activation verifies the required user-scope Claude skills at `~/.claude/skills/<package>/SKILL.md` for both Fable workflows and the required Codex skill for `fable-and-improve`. Before and after package installation, activation removes stale legacy projected artifacts from prior package naming, including projected skills whose `SKILL.md` still references obsolete CLI names; user-scope Cursor skill projection is handled by the Riela package manager itself.
+
+Rust editor integrations keep `cargo check` artifacts under `target/ra` and place rust-analyzer's own target data under `target/rust-analyzer` so background analysis does not contend with the save-time diagnostics output.
+Swift editor integration enables the `sourcekit` LSP in Neovim. On Darwin, Home Manager installs a `sourcekit-lsp` wrapper that launches `/usr/bin/xcrun sourcekit-lsp` with `DEVELOPER_DIR`, `SDKROOT`, `TOOLCHAINS`, and the Xcode default toolchain `bin` path fixed to the Mac App Store Xcode install under `/Applications/Xcode.app/Contents/Developer`, so Swift projects use host Xcode rather than a Nix Swift toolchain or a Nix-provided `xcrun` shim. On non-Darwin systems, Home Manager installs the Nix-provided `sourcekit-lsp`.
+The shared Neovim configuration now uses Telescope's `smart-open.nvim` extension on `<Space>,`, so the primary file picker ranks current-project files, open buffers, and recent history from a SQLite-backed index instead of relying on `oldfiles` alone.
+
+The shared tmux workflow now exposes predefined layouts directly inside tmux. `Alt-t` opens a new window and immediately shows a layout menu, while `Alt-i` still opens a plain new window rooted at the current pane's directory. `prefix + I` shows the same menu for the current window and rebuilds the window from the active pane before applying the selected layout. `Alt-z` enters a temporary resize mode where `h/j/k/l` resize the active pane until you press `Esc` or `Enter`. The `Shell 2 Pane` and `Shell 3 Pane` layouts open plain terminal panes, while the `ide-3pane` layout starts Yazi on the left, opens Neovim in the center pane, and retargets directory selections to the right pane's current working directory. The `wnu` fish alias runs the Nix-managed tmux window-name updater on demand instead of relying on periodic automatic renaming.
+The tmux footer now renders on each pane border and shows each pane's current path for both active and inactive panes. The main tmux status line remains at the bottom.
+
+The shared Cursor CLI configuration now writes `~/.cursor/cli-config.json` with `editor.vimMode = true`, `approvalMode = "unrestricted"` (Run Everything / auto-approve tool calls), and installs `cursor-cli` from nixpkgs on Linux and on Darwin hosts that have not opted into the Homebrew Cursor module. Darwin desktop hosts install the Cursor app and `cursor-agent` through Homebrew Cask (`cursor` and `cursor-cli`) instead. On Darwin it also writes `~/.cursor/mcp.json` so Cursor can launch the Homebrew-installed Peekaboo binary as an MCP server with `peekaboo mcp serve --transport stdio`, avoiding the older `npx` path, and installs a Cursor-only personal skill at `~/.cursor/skills/peekaboo/SKILL.md` for using that MCP server from Cursor CLI. On Linux, the shared Cursor module also wraps `cursor-agent` so normal agent invocations auto-enable `--yolo --approve-mcps` and pre-create the workspace trust marker for the current repo before launch. That removes the usual shell-command, MCP, and workspace-trust prompts in normal `cursor-agent` / `cr` / `cro` / `crc` / `crr` / `crrl` usage. `crr` runs `cursor-agent ls` to pick a prior session; `crrl` runs `cursor-agent resume` for the latest session (Cursor does not support Codex-style `resume --last`). Cursor can still require explicit confirmation for some hard-coded security checks, such as particularly sensitive config changes.
