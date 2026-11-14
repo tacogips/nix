@@ -1,0 +1,25 @@
+{
+  manager.prepend_keymap = [
+    {
+      on = "<Enter>";
+      run = "plugin enter-directory";
+      desc = "Enter directory in terminal or open file";
+    }
+    {
+      on = [
+        ","
+        "g"
+      ];
+      run = "plugin git-diff-tree";
+      desc = "Show files and directories with git diff";
+    }
+    {
+      on = [
+        ","
+        "r"
+      ];
+      run = "search --via=rg";
+      desc = "Search files with ripgrep";
+    }
+  ];
+}

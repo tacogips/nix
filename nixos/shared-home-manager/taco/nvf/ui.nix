@@ -1,0 +1,143 @@
+{ ... }:
+let
+  cwdStatuslineComponent = ''
+    {
+      function()
+        local cwd = vim.fn.fnamemodify(vim.fn.getcwd(), ":~")
+        if cwd == "" then
+          cwd = "."
+        end
+
+        local label = "cwd "
+        local max_width = math.max(math.floor(vim.o.columns * 0.28), 24)
+        local available = max_width - vim.fn.strdisplaywidth(label)
+
+        if vim.fn.strdisplaywidth(cwd) > available then
+          cwd = vim.fn.pathshorten(cwd)
+        end
+
+        while vim.fn.strdisplaywidth(cwd) > available and #cwd > 1 do
+          local before = cwd
+          local shortened = cwd:gsub("^%.%.%.", "", 1):gsub("^~/?", "", 1):gsub("^/+", "", 1)
+          shortened = shortened:gsub("^[^/]+/+", "", 1)
+          if shortened == cwd or shortened == "" then
+            shortened = cwd:sub(2)
+          end
+          cwd = "..." .. shortened
+
+          if cwd == before then
+            cwd = "..." .. cwd:sub(math.max(#cwd - available + 4, 1))
+            break
+          end
+        end
+
+        return label .. cwd
+      end,
+    }
+  '';
+in
+{
+  settings.vim = {
+    luaConfigRC.ui = ''
+      vim.cmd.colorscheme("gruvbox")
+      vim.cmd.iabbrev("todo TODO")
+      vim.cmd([[
+      let g:quickrun_config = {
+            \  'julia' : {
+            \    'command': 'julia',
+            \    'exec':'%c --project %s'
+            \  },
+            \  'typescript' : {
+            \    'command': 'bun',
+            \    'exec':'%s',
+            \    'hook/cd/directory': '%S:p:h'
+            \  }
+            \}
+      ]])
+
+      require("vim.treesitter.query").set(
+        "markdown",
+        "highlights",
+        [[
+      ;From MDeiml/tree-sitter-markdown
+      [
+        (fenced_code_block_delimiter)
+      ] @punctuation.delimiter
+      ]]
+      )
+
+      for _, group in ipairs(vim.fn.getcompletion("@lsp", "highlight")) do
+        vim.api.nvim_set_hl(0, group, {})
+      end
+
+      _G.vimrc = _G.vimrc or {}
+      _G.vimrc.view = _G.vimrc.view or {}
+      _G.vimrc.view.align_middle = function()
+        local view = vim.fn.winsaveview()
+        local win_width = vim.api.nvim_win_get_width(0)
+        local cursor_col = vim.fn.virtcol(".") - 1
+        view.leftcol = math.max(cursor_col - math.floor(win_width / 2), 0)
+        vim.fn.winrestview(view)
+      end
+    '';
+
+    statusline.lualine = {
+      enable = true;
+      theme = "gruvbox";
+      componentSeparator = {
+        left = "";
+        right = "|";
+      };
+      sectionSeparator = {
+        left = "";
+        right = "";
+      };
+      alwaysDivideMiddle = true;
+      activeSection = {
+        a = [ "mode" ];
+        b = [ cwdStatuslineComponent ];
+        c = [
+          ''
+            {
+              "filename",
+              path = 0,
+              symbols = { modified = " [+]", readonly = " [ro]", unnamed = "[No Name]" },
+            }
+          ''
+        ];
+        x = [
+          "branch"
+          "diff"
+          "diagnostics"
+        ];
+        y = [
+          "filetype"
+          "encoding"
+          "fileformat"
+        ];
+        z = [ "location" ];
+      };
+      inactiveSection = {
+        a = [ ];
+        b = [ ];
+        c = [
+          cwdStatuslineComponent
+          ''
+            {
+              "filename",
+              path = 0,
+              symbols = { modified = " [+]", readonly = " [ro]", unnamed = "[No Name]" },
+            }
+          ''
+        ];
+        x = [ "location" ];
+        y = [ ];
+        z = [ ];
+      };
+    };
+
+    treesitter.highlight = {
+      enable = true;
+    };
+  };
+}
