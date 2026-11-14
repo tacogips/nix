@@ -1,0 +1,7 @@
+**/*.private
+**/*.secure
+**/llm-log
+.rielflow/
+
+**/.claude/settings.local.json
+mise.local.toml

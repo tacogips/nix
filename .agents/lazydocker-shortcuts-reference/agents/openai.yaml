@@ -1,0 +1,7 @@
+interface:
+  display_name: "Lazydocker Shortcuts"
+  short_description: "List Lazydocker shortcuts for this repo"
+  default_prompt: "Use $lazydocker-shortcuts-reference to explain or list Lazydocker shortcuts for this repository, clearly separating repo-local config from upstream defaults."
+
+policy:
+  allow_implicit_invocation: true

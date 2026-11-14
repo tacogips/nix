@@ -1,0 +1,7 @@
+interface:
+  display_name: "Yazi Keymap Reference"
+  short_description: "List this repo's Yazi keys and defaults"
+  default_prompt: "Use $yazi-keymap-reference to explain or list Yazi keybindings for this repository, starting with repo-local overrides and then the shipped defaults."
+
+policy:
+  allow_implicit_invocation: true
