@@ -1,0 +1,7 @@
+interface:
+  display_name: "Alt/Meta Keymap Audit"
+  short_description: "Audit M-* keymap conflicts in this Nix repo"
+  default_prompt: "Use $alt-meta-keymap-audit to inspect Alt/Meta keymap conflicts across tmux, Yazi, Neovim, Zed, Lazygit, and adjacent terminal layers in this repository."
+
+policy:
+  allow_implicit_invocation: true

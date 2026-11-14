@@ -1,0 +1,116 @@
+min_version = "2026.8.3"
+
+[[hooks.enter]]
+shell = "bash"
+script = '''
+if command -v kinko >/dev/null 2>&1 && kinko hook --help >/dev/null 2>&1; then
+  eval "$(kinko --path "$MISE_PROJECT_ROOT" hook enter bash)"
+fi
+'''
+
+[[hooks.leave]]
+shell = "bash"
+script = '''
+if command -v kinko >/dev/null 2>&1 && kinko hook --help >/dev/null 2>&1; then
+  eval "$(kinko hook leave bash)"
+fi
+'''
+
+[tools]
+github-cli = "latest"
+
+[tasks."enable-flakes-user"]
+description = "Ensure nix-command and flakes are enabled in ~/.config/nix/nix.conf"
+run = '''
+mkdir -p "${HOME}/.config/nix"
+if [ -f "${HOME}/.config/nix/nix.conf" ] && grep -Eq '^[[:space:]]*experimental-features[[:space:]]*=.*(nix-command.*flakes|flakes.*nix-command)' "${HOME}/.config/nix/nix.conf"; then
+  echo "experimental-features already enabled in ${HOME}/.config/nix/nix.conf"
+else
+  printf '\nexperimental-features = nix-command flakes\n' >> "${HOME}/.config/nix/nix.conf"
+  echo "Enabled nix-command and flakes in ${HOME}/.config/nix/nix.conf"
+fi
+
+'''
+
+[tasks."setup-github-token"]
+description = "Authenticate with GitHub CLI and save the token to kinko shared secrets"
+run = '''
+gh auth login
+kinko set-key GITHUB_TOKEN --shared --value "$(gh auth token)"
+echo "Saved GITHUB_TOKEN to kinko shared secrets"
+'''
+
+[tasks."first-time-setup"]
+description = "First-time setup - Install Homebrew (run this before mise run build)"
+run = '''
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+echo ""
+echo "✅ Homebrew installed successfully!"
+echo "Next step - Run mise run build to build and apply the Darwin configuration"
+'''
+
+[tasks."backup-etc"]
+description = "Backup existing /etc files before nix-darwin takes over"
+run = '''
+sudo mv /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/ca-certificates.crt.before-nix-darwin || true
+sudo mv /etc/bashrc /etc/bashrc.before-nix-darwin || true
+sudo mv /etc/zshrc /etc/zshrc.before-nix-darwin || true
+echo "✅ Existing /etc files backed up"
+echo "Next step - Run mise run build"
+'''
+
+[tasks."update"]
+description = "Update all Nix flake dependencies"
+run = '''
+nix flake update
+'''
+
+[tasks."update-input"]
+description = "Update a specific Nix flake input"
+run = '''
+: "${package:?package is required}"
+nix flake lock --update-input "${package}"
+'''
+
+[tasks."build"]
+description = "Build Darwin system configuration (use for initial bootstrap)"
+run = '''
+nix build --impure .#darwinConfigurations.taco-mac.system
+sudo ./result/sw/bin/darwin-rebuild switch --impure --flake .#taco-mac
+'''
+
+[tasks."build-home-server"]
+description = "Build Darwin Mac home server configuration (use for initial bootstrap)"
+run = '''
+nix build --impure .#darwinConfigurations.darwin-mac-home-server.system
+sudo ./result/sw/bin/darwin-rebuild switch --impure --flake .#darwin-mac-home-server
+'''
+
+[tasks."rebuild"]
+description = "Rebuild and switch Darwin system configuration"
+run = '''
+sudo /run/current-system/sw/bin/darwin-rebuild switch --impure --flake ~/nix/nixos/darwin#taco-mac
+'''
+
+[tasks."rebuild-home-server"]
+description = "Rebuild and switch Darwin Mac home server configuration"
+run = '''
+sudo /run/current-system/sw/bin/darwin-rebuild switch --impure --flake ~/nix/nixos/darwin#darwin-mac-home-server
+'''
+
+[tasks."clean"]
+description = "Delete rebuild generations older than the latest 5 and garbage-collect unused Nix store paths"
+run = '''
+echo "Deleting old system generations (keeping latest 5)..."
+sudo nix-env --delete-generations +5 --profile /nix/var/nix/profiles/system
+echo "Running garbage collection..."
+sudo nix-collect-garbage -d
+echo "Cleanup completed"
+
+'''
+
+[tasks."clean-old-generations"]
+description = "Backward-compatible alias for mise run clean"
+run = '''
+mise run clean
+'''
