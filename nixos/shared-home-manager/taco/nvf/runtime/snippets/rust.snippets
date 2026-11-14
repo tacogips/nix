@@ -1,0 +1,96 @@
+snippet fn "Function definition"
+	fn ${1:function_name}(${2})${3} {
+		${0}
+	}
+
+snippet useserde "use serde::{Serialize,Deserialize};"
+	use serde::{Serialize,Deserialize};
+
+snippet serderename "#[serde(rename_all="snake_case")]"
+	#[serde(rename_all="snake_case")]
+
+snippet serde "Serialize, Deserialize"
+	Serialize, Deserialize
+
+snippet st "struct XXX{}"
+	pub struct ${1:func_name}{
+	}
+
+snippet println "println!(...)"
+	println!("{}",${1:function_name});
+
+
+snippet pu "pub fn ${1:function_name}(){}"
+	pub fn ${1:function_name}(&self){
+	}
+
+
+snippet fn "fn ${1:function_name}(){}"
+	fn ${1:function_name}(&self){
+	}
+
+
+
+snippet dbp "(debug) println!(...)"
+	//TODO(tacogips) for debugging
+	println!("======== {:#?}", ${1:function_name});
+
+snippet useanyhow "use anyhow::{anyhow,Result};"
+	use anyhow::{anyhow,Result};
+
+snippet ctest "$[cfg(test)]"
+	#[cfg(test)]
+	mod test {
+		${1:funcs}
+	}
+
+
+snippet test "#[test]"
+	#[test]
+	fn test_${1:func_name}(){
+	}
+
+snippet atest "#[test]"
+	#[tokio::test]
+	async fn test_${1:func_name}(){
+	}
+
+
+snippet todo "//TODO(tacogips)"
+	//TODO(tacogips)
+
+snippet usehashm "use std::collections::HashMap"
+	use std::collections::HashMap;
+
+
+snippet usethiserror "use thiserror::Error;"
+	use thiserror::Error;
+
+snippet de "#[derive(Debug, Serialize,Deserialize)]"
+	#[derive(Debug, Serialize,Deserialize)]
+
+snippet thiserror "pub enum ThisError{}"
+	#[derive(Error, Debug)]
+	pub enum ${1:error_name} {
+			#[error("the error:{0}")]
+			Example(#[from] String),
+	}
+
+snippet typeresult "pub type Result<T> = std::result::Result<T, ThisError>;"
+	pub type Result<T> = std::result::Result<T, ThisError>;
+
+snippet display_impl "impl Display for ..."
+	impl fmt::Display for ${1:struct_name} {
+			fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+					write!(f, "{:?}", self)
+			}
+	}
+
+snippet ts ".to_string()"
+	.to_string()
+
+snippet #[dc "#[derive(Clone)]"
+	#[derive(Clone)]
+
+snippet #[dd "#[derive(Debug)]"
+	#[derive(Debug)]
