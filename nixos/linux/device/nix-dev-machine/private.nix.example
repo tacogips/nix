@@ -1,0 +1,48 @@
+{ lib, ... }:
+{
+  # Copy this file to .private/private.nix and replace all placeholders.
+  # Then set:
+  #   export NIXOS_PRIVATE_CONFIG="/absolute/path/to/.private/private.nix"
+  #
+  # UUID lookup examples:
+  #   lsblk -f
+  #   sudo blkid
+  #
+  # Audio source lookup example:
+  #   pactl list short sources
+
+  networking.hostName = lib.mkForce "nixos";
+
+  # Override disk UUIDs from public templates
+  fileSystems."/" = {
+    device = lib.mkForce "/dev/disk/by-uuid/PUT_ROOT_FS_UUID_HERE";
+  };
+
+  fileSystems."/boot" = {
+    device = lib.mkForce "/dev/disk/by-uuid/PUT_BOOT_FS_UUID_HERE";
+  };
+
+  fileSystems."/d" = {
+    device = lib.mkForce "/dev/disk/by-uuid/PUT_D_DRIVE_UUID_HERE";
+  };
+
+  fileSystems."/g" = {
+    device = lib.mkForce "/dev/disk/by-uuid/PUT_G_DRIVE_UUID_HERE";
+  };
+
+  # Optional: set your default microphone/source
+  services.pipewire.extraConfig.pipewire."context.modules" = [
+    {
+      name = "libpipewire-module-metadata";
+      args = {
+        "metadata.name" = "default-restore";
+        "metadata.values" = [
+          {
+            key = "default.audio.source";
+            value = ''{ "name": "PUT_AUDIO_SOURCE_NAME_HERE" }'';
+          }
+        ];
+      };
+    }
+  ];
+}

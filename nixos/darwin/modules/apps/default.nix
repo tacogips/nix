@@ -1,0 +1,23 @@
+{
+  imports = [
+    ./adguard-for-safari.nix
+    ./amphetamine.nix
+    ./apple-developer.nix
+    ./bitwarden.nix
+    ./brave.nix
+    ./chilla.nix
+    ./claude-code.nix
+    ./codex.nix
+    ./container-tools.nix
+    ./cursor.nix
+    ./ghostty.nix
+    ./home-server.nix
+    ./homebrew.nix
+    ./ign.nix
+    ./just-press-record.nix
+    ./kindle.nix
+    ./peekaboo.nix
+    ./rielflow.nix
+    ./xcode.nix
+  ];
+}
