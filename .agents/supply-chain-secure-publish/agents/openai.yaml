@@ -1,0 +1,7 @@
+interface:
+  display_name: "Secure Publish"
+  short_description: "Review publish-time supply chain risks"
+  default_prompt: "Use $supply-chain-secure-publish to audit whether files or publish settings could expose credentials, secrets, private material, or other unsafe content before publishing."
+
+policy:
+  allow_implicit_invocation: true
